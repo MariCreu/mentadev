@@ -3,7 +3,7 @@ const CONTACT_EMAIL = 'hola@mentadev.com';
 
 // Número de WhatsApp con prefijo de país y sin espacios ni "+", p. ej. '34600111222'.
 // Mientras esté vacío, los enlaces y el botón flotante de WhatsApp no se muestran.
-const WHATSAPP_NUMBER = '';
+const WHATSAPP_NUMBER = '34604525265';
 
 const WA_MESSAGES = {
   general: 'Hola, he visto MentaDev y me gustaría información sobre...',
