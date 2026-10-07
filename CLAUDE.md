@@ -5,7 +5,13 @@ Landing para ofrecer servicios de diseño web y soluciones digitales.
 ## Stack
 - HTML + CSS + JS vanilla, sin build ni dependencias.
 - Despliegue: **Cloudflare Pages** conectado a este repo; cada push a `main` se publica en **mentadev.com** (dominio en Cloudflare). Sin build: se sirve la raíz tal cual.
-- Diseño de referencia: lienzo "MentaDev Landing" en claude.ai (https://claude.ai/artifact/JfuyKhtKqb6CTAqTBsaoxm).
+- Diseño de referencia inicial: lienzo "MentaDev Landing" en claude.ai (https://claude.ai/artifact/JfuyKhtKqb6CTAqTBsaoxm). La versión vigente es la del repo.
+
+## Posicionamiento
+Estudio de desarrollo para pequeños negocios: **webs profesionales, apps/herramientas a medida y automatización de procesos**, con trato directo (Creu desarrolla cada proyecto). No competir solo por precio.
+- **Producto de entrada:** web profesional desde **349 € + IVA** (alcance cerrado: hasta 6 secciones, contenidos editables, SEO y analítica, textos legales básicos, 1 mes de soporte). Ese precio solo aplica a la web profesional; tiendas, apps y automatizaciones van con presupuesto personalizado.
+- **Mensaje diferencial:** "Cuéntame cómo trabajas. Yo busco qué podemos automatizar." Se vende el beneficio (ahorrar tiempo, menos tareas repetitivas y errores, herramientas conectadas), nunca tecnologías concretas (IA, APIs, n8n…).
+- Voz en primera persona del singular ("te acompaño", "me encargo yo").
 
 ## Identidad visual
 Manual completo en `assets/brand/manual-de-marca.png`.
@@ -22,7 +28,10 @@ Manual completo en `assets/brand/manual-de-marca.png`.
 ## Convenciones
 - Tokens de color en `:root` de `styles.css` (prefijo `md-` en las clases). Tema claro con secciones oscuras en antracita; sin modo oscuro automático.
 - Sin emojis: iconos SVG de trazo inline.
-- Los precios de `#planes` son placeholders `[PRECIO]` hasta que se definan.
+- Orden de secciones: hero → garantías → servicios → automatización → proyectos → planes → cómo trabajo + detrás de MentaDev → FAQ → contacto.
+- Los CTA con `data-servicio="…"` preseleccionan esa opción en el formulario (debe coincidir con un `<option>` de `#servicio`).
+- WhatsApp: `WHATSAPP_NUMBER` en `main.js`. Vacío = enlaces y botón flotante ocultos. Mensaje inicial según contexto (`WA_MESSAGES`).
+- Capturas reales: los elementos con `data-shot="assets/…"` sustituyen su ilustración por la imagen si el archivo existe (proyectos en `assets/proyectos/`, foto en `assets/creu.webp`).
 - Diseño mobile-first: todo debe verse bien a 360 px de ancho.
 - Accesibilidad: contraste suficiente, `alt` en imágenes, foco visible y respeto a `prefers-reduced-motion`.
 - El formulario de contacto no tiene backend: abre `mailto:` con `CONTACT_EMAIL` de `main.js`.

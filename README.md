@@ -23,9 +23,13 @@ assets/         # Logo, favicon y manual de marca (assets/brand/)
 ```
 
 ## Personalizar
-- **Email de contacto:** cambia `CONTACT_EMAIL` en `main.js`.
-- **Proyectos:** edita la sección `#proyectos` de `index.html`.
-- **Precios:** sustituye los `[PRECIO]` de la sección `#planes`.
+- **Email de contacto:** `CONTACT_EMAIL` en `main.js`.
+- **WhatsApp:** pon tu número en `WHATSAPP_NUMBER` (`main.js`), con prefijo y sin `+`, p. ej. `34600111222`. Mientras esté vacío no se muestra ningún botón de WhatsApp.
+- **Capturas reales de proyectos:** guarda los archivos con estos nombres y aparecen solos en lugar de las ilustraciones:
+  - `assets/proyectos/luna-y-papel.webp` — captura de escritorio (horizontal)
+  - `assets/proyectos/infanapp-1.webp` y `infanapp-2.webp` — capturas de móvil (vertical, ~9:19)
+  - `assets/proyectos/reservas-al-vuelo.webp` — interfaz (horizontal, 16:10)
+- **Tu foto** en "Detrás de MentaDev": `assets/creu.webp` (cuadrada).
 - **Colores:** variables de `:root` en `styles.css`.
 
 ## Despliegue
