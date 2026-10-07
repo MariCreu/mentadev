@@ -29,7 +29,6 @@ assets/         # Logo, favicon y manual de marca (assets/brand/)
   - `assets/proyectos/luna-y-papel.webp` — captura de escritorio (horizontal)
   - `assets/proyectos/infanapp-1.webp` y `infanapp-2.webp` — capturas de móvil (vertical, ~9:19)
   - `assets/proyectos/reservas-al-vuelo.webp` — interfaz (horizontal, 16:10)
-- **Tu foto** en "Detrás de MentaDev": `assets/creu.webp` (cuadrada).
 - **Colores:** variables de `:root` en `styles.css`.
 
 ## Despliegue

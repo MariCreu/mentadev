@@ -31,7 +31,7 @@ Manual completo en `assets/brand/manual-de-marca.png`.
 - Orden de secciones: hero → garantías → servicios → automatización → proyectos → planes → cómo trabajo + detrás de MentaDev → FAQ → contacto.
 - Los CTA con `data-servicio="…"` preseleccionan esa opción en el formulario (debe coincidir con un `<option>` de `#servicio`).
 - WhatsApp: `WHATSAPP_NUMBER` en `main.js`. Vacío = enlaces y botón flotante ocultos. Mensaje inicial según contexto (`WA_MESSAGES`).
-- Capturas reales: los elementos con `data-shot="assets/…"` sustituyen su ilustración por la imagen si el archivo existe (proyectos en `assets/proyectos/`, foto en `assets/creu.webp`).
+- Capturas reales: los elementos con `data-shot="assets/…"` sustituyen su ilustración por la imagen si el archivo existe (proyectos en `assets/proyectos/`). "Detrás de MentaDev" va sin foto, con el símbolo de la marca.
 - Diseño mobile-first: todo debe verse bien a 360 px de ancho.
 - Accesibilidad: contraste suficiente, `alt` en imágenes, foco visible y respeto a `prefers-reduced-motion`.
 - El formulario de contacto no tiene backend: abre `mailto:` con `CONTACT_EMAIL` de `main.js`.
