@@ -103,6 +103,7 @@ html{scroll-behavior:smooth;scroll-padding-top:84px}
 .md-shot-screen{position:relative;overflow:hidden}
 .md-shot-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
 .md-shot-screen.has-shot>.md-shot-ph{visibility:hidden}
+.md-hero-visual .md-shot-img{object-position:top left}
 
 /* WhatsApp flotante */
 .md-wa-float{position:fixed;right:20px;bottom:20px;z-index:30;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#1FA855;box-shadow:0 12px 30px rgba(31,41,55,.18);border:1px solid var(--line);transition:transform .2s,box-shadow .2s}
@@ -161,3 +162,22 @@ html{scroll-behavior:smooth;scroll-padding-top:84px}
 
 /* Deja hueco al final para que el botón flotante de WhatsApp no tape el pie */
 footer{padding-bottom:96px !important}
+
+/* Planes: cómo son tus 7 días */
+.md-days{max-width:920px;width:100%;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:28px;padding:32px}
+.md-days-title{font-size:20px;font-weight:600;margin-bottom:28px}
+.md-days-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.md-days-list li{position:relative;display:flex;flex-direction:column;gap:6px;padding-top:30px;font-size:14px;color:var(--ink2);line-height:1.5}
+.md-days-list li::before{content:"";position:absolute;top:2px;left:0;width:12px;height:12px;border-radius:50%;background:var(--lav-d);box-shadow:0 0 0 5px var(--lav-s)}
+.md-days-list li:not(:last-child)::after{content:"";position:absolute;top:7px;left:26px;right:-14px;height:2px;background:var(--line)}
+.md-days-list li:last-child::before{background:var(--mint-d);box-shadow:0 0 0 5px var(--mint-s)}
+.md-days-list strong{font-size:16px;font-weight:600;color:var(--ink);line-height:1.35}
+.md-day{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--lav-d)}
+.md-days-note{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:14px;color:var(--ink2)}
+@media (max-width:760px){
+.md-days{padding:24px;border-radius:22px}
+.md-days-list{grid-template-columns:minmax(0,1fr);gap:22px}
+.md-days-list li{padding:0 0 0 30px}
+.md-days-list li::before{top:5px}
+.md-days-list li:not(:last-child)::after{top:24px;bottom:-20px;left:5px;right:auto;width:2px;height:auto}
+}
