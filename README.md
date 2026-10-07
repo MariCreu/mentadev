@@ -5,7 +5,7 @@
 Landing de MentaDev para presentar los servicios: diseño web, tiendas online, apps, automatizaciones, SEO y mantenimiento.
 
 ## Stack
-HTML + CSS + JavaScript, sin dependencias ni build. Se publica con Cloudflare Pages en https://mentadev.com.
+HTML + CSS + JavaScript, sin dependencias ni build. Se publica con Cloudflare (Workers static assets) en https://mentadev.com.
 
 ## Ver en local
 ```bash
