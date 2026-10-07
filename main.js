@@ -46,6 +46,62 @@ document.querySelectorAll('[data-servicio]').forEach((link) => {
   });
 });
 
+// Calculadora de automatización: horas y € que se recuperan si se automatiza la mitad del tiempo.
+const calc = document.getElementById('calculadora');
+if (calc) {
+  const AUTOMATABLE = 0.5;
+  const PRICE_FROM = 490;
+  const WEEKS_PER_MONTH = 52 / 12;
+  const num = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0, useGrouping: 'always' });
+  const out = (name) => calc.querySelector(`[data-out="${name}"]`);
+  const fields = { horas: calc.querySelectorAll('[data-calc="horas"]'), tarifa: calc.querySelectorAll('[data-calc="tarifa"]') };
+  const values = { horas: 5, tarifa: 20 };
+  let announceTimer;
+  let prefill = '';
+
+  const clamp = (input) => Math.min(Number(input.max), Math.max(Number(input.min), Math.round(Number(input.value) || 0)));
+
+  const render = () => {
+    const hoursMonth = values.horas * AUTOMATABLE * WEEKS_PER_MONTH;
+    const eurosMonth = hoursMonth * values.tarifa;
+    const months = PRICE_FROM / eurosMonth;
+    out('horas').textContent = `${num.format(hoursMonth)} h`;
+    out('euros').textContent = `${num.format(eurosMonth * 12)} €`;
+    out('amortiza').textContent =
+      months < 1 ? `Una automatización desde ${PRICE_FROM} € + IVA se amortizaría en menos de un mes.`
+      : months <= 24 ? `Una automatización desde ${PRICE_FROM} € + IVA se amortizaría en unos ${num.format(Math.ceil(months))} meses.`
+      : 'Con tan poco tiempo quizá no compense automatizar. En el diagnóstico te lo diremos con sinceridad.';
+    // El lector de pantalla oye el resultado cuando se dejan de mover los valores, no en cada paso.
+    clearTimeout(announceTimer);
+    announceTimer = setTimeout(() => {
+      out('anuncio').textContent = `Recuperarías unas ${out('horas').textContent} al mes, ${out('euros').textContent} al año. ${out('amortiza').textContent}`;
+    }, 700);
+  };
+
+  Object.entries(fields).forEach(([name, inputs]) => {
+    inputs.forEach((input) => {
+      input.addEventListener('input', () => {
+        if (input.value === '') return; // dejar borrar la casilla para escribir otro número
+        values[name] = clamp(input);
+        inputs.forEach((other) => { if (other !== input) other.value = values[name]; });
+        render();
+      });
+      input.addEventListener('change', () => { input.value = values[name]; });
+    });
+  });
+
+  // El CTA lleva al formulario con el mensaje empezado, sin pisar lo que ya haya escrito el usuario.
+  calc.querySelector('[data-calc-cta]').addEventListener('click', () => {
+    const mensaje = form.elements.mensaje;
+    if (mensaje.value.trim() === '' || mensaje.value === prefill) {
+      prefill = `Calculo que dedico unas ${values.horas} h a la semana a tareas repetitivas. Me gustaría saber qué se puede automatizar en mi negocio: `;
+      mensaje.value = prefill;
+    }
+  });
+
+  render();
+}
+
 // WhatsApp: el mensaje inicial depende de si el usuario viene de la sección de automatización.
 let waContext = 'general';
 const autoSection = document.getElementById('automatizacion');

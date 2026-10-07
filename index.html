@@ -404,6 +404,42 @@
 </ul>
 </div>
 </div>
+
+<!-- Calculadora de tiempo recuperable (la lógica está en main.js) -->
+<div class="md-calc" id="calculadora">
+<div class="md-calc-head">
+<h3>¿Cuánto tiempo pierdes a mano?</h3>
+<p>Mueve los valores y mira lo que podrías recuperar.</p>
+</div>
+<div class="md-calc-grid">
+<div class="md-calc-inputs">
+<div class="md-calc-field">
+<label for="calc-horas">Horas a la semana en tareas repetitivas</label>
+<div class="md-calc-control">
+<input type="range" min="1" max="40" step="1" value="5" data-calc="horas" aria-label="Horas a la semana en tareas repetitivas">
+<span class="md-calc-number"><input type="number" id="calc-horas" min="1" max="40" step="1" value="5" inputmode="numeric" data-calc="horas"> h</span>
+</div>
+</div>
+<div class="md-calc-field">
+<label for="calc-tarifa">Cuánto vale tu hora</label>
+<div class="md-calc-control">
+<input type="range" min="5" max="100" step="1" value="20" data-calc="tarifa" aria-label="Cuánto vale tu hora, en euros">
+<span class="md-calc-number"><input type="number" id="calc-tarifa" min="5" max="100" step="1" value="20" inputmode="numeric" data-calc="tarifa"> €</span>
+</div>
+</div>
+</div>
+<div class="md-calc-result">
+<div class="md-calc-stat"><span class="md-calc-num" data-out="horas">11 h</span><span>recuperadas al mes</span></div>
+<div class="md-calc-stat"><span class="md-calc-num" data-out="euros">2.600 €</span><span>de tu tiempo al año</span></div>
+<p class="md-calc-payback" data-out="amortiza">Una automatización desde 490 € + IVA se amortizaría en unos 3 meses.</p>
+</div>
+</div>
+<p class="md-calc-live" aria-live="polite" data-out="anuncio"></p>
+<div class="md-calc-foot">
+<a class="md-btn" href="#contacto" data-servicio="Automatización de procesos" data-calc-cta>Quiero mi diagnóstico gratis</a>
+<p class="md-calc-note">Estimación orientativa: suponemos que se puede automatizar la mitad de ese tiempo. En el diagnóstico lo vemos con tu caso real.</p>
+</div>
+</div>
 </div>
 </div>
 </section>
