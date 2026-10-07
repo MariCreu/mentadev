@@ -4,7 +4,7 @@ Landing para ofrecer servicios de diseño web y soluciones digitales.
 
 ## Stack
 - HTML + CSS + JS vanilla, sin build ni dependencias.
-- Despliegue: GitHub Pages (`.github/workflows/pages.yml`) en el dominio **mentadev.com** (comprado en Cloudflare; `CNAME` en la raíz).
+- Despliegue: **Cloudflare Pages** conectado a este repo; cada push a `main` se publica en **mentadev.com** (dominio en Cloudflare). Sin build: se sirve la raíz tal cual.
 - Diseño de referencia: lienzo "MentaDev Landing" en claude.ai (https://claude.ai/artifact/JfuyKhtKqb6CTAqTBsaoxm).
 
 ## Identidad visual
