@@ -16,7 +16,12 @@ Cada mensaje tiene una función y no deben competir visualmente:
 
 ## Posicionamiento
 Estudio de desarrollo para pequeños negocios: **webs profesionales, apps/herramientas a medida y automatización de procesos**, con trato directo con el equipo que desarrolla cada proyecto. Debe percibirse como empresa, no como profesional autónomo: sin secciones personales ni nombres propios en el contenido comercial (los datos de la titular solo en los textos legales, donde son obligatorios). No competir solo por precio.
-- **Producto de entrada:** web profesional desde **349 € + IVA** (alcance cerrado: hasta 6 secciones, contenidos editables, SEO y analítica, textos legales básicos, 2 meses de soporte). Después, **mantenimiento opcional a 9 € + IVA/mes, sin permanencia** (alojamiento, certificado, copias, revisiones y pequeños cambios; el dominio lo paga el cliente a su nombre). Precios bajos a propósito para captar los primeros clientes. Ese precio solo aplica a la web profesional; tiendas, apps y automatizaciones van con presupuesto personalizado.
+- **Precios (deliberadamente bajos para captar los primeros clientes):**
+  - Web profesional: desde **349 € + IVA**, lista en **7 días**. Incluye hasta 6 secciones, contenidos editables, SEO y analítica, textos legales básicos, ayuda con los textos, **alojamiento del primer año** y **2 meses de soporte**. Pago en **2 plazos** sin intereses. El dominio lo paga el cliente a su nombre.
+  - Mantenimiento web: **15 € + IVA/mes**, sin permanencia (alojamiento, certificado, copias, revisiones y pequeños cambios).
+  - Automatizaciones: **diagnóstico gratis de 30 min** y desde **490 € + IVA** con presupuesto cerrado; mantenimiento desde **29 € + IVA/mes**. Las herramientas que usen (Make, Zapier…) van a nombre del cliente.
+  - Tiendas, apps y proyectos grandes: presupuesto personalizado.
+  - El precio de la web no debe hacer parecer que todo es barato: la automatización es el servicio de más valor.
 - **Mensaje diferencial:** "Cuéntanos cómo trabajas. Buscamos qué puedes dejar de hacer a mano." Se vende el beneficio (ahorrar tiempo, menos tareas repetitivas y errores, herramientas conectadas), nunca tecnologías concretas (IA, APIs, n8n…).
 - Voz en primera persona del plural ("te acompañamos", "nos encargamos nosotros"). Nunca en singular.
 
