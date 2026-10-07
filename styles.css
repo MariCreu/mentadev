@@ -96,10 +96,6 @@ html{scroll-behavior:smooth;scroll-padding-top:84px}
 .md-shot-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;display:block}
 .md-shot-screen.has-shot>.md-shot-ph{visibility:hidden}
 
-/* Detrás de MentaDev */
-.md-about{display:grid;grid-template-columns:120px minmax(0,1fr);gap:32px;align-items:center;background:var(--bg);border:1px solid var(--line);border-radius:28px;padding:32px;max-width:960px}
-.md-about-photo{width:120px;height:120px;border-radius:28px;background:var(--mint-s)}
-
 /* WhatsApp flotante */
 .md-wa-float{position:fixed;right:20px;bottom:20px;z-index:30;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:#fff;color:#1FA855;box-shadow:0 12px 30px rgba(31,41,55,.18);border:1px solid var(--line);transition:transform .2s,box-shadow .2s}
 .md-wa-float:hover{color:#1FA855;transform:translateY(-2px);box-shadow:0 16px 36px rgba(31,41,55,.22)}
@@ -128,8 +124,6 @@ html{scroll-behavior:smooth;scroll-padding-top:84px}
 .md-flow{grid-template-columns:40px minmax(0,1fr);gap:10px 12px;padding:14px 16px}
 .md-flow-from{grid-column:1 / -1}
 .md-flow-arrow{width:28px;height:28px;justify-self:center;transform:rotate(90deg)}
-.md-about{grid-template-columns:minmax(0,1fr);gap:20px;padding:24px}
-.md-about-photo{width:88px;height:88px;border-radius:22px}
 .md-wa-float{right:16px;bottom:16px;width:52px;height:52px}
 }
 

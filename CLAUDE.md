@@ -12,13 +12,13 @@ Cada mensaje tiene una función y no deben competir visualmente:
 1. **Marca:** MentaDev
 2. **Descriptor de marca** (qué es, uso secundario y estable): "Web, apps y soluciones digitales." Va bajo el logo en el pie, en `<title>`, meta description, Open Graph, imagen para compartir y JSON-LD (`description`). En la cabecera no se muestra para mantener limpio el logo.
 3. **Eslogan comercial** (mensaje principal): "Tu idea, hecha realidad." Es el H1 del hero, `og:title` y `slogan` del JSON-LD. No sustituirlo.
-4. **Mensaje de automatización:** "Cuéntame cómo trabajas. Yo busco qué podemos automatizar." Solo en la sección de automatización.
+4. **Mensaje de automatización:** "Cuéntanos cómo trabajas. Buscamos qué puedes dejar de hacer a mano." Solo en la sección de automatización.
 
 ## Posicionamiento
-Estudio de desarrollo para pequeños negocios: **webs profesionales, apps/herramientas a medida y automatización de procesos**, con trato directo (Creu desarrolla cada proyecto). No competir solo por precio.
+Estudio de desarrollo para pequeños negocios: **webs profesionales, apps/herramientas a medida y automatización de procesos**, con trato directo con el equipo que desarrolla cada proyecto. Debe percibirse como empresa, no como profesional autónomo: sin secciones personales ni nombres propios en el contenido comercial (los datos de la titular solo en los textos legales, donde son obligatorios). No competir solo por precio.
 - **Producto de entrada:** web profesional desde **349 € + IVA** (alcance cerrado: hasta 6 secciones, contenidos editables, SEO y analítica, textos legales básicos, 1 mes de soporte). Ese precio solo aplica a la web profesional; tiendas, apps y automatizaciones van con presupuesto personalizado.
-- **Mensaje diferencial:** "Cuéntame cómo trabajas. Yo busco qué podemos automatizar." Se vende el beneficio (ahorrar tiempo, menos tareas repetitivas y errores, herramientas conectadas), nunca tecnologías concretas (IA, APIs, n8n…).
-- Voz en primera persona del singular ("te acompaño", "me encargo yo").
+- **Mensaje diferencial:** "Cuéntanos cómo trabajas. Buscamos qué puedes dejar de hacer a mano." Se vende el beneficio (ahorrar tiempo, menos tareas repetitivas y errores, herramientas conectadas), nunca tecnologías concretas (IA, APIs, n8n…).
+- Voz en primera persona del plural ("te acompañamos", "nos encargamos nosotros"). Nunca en singular.
 
 ## Identidad visual
 Manual completo en `assets/brand/manual-de-marca.png`.
@@ -35,10 +35,10 @@ Manual completo en `assets/brand/manual-de-marca.png`.
 ## Convenciones
 - Tokens de color en `:root` de `styles.css` (prefijo `md-` en las clases). Tema claro con secciones oscuras en antracita; sin modo oscuro automático.
 - Sin emojis: iconos SVG de trazo inline.
-- Orden de secciones: hero → garantías → servicios → automatización → proyectos → planes → cómo trabajo + detrás de MentaDev → FAQ → contacto.
+- Orden de secciones: hero → garantías → servicios → automatización → proyectos → planes → FAQ → contacto. Sin sección de proceso ni "sobre mí".
 - Los CTA con `data-servicio="…"` preseleccionan esa opción en el formulario (debe coincidir con un `<option>` de `#servicio`).
 - WhatsApp: `WHATSAPP_NUMBER` en `main.js`. Vacío = enlaces y botón flotante ocultos. Mensaje inicial según contexto (`WA_MESSAGES`).
-- Capturas reales: los elementos con `data-shot="assets/…"` sustituyen su ilustración por la imagen si el archivo existe (proyectos en `assets/proyectos/`). "Detrás de MentaDev" va sin foto, con el símbolo de la marca.
+- Capturas reales: los elementos con `data-shot="assets/…"` sustituyen su ilustración por la imagen si el archivo existe (proyectos en `assets/proyectos/`).
 - Diseño mobile-first: todo debe verse bien a 360 px de ancho.
 - Accesibilidad: contraste suficiente, `alt` en imágenes, foco visible y respeto a `prefers-reduced-motion`.
 - El formulario de contacto no tiene backend: abre `mailto:` con `CONTACT_EMAIL` de `main.js`.
