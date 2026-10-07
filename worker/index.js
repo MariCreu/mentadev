@@ -6,16 +6,21 @@
 
 const FROM = { email: 'formulario@mentadev.com', name: 'Web MentaDev' };
 
-// Deben coincidir con los <option> de #servicio en index.html.
+// Deben coincidir con las opciones del paso 1 del formulario (name="servicio") en index.html.
+const REVISION = 'Revisión gratis de mi web';
 const SERVICIOS = [
   'Web o landing',
   'Tienda online',
   'App o plataforma',
   'Automatización de procesos',
+  REVISION,
   'Otro / No lo tengo claro',
 ];
 
-const LIMITS = { nombre: 100, email: 200, mensaje: 5000 };
+const LIMITS = { nombre: 100, email: 200, mensaje: 5000, web: 200 };
+
+// Dirección de una web tal y como la escribe la gente: con o sin https://, sin espacios.
+const isWeb = (value) => /^(https?:\/\/)?[^\s/]+\.[^\s]{2,}$/i.test(value);
 
 // Menos tiempo que esto entre cargar la página y enviar = bot.
 const MIN_ELAPSED_MS = 3000;
@@ -64,12 +69,17 @@ async function handleContacto(request, env) {
   const email = oneLine(String(data.email ?? ''));
   const servicio = String(data.servicio ?? '');
   const mensaje = String(data.mensaje ?? '').trim();
+  const tieneWeb = ['Sí', 'No'].includes(data.tieneWeb) ? data.tieneWeb : '';
+  const web = oneLine(String(data.web ?? ''));
+  const esRevision = servicio === REVISION;
 
+  // En la revisión la web es obligatoria y el mensaje opcional; en el resto, al revés.
   const valid =
     nombre && nombre.length <= LIMITS.nombre &&
     isEmail(email) && email.length <= LIMITS.email &&
     SERVICIOS.includes(servicio) &&
-    mensaje && mensaje.length <= LIMITS.mensaje;
+    (esRevision || mensaje) && mensaje.length <= LIMITS.mensaje &&
+    (!esRevision || web) && (!web || (isWeb(web) && web.length <= LIMITS.web));
   if (!valid) {
     return json({ ok: false, error: 'invalid' }, 400);
   }
@@ -79,12 +89,15 @@ async function handleContacto(request, env) {
     return json({ ok: false, error: 'server' }, 500);
   }
 
-  const text = `Nombre: ${nombre}\nEmail: ${email}\nServicio: ${servicio}\n\n${mensaje}`;
+  const extra = [tieneWeb && `¿Tiene web?: ${tieneWeb}`, web && `Web: ${web}`].filter(Boolean);
+  const text = [`Nombre: ${nombre}`, `Email: ${email}`, `Servicio: ${servicio}`, ...extra].join('\n') +
+    (mensaje ? `\n\n${mensaje}` : '');
   const html =
     `<p><strong>Nombre:</strong> ${escapeHtml(nombre)}<br>` +
     `<strong>Email:</strong> ${escapeHtml(email)}<br>` +
-    `<strong>Servicio:</strong> ${escapeHtml(servicio)}</p>` +
-    `<p style="white-space:pre-wrap">${escapeHtml(mensaje)}</p>`;
+    `<strong>Servicio:</strong> ${escapeHtml(servicio)}` +
+    extra.map((line) => `<br>${escapeHtml(line)}`).join('') + '</p>' +
+    (mensaje ? `<p style="white-space:pre-wrap">${escapeHtml(mensaje)}</p>` : '');
 
   try {
     await env.EMAIL.send({

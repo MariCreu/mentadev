@@ -278,3 +278,38 @@ footer{padding-bottom:96px !important}
 .md-sector-tabs button{flex:0 0 auto;scroll-snap-align:start}
 }
 @media (prefers-reduced-motion:reduce){.md-sector-tabs button{transition:none}}
+
+/* Contacto: formulario por pasos */
+.md-steps fieldset{border:0;margin:0;padding:0;min-width:0}
+.md-step{display:flex;flex-direction:column;gap:18px}
+.md-steps-head{display:flex;flex-direction:column;gap:8px}
+.md-steps-count{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lav-d)}
+.md-steps-bar{height:6px;border-radius:999px;background:var(--lav-s);overflow:hidden}
+.md-steps-bar span{display:block;width:33.33%;height:100%;border-radius:inherit;background:var(--lav-d);transition:width .3s ease}
+.md-step-title{float:left;width:100%;padding:0;margin-bottom:18px;font-size:22px;font-weight:600;letter-spacing:-.02em;color:var(--ink)}
+.md-step-title:focus{outline:none}
+.md-step-title+*{clear:both}
+.md-choices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.md-choice{position:relative;display:flex;align-items:center;gap:12px;padding:14px;border:1.5px solid var(--line);border-radius:16px;background:var(--bg);cursor:pointer;transition:border-color .2s,background .2s}
+.md-choice:hover{border-color:var(--lav)}
+.md-choice input{position:absolute;opacity:0;pointer-events:none}
+.md-choice:has(input:checked){border-color:var(--lav-d);background:var(--lav-s)}
+.md-choice:has(input:focus-visible){outline:3px solid var(--lav);outline-offset:2px}
+.md-choice-ico{flex:0 0 40px;height:40px;border-radius:12px;display:grid;place-items:center;background:#fff;color:var(--lav-d)}
+.md-choice-text{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.md-choice-text strong{font-size:15px;font-weight:600;color:var(--ink)}
+.md-choice-text small{font-size:13px;color:var(--ink2)}
+.md-step-chosen{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;font-size:14px;color:var(--ink2)}
+.md-step-chosen strong{color:var(--ink)}
+.md-step-change{font:inherit;font-size:14px;font-weight:600;color:var(--lav-d);background:none;border:0;padding:6px 2px;min-height:36px;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.md-step-change:focus-visible{outline:3px solid var(--lav);outline-offset:2px;border-radius:6px}
+.md-yesno{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+.md-yesno legend{float:left;width:100%;padding:0;margin-bottom:4px;font-size:14px;font-weight:500;color:var(--ink)}
+.md-yesno label{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 18px;border:1.5px solid var(--line);border-radius:999px;background:var(--bg);font-size:15px;cursor:pointer}
+.md-yesno label:has(input:checked){border-color:var(--lav-d);background:var(--lav-s)}
+.md-yesno input{accent-color:var(--lav-d);margin:0}
+.md-steps-nav{display:flex;gap:10px}
+.md-steps-nav .md-btn{flex:1}
+.md-steps-nav .md-btn-ghost{flex:0 0 auto}
+@media (max-width:420px){.md-choices{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.md-steps-bar span,.md-choice{transition:none}}

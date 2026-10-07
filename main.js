@@ -59,14 +59,104 @@ document.querySelectorAll('[data-shot]').forEach((el) => {
   img.src = el.dataset.shot;
 });
 
+// Formulario por pasos: 1) qué necesitas, 2) cuéntanos más (se adapta al servicio), 3) tus datos.
 const form = document.getElementById('contact-form');
-const serviceSelect = document.getElementById('servicio');
 const status = form.querySelector('.md-form-status');
+const steps = [...form.querySelectorAll('.md-step')];
+const backBtn = form.querySelector('[data-back]');
+const nextBtn = form.querySelector('[data-next]');
+const submitBtn = form.querySelector('button[type="submit"]');
+const REVISION = 'Revisión gratis de mi web';
+const isWeb = (value) => /^(https?:\/\/)?[^\s/]+\.[^\s]{2,}$/i.test(value); // igual que en worker/index.js
+let currentStep = 1;
 
-// Los CTA con data-servicio llevan al formulario con esa opción ya elegida.
+// Título y ejemplo del cuadro de texto según el servicio; las webs y tiendas preguntan si ya tienes web.
+const SERVICE_COPY = {
+  'Web o landing': ['Cuéntanos tu idea', 'A qué se dedica tu negocio y qué te gustaría que hiciera tu web…'],
+  'Tienda online': ['Cuéntanos tu idea', 'Qué vendes, cuántos productos tienes más o menos y si ya vendes en algún sitio…'],
+  'App o plataforma': ['Cuéntanos tu idea', 'Qué problema quieres resolver y quién la usaría…'],
+  'Automatización de procesos': ['¿Qué te quita tiempo?', 'Qué tareas repites cada semana y qué programas usas…'],
+  [REVISION]: ['¿Algo en especial? (opcional)', 'Por ejemplo: no me llegan contactos, se ve mal en el móvil…'],
+  'Otro / No lo tengo claro': ['Cuéntanos tu idea', 'Qué haces, qué te gustaría conseguir o qué tareas te quitan tiempo…'],
+};
+const ASK_TIENE_WEB = ['Web o landing', 'Tienda online'];
+
+const checked = (name) => form.querySelector(`[name="${name}"]:checked`);
+const selectedService = () => checked('servicio')?.value || '';
+const block = (key) => form.querySelector(`[data-if="${key}"]`);
+
+const showStatus = (text, type) => {
+  status.textContent = text;
+  status.className = `md-form-status${type ? ` ${type}` : ''}`;
+};
+
+const updateStep2 = () => {
+  const servicio = selectedService();
+  const askTieneWeb = ASK_TIENE_WEB.includes(servicio);
+  block('tiene-web').hidden = !askTieneWeb;
+  block('url').hidden = !(servicio === REVISION || (askTieneWeb && checked('tieneWeb')?.value === 'Sí'));
+  form.elements.web.required = servicio === REVISION;
+  form.elements.mensaje.required = servicio !== REVISION;
+  const [label, placeholder] = SERVICE_COPY[servicio] || SERVICE_COPY['Otro / No lo tengo claro'];
+  form.querySelector('[data-mensaje-label]').textContent = label;
+  form.elements.mensaje.placeholder = placeholder;
+  form.querySelector('[data-chosen]').textContent = checked('servicio')?.closest('label').querySelector('strong').textContent || '';
+};
+
+const goTo = (n, focus = true) => {
+  currentStep = n;
+  steps.forEach((step) => { step.hidden = Number(step.dataset.step) !== n; });
+  form.querySelector('[data-step-num]').textContent = n;
+  form.querySelector('.md-steps-bar span').style.width = `${(n / steps.length) * 100}%`;
+  backBtn.hidden = n === 1;
+  nextBtn.hidden = n === steps.length;
+  submitBtn.hidden = n !== steps.length;
+  if (n === 2) updateStep2();
+  showStatus('');
+  if (focus) steps[n - 1].querySelector('.md-step-title').focus({ preventScroll: true });
+};
+
+// Solo se validan los campos visibles del paso actual.
+const validateStep = (n) => {
+  if (n === 1) {
+    if (selectedService()) return true;
+    showStatus('Elige una opción para continuar.', 'error');
+    return false;
+  }
+  let valid = true;
+  steps[n - 1].querySelectorAll('input:not([type="radio"]), textarea').forEach((field) => {
+    if (field.closest('[hidden]') || field.name === 'website') return;
+    const value = field.value.trim();
+    const ok = (!field.required || value !== '') && field.checkValidity() && (field.name !== 'web' || !value || isWeb(value));
+    field.classList.toggle('md-invalid', !ok);
+    if (!ok) valid = false;
+  });
+  if (!valid) showStatus('Revisa los campos marcados, por favor.', 'error');
+  return valid;
+};
+
+nextBtn.addEventListener('click', () => { if (validateStep(currentStep)) goTo(currentStep + 1); });
+backBtn.addEventListener('click', () => goTo(currentStep - 1));
+form.querySelector('[data-go="1"]').addEventListener('click', () => goTo(1));
+form.querySelectorAll('[name="tieneWeb"]').forEach((radio) => radio.addEventListener('change', updateStep2));
+
+// Con ratón o dedo, elegir una tarjeta pasa al paso 2; con teclado se usa "Siguiente" (las flechas cambian la opción).
+form.querySelectorAll('.md-choice').forEach((choice) => {
+  choice.addEventListener('click', (e) => {
+    if (e.detail > 0) setTimeout(() => goTo(2), 150);
+  });
+});
+
+goTo(1, false);
+
+// Los CTA con data-servicio llevan al formulario con esa opción ya elegida, directamente en el paso 2.
 document.querySelectorAll('[data-servicio]').forEach((link) => {
   link.addEventListener('click', () => {
-    serviceSelect.value = link.dataset.servicio;
+    const radio = form.querySelector(`[name="servicio"][value="${link.dataset.servicio}"]`);
+    if (radio) {
+      radio.checked = true;
+      goTo(2, false);
+    }
   });
 });
 
@@ -174,7 +264,7 @@ if (WHATSAPP_NUMBER) {
     if (!fixed) {
       // El flotante decide el mensaje en el momento del clic.
       link.addEventListener('click', () => {
-        const context = serviceSelect.value === 'Automatización de procesos' ? 'automatizacion' : waContext;
+        const context = selectedService() === 'Automatización de procesos' ? 'automatizacion' : waContext;
         link.href = waUrl(context);
       });
     }
@@ -184,11 +274,12 @@ if (WHATSAPP_NUMBER) {
 // El formulario se envía al Worker (/api/contacto), que manda el mensaje por email.
 // Si el envío falla, se ofrecen WhatsApp y el correo directo para no perder el contacto.
 const loadedAt = performance.now();
-const submitBtn = form.querySelector('button[type="submit"]');
 
 const fallbackLinks = (data) => {
   const subject = `Nuevo proyecto: ${data.servicio} — ${data.nombre}`;
-  const body = `Nombre: ${data.nombre}\nEmail: ${data.email}\nServicio: ${data.servicio}\n\n${data.mensaje}`;
+  const extra = [data.tieneWeb && `¿Tiene web?: ${data.tieneWeb}`, data.web && `Web: ${data.web}`].filter(Boolean);
+  const body = [`Nombre: ${data.nombre}`, `Email: ${data.email}`, `Servicio: ${data.servicio}`, ...extra].join('\n') +
+    (data.mensaje ? `\n\n${data.mensaje}` : '');
   const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   const links = [`<a href="${mailto}">enviarlo por email</a>`];
   if (WHATSAPP_NUMBER) links.unshift(`<a href="${waUrl('general')}" target="_blank" rel="noopener">escribirnos por WhatsApp</a>`);
@@ -197,27 +288,23 @@ const fallbackLinks = (data) => {
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
-  let valid = true;
-  form.querySelectorAll('[required]').forEach((field) => {
-    const ok = field.checkValidity() && field.value.trim() !== '';
-    field.classList.toggle('md-invalid', !ok);
-    if (!ok) valid = false;
-  });
-
-  if (!valid) {
-    status.textContent = 'Revisa los campos marcados, por favor.';
-    status.className = 'md-form-status error';
+  // Enter en un paso intermedio avanza en lugar de enviar.
+  if (currentStep < steps.length) {
+    if (validateStep(currentStep)) goTo(currentStep + 1);
     return;
   }
+  if (!validateStep(currentStep)) return;
 
   const data = Object.fromEntries(new FormData(form));
+  // No enviar lo que se escribió en una parte que luego quedó oculta (p. ej. la web tras marcar "No").
+  if (block('url').hidden) delete data.web;
+  if (block('tiene-web').hidden) delete data.tieneWeb;
   data.elapsed = Math.round(performance.now() - loadedAt);
 
   const label = submitBtn.innerHTML;
   submitBtn.disabled = true;
   submitBtn.textContent = 'Enviando…';
-  status.textContent = '';
-  status.className = 'md-form-status';
+  showStatus('');
 
   try {
     const res = await fetch('/api/contacto', {
@@ -227,8 +314,10 @@ form.addEventListener('submit', async (e) => {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     form.reset();
-    status.textContent = '¡Mensaje enviado! Te respondemos en menos de 24 h laborables.';
-    status.className = 'md-form-status ok';
+    goTo(1, false);
+    showStatus(data.servicio === REVISION
+      ? '¡Recibido! En 48 h laborables te enviamos por email 3 mejoras concretas para tu web.'
+      : '¡Mensaje enviado! Te respondemos en menos de 24 h laborables.', 'ok');
   } catch {
     status.innerHTML = `No hemos podido enviarlo. Puedes ${fallbackLinks(data)}.`;
     status.className = 'md-form-status error';
