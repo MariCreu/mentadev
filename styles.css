@@ -313,3 +313,15 @@ footer{padding-bottom:96px !important}
 .md-steps-nav .md-btn-ghost{flex:0 0 auto}
 @media (max-width:420px){.md-choices{grid-template-columns:minmax(0,1fr)}}
 @media (prefers-reduced-motion:reduce){.md-steps-bar span,.md-choice{transition:none}}
+
+/* Servicios: revisión gratis para quien ya tiene web */
+.md-review{display:flex;align-items:center;gap:24px;padding:28px 32px;border-radius:28px;background:var(--lav-s);border:1px solid #DDD5F3}
+.md-review .md-icon{flex:0 0 52px;background:#fff}
+.md-review-text{flex:1;display:flex;flex-direction:column;gap:6px}
+.md-review-text h3{font-size:20px;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+.md-review-text p{font-size:15px;color:#3F4A58}
+.md-review .md-btn{flex:0 0 auto}
+@media (max-width:760px){
+.md-review{flex-direction:column;align-items:flex-start;gap:16px;padding:24px 22px;border-radius:22px}
+.md-review .md-btn{width:100%}
+}
