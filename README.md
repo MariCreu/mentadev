@@ -21,6 +21,8 @@ styles.css      # Estilos y tokens de color de la marca
 main.js         # Animaciones al hacer scroll y formulario de contacto
 assets/         # Logo, favicon, fuentes, capturas de proyectos y manual de marca
 aviso-legal.html, privacidad.html, cookies.html  # Textos legales
+404.html        # Página de error
+robots.txt, sitemap.xml, _headers  # SEO y cabeceras de Cloudflare Pages
 ```
 
 ## Personalizar

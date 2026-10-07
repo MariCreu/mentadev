@@ -36,3 +36,5 @@ Manual completo en `assets/brand/manual-de-marca.png`.
 - Accesibilidad: contraste suficiente, `alt` en imágenes, foco visible y respeto a `prefers-reduced-motion`.
 - El formulario de contacto no tiene backend: abre `mailto:` con `CONTACT_EMAIL` de `main.js`.
 - Páginas legales: `aviso-legal.html`, `privacidad.html`, `cookies.html` (titular, NIF y domicilio en el bloque `<dl>` de cada una). Si se añade un servicio externo (analítica, formulario con backend, mapas…), actualizar privacidad y cookies; si pone cookies no técnicas, hace falta banner de consentimiento.
+- SEO: `og-image.png` (1200×630) para compartir, datos estructurados JSON-LD en `index.html` (negocio, web y FAQ), `robots.txt`, `sitemap.xml` y `404.html` (rutas absolutas, porque se sirve en cualquier URL). Si cambian las preguntas frecuentes o los precios, actualizar también el JSON-LD; si se añade una página, añadirla al sitemap.
+- `_headers` (Cloudflare Pages): caché larga para fuentes y assets.
