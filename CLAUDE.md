@@ -44,7 +44,7 @@ Manual completo en `assets/brand/manual-de-marca.png`.
 - Orden de secciones: hero → garantías → servicios → automatización → proyectos → planes → FAQ → contacto. Sin sección de proceso ni "sobre mí". Excepción acordada: el bloque "Cómo son tus 7 días" (`.md-days`) dentro de Planes, bajo las tarjetas.
 - Calculadora de automatización (`#calculadora`, dentro de Automatización): supone que se automatiza la mitad del tiempo (`AUTOMATABLE`) y compara con `PRICE_FROM` (490 €) en `main.js`; si cambia el precio, actualizarlo ahí. Su CTA rellena el mensaje del formulario sin pisar lo que haya escrito el usuario.
 - Los CTA con `data-servicio="…"` preseleccionan esa opción en el formulario (debe coincidir con un `<option>` de `#servicio`).
-- WhatsApp: `WHATSAPP_NUMBER` en `main.js`. Vacío = enlaces y botón flotante ocultos. Mensaje inicial según contexto (`WA_MESSAGES`).
+- WhatsApp: `WHATSAPP_NUMBER` en `main.js`. Vacío = enlaces y botón flotante ocultos. Por debajo de 960 px el botón flotante se sustituye por la barra fija `.md-mbar` ("Hablemos" + WhatsApp), que se oculta en Contacto; la cabecera muestra el menú `.md-burger` en lugar de "Hablemos". Mensaje inicial según contexto (`WA_MESSAGES`).
 - Capturas reales: los elementos con `data-shot="assets/…"` sustituyen su ilustración por la imagen si el archivo existe (proyectos en `assets/proyectos/`).
 - Diseño mobile-first: todo debe verse bien a 360 px de ancho.
 - Accesibilidad: contraste suficiente, `alt` en imágenes, foco visible y respeto a `prefers-reduced-motion`.

@@ -23,6 +23,30 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.md-reveal').forEach((el) => observer.observe(el));
 
+// Menú del móvil: se cierra al elegir una sección, con Esc o al tocar fuera.
+const burger = document.querySelector('.md-burger');
+const mobileNav = document.getElementById('menu-movil');
+const setMenu = (open) => {
+  burger.setAttribute('aria-expanded', String(open));
+  burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  mobileNav.hidden = !open;
+};
+burger.addEventListener('click', () => setMenu(mobileNav.hidden));
+mobileNav.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && !mobileNav.hidden) { setMenu(false); burger.focus(); }
+});
+document.addEventListener('click', (e) => {
+  if (!mobileNav.hidden && !e.target.closest('#top')) setMenu(false);
+});
+
+// Barra fija del móvil: se esconde al llegar a Contacto, donde ya están el formulario y WhatsApp.
+const mobileBar = document.querySelector('.md-mbar');
+new IntersectionObserver(([entry]) => {
+  mobileBar.classList.toggle('is-hidden', entry.isIntersecting);
+  mobileBar.inert = entry.isIntersecting;
+}, { threshold: 0.15 }).observe(document.getElementById('contacto'));
+
 // Capturas reales: si el archivo indicado en data-shot existe, sustituye a la ilustración.
 document.querySelectorAll('[data-shot]').forEach((el) => {
   const img = new Image();
