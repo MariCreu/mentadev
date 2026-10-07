@@ -16,7 +16,7 @@ Cada mensaje tiene una función y no deben competir visualmente:
 
 ## Posicionamiento
 Estudio de desarrollo para pequeños negocios: **webs profesionales, apps/herramientas a medida y automatización de procesos**, con trato directo con el equipo que desarrolla cada proyecto. Debe percibirse como empresa, no como profesional autónomo: sin secciones personales ni nombres propios en el contenido comercial (los datos de la titular solo en los textos legales, donde son obligatorios). No competir solo por precio.
-- **Producto de entrada:** web profesional desde **349 € + IVA** (alcance cerrado: hasta 6 secciones, contenidos editables, SEO y analítica, textos legales básicos, 1 mes de soporte). Ese precio solo aplica a la web profesional; tiendas, apps y automatizaciones van con presupuesto personalizado.
+- **Producto de entrada:** web profesional desde **349 € + IVA** (alcance cerrado: hasta 6 secciones, contenidos editables, SEO y analítica, textos legales básicos, 2 meses de soporte). Después, **mantenimiento opcional a 9 € + IVA/mes, sin permanencia** (alojamiento, certificado, copias, revisiones y pequeños cambios; el dominio lo paga el cliente a su nombre). Precios bajos a propósito para captar los primeros clientes. Ese precio solo aplica a la web profesional; tiendas, apps y automatizaciones van con presupuesto personalizado.
 - **Mensaje diferencial:** "Cuéntanos cómo trabajas. Buscamos qué puedes dejar de hacer a mano." Se vende el beneficio (ahorrar tiempo, menos tareas repetitivas y errores, herramientas conectadas), nunca tecnologías concretas (IA, APIs, n8n…).
 - Voz en primera persona del plural ("te acompañamos", "nos encargamos nosotros"). Nunca en singular.
 
