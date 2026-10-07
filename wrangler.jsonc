@@ -1,0 +1,10 @@
+{
+  // MentaDev es un sitio estático servido con Workers Assets: sin código de Worker,
+  // se publican tal cual los archivos de la raíz del repo (ver .assetsignore).
+  "name": "mentadev",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": ".",
+    "not_found_handling": "404-page"
+  }
+}

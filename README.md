@@ -22,7 +22,8 @@ main.js         # Animaciones al hacer scroll y formulario de contacto
 assets/         # Logo, favicon, fuentes, capturas de proyectos y manual de marca
 aviso-legal.html, privacidad.html, cookies.html  # Textos legales
 404.html        # Página de error
-robots.txt, sitemap.xml, _headers  # SEO y cabeceras de Cloudflare Pages
+robots.txt, sitemap.xml, _headers  # SEO y cabeceras
+wrangler.jsonc, .assetsignore      # Despliegue en Cloudflare
 ```
 
 ## Personalizar
@@ -35,9 +36,10 @@ robots.txt, sitemap.xml, _headers  # SEO y cabeceras de Cloudflare Pages
 - **Colores:** variables de `:root` en `styles.css`.
 
 ## Despliegue
-Cloudflare Pages está conectado a este repo: cada push a `main` se publica solo en https://mentadev.com.
+Cloudflare Workers (static assets): el Worker `mentadev` está conectado a este repo y cada push a `main` se publica en https://mentadev.com.
+La configuración está en `wrangler.jsonc` (sin build; se sirve la raíz). Los archivos que no deben publicarse están en `.assetsignore`.
 
-Configuración del proyecto en Cloudflare: framework **None**, sin comando de build, directorio de salida `/`. Dominios `mentadev.com` y `www.mentadev.com` en *Custom domains*.
+Para probarlo en local igual que en producción: `npx wrangler` con el subcomando `dev`.
 
 ## Licencia
 MIT

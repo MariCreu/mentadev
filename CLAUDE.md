@@ -4,7 +4,7 @@ Landing para ofrecer servicios de diseño web y soluciones digitales.
 
 ## Stack
 - HTML + CSS + JS vanilla, sin build ni dependencias.
-- Despliegue: **Cloudflare Pages** conectado a este repo; cada push a `main` se publica en **mentadev.com** (dominio en Cloudflare). Sin build: se sirve la raíz tal cual.
+- Despliegue: **Cloudflare Workers (static assets)**, Worker `mentadev` conectado a este repo; cada push a `main` se publica en **mentadev.com**. Config en `wrangler.jsonc` (sirve la raíz tal cual, sin build). Lo que no debe publicarse va en `.assetsignore`.
 - Diseño de referencia inicial: lienzo "MentaDev Landing" en claude.ai (https://claude.ai/artifact/JfuyKhtKqb6CTAqTBsaoxm). La versión vigente es la del repo.
 
 ## Posicionamiento
@@ -37,4 +37,4 @@ Manual completo en `assets/brand/manual-de-marca.png`.
 - El formulario de contacto no tiene backend: abre `mailto:` con `CONTACT_EMAIL` de `main.js`.
 - Páginas legales: `aviso-legal.html`, `privacidad.html`, `cookies.html` (titular, NIF y domicilio en el bloque `<dl>` de cada una). Si se añade un servicio externo (analítica, formulario con backend, mapas…), actualizar privacidad y cookies; si pone cookies no técnicas, hace falta banner de consentimiento.
 - SEO: `og-image.png` (1200×630) para compartir, datos estructurados JSON-LD en `index.html` (negocio, web y FAQ), `robots.txt`, `sitemap.xml` y `404.html` (rutas absolutas, porque se sirve en cualquier URL). Si cambian las preguntas frecuentes o los precios, actualizar también el JSON-LD; si se añade una página, añadirla al sitemap.
-- `_headers` (Cloudflare Pages): caché larga para fuentes y assets.
+- `_headers`: caché larga para fuentes e imágenes de proyectos. Las URL sin `.html` (`/privacidad`) las resuelve Cloudflare; las 404 sirven `404.html`.
