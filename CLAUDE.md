@@ -42,6 +42,7 @@ Manual completo en `assets/brand/manual-de-marca.png`.
 - Tokens de color en `:root` de `styles.css` (prefijo `md-` en las clases). Tema claro con secciones oscuras en antracita; sin modo oscuro automático.
 - Sin emojis: iconos SVG de trazo inline.
 - Orden de secciones: hero → garantías → servicios → automatización → proyectos → planes → FAQ → contacto. Sin sección de proceso ni "sobre mí". Excepción acordada: el bloque "Cómo son tus 7 días" (`.md-days`) dentro de Planes, bajo las tarjetas.
+- Ejemplos de automatización por sector: pestañas `.md-sector-tabs` (General, Clínicas, Estética y peluquerías, Restaurantes, Tiendas, Academias) con 4 ejemplos "hoy, a mano → con la automatización" cada una, en lenguaje de beneficio y sin nombrar tecnologías.
 - Calculadora de automatización (`#calculadora`, dentro de Automatización): supone que se automatiza la mitad del tiempo (`AUTOMATABLE`) y compara con `PRICE_FROM` (490 €) en `main.js`; si cambia el precio, actualizarlo ahí. Su CTA rellena el mensaje del formulario sin pisar lo que haya escrito el usuario.
 - Los CTA con `data-servicio="…"` preseleccionan esa opción en el formulario (debe coincidir con un `<option>` de `#servicio`).
 - WhatsApp: `WHATSAPP_NUMBER` en `main.js`. Vacío = enlaces y botón flotante ocultos. Por debajo de 960 px el botón flotante se sustituye por la barra fija `.md-mbar` ("Hablemos" + WhatsApp), que se oculta en Contacto; la cabecera muestra el menú `.md-burger` en lugar de "Hablemos". Mensaje inicial según contexto (`WA_MESSAGES`).

@@ -70,6 +70,29 @@ document.querySelectorAll('[data-servicio]').forEach((link) => {
   });
 });
 
+// Ejemplos de automatización por sector: pestañas accesibles (flechas, Inicio y Fin para moverse).
+const sectorTabs = [...document.querySelectorAll('.md-sector-tabs [role="tab"]')];
+const selectSector = (tab, focus) => {
+  sectorTabs.forEach((t) => {
+    const on = t === tab;
+    t.setAttribute('aria-selected', String(on));
+    t.tabIndex = on ? 0 : -1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+  });
+  if (focus) tab.focus();
+  tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+};
+sectorTabs.forEach((tab, i) => {
+  tab.addEventListener('click', () => selectSector(tab, false));
+  tab.addEventListener('keydown', (e) => {
+    const n = sectorTabs.length;
+    const next = { ArrowRight: i + 1, ArrowLeft: i - 1 + n, Home: 0, End: n - 1 }[e.key];
+    if (next === undefined) return;
+    e.preventDefault();
+    selectSector(sectorTabs[next % n], true);
+  });
+});
+
 // Calculadora de automatización: horas y € que se recuperan si se automatiza la mitad del tiempo.
 const calc = document.getElementById('calculadora');
 if (calc) {

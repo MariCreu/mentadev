@@ -391,8 +391,17 @@
 </div>
 
 <div class="md-flows">
+<div class="md-sector-tabs" role="tablist" aria-label="Ejemplos por sector">
+<button type="button" role="tab" id="sector-tab-general" aria-controls="sector-general" aria-selected="true">General</button>
+<button type="button" role="tab" id="sector-tab-clinicas" aria-controls="sector-clinicas" aria-selected="false" tabindex="-1">Clínicas</button>
+<button type="button" role="tab" id="sector-tab-estetica" aria-controls="sector-estetica" aria-selected="false" tabindex="-1">Estética y peluquerías</button>
+<button type="button" role="tab" id="sector-tab-restaurantes" aria-controls="sector-restaurantes" aria-selected="false" tabindex="-1">Restaurantes</button>
+<button type="button" role="tab" id="sector-tab-tiendas" aria-controls="sector-tiendas" aria-selected="false" tabindex="-1">Tiendas</button>
+<button type="button" role="tab" id="sector-tab-academias" aria-controls="sector-academias" aria-selected="false" tabindex="-1">Academias</button>
+</div>
 <div class="md-flows-head" aria-hidden="true"><span>Hoy, a mano</span><span></span><span>Con la automatización</span></div>
-<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+<div role="tabpanel" id="sector-general" aria-labelledby="sector-tab-general">
+<ul class="md-flow-list">
 <li class="md-flow md-reveal">
 <span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>Un cliente reserva</span>
 <span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
@@ -414,6 +423,127 @@
 <span class="md-flow-to">Se genera y se envía solo</span>
 </li>
 </ul>
+</div>
+<div role="tabpanel" id="sector-clinicas" aria-labelledby="sector-tab-clinicas" hidden="">
+<ul class="md-flow-list">
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>Un paciente pide cita</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Confirmación y recordatorio automáticos</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M10 13.5l4 4M14 13.5l-4 4"></path></svg></span>Alguien cancela a última hora</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Se avisa a la lista de espera y el hueco se llena</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></span>Termina un tratamiento</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Se le pide su opinión y se programa la revisión</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></span>Llega fin de mes</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Las facturas se generan y se envían solas</span>
+</li>
+</ul>
+</div>
+<div role="tabpanel" id="sector-estetica" aria-labelledby="sector-tab-estetica" hidden="">
+<ul class="md-flow-list">
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>Un cliente reserva</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Recordatorio el día antes y menos citas perdidas</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>Pasan 6 semanas desde su última visita</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Se le invita a volver a reservar</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"></rect><path d="M3 12h18M12 8v13M12 8C10 4 6 4 6 6.5S12 8 12 8zM12 8c2-4 6-4 6-1.5S12 8 12 8z"></path></svg></span>Es su cumpleaños</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Le llega una felicitación con un detalle</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M9 6v2M9 11v2M9 16v2"></path></svg></span>Vendes un bono de sesiones</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Las sesiones se descuentan y se avisa al acabar</span>
+</li>
+</ul>
+</div>
+<div role="tabpanel" id="sector-restaurantes" aria-labelledby="sector-tab-restaurantes" hidden="">
+<ul class="md-flow-list">
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>Entra una reserva online</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Confirmación y recordatorio para que no falle</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v18M4 3v5a3 3 0 0 0 6 0V3M17 21V3c-2.5 1.5-3.5 4.5-3.5 9H17"></path></svg></span>Llega un pedido para llevar</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Pasa a cocina ordenado y sin errores</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></span>Un proveedor envía su factura</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Queda registrada y lista para la gestoría</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg></span>Cierras el día</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Te llega al móvil el resumen de ventas</span>
+</li>
+</ul>
+</div>
+<div role="tabpanel" id="sector-tiendas" aria-labelledby="sector-tab-tiendas" hidden="">
+<ul class="md-flow-list">
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"></circle><circle cx="17" cy="20" r="1.5"></circle><path d="M3 4h2l2.4 11h11l2-8H6.2"></path></svg></span>Vendes un producto online</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">El stock se actualiza en todos tus canales</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"></path><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg></span>Envías un pedido</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">El cliente recibe el aviso con el seguimiento</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>Alguien deja el carrito a medias</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Le llega un recordatorio amable</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10 21a2 2 0 0 0 4 0"></path></svg></span>Queda poco stock</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Te avisa para reponer a tiempo</span>
+</li>
+</ul>
+</div>
+<div role="tabpanel" id="sector-academias" aria-labelledby="sector-tab-academias" hidden="">
+<ul class="md-flow-list">
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21a7 7 0 0 1 14 0M19 8v6M16 11h6"></path></svg></span>Se apunta un alumno nuevo</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Alta, bienvenida y cobro, todo en orden</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></span>Llega el recibo del mes</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Se cobra y se avisa solo</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10 21a2 2 0 0 0 4 0"></path></svg></span>Un alumno falta a clase</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Se avisa a la familia al momento</span>
+</li>
+<li class="md-flow">
+<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6z"></path><path d="M14 3v6h6M8 13h8M8 17h5"></path></svg></span>Acaba el trimestre</span>
+<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+<span class="md-flow-to">Cada alumno recibe su informe</span>
+</li>
+</ul>
+</div>
 </div>
 </div>
 
