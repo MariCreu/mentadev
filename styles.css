@@ -137,6 +137,8 @@ html{scroll-behavior:smooth;scroll-padding-top:84px}
 
 /* Pie: marca con descriptor y enlaces legales */
 .md-foot-brand{display:flex;flex-direction:column;gap:6px}
+.md-foot-social{display:inline-flex;align-items:center;gap:6px;margin-left:40px;min-height:32px;font-size:13px;font-weight:500;color:var(--ink2);text-decoration:none}
+.md-foot-social:hover{color:var(--lav-d)}
 .md-foot-descriptor{font-size:13px;color:var(--ink2);padding-left:40px}
 .md-foot-meta{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
 .md-foot-legal{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px}
