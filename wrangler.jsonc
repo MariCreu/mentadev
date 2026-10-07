@@ -1,10 +1,17 @@
 {
-  // MentaDev es un sitio estático servido con Workers Assets: sin código de Worker,
-  // se publican tal cual los archivos de la raíz del repo (ver .assetsignore).
+  // MentaDev es un sitio estático servido con Workers Assets: se publican tal cual los
+  // archivos de la raíz del repo (ver .assetsignore). El Worker (worker/index.js) solo
+  // atiende /api/* — hoy, el envío del formulario de contacto.
   "name": "mentadev",
+  "main": "worker/index.js",
   "compatibility_date": "2026-10-01",
   "assets": {
     "directory": ".",
-    "not_found_handling": "404-page"
-  }
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  // Envío del formulario. El destino es el secreto CONTACT_TO, que debe ser una
+  // dirección verificada en Email Routing (enviar ahí es gratis en cualquier plan).
+  "send_email": [{ "name": "EMAIL" }]
 }

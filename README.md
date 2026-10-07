@@ -19,6 +19,7 @@ También funciona abriendo `index.html` directamente en el navegador.
 index.html      # Contenido de la landing (secciones: hero, servicios, proceso, proyectos, FAQ, contacto)
 styles.css      # Estilos y tokens de color de la marca
 main.js         # Animaciones al hacer scroll y formulario de contacto
+worker/index.js # Worker: envío del formulario por email (/api/contacto)
 assets/         # Logo, favicon, fuentes, capturas de proyectos y manual de marca
 aviso-legal.html, privacidad.html, cookies.html  # Textos legales
 404.html        # Página de error
@@ -27,7 +28,8 @@ wrangler.jsonc, .assetsignore      # Despliegue en Cloudflare
 ```
 
 ## Personalizar
-- **Email de contacto:** `CONTACT_EMAIL` en `main.js`.
+- **Email de contacto:** `CONTACT_EMAIL` en `main.js` (enlaces y alternativa si falla el envío).
+- **Destino del formulario:** secreto `CONTACT_TO` del Worker en Cloudflare, con una dirección verificada en Email Routing. En local, ponlo en `.dev.vars` (`CONTACT_TO=tu@email.com`); el formulario solo envía de verdad desde `npx wrangler dev`, no con `python -m http.server`.
 - **WhatsApp:** pon tu número en `WHATSAPP_NUMBER` (`main.js`), con prefijo y sin `+`, p. ej. `34600111222`. Mientras esté vacío no se muestra ningún botón de WhatsApp.
 - **Capturas reales de proyectos:** guarda los archivos con estos nombres y aparecen solos en lugar de las ilustraciones:
   - `assets/proyectos/luna-y-papel.webp` — captura de escritorio (horizontal)

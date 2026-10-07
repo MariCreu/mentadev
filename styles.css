@@ -10,6 +10,7 @@ a{color:var(--lav-d)}a:hover{color:var(--lav-dd)}
 h1,h2,h3,p{margin:0}
 .md-wrap{width:100%;max-width:1200px;margin:0 auto;padding:0 24px}
 .md-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 28px;border-radius:999px;background:var(--lav-d);color:#fff;font-weight:600;font-size:16px;text-decoration:none;border:0;cursor:pointer;font-family:inherit;transition:background .2s,transform .2s,box-shadow .2s}
+.md-btn:disabled{opacity:.7;cursor:wait}
 .md-btn:hover{background:var(--lav-dd);color:#fff;transform:translateY(-2px);box-shadow:0 12px 28px rgba(111,91,191,.28)}
 .md-btn-ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
 .md-btn-ghost:hover{background:#fff;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink3)}
@@ -54,6 +55,9 @@ html{scroll-behavior:smooth;scroll-padding-top:84px}
 .md-field .md-invalid{border-color:#C95A5A}
 .md-form-status{margin:0;min-height:1.4em;font-size:14px;font-weight:500;text-align:center}
 .md-form-status.ok{color:var(--mint-d)}.md-form-status.error{color:#B54848}
+/* Campo trampa antispam del formulario: invisible para personas y lectores de pantalla. */
+.md-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.md-form-status a{color:inherit;font-weight:600}
 .md-reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
 .md-reveal.is-visible{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.md-reveal{opacity:1;transform:none;transition:none}.md-btn,.md-card{transition:none}}

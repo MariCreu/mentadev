@@ -78,8 +78,21 @@ if (WHATSAPP_NUMBER) {
   });
 }
 
-// Sin backend: el formulario abre el cliente de correo con el mensaje ya redactado.
-form.addEventListener('submit', (e) => {
+// El formulario se envía al Worker (/api/contacto), que manda el mensaje por email.
+// Si el envío falla, se ofrecen WhatsApp y el correo directo para no perder el contacto.
+const loadedAt = performance.now();
+const submitBtn = form.querySelector('button[type="submit"]');
+
+const fallbackLinks = (data) => {
+  const subject = `Nuevo proyecto: ${data.servicio} — ${data.nombre}`;
+  const body = `Nombre: ${data.nombre}\nEmail: ${data.email}\nServicio: ${data.servicio}\n\n${data.mensaje}`;
+  const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const links = [`<a href="${mailto}">enviarlo por email</a>`];
+  if (WHATSAPP_NUMBER) links.unshift(`<a href="${waUrl('general')}" target="_blank" rel="noopener">escribirnos por WhatsApp</a>`);
+  return links.join(' o ');
+};
+
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
   let valid = true;
   form.querySelectorAll('[required]').forEach((field) => {
@@ -94,11 +107,30 @@ form.addEventListener('submit', (e) => {
     return;
   }
 
-  const data = new FormData(form);
-  const subject = `Nuevo proyecto: ${data.get('servicio')} — ${data.get('nombre')}`;
-  const body = `Nombre: ${data.get('nombre')}\nEmail: ${data.get('email')}\nServicio: ${data.get('servicio')}\n\n${data.get('mensaje')}`;
-  window.location.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  const data = Object.fromEntries(new FormData(form));
+  data.elapsed = Math.round(performance.now() - loadedAt);
 
-  status.textContent = '¡Gracias! Se abrirá tu correo para enviar el mensaje.';
-  status.className = 'md-form-status ok';
+  const label = submitBtn.innerHTML;
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Enviando…';
+  status.textContent = '';
+  status.className = 'md-form-status';
+
+  try {
+    const res = await fetch('/api/contacto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    form.reset();
+    status.textContent = '¡Mensaje enviado! Te respondemos en menos de 24 h laborables.';
+    status.className = 'md-form-status ok';
+  } catch {
+    status.innerHTML = `No hemos podido enviarlo. Puedes ${fallbackLinks(data)}.`;
+    status.className = 'md-form-status error';
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.innerHTML = label;
+  }
 });
