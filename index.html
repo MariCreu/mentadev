@@ -1,265 +1,381 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MentaDev · Diseño web y soluciones digitales</title>
-  <meta name="description" content="MentaDev diseña webs y soluciones digitales a medida: landings, tiendas online, apps y automatizaciones para negocios que quieren crecer.">
-  <meta name="theme-color" content="#6EC6B4">
-  <meta property="og:title" content="MentaDev · Diseño web y soluciones digitales">
-  <meta property="og:description" content="Webs frescas, rápidas y a medida para tu negocio.">
-  <meta property="og:type" content="website">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MentaDev · Diseño web, tiendas online y apps a medida</title>
+<meta name="description" content="Diseño y desarrollo webs, tiendas online y apps a medida para negocios que quieren crecer. Presupuesto cerrado y trato directo.">
+<link rel="canonical" href="https://mentadev.com/">
+<meta name="theme-color" content="#1F2937">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://mentadev.com/">
+<meta property="og:title" content="MentaDev · Tu idea, hecha realidad">
+<meta property="og:description" content="Webs, tiendas online y apps a medida para negocios que quieren crecer.">
+<meta property="og:locale" content="es_ES">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header class="header" id="top">
-    <nav class="nav container">
-      <a href="#top" class="logo" aria-label="MentaDev, inicio">
-        <img src="assets/logo.svg" alt="" width="34" height="34">
-        <span>Menta<strong>Dev</strong></span>
-      </a>
-      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Abrir menú">
-        <span></span><span></span>
-      </button>
-      <ul class="nav-links" id="nav-links">
-        <li><a href="#servicios">Servicios</a></li>
-        <li><a href="#proceso">Cómo trabajo</a></li>
-        <li><a href="#proyectos">Proyectos</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#contacto" class="btn btn-small">Contactar</a></li>
-      </ul>
-    </nav>
-  </header>
+<div style="width: 100%; overflow-x: clip; background: #F8FAFB">
 
-  <main>
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-text reveal">
-          <p class="eyebrow">Diseño web · Desarrollo · Soluciones digitales</p>
-          <h1>Tu idea, <span class="highlight">hecha realidad</span></h1>
-          <p class="lead">Desarrollo web y apps a medida para hacer crecer tu negocio. Páginas rápidas, bonitas y pensadas para que tus clientes te encuentren y te elijan.</p>
-          <div class="hero-cta">
-            <a href="#contacto" class="btn">Empezar ahora</a>
-            <a href="#servicios" class="btn btn-ghost">Ver servicios</a>
-          </div>
-          <ul class="hero-badges">
-            <li>✓ Presupuesto sin compromiso</li>
-            <li>✓ Trato directo, sin intermediarios</li>
-            <li>✓ Diseño 100 % adaptado a móvil</li>
-          </ul>
-        </div>
-        <div class="hero-visual reveal" aria-hidden="true">
-          <img class="hero-leaves" src="assets/logo.svg" alt="">
-          <div class="mock-window">
-            <div class="mock-bar"><span></span><span></span><span></span></div>
-            <div class="mock-body">
-              <div class="mock-line w60"></div>
-              <div class="mock-line w90 thin"></div>
-              <div class="mock-line w75 thin"></div>
-              <div class="mock-btn"></div>
-              <div class="mock-cards">
-                <div></div><div></div><div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+<!-- NAV -->
+<header id="top" style="position: sticky; top: 0; z-index: 20; background: rgba(248,250,251,.86); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(230,234,239,.7)">
+<div class="md-wrap" style="display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 24px">
+<a href="#inicio" aria-label="MentaDev, inicio" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1F2937">
+<svg width="36" height="36" viewBox="0 0 64 64" aria-hidden="true"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path><path d="M31 55Q37 31 54 10" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".35"></path></svg>
+<span style="font-size: 22px; font-weight: 600; letter-spacing: -.03em">Menta<span style="color: #9D88D8">Dev</span></span>
+</a>
+<nav class="md-hide-m" aria-label="Principal" style="display: flex; align-items: center; gap: 36px">
+<a class="md-nav-link" href="#servicios">Servicios</a>
+<a class="md-nav-link" href="#proyectos">Proyectos</a>
+<a class="md-nav-link" href="#proceso">Proceso</a>
+<a class="md-nav-link" href="#planes">Planes</a>
+<a class="md-nav-link" href="#faq">FAQ</a>
+</nav>
+<a class="md-btn" href="#contacto" style="min-height: 46px; padding: 0 22px; font-size: 15px">Hablemos</a>
+</div>
+</header>
 
-    <!-- SERVICIOS -->
-    <section class="section" id="servicios">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">Servicios</p>
-          <h2>Todo lo que tu negocio necesita en digital</h2>
-          <p>Desde tu primera web hasta automatizar tareas que hoy te roban horas.</p>
-        </div>
-        <div class="cards">
-          <article class="card reveal">
-            <div class="card-icon">🎨</div>
-            <h3>Diseño web</h3>
-            <p>Webs corporativas y landings con un diseño único, alineado con tu marca y orientado a convertir visitas en clientes.</p>
-          </article>
-          <article class="card reveal">
-            <div class="card-icon">🛒</div>
-            <h3>Tiendas online</h3>
-            <p>E-commerce con pagos seguros, gestión de productos sencilla y una experiencia de compra fluida.</p>
-          </article>
-          <article class="card reveal">
-            <div class="card-icon">📱</div>
-            <h3>Apps y plataformas</h3>
-            <p>Aplicaciones web y móviles a medida: reservas, áreas de cliente, paneles de gestión y más.</p>
-          </article>
-          <article class="card reveal">
-            <div class="card-icon">⚙️</div>
-            <h3>Automatizaciones</h3>
-            <p>Conecto tus herramientas y automatizo procesos repetitivos para que dediques tu tiempo a lo importante.</p>
-          </article>
-          <article class="card reveal">
-            <div class="card-icon">🔍</div>
-            <h3>SEO y rendimiento</h3>
-            <p>Webs rápidas y optimizadas para Google, para que te encuentren quienes ya te están buscando.</p>
-          </article>
-          <article class="card reveal">
-            <div class="card-icon">🛠️</div>
-            <h3>Mantenimiento</h3>
-            <p>Actualizaciones, copias de seguridad y cambios cuando los necesites. Tu web siempre al día.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+<!-- HERO -->
+<section id="inicio" style="position: relative; padding: 88px 0 112px">
+<svg class="md-hide-m" viewBox="0 0 64 64" aria-hidden="true" style="position: absolute; width: 760px; height: 760px; right: -200px; top: -120px; opacity: .22; transform: rotate(-10deg)"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4"></path></svg>
+<div class="md-wrap md-hero-grid" style="position: relative">
+<div style="display: flex; flex-direction: column; gap: 28px">
+<span class="md-chip" style="align-self: flex-start"><span style="width: 8px; height: 8px; border-radius: 50%; background: #2E8574"></span>Agenda abierta para nuevos proyectos</span>
+<h1 style="font-size: clamp(44px, 6.4vw, 84px); line-height: 1.02; font-weight: 600; letter-spacing: -.045em">Tu idea,<br><span style="color: #6F5BBF">hecha realidad.</span></h1>
+<p style="font-size: 19px; line-height: 1.65; color: #5B6472; max-width: 520px">Diseño y desarrollo webs, tiendas online y apps a medida para negocios que quieren crecer. Bonitas, rápidas y pensadas para convertir visitas en clientes.</p>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<a class="md-btn" href="#contacto">Pide tu presupuesto <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a class="md-btn md-btn-ghost" href="#proyectos">Ver proyectos</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 12px 28px; padding-top: 8px; font-size: 14px; color: #5B6472">
+<span style="display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Presupuesto cerrado</span>
+<span style="display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Respuesta en 24 h</span>
+<span style="display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Tu web es 100 % tuya</span>
+</div>
+</div>
 
-    <!-- PROCESO -->
-    <section class="section section-tint" id="proceso">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">Cómo trabajo</p>
-          <h2>Un proceso claro, de la idea al lanzamiento</h2>
-        </div>
-        <ol class="steps">
-          <li class="step reveal">
-            <span class="step-num">1</span>
-            <h3>Escucho</h3>
-            <p>Hablamos de tu negocio, tus objetivos y tus clientes. Sin tecnicismos.</p>
-          </li>
-          <li class="step reveal">
-            <span class="step-num">2</span>
-            <h3>Propongo</h3>
-            <p>Te envío una propuesta con alcance, plazos y precio cerrado.</p>
-          </li>
-          <li class="step reveal">
-            <span class="step-num">3</span>
-            <h3>Diseño y desarrollo</h3>
-            <p>Ves avances reales durante el proceso y opinas en cada fase.</p>
-          </li>
-          <li class="step reveal">
-            <span class="step-num">4</span>
-            <h3>Lanzamos</h3>
-            <p>Publicamos tu proyecto y te acompaño después para que todo funcione.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
+<!-- Hero visual -->
+<div class="md-hero-visual" aria-hidden="true" style="position: relative; height: 560px">
+<div style="position: absolute; inset: 24px 0 40px 32px; border-radius: 36px; background: #EFEBF9"></div>
+<div style="position: absolute; left: 0; top: 64px; width: 88%; background: #fff; border-radius: 22px; box-shadow: 0 30px 60px rgba(31,41,55,.14); overflow: hidden; border: 1px solid #E6EAEF">
+<div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid #E6EAEF">
+<span style="width: 10px; height: 10px; border-radius: 50%; background: #E6EAEF"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #E6EAEF"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #E6EAEF"></span>
+<span style="margin-left: 12px; flex: 1; height: 26px; border-radius: 8px; background: #F8FAFB; font-size: 12px; color: #8A93A1; display: flex; align-items: center; padding: 0 12px">tunegocio.com</span>
+</div>
+<div style="padding: 28px 28px 32px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="width: 72px; height: 12px; border-radius: 6px; background: #1F2937"></span><span style="display: flex; gap: 10px"><span style="width: 36px; height: 8px; border-radius: 4px; background: #E6EAEF"></span><span style="width: 36px; height: 8px; border-radius: 4px; background: #E6EAEF"></span><span style="width: 36px; height: 8px; border-radius: 4px; background: #E6EAEF"></span></span></div>
+<div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: center; padding-top: 18px">
+<div style="display: flex; flex-direction: column; gap: 10px"><span style="height: 18px; width: 92%; border-radius: 6px; background: #1F2937"></span><span style="height: 18px; width: 70%; border-radius: 6px; background: #1F2937"></span><span style="height: 8px; width: 96%; border-radius: 4px; background: #E6EAEF; margin-top: 6px"></span><span style="height: 8px; width: 80%; border-radius: 4px; background: #E6EAEF"></span><span style="height: 34px; width: 120px; border-radius: 999px; background: #6F5BBF; margin-top: 10px"></span></div>
+<div style="height: 150px; border-radius: 16px; background: #E3F4F0; position: relative; overflow: hidden"><svg viewBox="0 0 64 64" style="position: absolute; width: 130px; height: 130px; right: 6px; bottom: -14px"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path></svg></div>
+</div>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 14px"><span style="height: 64px; border-radius: 12px; background: #F8FAFB; border: 1px solid #E6EAEF"></span><span style="height: 64px; border-radius: 12px; background: #F8FAFB; border: 1px solid #E6EAEF"></span><span style="height: 64px; border-radius: 12px; background: #F8FAFB; border: 1px solid #E6EAEF"></span></div>
+</div>
+</div>
+<!-- Phone -->
+<div style="position: absolute; right: 0; bottom: 0; width: 176px; height: 340px; border-radius: 34px; background: #1F2937; padding: 10px; box-shadow: 0 30px 60px rgba(31,41,55,.25)">
+<div style="width: 100%; height: 100%; border-radius: 26px; background: #fff; padding: 26px 14px 14px; display: flex; flex-direction: column; gap: 10px">
+<span style="width: 50px; height: 8px; border-radius: 4px; background: #1F2937"></span>
+<span style="height: 96px; border-radius: 14px; background: #EFEBF9"></span>
+<span style="height: 10px; width: 90%; border-radius: 5px; background: #1F2937"></span>
+<span style="height: 6px; width: 100%; border-radius: 3px; background: #E6EAEF"></span>
+<span style="height: 6px; width: 76%; border-radius: 3px; background: #E6EAEF"></span>
+<span style="height: 30px; border-radius: 999px; background: #6F5BBF; margin-top: auto"></span>
+</div>
+</div>
+<!-- Floating chips -->
+<div style="position: absolute; left: -12px; bottom: 54px; background: #fff; border-radius: 18px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 18px 40px rgba(31,41,55,.12); border: 1px solid #E6EAEF">
+<span style="width: 40px; height: 40px; border-radius: 12px; background: #E3F4F0; display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg></span>
+<span style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-size: 14px; font-weight: 600">Web publicada</span><span style="font-size: 12px; color: #5B6472">Lista para recibir clientes</span></span>
+</div>
+<div style="position: absolute; right: 136px; top: 8px; background: #fff; border-radius: 18px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; box-shadow: 0 18px 40px rgba(31,41,55,.12); border: 1px solid #E6EAEF">
+<span style="width: 34px; height: 34px; border-radius: 10px; background: #EFEBF9; display: grid; place-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6F5BBF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><path d="M11 18h2"></path></svg></span>
+<span style="font-size: 13px; font-weight: 600; white-space: nowrap">Perfecta en móvil</span>
+</div>
+</div>
+</div>
+</section>
 
-    <!-- PROYECTOS -->
-    <section class="section" id="proyectos">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">Proyectos</p>
-          <h2>Algunos trabajos recientes</h2>
-        </div>
-        <div class="projects">
-          <article class="project reveal">
-            <div class="project-thumb thumb-coral">Luna y Papel</div>
-            <div class="project-info">
-              <h3>Luna y Papel</h3>
-              <p>Tienda de cuentos infantiles personalizados y regalos con carrito, pagos y panel de producción.</p>
-              <ul class="tags"><li>E-commerce</li><li>Angular</li><li>FastAPI</li></ul>
-            </div>
-          </article>
-          <article class="project reveal">
-            <div class="project-thumb thumb-mint">PequeDía</div>
-            <div class="project-info">
-              <h3>PequeDía</h3>
-              <p>App móvil para escuelas infantiles: diario del día, fotos y avisos para familias, maestras y dirección.</p>
-              <ul class="tags"><li>App móvil</li><li>React Native</li><li>Supabase</li></ul>
-            </div>
-          </article>
-          <article class="project reveal">
-            <div class="project-thumb thumb-lavender">Reservas al vuelo</div>
-            <div class="project-info">
-              <h3>Reservas al vuelo</h3>
-              <p>Sistema de reservas online para negocios locales, sin llamadas ni esperas.</p>
-              <ul class="tags"><li>Reservas</li><li>Web app</li></ul>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
+<!-- PROMISES STRIP -->
+<section style="padding: 0 0 24px">
+<div class="md-wrap">
+<div class="md-grid4" style="background: #fff; border: 1px solid #E6EAEF; border-radius: 28px; padding: 32px">
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 16px; font-weight: 600">Diseño único</span><span style="font-size: 14px; color: #5B6472">Nada de plantillas genéricas: tu web se parece a tu marca.</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 16px; font-weight: 600">Precio cerrado</span><span style="font-size: 14px; color: #5B6472">Sabes lo que pagas desde el primer día. Sin sorpresas.</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 16px; font-weight: 600">Trato directo</span><span style="font-size: 14px; color: #5B6472">Hablas siempre con quien diseña y programa tu proyecto.</span></div>
+<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 16px; font-weight: 600">Te acompaño después</span><span style="font-size: 14px; color: #5B6472">Soporte y mejoras cuando tu negocio lo necesite.</span></div>
+</div>
+</div>
+</section>
 
-    <!-- FAQ -->
-    <section class="section section-tint" id="faq">
-      <div class="container narrow">
-        <div class="section-head reveal">
-          <p class="eyebrow">Preguntas frecuentes</p>
-          <h2>Resolvemos dudas</h2>
-        </div>
-        <div class="faq reveal">
-          <details>
-            <summary>¿Cuánto cuesta una web?</summary>
-            <p>Depende de lo que necesites. Tras una primera charla te envío un presupuesto cerrado, sin sorpresas.</p>
-          </details>
-          <details>
-            <summary>¿Cuánto se tarda?</summary>
-            <p>Una landing puede estar lista en 1–2 semanas; una tienda o una app a medida, entre 4 y 8 semanas según el alcance.</p>
-          </details>
-          <details>
-            <summary>¿Podré editar los contenidos yo misma/o?</summary>
-            <p>Sí. Si lo necesitas, preparo la web para que puedas cambiar textos, imágenes o productos sin tocar código.</p>
-          </details>
-          <details>
-            <summary>¿Te encargas del dominio y el alojamiento?</summary>
-            <p>Sí, te ayudo a elegirlos y lo dejo todo configurado. El dominio y el alojamiento quedan siempre a tu nombre.</p>
-          </details>
-        </div>
-      </div>
-    </section>
+<!-- SERVICIOS -->
+<section id="servicios" style="padding: 112px 0">
+<div class="md-wrap" style="display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 640px">
+<span class="md-eyebrow">Servicios</span>
+<h2 class="md-h2">Todo lo que tu negocio necesita para crecer en digital</h2>
+</div>
+<p style="max-width: 380px; color: #5B6472; font-size: 17px">Desde tu primera web hasta automatizar las tareas que hoy te roban horas.</p>
+</div>
 
-    <!-- CONTACTO -->
-    <section class="section" id="contacto">
-      <div class="container">
-        <div class="contact reveal">
-          <div class="contact-text">
-            <p class="eyebrow">Contacto</p>
-            <h2>¿Tienes un proyecto en mente?</h2>
-            <p>Cuéntame qué necesitas y te respondo en menos de 24 h laborables con ideas y un presupuesto orientativo.</p>
-          </div>
-          <form class="contact-form" id="contact-form" novalidate>
-            <label>
-              Nombre
-              <input type="text" name="nombre" required autocomplete="name">
-            </label>
-            <label>
-              Email
-              <input type="email" name="email" required autocomplete="email">
-            </label>
-            <label>
-              ¿Qué necesitas?
-              <select name="servicio">
-                <option>Diseño web</option>
-                <option>Tienda online</option>
-                <option>App o plataforma</option>
-                <option>Automatización</option>
-                <option>Otra cosa</option>
-              </select>
-            </label>
-            <label>
-              Cuéntame un poco más
-              <textarea name="mensaje" rows="4" required></textarea>
-            </label>
-            <button type="submit" class="btn">Enviar mensaje</button>
-            <p class="form-status" role="status" aria-live="polite"></p>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
+<div class="md-bento">
+<article class="md-reveal md-card md-span2 md-row2" style="display: flex; flex-direction: column; gap: 24px; background: #1F2937; border-color: #1F2937; color: #fff; position: relative; overflow: hidden; min-height: 420px">
+<svg viewBox="0 0 64 64" aria-hidden="true" style="position: absolute; width: 360px; height: 360px; right: -60px; bottom: -80px; opacity: .9"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path><path d="M31 55Q37 31 54 10" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".35"></path></svg>
+<span class="md-icon" style="background: rgba(110,198,180,.16); color: #6EC6B4"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 9h18M8 14h5"></path></svg></span>
+<div style="display: flex; flex-direction: column; gap: 14px; max-width: 420px; position: relative">
+<h3 style="font-size: 30px; font-weight: 600; letter-spacing: -.02em; line-height: 1.15">Diseño y desarrollo web</h3>
+<p style="font-size: 16px; color: #C4CAD3">Webs corporativas y landings con un diseño a medida, alineado con tu marca y pensado para que quien entra, te escriba.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; position: relative; max-width: 420px">
+<span class="md-chip" style="background: rgba(255,255,255,.08); color: #fff">Landing pages</span>
+<span class="md-chip" style="background: rgba(255,255,255,.08); color: #fff">Webs corporativas</span>
+<span class="md-chip" style="background: rgba(255,255,255,.08); color: #fff">Rediseños</span>
+</div>
+</article>
+<article class="md-reveal md-card" style="display: flex; flex-direction: column; gap: 18px">
+<span class="md-icon md-icon-lav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"></path><circle cx="10" cy="20.5" r="1"></circle><circle cx="17" cy="20.5" r="1"></circle></svg></span>
+<h3 style="font-size: 20px; font-weight: 600">Tiendas online</h3>
+<p style="font-size: 15px; color: #5B6472">E-commerce con pagos seguros, gestión sencilla de productos y una compra sin fricciones.</p>
+</article>
+<article class="md-reveal md-card" style="display: flex; flex-direction: column; gap: 18px">
+<span class="md-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><path d="M11 18h2"></path></svg></span>
+<h3 style="font-size: 20px; font-weight: 600">Apps y plataformas</h3>
+<p style="font-size: 15px; color: #5B6472">Apps web y móviles a medida: reservas, áreas de cliente, paneles de gestión.</p>
+</article>
+<article class="md-reveal md-card" style="display: flex; flex-direction: column; gap: 18px">
+<span class="md-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"></path></svg></span>
+<h3 style="font-size: 20px; font-weight: 600">Automatizaciones</h3>
+<p style="font-size: 15px; color: #5B6472">Conecto tus herramientas y elimino tareas repetitivas para que ganes tiempo.</p>
+</article>
+<article class="md-reveal md-card" style="display: flex; flex-direction: column; gap: 18px">
+<span class="md-icon md-icon-lav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></span>
+<h3 style="font-size: 20px; font-weight: 600">SEO y rendimiento</h3>
+<p style="font-size: 15px; color: #5B6472">Webs rápidas y optimizadas para que te encuentren en Google.</p>
+</article>
+<article class="md-reveal md-card" style="display: flex; flex-direction: column; gap: 18px">
+<span class="md-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V6l8-3z"></path><path d="M9 12l2 2 4-4"></path></svg></span>
+<h3 style="font-size: 20px; font-weight: 600">Mantenimiento</h3>
+<p style="font-size: 15px; color: #5B6472">Actualizaciones, copias de seguridad y cambios cuando los necesites.</p>
+</article>
+</div>
+</div>
+</section>
 
-  <footer class="footer">
-    <div class="container footer-inner">
-      <a href="#top" class="logo">
-        <img src="assets/logo.svg" alt="" width="28" height="28">
-        <span>Menta<strong>Dev</strong></span>
-      </a>
-      <p>© <span id="year"></span> MentaDev · Desarrollo web y apps</p>
-    </div>
-  </footer>
+<!-- PROYECTOS -->
+<section id="proyectos" style="padding: 112px 0; background: #fff">
+<div class="md-wrap" style="display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px">
+<span class="md-eyebrow">Proyectos</span>
+<h2 class="md-h2">Proyectos reales, negocios reales</h2>
+<p style="color: #5B6472; font-size: 17px">Una muestra de lo que he construido: de tiendas online a apps del día a día.</p>
+</div>
+<div class="md-grid3">
+<article class="md-reveal" style="display: flex; flex-direction: column; gap: 20px">
+<div style="aspect-ratio: 4 / 3; border-radius: 24px; background: #FBF1EE; display: flex; align-items: flex-end; justify-content: center; padding: 28px 28px 0; overflow: hidden">
+<div style="width: 100%; height: 86%; background: #fff; border-radius: 14px 14px 0 0; box-shadow: 0 -10px 30px rgba(31,41,55,.08); padding: 18px; display: flex; flex-direction: column; gap: 10px">
+<span style="width: 60px; height: 8px; border-radius: 4px; background: #E07878"></span>
+<span style="height: 12px; width: 75%; border-radius: 6px; background: #3D2B2B"></span>
+<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 6px"><span style="height: 70px; border-radius: 10px; background: #F4D6CF"></span><span style="height: 70px; border-radius: 10px; background: #E3DAF2"></span><span style="height: 70px; border-radius: 10px; background: #F7E2D6"></span></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="md-chip">E-commerce</span><span class="md-chip" style="background: #EFEBF9; color: #6F5BBF">Web app</span></div>
+<h3 style="font-size: 22px; font-weight: 600">Luna y Papel</h3>
+<p style="font-size: 15px; color: #5B6472">Tienda de cuentos infantiles personalizados y regalos, con carrito, pagos y panel de producción del taller.</p>
+</div>
+</article>
+<article class="md-reveal" style="display: flex; flex-direction: column; gap: 20px">
+<div style="aspect-ratio: 4 / 3; border-radius: 24px; background: #E3F4F0; display: flex; align-items: center; justify-content: center; gap: 16px; overflow: hidden">
+<div style="width: 120px; height: 230px; border-radius: 24px; background: #1F2937; padding: 7px; transform: translateY(24px)"><div style="width: 100%; height: 100%; border-radius: 18px; background: #fff; padding: 16px 10px; display: flex; flex-direction: column; gap: 8px"><span style="height: 8px; width: 60%; border-radius: 4px; background: #1F2937"></span><span style="height: 56px; border-radius: 10px; background: #9FD8C8"></span><span style="height: 6px; border-radius: 3px; background: #E6EAEF"></span><span style="height: 6px; width: 70%; border-radius: 3px; background: #E6EAEF"></span><span style="height: 40px; border-radius: 10px; background: #F3C7B0"></span></div></div>
+<div style="width: 120px; height: 230px; border-radius: 24px; background: #1F2937; padding: 7px; transform: translateY(-12px)"><div style="width: 100%; height: 100%; border-radius: 18px; background: #fff; padding: 16px 10px; display: flex; flex-direction: column; gap: 8px"><span style="height: 8px; width: 50%; border-radius: 4px; background: #1F2937"></span><span style="height: 30px; border-radius: 10px; background: #C9B8E0"></span><span style="height: 30px; border-radius: 10px; background: #FBF9F5; border: 1px solid #EFE9DE"></span><span style="height: 30px; border-radius: 10px; background: #FBF9F5; border: 1px solid #EFE9DE"></span></div></div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="md-chip">App móvil</span><span class="md-chip" style="background: #EFEBF9; color: #6F5BBF">iOS y Android</span></div>
+<h3 style="font-size: 22px; font-weight: 600">PequeDía</h3>
+<p style="font-size: 15px; color: #5B6472">App para escuelas infantiles: diario del día, fotos y avisos que conectan a familias, maestras y dirección.</p>
+</div>
+</article>
+<article class="md-reveal" style="display: flex; flex-direction: column; gap: 20px">
+<div style="aspect-ratio: 4 / 3; border-radius: 24px; background: #EFEBF9; display: flex; align-items: center; justify-content: center; padding: 28px; overflow: hidden">
+<div style="width: 100%; background: #fff; border-radius: 16px; box-shadow: 0 16px 34px rgba(31,41,55,.1); padding: 18px; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="height: 10px; width: 90px; border-radius: 5px; background: #1F2937"></span><span style="height: 22px; width: 22px; border-radius: 6px; background: #EFEBF9"></span></div>
+<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px"><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #6F5BBF"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #E3F4F0"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #E3F4F0"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #E3F4F0"></span></div>
+<div style="display: flex; gap: 8px"><span style="flex: 1; height: 30px; border-radius: 999px; border: 1.5px solid #E6EAEF"></span><span style="flex: 1; height: 30px; border-radius: 999px; background: #6F5BBF"></span></div>
+</div>
+</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="md-chip">Reservas online</span><span class="md-chip" style="background: #EFEBF9; color: #6F5BBF">Web app</span></div>
+<h3 style="font-size: 22px; font-weight: 600">Reservas al vuelo</h3>
+<p style="font-size: 15px; color: #5B6472">Sistema de reservas para negocios locales: tus clientes reservan en segundos, sin llamadas ni esperas.</p>
+</div>
+</article>
+</div>
+</div>
+</section>
 
-  <script src="main.js" defer></script>
+<!-- PROCESO -->
+<section id="proceso" style="padding: 112px 0">
+<div class="md-wrap" style="display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px">
+<span class="md-eyebrow">Cómo trabajo</span>
+<h2 class="md-h2">De la idea al lanzamiento, sin complicaciones</h2>
+</div>
+<ol class="md-grid4" style="list-style: none; margin: 0; padding: 0">
+<li style="display: flex; flex-direction: column; gap: 14px; padding-top: 24px; border-top: 2px solid #1F2937">
+<span style="font-size: 14px; font-weight: 600; color: #6F5BBF">01</span>
+<h3 style="font-size: 22px; font-weight: 600">Escucho</h3>
+<p style="font-size: 15px; color: #5B6472">Una llamada para entender tu negocio, tus objetivos y a tus clientes. Sin tecnicismos.</p>
+</li>
+<li style="display: flex; flex-direction: column; gap: 14px; padding-top: 24px; border-top: 2px solid #E6EAEF">
+<span style="font-size: 14px; font-weight: 600; color: #6F5BBF">02</span>
+<h3 style="font-size: 22px; font-weight: 600">Propongo</h3>
+<p style="font-size: 15px; color: #5B6472">Recibes una propuesta clara con alcance, plazos y precio cerrado.</p>
+</li>
+<li style="display: flex; flex-direction: column; gap: 14px; padding-top: 24px; border-top: 2px solid #E6EAEF">
+<span style="font-size: 14px; font-weight: 600; color: #6F5BBF">03</span>
+<h3 style="font-size: 22px; font-weight: 600">Diseño y desarrollo</h3>
+<p style="font-size: 15px; color: #5B6472">Ves avances reales cada semana y opinas en cada fase.</p>
+</li>
+<li style="display: flex; flex-direction: column; gap: 14px; padding-top: 24px; border-top: 2px solid #E6EAEF">
+<span style="font-size: 14px; font-weight: 600; color: #6F5BBF">04</span>
+<h3 style="font-size: 22px; font-weight: 600">Lanzamos</h3>
+<p style="font-size: 15px; color: #5B6472">Publicamos tu proyecto y te acompaño después para que todo funcione.</p>
+</li>
+</ol>
+</div>
+</section>
+
+<!-- PLANES -->
+<section id="planes" style="padding: 112px 0; background: #fff">
+<div class="md-wrap" style="display: flex; flex-direction: column; gap: 56px">
+<div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px; align-self: center; text-align: center; align-items: center">
+<span class="md-eyebrow">Planes</span>
+<h2 class="md-h2">Un punto de partida claro</h2>
+<p style="color: #5B6472; font-size: 17px">Cada proyecto es distinto: estos planes son orientativos y siempre te doy un precio cerrado antes de empezar.</p>
+</div>
+<div class="md-grid3" style="align-items: stretch">
+<div class="md-card" style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 8px"><h3 style="font-size: 20px; font-weight: 600">Landing</h3><p style="font-size: 14px; color: #5B6472">Una página que presenta tu negocio y capta contactos.</p></div>
+<div style="display: flex; align-items: baseline; gap: 8px"><span style="font-size: 14px; color: #5B6472">desde</span><span style="font-size: 40px; font-weight: 600; letter-spacing: -.03em">[PRECIO] €</span></div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Diseño a medida de una página</span>
+<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Formulario de contacto</span>
+<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>SEO básico y dominio configurado</span>
+</div>
+<a class="md-btn md-btn-ghost" href="#contacto" style="margin-top: auto">Lo quiero</a>
+</div>
+<div class="md-card" style="display: flex; flex-direction: column; gap: 24px; background: #1F2937; border-color: #1F2937; color: #fff; position: relative">
+<span style="position: absolute; top: 24px; right: 24px; padding: 6px 12px; border-radius: 999px; background: #6EC6B4; color: #1F2937; font-size: 12px; font-weight: 600">El más elegido</span>
+<div style="display: flex; flex-direction: column; gap: 8px"><h3 style="font-size: 20px; font-weight: 600">Web profesional</h3><p style="font-size: 14px; color: #C4CAD3">La web completa de tu negocio, lista para crecer.</p></div>
+<div style="display: flex; align-items: baseline; gap: 8px"><span style="font-size: 14px; color: #C4CAD3">desde</span><span style="font-size: 40px; font-weight: 600; letter-spacing: -.03em">[PRECIO] €</span></div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Hasta 6 secciones o páginas</span>
+<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Contenidos editables por ti</span>
+<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>SEO, analítica y textos legales</span>
+<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>1 mes de soporte incluido</span>
+</div>
+<a class="md-btn" href="#contacto" style="margin-top: auto">Empezar ahora</a>
+</div>
+<div class="md-card" style="display: flex; flex-direction: column; gap: 24px">
+<div style="display: flex; flex-direction: column; gap: 8px"><h3 style="font-size: 20px; font-weight: 600">A medida</h3><p style="font-size: 14px; color: #5B6472">Tiendas online, apps y automatizaciones.</p></div>
+<div style="display: flex; align-items: baseline; gap: 8px"><span style="font-size: 40px; font-weight: 600; letter-spacing: -.03em">Hablemos</span></div>
+<div style="display: flex; flex-direction: column; gap: 12px">
+<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>E-commerce con pagos</span>
+<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Apps web y móviles</span>
+<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Integraciones y automatización</span>
+</div>
+<a class="md-btn md-btn-ghost" href="#contacto" style="margin-top: auto">Pedir propuesta</a>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FAQ -->
+<section id="faq" style="padding: 112px 0">
+<div class="md-wrap md-split">
+<div style="display: flex; flex-direction: column; gap: 16px">
+<span class="md-eyebrow">Preguntas frecuentes</span>
+<h2 class="md-h2">Lo que suelen preguntarme</h2>
+<p style="color: #5B6472; font-size: 17px">¿Tienes otra duda? <a href="#contacto" style="font-weight: 600">Escríbeme</a> y te respondo en menos de 24 h.</p>
+</div>
+<div class="md-faq">
+<details open="">
+<summary>¿Cuánto cuesta una web?<span class="md-plus" aria-hidden="true">+</span></summary>
+<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 600px">Depende de lo que necesites. Tras una primera charla te envío un presupuesto cerrado, sin sorpresas ni costes ocultos.</p>
+</details>
+<details>
+<summary>¿Cuánto se tarda?<span class="md-plus" aria-hidden="true">+</span></summary>
+<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 600px">Una landing puede estar lista en 1–2 semanas. Una tienda o una app a medida, entre 4 y 8 semanas según el alcance.</p>
+</details>
+<details>
+<summary>¿Podré cambiar los textos yo?<span class="md-plus" aria-hidden="true">+</span></summary>
+<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 600px">Sí. Si lo necesitas, preparo la web para que puedas editar textos, imágenes o productos sin tocar código.</p>
+</details>
+<details>
+<summary>¿Te encargas del dominio y el alojamiento?<span class="md-plus" aria-hidden="true">+</span></summary>
+<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 600px">Sí, te ayudo a elegirlos y lo dejo todo configurado. El dominio y el alojamiento quedan siempre a tu nombre.</p>
+</details>
+<details>
+<summary>¿Y después del lanzamiento?<span class="md-plus" aria-hidden="true">+</span></summary>
+<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 600px">Puedes contratar mantenimiento mensual o pedirme mejoras puntuales cuando las necesites.</p>
+</details>
+</div>
+</div>
+</section>
+
+<!-- CONTACTO -->
+<section id="contacto" style="padding: 0 0 112px">
+<div class="md-wrap">
+<div style="position: relative; overflow: hidden; background: #1F2937; border-radius: 40px; padding: clamp(32px, 6vw, 80px); color: #fff">
+<svg viewBox="0 0 64 64" aria-hidden="true" style="position: absolute; width: 520px; height: 520px; left: -140px; bottom: -200px; opacity: .18"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4"></path></svg>
+<div class="md-split" style="position: relative">
+<div style="display: flex; flex-direction: column; gap: 24px">
+<span class="md-eyebrow" style="color: #6EC6B4">Contacto</span>
+<h2 class="md-h2" style="color: #fff">¿Empezamos tu proyecto?</h2>
+<p style="font-size: 18px; color: #C4CAD3; max-width: 440px">Cuéntame qué tienes en mente. Te respondo en menos de 24 h laborables con ideas y un presupuesto orientativo.</p>
+<div style="display: flex; flex-direction: column; gap: 14px; padding-top: 8px">
+<a href="mailto:hola@mentadev.com" style="display: flex; align-items: center; gap: 14px; color: #fff; text-decoration: none; font-weight: 500"><span style="width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,.08); display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>hola@mentadev.com</a>
+<span style="display: flex; align-items: center; gap: 14px; color: #fff; font-weight: 500"><span style="width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,.08); display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></span>En remoto, para toda España</span>
+</div>
+</div>
+<form id="contact-form" novalidate="" style="background: #fff; color: #1F2937; border-radius: 28px; padding: 32px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 18px">
+<label class="md-field">Nombre<input type="text" name="nombre" required="" autocomplete="name" placeholder="Tu nombre"></label>
+<label class="md-field">Email<input type="email" name="email" required="" autocomplete="email" placeholder="tu@email.com"></label>
+</div>
+<label class="md-field">¿Qué necesitas?<select name="servicio"><option>Una web o landing</option><option>Una tienda online</option><option>Una app o plataforma</option><option>Automatizar procesos</option><option>Otra cosa</option></select></label>
+<label class="md-field">Cuéntame tu idea<textarea name="mensaje" required="" rows="4" placeholder="Qué haces, qué te gustaría conseguir, plazos…"></textarea></label>
+<button type="submit" class="md-btn" style="width: 100%">Enviar mensaje <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></button>
+<p class="md-form-status" role="status" aria-live="polite"></p>
+<p style="font-size: 13px; color: #5B6472; text-align: center">Sin compromiso. Solo usaré tus datos para responderte.</p>
+</form>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer style="border-top: 1px solid #E6EAEF; padding: 40px 0">
+<div class="md-wrap" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px">
+<a href="#inicio" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1F2937">
+<svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path></svg>
+<span style="font-size: 19px; font-weight: 600; letter-spacing: -.03em">Menta<span style="color: #9D88D8">Dev</span></span>
+</a>
+<nav aria-label="Pie" style="display: flex; flex-wrap: wrap; gap: 28px">
+<a class="md-nav-link" href="#servicios">Servicios</a>
+<a class="md-nav-link" href="#proyectos">Proyectos</a>
+<a class="md-nav-link" href="#planes">Planes</a>
+<a class="md-nav-link" href="#contacto">Contacto</a>
+</nav>
+<p style="font-size: 14px; color: #5B6472">© <span id="year">2026</span> MentaDev · Desarrollo web y apps</p>
+</div>
+</footer>
+
+</div>
+<script src="main.js" defer></script>
 </body>
 </html>

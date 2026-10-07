@@ -4,7 +4,8 @@ Landing para ofrecer servicios de diseño web y soluciones digitales.
 
 ## Stack
 - HTML + CSS + JS vanilla, sin build ni dependencias.
-- Despliegue: GitHub Pages (`.github/workflows/pages.yml`).
+- Despliegue: GitHub Pages (`.github/workflows/pages.yml`) en el dominio **mentadev.com** (comprado en Cloudflare; `CNAME` en la raíz).
+- Diseño de referencia: lienzo "MentaDev Landing" en claude.ai (https://claude.ai/artifact/JfuyKhtKqb6CTAqTBsaoxm).
 
 ## Identidad visual
 Manual completo en `assets/brand/manual-de-marca.png`.
@@ -19,7 +20,9 @@ Manual completo en `assets/brand/manual-de-marca.png`.
 - **Estilo:** fresco, cercano, limpio. Textos en español, tono directo y sin tecnicismos. CTA principal en lavanda.
 
 ## Convenciones
-- Los colores se usan siempre desde las variables de `:root` en `styles.css`; el modo oscuro las redefine.
+- Tokens de color en `:root` de `styles.css` (prefijo `md-` en las clases). Tema claro con secciones oscuras en antracita; sin modo oscuro automático.
+- Sin emojis: iconos SVG de trazo inline.
+- Los precios de `#planes` son placeholders `[PRECIO]` hasta que se definan.
 - Diseño mobile-first: todo debe verse bien a 360 px de ancho.
 - Accesibilidad: contraste suficiente, `alt` en imágenes, foco visible y respeto a `prefers-reduced-motion`.
 - El formulario de contacto no tiene backend: abre `mailto:` con `CONTACT_EMAIL` de `main.js`.
