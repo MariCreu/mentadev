@@ -1,5 +1,5 @@
 // Email que recibe los mensajes del formulario.
-const CONTACT_EMAIL = 'hola@mentadev.com';
+const CONTACT_EMAIL = 'info@mentadev.com';
 
 // Número de WhatsApp con prefijo de país y sin espacios ni "+", p. ej. '34600111222'.
 // Mientras esté vacío, los enlaces y el botón flotante de WhatsApp no se muestran.
