@@ -19,7 +19,8 @@ También funciona abriendo `index.html` directamente en el navegador.
 index.html      # Contenido de la landing (secciones: hero, servicios, proceso, proyectos, FAQ, contacto)
 styles.css      # Estilos y tokens de color de la marca
 main.js         # Animaciones al hacer scroll y formulario de contacto
-assets/         # Logo, favicon y manual de marca (assets/brand/)
+assets/         # Logo, favicon, fuentes, capturas de proyectos y manual de marca
+aviso-legal.html, privacidad.html, cookies.html  # Textos legales
 ```
 
 ## Personalizar

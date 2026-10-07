@@ -22,7 +22,7 @@ Manual completo en `assets/brand/manual-de-marca.png`.
   - Antracita `#1F2937` — texto principal (y fondo en modo oscuro)
   - Fondo `#F8FAFB`
 - **Variantes accesibles** (para texto y botones sobre fondo claro): menta oscuro `#2E8574`, lavanda oscuro `#6F5BBF`. La menta y la lavanda puras no tienen contraste suficiente para texto blanco encima.
-- **Tipografía:** Poppins (Light, Regular, Medium, Semibold, Bold).
+- **Tipografía:** Poppins (Light, Regular, Medium, Semibold, Bold), alojada en `assets/fonts/` (sin Google Fonts: la web no carga servicios externos).
 - **Estilo:** fresco, cercano, limpio. Textos en español, tono directo y sin tecnicismos. CTA principal en lavanda.
 
 ## Convenciones
@@ -35,3 +35,4 @@ Manual completo en `assets/brand/manual-de-marca.png`.
 - Diseño mobile-first: todo debe verse bien a 360 px de ancho.
 - Accesibilidad: contraste suficiente, `alt` en imágenes, foco visible y respeto a `prefers-reduced-motion`.
 - El formulario de contacto no tiene backend: abre `mailto:` con `CONTACT_EMAIL` de `main.js`.
+- Páginas legales: `aviso-legal.html`, `privacidad.html`, `cookies.html` (titular, NIF y domicilio en el bloque `<dl>` de cada una). Si se añade un servicio externo (analítica, formulario con backend, mapas…), actualizar privacidad y cookies; si pone cookies no técnicas, hace falta banner de consentimiento.

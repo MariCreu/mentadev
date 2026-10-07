@@ -1,3 +1,8 @@
+@font-face{font-family:"Poppins";font-style:normal;font-weight:300;font-display:swap;src:url("assets/fonts/poppins-latin-300-normal.woff2") format("woff2")}
+@font-face{font-family:"Poppins";font-style:normal;font-weight:400;font-display:swap;src:url("assets/fonts/poppins-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Poppins";font-style:normal;font-weight:500;font-display:swap;src:url("assets/fonts/poppins-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Poppins";font-style:normal;font-weight:600;font-display:swap;src:url("assets/fonts/poppins-latin-600-normal.woff2") format("woff2")}
+@font-face{font-family:"Poppins";font-style:normal;font-weight:700;font-display:swap;src:url("assets/fonts/poppins-latin-700-normal.woff2") format("woff2")}
 :root{--mint:#6EC6B4;--mint-d:#2E8574;--mint-s:#E3F4F0;--lav:#BDAEE1;--lav-d:#6F5BBF;--lav-dd:#5A47A8;--lav-s:#EFEBF9;--ink:#1F2937;--ink2:#5B6472;--ink3:#8A93A1;--line:#E6EAEF;--bg:#F8FAFB;--card:#FFFFFF}
 *{box-sizing:border-box}
 body{margin:0;font-family:"Poppins",system-ui,sans-serif;color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;line-height:1.6}
@@ -113,6 +118,8 @@ html{scroll-behavior:smooth;scroll-padding-top:84px}
 .md-faq details{padding:18px 0}
 .md-form{padding:22px}
 .md-auto-panel,.md-contact-panel{border-radius:28px}
+.md-contact-panel{padding:32px 16px}
+.md-form .md-btn{padding:0 16px;white-space:nowrap}
 .md-hero .md-btn{flex:1 1 auto}
 .md-flows-head{display:none}
 .md-auto-panel{padding:28px 20px}
@@ -125,3 +132,23 @@ html{scroll-behavior:smooth;scroll-padding-top:84px}
 .md-about-photo{width:88px;height:88px;border-radius:22px}
 .md-wa-float{right:16px;bottom:16px;width:52px;height:52px}
 }
+
+/* Pie: enlaces legales */
+.md-foot-meta{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.md-foot-legal{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px}
+.md-foot-legal a{color:var(--ink2);text-decoration:none}
+.md-foot-legal a:hover{color:var(--ink);text-decoration:underline}
+.md-form-legal{font-size:12px;line-height:1.5;color:var(--ink2);text-align:center}
+@media (max-width:960px){.md-foot-meta{align-items:flex-start}}
+
+/* Páginas legales */
+.md-legal{padding:56px 0 88px}
+.md-legal-body{max-width:760px;display:flex;flex-direction:column;gap:18px;font-size:16px;color:#3F4A58}
+.md-legal-body h1{font-size:clamp(32px,4vw,44px);line-height:1.15;font-weight:600;letter-spacing:-.03em;color:var(--ink)}
+.md-legal-body h2{font-size:20px;font-weight:600;color:var(--ink);margin-top:18px}
+.md-legal-body ul{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}
+.md-legal-body dl{margin:0;display:grid;grid-template-columns:max-content minmax(0,1fr);gap:8px 20px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px 24px}
+.md-legal-body dt{font-weight:600;color:var(--ink)}
+.md-legal-body dd{margin:0}
+.md-legal-updated{font-size:14px;color:var(--ink2)}
+@media (max-width:560px){.md-legal-body dl{grid-template-columns:minmax(0,1fr);gap:2px 0}.md-legal-body dd{margin-bottom:10px}}
