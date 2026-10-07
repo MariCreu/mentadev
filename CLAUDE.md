@@ -7,6 +7,13 @@ Landing para ofrecer servicios de diseño web y soluciones digitales.
 - Despliegue: **Cloudflare Workers (static assets)**, Worker `mentadev` conectado a este repo; cada push a `main` se publica en **mentadev.com**. Config en `wrangler.jsonc` (sirve la raíz tal cual, sin build). Lo que no debe publicarse va en `.assetsignore`.
 - Diseño de referencia inicial: lienzo "MentaDev Landing" en claude.ai (https://claude.ai/artifact/JfuyKhtKqb6CTAqTBsaoxm). La versión vigente es la del repo.
 
+## Jerarquía de mensajes
+Cada mensaje tiene una función y no deben competir visualmente:
+1. **Marca:** MentaDev
+2. **Descriptor de marca** (qué es, uso secundario y estable): "Web, apps y soluciones digitales." Va bajo el logo en el pie, en `<title>`, meta description, Open Graph, imagen para compartir y JSON-LD (`description`). En la cabecera no se muestra para mantener limpio el logo.
+3. **Eslogan comercial** (mensaje principal): "Tu idea, hecha realidad." Es el H1 del hero, `og:title` y `slogan` del JSON-LD. No sustituirlo.
+4. **Mensaje de automatización:** "Cuéntame cómo trabajas. Yo busco qué podemos automatizar." Solo en la sección de automatización.
+
 ## Posicionamiento
 Estudio de desarrollo para pequeños negocios: **webs profesionales, apps/herramientas a medida y automatización de procesos**, con trato directo (Creu desarrolla cada proyecto). No competir solo por precio.
 - **Producto de entrada:** web profesional desde **349 € + IVA** (alcance cerrado: hasta 6 secciones, contenidos editables, SEO y analítica, textos legales básicos, 1 mes de soporte). Ese precio solo aplica a la web profesional; tiendas, apps y automatizaciones van con presupuesto personalizado.
