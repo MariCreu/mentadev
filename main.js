@@ -1,63 +1,5 @@
-// Email que recibe los mensajes del formulario.
-const CONTACT_EMAIL = 'info@mentadev.com';
-
-// Número de WhatsApp con prefijo de país y sin espacios ni "+", p. ej. '34600111222'.
-// Mientras esté vacío, los enlaces y el botón flotante de WhatsApp no se muestran.
-const WHATSAPP_NUMBER = '34604525265';
-
-const WA_MESSAGES = {
-  general: 'Hola, he visto MentaDev y me gustaría información sobre...',
-  automatizacion: 'Hola, me gustaría saber qué podría automatizar en mi negocio.',
-};
-
-const year = document.getElementById('year');
-if (year) year.textContent = new Date().getFullYear();
-
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('is-visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll('.md-reveal').forEach((el) => observer.observe(el));
-
-// Menú del móvil: se cierra al elegir una sección, con Esc o al tocar fuera.
-const burger = document.querySelector('.md-burger');
-const mobileNav = document.getElementById('menu-movil');
-const setMenu = (open) => {
-  burger.setAttribute('aria-expanded', String(open));
-  burger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
-  mobileNav.hidden = !open;
-};
-burger.addEventListener('click', () => setMenu(mobileNav.hidden));
-mobileNav.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !mobileNav.hidden) { setMenu(false); burger.focus(); }
-});
-document.addEventListener('click', (e) => {
-  if (!mobileNav.hidden && !e.target.closest('#top')) setMenu(false);
-});
-
-// Barra fija del móvil: se esconde al llegar a Contacto, donde ya están el formulario y WhatsApp.
-const mobileBar = document.querySelector('.md-mbar');
-new IntersectionObserver(([entry]) => {
-  mobileBar.classList.toggle('is-hidden', entry.isIntersecting);
-  mobileBar.inert = entry.isIntersecting;
-}, { threshold: 0.15 }).observe(document.getElementById('contacto'));
-
-// Capturas reales: si el archivo indicado en data-shot existe, sustituye a la ilustración.
-document.querySelectorAll('[data-shot]').forEach((el) => {
-  const img = new Image();
-  img.onload = () => {
-    img.alt = el.dataset.alt || '';
-    img.className = 'md-shot-img';
-    el.appendChild(img);
-    el.classList.add('has-shot');
-  };
-  img.src = el.dataset.shot;
-});
+// Solo para la home: formulario por pasos, pestañas por sector y calculadora.
+// Usa CONTACT_EMAIL, WHATSAPP_NUMBER y waUrl de site.js, que se carga antes.
 
 // Formulario por pasos: 1) qué necesitas, 2) cuéntanos más (se adapta al servicio), 3) tus datos.
 const form = document.getElementById('contact-form');
@@ -149,6 +91,14 @@ form.querySelectorAll('.md-choice').forEach((choice) => {
 
 goTo(1, false);
 
+// Desde otras páginas se llega con /?servicio=…#contacto: ese servicio queda elegido y se abre el paso 2.
+const fromUrl = new URLSearchParams(location.search).get('servicio');
+const fromUrlRadio = fromUrl && [...form.querySelectorAll('[name="servicio"]')].find((r) => r.value === fromUrl);
+if (fromUrlRadio) {
+  fromUrlRadio.checked = true;
+  goTo(2, false);
+}
+
 // Los CTA con data-servicio llevan al formulario con esa opción ya elegida, directamente en el paso 2.
 document.querySelectorAll('[data-servicio]').forEach((link) => {
   link.addEventListener('click', () => {
@@ -237,38 +187,6 @@ if (calc) {
   });
 
   render();
-}
-
-// WhatsApp: el mensaje inicial depende de si el usuario viene de la sección de automatización.
-let waContext = 'general';
-const autoSection = document.getElementById('automatizacion');
-new IntersectionObserver(([entry]) => {
-  if (entry.isIntersecting) waContext = 'automatizacion';
-}, { threshold: 0.35 }).observe(autoSection);
-['servicios', 'proyectos', 'planes'].forEach((id) => {
-  new IntersectionObserver(([entry]) => {
-    if (entry.isIntersecting) waContext = 'general';
-  }, { threshold: 0.5 }).observe(document.getElementById(id));
-});
-
-const waUrl = (context) =>
-  `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WA_MESSAGES[context] || WA_MESSAGES.general)}`;
-
-if (WHATSAPP_NUMBER) {
-  document.querySelectorAll('[data-wa]').forEach((link) => {
-    link.hidden = false;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    const fixed = link.dataset.wa !== 'float';
-    link.href = waUrl(fixed ? link.dataset.wa : 'general');
-    if (!fixed) {
-      // El flotante decide el mensaje en el momento del clic.
-      link.addEventListener('click', () => {
-        const context = selectedService() === 'Automatización de procesos' ? 'automatizacion' : waContext;
-        link.href = waUrl(context);
-      });
-    }
-  });
 }
 
 // El formulario se envía al Worker (/api/contacto), que manda el mensaje por email.

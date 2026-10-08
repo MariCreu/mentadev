@@ -3,7 +3,7 @@
 Landing para ofrecer servicios de diseño web y soluciones digitales.
 
 ## Stack
-- HTML + CSS + JS vanilla, sin build ni dependencias.
+- HTML + CSS + JS vanilla, sin build ni dependencias. `site.js` (común a todas las páginas con la cabecera de la web: menú y barra del móvil, WhatsApp, animaciones, capturas) y `main.js` (solo la home: formulario, pestañas por sector, calculadora); la home carga los dos, en ese orden.
 - Despliegue: **Cloudflare Workers (static assets)**, Worker `mentadev` conectado a este repo; cada push a `main` se publica en **mentadev.com**. Config en `wrangler.jsonc` (sirve la raíz tal cual, sin build; el Worker `worker/index.js` solo atiende `/api/*`). Lo que no debe publicarse va en `.assetsignore`.
 - Diseño de referencia inicial: lienzo "MentaDev Landing" en claude.ai (https://claude.ai/artifact/JfuyKhtKqb6CTAqTBsaoxm). La versión vigente es la del repo.
 
@@ -48,11 +48,11 @@ Manual completo en `assets/brand/manual-de-marca.png`.
 - Formulario de contacto por pasos (`.md-steps`): 1) qué necesitas (tarjetas `name="servicio"`), 2) cuéntanos más (se adapta al servicio: web y tienda preguntan "¿Tienes ya web?"; la revisión pide la web y el mensaje es opcional), 3) nombre y email. Textos de cada servicio en `SERVICE_COPY` de `main.js`.
 - Los CTA con `data-servicio="…"` eligen ese servicio y abren el formulario en el paso 2. El valor debe coincidir con una tarjeta del paso 1 y con `SERVICIOS` de `worker/index.js`.
 - Revisión gratis de la web: compromiso de enviar **3 mejoras concretas por email en 48 h laborables**.
-- WhatsApp: `WHATSAPP_NUMBER` en `main.js`. Vacío = enlaces y botón flotante ocultos. Por debajo de 960 px el botón flotante se sustituye por la barra fija `.md-mbar` ("Hablemos" + WhatsApp), que se oculta en Contacto; la cabecera muestra el menú `.md-burger` en lugar de "Hablemos". Mensaje inicial según contexto (`WA_MESSAGES`).
+- WhatsApp: `WHATSAPP_NUMBER` en `site.js`. Vacío = enlaces y botón flotante ocultos. Por debajo de 960 px el botón flotante se sustituye por la barra fija `.md-mbar` ("Hablemos" + WhatsApp), que se oculta en Contacto; la cabecera muestra el menú `.md-burger` en lugar de "Hablemos". Mensaje inicial según contexto (`WA_MESSAGES`).
 - Capturas reales: los elementos con `data-shot="assets/…"` sustituyen su ilustración por la imagen si el archivo existe (proyectos en `assets/proyectos/`).
 - Diseño mobile-first: todo debe verse bien a 360 px de ancho.
 - Accesibilidad: contraste suficiente, `alt` en imágenes, foco visible y respeto a `prefers-reduced-motion`.
-- El formulario de contacto se envía a `POST /api/contacto`: el Worker (`worker/index.js`) manda el mensaje por email (binding `EMAIL`) a `CONTACT_TO`, un secreto de Cloudflare con una dirección verificada en Email Routing (nunca en el repo). No se guarda nada. Antispam: campo trampa `website` y tiempo mínimo. Si el envío falla, el formulario ofrece WhatsApp y `mailto:` con `CONTACT_EMAIL` de `main.js`. En local: `npx wrangler dev` con `CONTACT_TO` en `.dev.vars` (el envío es simulado; si se recarga en bucle, añade `--persist-to` con una carpeta fuera del repo).
+- El formulario de contacto se envía a `POST /api/contacto`: el Worker (`worker/index.js`) manda el mensaje por email (binding `EMAIL`) a `CONTACT_TO`, un secreto de Cloudflare con una dirección verificada en Email Routing (nunca en el repo). No se guarda nada. Antispam: campo trampa `website` y tiempo mínimo. Si el envío falla, el formulario ofrece WhatsApp y `mailto:` con `CONTACT_EMAIL` de `site.js`. En local: `npx wrangler dev` con `CONTACT_TO` en `.dev.vars` (el envío es simulado; si se recarga en bucle, añade `--persist-to` con una carpeta fuera del repo).
 - Páginas legales: `aviso-legal.html`, `privacidad.html`, `cookies.html` (titular, NIF y domicilio en el bloque `<dl>` de cada una). Si se añade un servicio externo (analítica, formulario con backend, mapas…), actualizar privacidad y cookies; si pone cookies no técnicas, hace falta banner de consentimiento.
 - SEO: `og-image.png` (1200×630) para compartir, datos estructurados JSON-LD en `index.html` (negocio, web y FAQ), `robots.txt`, `sitemap.xml` y `404.html` (rutas absolutas, porque se sirve en cualquier URL). Si cambian las preguntas frecuentes o los precios, actualizar también el JSON-LD (y, si son precios, la calculadora); si se añade una página, añadirla al sitemap.
 - `_headers`: caché larga para fuentes e imágenes de proyectos. Las URL sin `.html` (`/privacidad`) las resuelve Cloudflare; las 404 sirven `404.html`.

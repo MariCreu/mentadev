@@ -18,7 +18,8 @@ También funciona abriendo `index.html` directamente en el navegador.
 ```
 index.html      # Contenido de la landing (secciones: hero, servicios, proceso, proyectos, FAQ, contacto)
 styles.css      # Estilos y tokens de color de la marca
-main.js         # Animaciones al hacer scroll y formulario de contacto
+site.js         # Común: menú y barra del móvil, WhatsApp, animaciones
+main.js         # Solo la home: formulario por pasos, pestañas y calculadora
 worker/index.js # Worker: envío del formulario por email (/api/contacto)
 assets/         # Logo, favicon, fuentes, capturas de proyectos y manual de marca
 aviso-legal.html, privacidad.html, cookies.html  # Textos legales
@@ -28,9 +29,9 @@ wrangler.jsonc, .assetsignore      # Despliegue en Cloudflare
 ```
 
 ## Personalizar
-- **Email de contacto:** `CONTACT_EMAIL` en `main.js` (enlaces y alternativa si falla el envío).
+- **Email de contacto:** `CONTACT_EMAIL` en `site.js` (enlaces y alternativa si falla el envío).
 - **Destino del formulario:** secreto `CONTACT_TO` del Worker en Cloudflare, con una dirección verificada en Email Routing. En local, ponlo en `.dev.vars` (`CONTACT_TO=tu@email.com`); el formulario solo envía de verdad desde `npx wrangler dev`, no con `python -m http.server`.
-- **WhatsApp:** pon tu número en `WHATSAPP_NUMBER` (`main.js`), con prefijo y sin `+`, p. ej. `34600111222`. Mientras esté vacío no se muestra ningún botón de WhatsApp.
+- **WhatsApp:** pon tu número en `WHATSAPP_NUMBER` (`site.js`), con prefijo y sin `+`, p. ej. `34600111222`. Mientras esté vacío no se muestra ningún botón de WhatsApp.
 - **Capturas reales de proyectos:** guarda los archivos con estos nombres y aparecen solos en lugar de las ilustraciones:
   - `assets/proyectos/luna-y-papel.webp` — captura de escritorio (horizontal)
   - `assets/proyectos/infanapp-1.webp` y `infanapp-2.webp` — capturas de móvil (vertical, ~9:19)
