@@ -297,3 +297,46 @@ footer{padding-bottom:96px !important}
 .md-review{flex-direction:column;align-items:flex-start;gap:16px;padding:24px 22px;border-radius:22px}
 .md-review .md-btn{width:100%}
 }
+
+/* Pie: guías (páginas de SEO), en una fila a todo el ancho */
+.md-foot-guides{flex-basis:100%;display:flex;flex-wrap:wrap;gap:4px 16px;padding-top:20px;border-top:1px solid var(--line);font-size:13px;color:var(--ink2)}
+.md-foot-guides span{font-weight:600;color:var(--ink)}
+.md-foot-guides a{color:var(--ink2);text-decoration:none}
+.md-foot-guides a:hover{color:var(--ink);text-decoration:underline}
+
+/* Páginas interiores (SEO): cabecera, migas, texto largo y llamada final */
+.md-page-hero{padding:56px 0 40px}
+.md-page-hero .md-wrap{display:flex;flex-direction:column;gap:20px}
+.md-page-hero h1{max-width:900px}
+.md-page-hero h1{font-size:clamp(36px,5.2vw,64px);line-height:1.05;font-weight:600;letter-spacing:-.04em}
+.md-page-lead{font-size:19px;line-height:1.65;color:var(--ink2);max-width:720px}
+.md-page-hero-actions{display:flex;flex-wrap:wrap;gap:12px;padding-top:4px}
+.md-crumbs{display:flex;flex-wrap:wrap;gap:8px;font-size:14px;color:var(--ink2)}
+.md-crumbs a{color:var(--ink2)}
+.md-crumbs [aria-current]{color:var(--ink);font-weight:500}
+.md-feat-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+.md-prose{max-width:780px;display:flex;flex-direction:column;gap:18px;font-size:17px;line-height:1.7;color:#3F4A58}
+.md-prose h2{font-size:clamp(24px,3vw,32px);line-height:1.2;font-weight:600;letter-spacing:-.02em;color:var(--ink);margin-top:28px}
+.md-prose strong{color:var(--ink);font-weight:600}
+.md-prose ul{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:10px}
+.md-prose-note{font-size:14px;color:var(--ink2);padding:12px 16px;border-radius:14px;background:var(--lav-s)}
+.md-checklist{list-style:none;padding-left:0 !important}
+.md-checklist li{position:relative;padding-left:32px}
+.md-checklist li::before{content:"?";position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:var(--mint-s);color:var(--mint-d);font-size:13px;font-weight:700}
+.md-prose-offer{display:flex;flex-direction:column;gap:16px}
+.md-price-table{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--card);font-size:15px}
+.md-price-table [role=row]{display:grid;grid-template-columns:1.1fr .8fr 1.6fr;gap:16px;padding:16px 20px;border-top:1px solid var(--line)}
+.md-price-table [role=row]:first-child{border-top:0;background:var(--bg);font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.md-price-table [data-label="Precio"]{font-weight:600;color:var(--lav-d);white-space:nowrap}
+.md-cta-band{display:flex;flex-direction:column;align-items:flex-start;gap:18px;padding:clamp(32px,6vw,64px);border-radius:40px;background:var(--ink);color:#C4CAD3}
+.md-cta-band p{font-size:18px;max-width:620px}
+.md-cta-band-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px}
+@media (max-width:760px){
+.md-page-hero{padding:36px 0 24px}
+.md-page-lead{font-size:17px}
+.md-page-hero-actions .md-btn{flex:1 1 auto}
+.md-price-table [role=row]{grid-template-columns:minmax(0,1fr);gap:4px}
+.md-price-table [role=row]:first-child{display:none}
+.md-cta-band{border-radius:28px;padding:28px 20px}
+.md-cta-band .md-btn{width:100%}
+}

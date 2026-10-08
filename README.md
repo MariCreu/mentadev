@@ -22,6 +22,7 @@ site.js         # Común: menú y barra del móvil, WhatsApp, animaciones
 main.js         # Solo la home: formulario por pasos, pestañas y calculadora
 worker/index.js # Worker: envío del formulario por email (/api/contacto)
 assets/         # Logo, favicon, fuentes, capturas de proyectos y manual de marca
+diseno-web-alicante.html, automatizacion-de-procesos.html, cuanto-cuesta-una-web.html  # Guías (SEO)
 aviso-legal.html, privacidad.html, cookies.html  # Textos legales
 404.html        # Página de error
 robots.txt, sitemap.xml, _headers  # SEO y cabeceras
