@@ -1,6 +1,8 @@
 // Común a todas las páginas con cabecera de la web: menú y barra del móvil, WhatsApp,
 // animaciones y capturas. Lo propio de la home (formulario, pestañas, calculadora) está en main.js.
 
+document.documentElement.classList.add('js');
+
 // Email que recibe los mensajes del formulario.
 const CONTACT_EMAIL = 'info@mentadev.com';
 

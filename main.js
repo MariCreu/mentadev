@@ -1,5 +1,8 @@
-// Solo para la home: formulario por pasos, pestañas por sector y calculadora.
+// Solo para la home (módulo ES): formulario por pasos, calculadora y su relación con el sector elegido.
 // Usa CONTACT_EMAIL, WHATSAPP_NUMBER y waUrl de site.js, que se carga antes.
+import { sectorState } from './js/sector-state.js';
+import { sectorPorId } from './js/sectores.js';
+import { calcularAhorro, textoAmortizacion } from './js/calculadora.js';
 
 // Formulario por pasos: 1) qué necesitas, 2) cuéntanos más (se adapta al servicio), 3) tus datos.
 const form = document.getElementById('contact-form');
@@ -27,6 +30,20 @@ const checked = (name) => form.querySelector(`[name="${name}"]:checked`);
 const selectedService = () => checked('servicio')?.value || '';
 const block = (key) => form.querySelector(`[data-if="${key}"]`);
 
+// Texto que la web pone sola en el mensaje (sector, calculadora). Solo se sustituye mientras
+// el mensaje esté vacío o siga siendo ese mismo texto automático.
+let autoMensaje = '';
+const rellenarMensaje = (texto) => {
+  const campo = form.elements.mensaje;
+  if (!texto || (campo.value.trim() !== '' && campo.value !== autoMensaje)) return;
+  campo.value = texto;
+  autoMensaje = texto;
+};
+const prefijoSector = () => {
+  const s = sectorPorId(sectorState.get());
+  return s && sectorState.elegido() ? `Tengo ${s.articulo}. ` : '';
+};
+
 const showStatus = (text, type) => {
   status.textContent = text;
   status.className = `md-form-status${type ? ` ${type}` : ''}`;
@@ -53,7 +70,7 @@ const goTo = (n, focus = true) => {
   backBtn.hidden = n === 1;
   nextBtn.hidden = n === steps.length;
   submitBtn.hidden = n !== steps.length;
-  if (n === 2) updateStep2();
+  if (n === 2) { updateStep2(); rellenarMensaje(prefijoSector()); }
   showStatus('');
   if (focus) steps[n - 1].querySelector('.md-step-title').focus({ preventScroll: true });
 };
@@ -91,6 +108,18 @@ form.querySelectorAll('.md-choice').forEach((choice) => {
 
 goTo(1, false);
 
+// Sector elegido en la página: viaja con el formulario y se muestra en el paso 2.
+const campoSector = form.querySelector('input[name="sector"]');
+const avisoSector = form.querySelector('.form-sector');
+const aplicarSector = (id) => {
+  const s = sectorPorId(id);
+  campoSector.value = s && sectorState.elegido() ? id : '';
+  avisoSector.hidden = !campoSector.value;
+  if (campoSector.value) avisoSector.querySelector('[data-sector-label]').textContent = s.etiqueta;
+};
+aplicarSector(sectorState.get());
+document.addEventListener('md:sector', ({ detail }) => aplicarSector(detail.id));
+
 // Desde otras páginas se llega con /?servicio=…#contacto: ese servicio queda elegido y se abre el paso 2.
 const fromUrl = new URLSearchParams(location.search).get('servicio');
 const fromUrlRadio = fromUrl && [...form.querySelectorAll('[name="servicio"]')].find((r) => r.value === fromUrl);
@@ -110,54 +139,24 @@ document.querySelectorAll('[data-servicio]').forEach((link) => {
   });
 });
 
-// Ejemplos de automatización por sector: pestañas accesibles (flechas, Inicio y Fin para moverse).
-const sectorTabs = [...document.querySelectorAll('.md-sector-tabs [role="tab"]')];
-const selectSector = (tab, focus) => {
-  sectorTabs.forEach((t) => {
-    const on = t === tab;
-    t.setAttribute('aria-selected', String(on));
-    t.tabIndex = on ? 0 : -1;
-    document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
-  });
-  if (focus) tab.focus();
-  tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-};
-sectorTabs.forEach((tab, i) => {
-  tab.addEventListener('click', () => selectSector(tab, false));
-  tab.addEventListener('keydown', (e) => {
-    const n = sectorTabs.length;
-    const next = { ArrowRight: i + 1, ArrowLeft: i - 1 + n, Home: 0, End: n - 1 }[e.key];
-    if (next === undefined) return;
-    e.preventDefault();
-    selectSector(sectorTabs[next % n], true);
-  });
-});
-
 // Calculadora de automatización: horas y € que se recuperan si se automatiza la mitad del tiempo.
 const calc = document.getElementById('calculadora');
 if (calc) {
-  const AUTOMATABLE = 0.5;
-  const PRICE_FROM = 490;
-  const WEEKS_PER_MONTH = 52 / 12;
   const num = new Intl.NumberFormat('es-ES', { maximumFractionDigits: 0, useGrouping: 'always' });
   const out = (name) => calc.querySelector(`[data-out="${name}"]`);
   const fields = { horas: calc.querySelectorAll('[data-calc="horas"]'), tarifa: calc.querySelectorAll('[data-calc="tarifa"]') };
-  const values = { horas: 5, tarifa: 20 };
+  const values = { horas: Number(fields.horas[0].value), tarifa: Number(fields.tarifa[0].value) };
+  let calcTocada = false;
   let announceTimer;
-  let prefill = '';
 
   const clamp = (input) => Math.min(Number(input.max), Math.max(Number(input.min), Math.round(Number(input.value) || 0)));
 
   const render = () => {
-    const hoursMonth = values.horas * AUTOMATABLE * WEEKS_PER_MONTH;
-    const eurosMonth = hoursMonth * values.tarifa;
-    const months = PRICE_FROM / eurosMonth;
-    out('horas').textContent = `${num.format(hoursMonth)} h`;
-    out('euros').textContent = `${num.format(eurosMonth * 12)} €`;
-    out('amortiza').textContent =
-      months < 1 ? `Una automatización desde ${PRICE_FROM} € + IVA se amortizaría en menos de un mes.`
-      : months <= 24 ? `Una automatización desde ${PRICE_FROM} € + IVA se amortizaría en unos ${num.format(Math.ceil(months))} meses.`
-      : 'Con tan poco tiempo quizá no compense automatizar. En el diagnóstico te lo diremos con sinceridad.';
+    const r = calcularAhorro(values.horas, values.tarifa);
+    out('horas').textContent = `${num.format(r.horasMes)} h`;
+    out('euros').textContent = `${num.format(r.eurosAno)} €`;
+    out('amortiza').textContent = textoAmortizacion(r);
+    calc.dispatchEvent(new CustomEvent('md:calc', { detail: r }));
     // El lector de pantalla oye el resultado cuando se dejan de mover los valores, no en cada paso.
     clearTimeout(announceTimer);
     announceTimer = setTimeout(() => {
@@ -169,6 +168,7 @@ if (calc) {
     inputs.forEach((input) => {
       input.addEventListener('input', () => {
         if (input.value === '') return; // dejar borrar la casilla para escribir otro número
+        calcTocada = true;
         values[name] = clamp(input);
         inputs.forEach((other) => { if (other !== input) other.value = values[name]; });
         render();
@@ -177,13 +177,20 @@ if (calc) {
     });
   });
 
+  // Con otro sector, la calculadora propone sus valores, mientras el usuario no los haya tocado.
+  document.addEventListener('md:sector', ({ detail }) => {
+    if (calcTocada) return;
+    const { horas, tarifa } = sectorPorId(detail.id).calculadora;
+    values.horas = horas;
+    values.tarifa = tarifa;
+    fields.horas.forEach((i) => { i.value = horas; });
+    fields.tarifa.forEach((i) => { i.value = tarifa; });
+    render();
+  });
+
   // El CTA lleva al formulario con el mensaje empezado, sin pisar lo que ya haya escrito el usuario.
-  calc.querySelector('[data-calc-cta]').addEventListener('click', () => {
-    const mensaje = form.elements.mensaje;
-    if (mensaje.value.trim() === '' || mensaje.value === prefill) {
-      prefill = `Calculo que dedico unas ${values.horas} h a la semana a tareas repetitivas. Me gustaría saber qué se puede automatizar en mi negocio: `;
-      mensaje.value = prefill;
-    }
+  document.querySelector('[data-calc-cta]')?.addEventListener('click', () => {
+    rellenarMensaje(`${prefijoSector()}Calculo que dedico unas ${values.horas} h a la semana a tareas repetitivas. Me gustaría saber qué se puede automatizar en mi negocio: `);
   });
 
   render();
@@ -195,7 +202,7 @@ const loadedAt = performance.now();
 
 const fallbackLinks = (data) => {
   const subject = `Nuevo proyecto: ${data.servicio} — ${data.nombre}`;
-  const extra = [data.tieneWeb && `¿Tiene web?: ${data.tieneWeb}`, data.web && `Web: ${data.web}`].filter(Boolean);
+  const extra = [data.sector && `Sector: ${sectorPorId(data.sector)?.etiqueta ?? ''}`, data.tieneWeb && `¿Tiene web?: ${data.tieneWeb}`, data.web && `Web: ${data.web}`].filter(Boolean);
   const body = [`Nombre: ${data.nombre}`, `Email: ${data.email}`, `Servicio: ${data.servicio}`, ...extra].join('\n') +
     (data.mensaje ? `\n\n${data.mensaje}` : '');
   const mailto = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
@@ -232,6 +239,8 @@ form.addEventListener('submit', async (e) => {
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     form.reset();
+    autoMensaje = '';
+    aplicarSector(sectorState.get());
     goTo(1, false);
     showStatus(data.servicio === REVISION
       ? '¡Recibido! En 48 h laborables te enviamos por email 3 mejoras concretas para tu web.'
