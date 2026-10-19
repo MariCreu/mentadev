@@ -4,6 +4,8 @@
 // El mensaje se envía por email a CONTACT_TO (secreto de Cloudflare, una dirección
 // verificada en Email Routing) desde una dirección @mentadev.com. No se guarda nada.
 
+import { sectorPorId } from '../js/sectores.js';
+
 const FROM = { email: 'formulario@mentadev.com', name: 'Web MentaDev' };
 
 // Deben coincidir con las opciones del paso 1 del formulario (name="servicio") en index.html.
@@ -70,6 +72,7 @@ async function handleContacto(request, env) {
   const servicio = String(data.servicio ?? '');
   const mensaje = String(data.mensaje ?? '').trim();
   const tieneWeb = ['Sí', 'No'].includes(data.tieneWeb) ? data.tieneWeb : '';
+  const sector = typeof data.sector === 'string' ? sectorPorId(data.sector) : undefined;
   const web = oneLine(String(data.web ?? ''));
   const esRevision = servicio === REVISION;
 
@@ -89,7 +92,7 @@ async function handleContacto(request, env) {
     return json({ ok: false, error: 'server' }, 500);
   }
 
-  const extra = [tieneWeb && `¿Tiene web?: ${tieneWeb}`, web && `Web: ${web}`].filter(Boolean);
+  const extra = [sector && `Sector: ${sector.etiqueta}`, tieneWeb && `¿Tiene web?: ${tieneWeb}`, web && `Web: ${web}`].filter(Boolean);
   const text = [`Nombre: ${nombre}`, `Email: ${email}`, `Servicio: ${servicio}`, ...extra].join('\n') +
     (mensaje ? `\n\n${mensaje}` : '');
   const html =
