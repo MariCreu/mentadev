@@ -82,7 +82,8 @@ html:not(.js) .md-head-progress{display:none}
 .hero-title{font-family:var(--f-tit);font-weight:800;font-size:clamp(54px,7.4vw,124px);line-height:.9;letter-spacing:-.045em;color:var(--tinta)}
 .hero-line{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}
 .hero-line>span{display:inline-block}
-.hero-mark{position:relative;display:inline-block;padding:0 .06em;margin:0 -.06em;background:linear-gradient(var(--menta),var(--menta)) 0 88%/100% .32em no-repeat}
+.hero-mark{--mark:1;position:relative;display:inline-block;padding:0 .06em;margin:0 -.06em;isolation:isolate}
+.hero-mark::before{content:"";position:absolute;left:0;right:0;bottom:.04em;height:.3em;background:var(--menta);z-index:-1;transform:scaleX(var(--mark));transform-origin:0 50%}
 .hero-handles{position:absolute;inset:-.06em -.04em .02em;border:1.5px solid var(--lav-d);pointer-events:none;opacity:0}
 .hero-handles i{position:absolute;width:9px;height:9px;background:var(--hoja);border:1.5px solid var(--lav-d)}
 .hero-handles i:nth-child(1){left:-5px;top:-5px}.hero-handles i:nth-child(2){right:-5px;top:-5px}
@@ -94,6 +95,7 @@ html:not(.js) .md-head-progress{display:none}
 .hero-picker button,.noche-picker button{min-height:44px;padding:0 16px;border-radius:999px;border:1.5px solid var(--linea-2);background:var(--hoja);font:500 15px var(--f-txt);cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .3s var(--muelle)}
 .hero-picker button:hover{border-color:var(--tinta)}
 .hero-picker button[aria-checked="true"]{background:var(--tinta);border-color:var(--tinta);color:#fff}
+.hero-picker button.is-demo:not([aria-checked="true"]){border-color:var(--lav-d);box-shadow:inset 0 0 0 1px var(--lav-d)}
 .hero-actions{display:flex;flex-wrap:wrap;gap:14px 16px}
 .hero-offer{font-size:15px;color:var(--tinta-2)}
 .hero-offer strong{color:var(--tinta);font-weight:600}
@@ -491,3 +493,6 @@ footer{border-top:1px solid var(--linea);padding:44px 0 96px}
 
 /* Contador de pasos del formulario: sin mayúsculas */
 .md-steps-count{text-transform:none;letter-spacing:0;font-size:14px}
+
+/* Bloques de la demo: ocultos solo hasta que hero-build.js los monta (respaldo a 3 s en el <head>) */
+@media (prefers-reduced-motion:no-preference){html.js .demo-window:not(.is-built) .demo-block,html.js .demo-window:not(.is-built) .demo-note{opacity:0}}
