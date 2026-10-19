@@ -96,7 +96,7 @@ Elemento central: el visitante elige su tipo de negocio y toda la página se ada
 - **Estado:**
   - un pequeño módulo `js/sector-state.js` guarda el sector elegido (en memoria y en `sessionStorage`) y emite `md:sector` en `document` cuando cambia;
   - cada escena escucha ese evento y se actualiza.
-- **Por defecto:**
+- **Por defecto (con JavaScript):**
   - hasta que el visitante elige, la demo del hero recorre los sectores sola (cambia cada ~4 s);
   - se pausa al pasar el ratón, con el foco o con "reducir movimiento", y se detiene al primer clic o pulsación;
   - el sector inicial del resto de escenas es "Restaurante".
@@ -226,7 +226,7 @@ En cada escena se indica su comportamiento en escritorio (≥ 1024 px), tablet (
   - el contenido nunca depende de una animación para verse.
 - **Worker:** se acepta el campo opcional `sector` (lista cerrada de 6 valores) y se añade al email. Se amplían las pruebas existentes.
 - **CLAUDE.md:** se actualizan las convenciones afectadas:
-  - nuevas tipografías y GSAP alojado, como excepción documentada a "sin servicios externos" (no lo es: va en la propia web);
+  - nuevas tipografías y GSAP, alojados en la propia web (no son servicios externos, así que la regla de no cargar servicios externos se mantiene);
   - el orden y los nombres de las escenas;
   - el modelo de sector;
   - `taller.css` y los nuevos módulos;
@@ -270,7 +270,7 @@ En cada escena se indica su comportamiento en escritorio (≥ 1024 px), tablet (
 4. **Accesibilidad:** recorrido completo con teclado, "reducir movimiento" emulado, JavaScript desactivado y zoom al 200 %.
 5. **Lighthouse** en móvil y escritorio, contra los presupuestos de la sección 8.
 6. **Segunda iteración visual:** con las capturas delante, se hace una lista explícita de lo que aún parezca de plantilla o repetitivo, se corrige y se repiten los pasos 1, 4 y 5.
-7. **Entrega:** se presenta a la dueña la rama con capturas y resultados. El merge a `main` (que publica) **solo con su autorización expresa**.
+7. **Entrega:** se presenta la rama para su revisión, con capturas y resultados. El merge a `main` (que publica) se hace **solo con autorización expresa**.
 
 ## 10. Riesgos y cómo se mitigan
 
