@@ -209,534 +209,359 @@
 }
 </script>
 <link rel="preload" href="assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/poppins-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css">
+<link rel="preload" href="assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="taller.css">
 </head>
 <body>
-<div style="width: 100%; overflow-x: clip; background: #F8FAFB">
+<a class="skip" href="#contenido">Saltar al contenido</a>
 
-<!-- NAV -->
-<header id="top" style="position: sticky; top: 0; z-index: 20; background: rgba(248,250,251,.86); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(230,234,239,.7)">
-<div class="md-wrap" style="display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 24px">
-<a href="#inicio" aria-label="MentaDev, inicio" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1F2937">
-<svg width="36" height="36" viewBox="0 0 64 64" aria-hidden="true"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path><path d="M31 55Q37 31 54 10" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".35"></path></svg>
-<span style="font-size: 22px; font-weight: 600; letter-spacing: -.03em">Menta<span style="color: #9D88D8">Dev</span></span>
+<!-- CABECERA -->
+<header id="top" class="md-head">
+<div class="wrap md-head-in">
+<a class="md-logo" href="#inicio" aria-label="MentaDev, inicio">
+<svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path></svg>
+<span>Menta<span>Dev</span></span>
 </a>
-<nav class="md-hide-m" aria-label="Principal" style="display: flex; align-items: center; gap: 32px">
-<a class="md-nav-link" href="#servicios">Servicios</a>
-<a class="md-nav-link" href="#automatizacion">Automatización</a>
-<a class="md-nav-link" href="#proyectos">Proyectos</a>
-<a class="md-nav-link" href="#planes">Planes</a>
-<a class="md-nav-link" href="#faq">FAQ</a>
+<nav class="md-head-nav" aria-label="Principal">
+<a href="#servicios">Servicios</a>
+<a href="#automatizacion">Automatización</a>
+<a href="#proyectos">Proyectos</a>
+<a href="#planes">Planes</a>
 </nav>
-<a class="md-btn md-hide-m" href="#contacto" style="min-height: 46px; padding: 0 22px; font-size: 15px">Hablemos</a>
+<a class="btn btn-sm md-head-cta" href="#contacto">Hablemos</a>
 <button type="button" class="md-burger" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path class="md-burger-open" d="M4 7h16M4 12h16M4 17h16"></path><path class="md-burger-close" d="M6 6l12 12M18 6L6 18"></path></svg>
 </button>
 </div>
-<!-- Menú del móvil: lo abre .md-burger (site.js) -->
+<div class="md-head-progress" aria-hidden="true"><span></span></div>
 <nav id="menu-movil" class="md-mnav" aria-label="Menú" hidden="">
 <a href="#servicios">Servicios</a>
 <a href="#automatizacion">Automatización</a>
 <a href="#proyectos">Proyectos</a>
 <a href="#planes">Planes</a>
-<a href="#faq">FAQ</a>
+<a href="#faq">Preguntas frecuentes</a>
 <a href="#contacto">Contacto</a>
 </nav>
 </header>
 
-<!-- HERO -->
-<section id="inicio" class="md-hero" style="position: relative">
-<svg class="md-hide-m" viewBox="0 0 64 64" aria-hidden="true" style="position: absolute; width: 760px; height: 760px; right: -200px; top: -120px; opacity: .22; transform: rotate(-10deg)"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4"></path></svg>
-<div class="md-wrap md-hero-grid" style="position: relative">
-<div style="display: flex; flex-direction: column; gap: 28px">
-<span class="md-chip" style="align-self: flex-start"><span style="width: 8px; height: 8px; border-radius: 50%; background: #2E8574"></span>Agenda abierta para nuevos proyectos</span>
-<h1 style="font-size: clamp(44px, 6.4vw, 84px); line-height: 1.02; font-weight: 600; letter-spacing: -.045em">Tu idea,<br><span style="color: #6F5BBF">hecha realidad.</span></h1>
-<p style="font-size: 19px; line-height: 1.65; color: #5B6472; max-width: 540px">Diseñamos y desarrollamos webs, tiendas online, apps y automatizaciones para negocios. Webs profesionales desde <strong style="color: #1F2937; font-weight: 600">349 €</strong>, listas en 7 días, con precio cerrado y sin cuotas obligatorias.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 12px">
-<a class="md-btn" href="#contacto" data-servicio="Web o landing">Quiero mi web <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
-<a class="md-btn md-btn-ghost" href="#proyectos">Ver proyectos</a>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 12px 28px; padding-top: 8px; font-size: 14px; color: #5B6472">
-<span style="display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Presupuesto cerrado</span>
-<span style="display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Respuesta en 24 h</span>
-<span style="display: flex; align-items: center; gap: 8px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Tu web es 100 % tuya</span>
-</div>
-</div>
+<main id="contenido">
 
-<!-- Hero visual -->
-<div class="md-hero-visual" aria-hidden="true" style="position: relative; height: 560px">
-<div style="position: absolute; inset: 24px 0 40px 32px; border-radius: 36px; background: #EFEBF9"></div>
-<div style="position: absolute; left: 0; top: 64px; width: 88%; background: #fff; border-radius: 22px; box-shadow: 0 30px 60px rgba(31,41,55,.14); overflow: hidden; border: 1px solid #E6EAEF">
-<div style="display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid #E6EAEF">
-<span style="width: 10px; height: 10px; border-radius: 50%; background: #E6EAEF"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #E6EAEF"></span><span style="width: 10px; height: 10px; border-radius: 50%; background: #E6EAEF"></span>
-<span style="margin-left: 12px; flex: 1; height: 26px; border-radius: 8px; background: #F8FAFB; font-size: 12px; color: #8A93A1; display: flex; align-items: center; padding: 0 12px">tunegocio.com</span>
-</div>
-<div class="md-shot-screen" data-shot="assets/proyectos/luna-y-papel.webp" data-alt="">
-<div class="md-shot-ph" style="padding: 28px 28px 32px; display: flex; flex-direction: column; gap: 14px">
-<div style="display: flex; justify-content: space-between; align-items: center"><span style="width: 72px; height: 12px; border-radius: 6px; background: #1F2937"></span><span style="display: flex; gap: 10px"><span style="width: 36px; height: 8px; border-radius: 4px; background: #E6EAEF"></span><span style="width: 36px; height: 8px; border-radius: 4px; background: #E6EAEF"></span><span style="width: 36px; height: 8px; border-radius: 4px; background: #E6EAEF"></span></span></div>
-<div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 20px; align-items: center; padding-top: 18px">
-<div style="display: flex; flex-direction: column; gap: 10px"><span style="height: 18px; width: 92%; border-radius: 6px; background: #1F2937"></span><span style="height: 18px; width: 70%; border-radius: 6px; background: #1F2937"></span><span style="height: 8px; width: 96%; border-radius: 4px; background: #E6EAEF; margin-top: 6px"></span><span style="height: 8px; width: 80%; border-radius: 4px; background: #E6EAEF"></span><span style="height: 34px; width: 120px; border-radius: 999px; background: #6F5BBF; margin-top: 10px"></span></div>
-<div style="height: 150px; border-radius: 16px; background: #E3F4F0; position: relative; overflow: hidden"><svg viewBox="0 0 64 64" style="position: absolute; width: 130px; height: 130px; right: 6px; bottom: -14px"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path></svg></div>
-</div>
-<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; padding-top: 14px"><span style="height: 64px; border-radius: 12px; background: #F8FAFB; border: 1px solid #E6EAEF"></span><span style="height: 64px; border-radius: 12px; background: #F8FAFB; border: 1px solid #E6EAEF"></span><span style="height: 64px; border-radius: 12px; background: #F8FAFB; border: 1px solid #E6EAEF"></span></div>
-</div>
+<!-- 01 · HERO: elige tu negocio y la web de ejemplo se diseña sola -->
+<section id="inicio" class="esc-hero reticula" aria-labelledby="hero-title">
+<div class="wrap hero-grid">
+<div class="hero-copy">
+<h1 class="hero-title" id="hero-title"><span class="hero-line"><span>Tu idea,</span></span> <span class="hero-line"><span>hecha <span class="hero-mark">realidad.<span class="hero-handles" aria-hidden="true"><i></i><i></i><i></i><i></i></span></span></span></span></h1>
+<p class="hero-lead">Diseñamos y desarrollamos webs, tiendas online, apps y automatizaciones para negocios. Elige el tuyo y mira cómo empieza.</p>
+<div class="hero-pick solo-js">
+<p class="hero-pick-label" id="pick-label">Elige tu negocio</p>
+<div class="hero-picker" role="radiogroup" aria-labelledby="pick-label" data-cursor="prueba">
+<button type="button" role="radio" aria-checked="true" tabindex="0" data-sector="restaurante">Restaurante</button>
+<button type="button" role="radio" aria-checked="false" tabindex="-1" data-sector="clinica">Clínica</button>
+<button type="button" role="radio" aria-checked="false" tabindex="-1" data-sector="estetica">Peluquería y estética</button>
+<button type="button" role="radio" aria-checked="false" tabindex="-1" data-sector="tienda">Tienda</button>
+<button type="button" role="radio" aria-checked="false" tabindex="-1" data-sector="academia">Academia</button>
+<button type="button" role="radio" aria-checked="false" tabindex="-1" data-sector="otro">Otro</button>
 </div>
 </div>
-<!-- Phone -->
-<div style="position: absolute; right: 0; bottom: 0; width: 176px; height: 340px; border-radius: 34px; background: #1F2937; padding: 10px; box-shadow: 0 30px 60px rgba(31,41,55,.25)">
-<div class="md-shot-screen" style="width: 100%; height: 100%; border-radius: 26px; background: #fff" data-shot="assets/proyectos/infanapp-1.webp" data-alt="">
-<div class="md-shot-ph" style="height: 100%; padding: 26px 14px 14px; display: flex; flex-direction: column; gap: 10px">
-<span style="width: 50px; height: 8px; border-radius: 4px; background: #1F2937"></span>
-<span style="height: 96px; border-radius: 14px; background: #EFEBF9"></span>
-<span style="height: 10px; width: 90%; border-radius: 5px; background: #1F2937"></span>
-<span style="height: 6px; width: 100%; border-radius: 3px; background: #E6EAEF"></span>
-<span style="height: 6px; width: 76%; border-radius: 3px; background: #E6EAEF"></span>
-<span style="height: 30px; border-radius: 999px; background: #6F5BBF; margin-top: auto"></span>
+<div class="hero-actions">
+<a class="btn" href="#contacto">Hablemos de tu proyecto</a>
+<a class="btn-2" href="#servicios">Ver cómo se hace</a>
 </div>
+<p class="hero-offer">Webs desde <strong>349 € + IVA</strong>, listas en 7 días laborables y con precio cerrado.</p>
 </div>
+<div class="hero-stage">
+<div class="demo-window" id="demo">
+<div class="demo-bar" aria-hidden="true"><i></i><i></i><i></i><span class="demo-url">tunegocio.es</span></div>
+<div class="demo-site" data-sector="restaurante" style="--acento:#A4471F" role="img" aria-label="Web de ejemplo para un restaurante">
+<div class="demo-block demo-nav"><b data-f="nombre">Tu restaurante</b><span class="demo-links"><i></i><i></i><i></i></span><span class="demo-pill" data-f="boton">Reservar mesa</span></div>
+<div class="demo-block demo-head"><span class="demo-note demo-note-1" aria-hidden="true">titular · 40 px</span><p class="demo-h" data-f="titular">Cocina de casa, mesa reservada.</p><span class="demo-cta-row"><span class="demo-btn" data-f="boton">Reservar mesa</span><span class="demo-note demo-note-2" aria-hidden="true">botón de reserva</span></span></div>
+<div class="demo-block demo-photo"><span></span><span></span><span></span></div>
+<div class="demo-block demo-row"><span></span><span></span><span></span><span class="demo-note demo-note-3" aria-hidden="true">se ve bien en el móvil</span></div>
 </div>
-<!-- Floating chips -->
-<div style="position: absolute; left: -12px; bottom: 54px; background: #fff; border-radius: 18px; padding: 14px 18px; display: flex; align-items: center; gap: 12px; box-shadow: 0 18px 40px rgba(31,41,55,.12); border: 1px solid #E6EAEF">
-<span style="width: 40px; height: 40px; border-radius: 12px; background: #E3F4F0; display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg></span>
-<span style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-size: 14px; font-weight: 600">Web publicada</span><span style="font-size: 12px; color: #5B6472">Lista para recibir clientes</span></span>
+<p class="demo-caption">Web de ejemplo</p>
 </div>
-<div style="position: absolute; right: 136px; top: 8px; background: #fff; border-radius: 18px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; box-shadow: 0 18px 40px rgba(31,41,55,.12); border: 1px solid #E6EAEF">
-<span style="width: 34px; height: 34px; border-radius: 10px; background: #EFEBF9; display: grid; place-items: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6F5BBF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><path d="M11 18h2"></path></svg></span>
-<span style="font-size: 13px; font-weight: 600; white-space: nowrap">Perfecta en móvil</span>
-</div>
+<p class="demo-live sr-only" aria-live="polite"></p>
 </div>
 </div>
 </section>
 
-<!-- PROMESAS -->
-<section style="padding: 0 0 24px">
-<div class="md-wrap">
-<div class="md-grid4" style="background: #fff; border: 1px solid #E6EAEF; border-radius: 28px; padding: 32px">
-<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 16px; font-weight: 600">Lista en 7 días, garantizado</span><span style="font-size: 14px; color: #5B6472">Si no está publicada en 7 días laborables desde que tenemos tus contenidos, te devolvemos el primer plazo.</span></div>
-<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 16px; font-weight: 600">Precio cerrado</span><span style="font-size: 14px; color: #5B6472">Sabes lo que pagas desde el primer día y puedes pagarlo en 2 plazos.</span></div>
-<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 16px; font-weight: 600">Trato directo</span><span style="font-size: 14px; color: #5B6472">Hablas siempre con quien diseña y programa tu proyecto.</span></div>
-<div style="display: flex; flex-direction: column; gap: 6px"><span style="font-size: 16px; font-weight: 600">Te acompañamos después</span><span style="font-size: 14px; color: #5B6472">Soporte y mejoras cuando tu negocio lo necesite.</span></div>
-</div>
-</div>
-</section>
-
-<!-- SERVICIOS -->
-<section id="servicios" class="md-section">
-<div class="md-wrap md-stack">
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 24px">
-<div style="display: flex; flex-direction: column; gap: 16px; max-width: 640px">
-<span class="md-eyebrow">Servicios</span>
-<h2 class="md-h2">Webs, apps y automatizaciones para tu negocio</h2>
-</div>
-<p style="max-width: 400px; color: #5B6472; font-size: 17px">Desde tu primera web hasta herramientas a medida y procesos que funcionan solos.</p>
-</div>
-
-<div class="md-bento">
-<article class="md-reveal md-card md-span2 md-row2" style="display: flex; flex-direction: column; gap: 24px; background: #1F2937; border-color: #1F2937; color: #fff; position: relative; overflow: hidden; min-height: 420px">
-<svg viewBox="0 0 64 64" aria-hidden="true" style="position: absolute; width: 360px; height: 360px; right: -60px; bottom: -80px; opacity: .9"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path><path d="M31 55Q37 31 54 10" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" opacity=".35"></path></svg>
-<span class="md-icon" style="background: rgba(110,198,180,.16); color: #6EC6B4"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 9h18M8 14h5"></path></svg></span>
-<div style="display: flex; flex-direction: column; gap: 14px; max-width: 420px; position: relative">
-<h3 style="font-size: 30px; font-weight: 600; letter-spacing: -.02em; line-height: 1.15">Diseño y desarrollo web</h3>
-<p style="font-size: 16px; color: #C4CAD3">Webs corporativas y landings adaptadas a tu marca y pensadas para que quien entra, te escriba. Webs profesionales desde 349 € + IVA, listas en 7 días.</p>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; position: relative; max-width: 420px">
-<span class="md-chip" style="background: rgba(255,255,255,.08); color: #fff">Landing pages</span>
-<span class="md-chip" style="background: rgba(255,255,255,.08); color: #fff">Webs corporativas</span>
-<span class="md-chip" style="background: rgba(255,255,255,.08); color: #fff">Rediseños</span>
-</div>
-</article>
-<article class="md-reveal md-card" style="display: flex; flex-direction: column; gap: 18px">
-<span class="md-icon md-icon-lav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 4h2l2.4 11.2a2 2 0 0 0 2 1.6h7.7a2 2 0 0 0 2-1.5L21 8H6.2"></path><circle cx="10" cy="20.5" r="1"></circle><circle cx="17" cy="20.5" r="1"></circle></svg></span>
-<h3 style="font-size: 20px; font-weight: 600">Tiendas online</h3>
-<p style="font-size: 15px; color: #5B6472">E-commerce con pagos seguros, gestión sencilla de productos y una compra sin fricciones.</p>
-</article>
-<article class="md-reveal md-card" style="display: flex; flex-direction: column; gap: 18px">
-<span class="md-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"></rect><path d="M11 18h2"></path></svg></span>
-<h3 style="font-size: 20px; font-weight: 600">Apps y plataformas</h3>
-<p style="font-size: 15px; color: #5B6472">Apps web y móviles y herramientas internas a medida: reservas, áreas de cliente, paneles de gestión.</p>
-</article>
-<article class="md-reveal md-card md-span2" style="display: flex; flex-direction: column; gap: 18px; background: #E3F4F0; border-color: #CFEAE3">
-<div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap">
-<span class="md-icon" style="background: #fff"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"></path></svg></span>
-<span class="md-chip" style="background: #fff">Servicio destacado</span>
-</div>
-<h3 style="font-size: 20px; font-weight: 600">Automatización de procesos</h3>
-<p style="font-size: 15px; color: #3F4A58; max-width: 560px">Conectamos tus herramientas y eliminamos tareas repetitivas para que ganes horas cada semana y cometas menos errores.</p>
-<a href="#automatizacion" class="md-link-arrow">Descubre qué puedes automatizar <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
-</article>
-<article class="md-reveal md-card" style="display: flex; flex-direction: column; gap: 18px">
-<span class="md-icon md-icon-lav"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4-4"></path></svg></span>
-<h3 style="font-size: 20px; font-weight: 600">SEO y rendimiento</h3>
-<p style="font-size: 15px; color: #5B6472">Webs rápidas y optimizadas para que te encuentren en Google.</p>
-</article>
-</div>
-
-<!-- Revisión gratis: para quien ya tiene web -->
-<div class="md-review md-reveal">
-<span class="md-icon md-icon-lav" aria-hidden="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5M8.5 11l1.8 1.8 3.4-3.6"></path></svg></span>
-<div class="md-review-text">
-<h3>¿Ya tienes web? Te decimos gratis cómo mejorarla</h3>
-<p>Nos pasas la dirección y en 48 h laborables te enviamos por email 3 mejoras concretas para que te escriban más clientes. Sin compromiso.</p>
-</div>
-<a class="md-btn" href="#contacto" data-servicio="Revisión gratis de mi web">Quiero la revisión gratis</a>
-</div>
+<!-- 02 · FICHA TÉCNICA: las garantías -->
+<section id="garantias" class="esc-ficha" aria-labelledby="ficha-t">
+<div class="wrap ficha-grid">
+<h2 id="ficha-t" class="tit ficha-title">Así trabajamos contigo</h2>
+<dl class="ficha">
+<div class="ficha-row"><dt>Plazo</dt><dd class="ficha-val">7 días laborables</dd><dd class="ficha-note">Si tu web no está publicada en 7 días laborables desde que tenemos tus contenidos, te devolvemos el primer plazo.</dd></div>
+<div class="ficha-row"><dt>Precio</dt><dd class="ficha-val">Cerrado</dd><dd class="ficha-note">Sabes lo que pagas desde el primer día y puedes pagarlo en 2 plazos.</dd></div>
+<div class="ficha-row"><dt>Trato</dt><dd class="ficha-val">Directo</dd><dd class="ficha-note">Hablas siempre con quien diseña y programa tu proyecto.</dd></div>
+<div class="ficha-row"><dt>Después</dt><dd class="ficha-val">Te acompañamos</dd><dd class="ficha-note">Soporte y mejoras cuando tu negocio lo necesite.</dd></div>
+</dl>
 </div>
 </section>
 
-<!-- AUTOMATIZACIÓN -->
-<section id="automatizacion" class="md-section" style="padding-top: 0">
-<div class="md-wrap">
-<div class="md-auto-panel">
-<svg class="md-hide-m" viewBox="0 0 64 64" aria-hidden="true" style="position: absolute; width: 420px; height: 420px; right: -110px; top: -150px; opacity: .35; transform: rotate(12deg)"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4"></path></svg>
-<div class="md-split" style="position: relative; align-items: center">
-<div style="display: flex; flex-direction: column; gap: 22px">
-<span class="md-eyebrow">Automatización de procesos</span>
-<h2 class="md-h2">Cuéntanos cómo trabajas.<br><span style="color: #6F5BBF">Buscamos qué puedes dejar de hacer a mano.</span></h2>
-<p style="font-size: 17px; color: #3F4A58">¿Hay tareas que haces una y otra vez? ¿Copias datos entre programas? ¿Preparas documentos manualmente? ¿Gestionas reservas, avisos o seguimientos uno a uno?</p>
-<p style="font-size: 17px; color: #3F4A58">Cuéntanos cómo funciona tu negocio y buscaremos qué partes podemos automatizar para ahorrarte tiempo.</p>
-<p style="font-size: 17px; font-weight: 600; color: #1F2937">No necesitas saber qué tecnología necesitas. De eso nos encargamos nosotros.</p>
-<ul class="md-benefits" aria-label="Qué ganas">
-<li>Ahorras horas cada semana</li>
-<li>Menos tareas repetitivas</li>
-<li>Menos errores</li>
-<li>Tus herramientas, conectadas</li>
-</ul>
-<p class="md-auto-offer"><strong>Diagnóstico gratis de 30 minutos.</strong> Después, te damos un presupuesto cerrado: automatizaciones desde 490 € + IVA.</p>
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; padding-top: 4px">
-<a class="md-btn" href="#contacto" data-servicio="Automatización de procesos">Quiero automatizar mi negocio <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
-<a class="md-link-arrow" href="#contacto" data-wa="automatizacion" hidden="">¿Prefieres WhatsApp? Escríbenos</a>
-<a class="md-link-arrow" href="/automatizacion-de-procesos">Más ejemplos y preguntas</a>
+<!-- 03–05 · SERVICIOS: la web se convierte en tienda y en app -->
+<section id="servicios" class="esc-servicios" data-mode="web" aria-labelledby="serv-t">
+<div class="wrap serv-pin">
+<div class="serv-intro">
+<h2 id="serv-t" class="tit serv-title">De la primera web a la app de tu equipo</h2>
+<ol class="serv-index">
+<li aria-current="step"><span>Web</span></li>
+<li><span>Tienda</span></li>
+<li><span>App</span></li>
+</ol>
 </div>
+<div class="serv-steps">
+
+<article class="serv-step is-active" data-step="web">
+<div class="serv-copy">
+<h3>Diseño y desarrollo web</h3>
+<p>Webs corporativas y landings adaptadas a tu marca y pensadas para que quien entra, te escriba. Webs profesionales desde 349 € + IVA, listas en 7 días.</p>
+<ul class="serv-incl"><li>Hasta 6 secciones</li><li>Contenidos que puedes editar tú</li><li>Preparada para Google, con analítica</li><li>Textos legales básicos</li></ul>
+<a class="btn" href="#contacto" data-servicio="Web o landing">Quiero mi web</a>
+</div>
+<div class="serv-visual mock-web" aria-hidden="true">
+<div class="demo-site demo-site-sm" data-sector="restaurante" style="--acento:#A4471F">
+<div class="demo-block demo-nav"><b data-f="nombre">Tu restaurante</b><span class="demo-links"><i></i><i></i><i></i></span><span class="demo-pill" data-f="boton">Reservar mesa</span></div>
+<div class="demo-block demo-head"><p class="demo-h" data-f="titular">Cocina de casa, mesa reservada.</p><span class="demo-btn" data-f="boton">Reservar mesa</span></div>
+<div class="demo-block demo-photo"><span></span><span></span><span></span></div>
+</div>
+<span class="serv-measure serv-measure-a">6 secciones</span>
+<span class="serv-measure serv-measure-b">editable</span>
+</div>
+</article>
+
+<article class="serv-step" data-step="tienda">
+<div class="serv-copy">
+<h3>Tiendas online</h3>
+<p>E-commerce con pagos seguros, gestión sencilla de productos y una compra sin fricciones.</p>
+<a class="btn" href="#contacto" data-servicio="Tienda online">Quiero mi tienda</a>
+</div>
+<div class="serv-visual mock-shop" data-cursor="añade">
+<div class="shop-head"><b data-f="nombre">Tu restaurante</b><span class="shop-cart" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="20" r="1.5"></circle><circle cx="17" cy="20" r="1.5"></circle><path d="M3 4h2l2.4 11h11l2-8H6.2"></path></svg><span class="cart-count">0</span></span></div>
+<ul class="shop-grid">
+<li><span class="shop-img"></span><span class="shop-name">Menú del día</span><span class="shop-price">14,50 €</span><button type="button" class="shop-add solo-js" data-i="0">Añadir<span class="sr-only"> Menú del día</span></button></li>
+<li><span class="shop-img"></span><span class="shop-name">Parrillada para dos</span><span class="shop-price">32,00 €</span><button type="button" class="shop-add solo-js" data-i="1">Añadir<span class="sr-only"> Parrillada para dos</span></button></li>
+<li><span class="shop-img"></span><span class="shop-name">Tarta casera</span><span class="shop-price">4,50 €</span><button type="button" class="shop-add solo-js" data-i="2">Añadir<span class="sr-only"> Tarta casera</span></button></li>
+</ul>
+<div class="shop-foot"><span>Total <b class="cart-total">0,00 €</b></span><button type="button" class="shop-pay solo-js">Pagar</button></div>
+<p class="shop-msg" aria-hidden="true"></p>
+<span class="demo-tag">Ejemplo</span>
+</div>
+</article>
+
+<article class="serv-step" data-step="app">
+<div class="serv-copy">
+<h3>Apps y plataformas</h3>
+<p>Apps web y móviles y herramientas internas a medida: reservas, áreas de cliente, paneles de gestión.</p>
+<a class="btn" href="#contacto" data-servicio="App o plataforma">Cuéntanos tu idea</a>
+</div>
+<div class="serv-visual mock-app" data-cursor="reserva">
+<aside class="app-side" aria-hidden="true"><b>Panel</b><span class="is-on">Hoy</span><span>Clientes</span><span>Ajustes</span></aside>
+<div class="app-main">
+<p class="app-title"><b data-f="panel-titulo">Reservas de hoy</b> <span><span class="app-libres">3</span> <span data-f="panel-unidad">mesas</span> libres</span></p>
+<ul class="app-list">
+<li><time>13:30</time> Mesa 4 · 2 personas</li>
+<li><time>14:00</time> Mesa 7 · 4 personas</li>
+<li><time>20:30</time> Mesa 2 · 3 personas</li>
+<li><time>21:00</time> Mesa 9 · 6 personas</li>
+</ul>
+<div class="app-slots">
+<button type="button" class="app-slot solo-js" data-i="0" aria-pressed="false"><time>17:00</time> <span>Libre</span></button>
+<button type="button" class="app-slot solo-js" data-i="1" aria-pressed="false"><time>18:00</time> <span>Libre</span></button>
+<button type="button" class="app-slot solo-js" data-i="2" aria-pressed="false"><time>19:00</time> <span>Libre</span></button>
+</div>
+</div>
+<span class="demo-tag">Ejemplo</span>
+</div>
+</article>
+
+</div>
+</div>
+<p class="serv-live sr-only" aria-live="polite"></p>
+</section>
+
+<!-- 06 · AUTOMATIZACIÓN: escena nocturna -->
+<section id="automatizacion" class="esc-noche" aria-labelledby="noche-t">
+<div class="wrap noche-pin">
+<div class="noche-head">
+<h2 id="noche-t" class="tit noche-title">Lo que pasa cuando no miras.</h2>
+<p class="noche-claim">Cuéntanos cómo trabajas. Buscamos qué puedes dejar de hacer a mano.</p>
+<p class="noche-text">¿Copias datos entre programas? ¿Confirmas reservas una a una? ¿Preparas el mismo informe cada semana? Nosotros buscamos qué partes de tu negocio pueden funcionar solas para ahorrarte tiempo. No necesitas saber qué tecnología necesitas: de eso nos encargamos nosotros.</p>
+<div class="noche-pick solo-js">
+<p class="noche-pick-label" id="noche-pick-label">Ejemplos para</p>
+<div class="noche-picker" role="radiogroup" aria-labelledby="noche-pick-label">
+<button type="button" role="radio" aria-checked="true" tabindex="0" data-sector="restaurante">Restaurante</button>
+<button type="button" role="radio" aria-checked="false" tabindex="-1" data-sector="clinica">Clínica</button>
+<button type="button" role="radio" aria-checked="false" tabindex="-1" data-sector="estetica">Peluquería y estética</button>
+<button type="button" role="radio" aria-checked="false" tabindex="-1" data-sector="tienda">Tienda</button>
+<button type="button" role="radio" aria-checked="false" tabindex="-1" data-sector="academia">Academia</button>
+<button type="button" role="radio" aria-checked="false" tabindex="-1" data-sector="otro">Otro</button>
+</div>
+</div>
+</div>
+<div class="noche-board">
+<div class="noche-cols" aria-hidden="true"><span>Hoy, a mano</span><span>Con la automatización</span></div>
+<ol class="noche-tasks">
+<li class="task" data-estado="auto"><span class="task-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span><span class="task-from">Entra una reserva online</span><span class="task-to">Confirmación y recordatorio para que no falle</span></li>
+<li class="task" data-estado="auto"><span class="task-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v18M4 3v5a3 3 0 0 0 6 0V3M17 21V3c-2.5 1.5-3.5 4.5-3.5 9H17"></path></svg></span><span class="task-from">Llega un pedido para llevar</span><span class="task-to">Pasa a cocina ordenado y sin errores</span></li>
+<li class="task" data-estado="auto"><span class="task-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></span><span class="task-from">Un proveedor envía su factura</span><span class="task-to">Queda registrada y lista para la gestoría</span></li>
+<li class="task" data-estado="auto"><span class="task-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg></span><span class="task-from">Cierras el día</span><span class="task-to">Te llega al móvil el resumen de ventas</span></li>
+</ol>
+<svg class="noche-line" viewBox="0 0 10 100" preserveAspectRatio="none" aria-hidden="true"><path d="M5 0 V100"></path></svg>
+<p class="noche-more"><a href="/automatizacion-de-procesos">Más ejemplos por sector en nuestra guía de automatización</a></p>
 </div>
 
-<div class="md-flows">
-<div class="md-sector-tabs" role="tablist" aria-label="Ejemplos por sector">
-<button type="button" role="tab" id="sector-tab-general" aria-controls="sector-general" aria-selected="true">General</button>
-<button type="button" role="tab" id="sector-tab-clinicas" aria-controls="sector-clinicas" aria-selected="false" tabindex="-1">Clínicas</button>
-<button type="button" role="tab" id="sector-tab-estetica" aria-controls="sector-estetica" aria-selected="false" tabindex="-1">Estética y peluquerías</button>
-<button type="button" role="tab" id="sector-tab-restaurantes" aria-controls="sector-restaurantes" aria-selected="false" tabindex="-1">Restaurantes</button>
-<button type="button" role="tab" id="sector-tab-tiendas" aria-controls="sector-tiendas" aria-selected="false" tabindex="-1">Tiendas</button>
-<button type="button" role="tab" id="sector-tab-academias" aria-controls="sector-academias" aria-selected="false" tabindex="-1">Academias</button>
-</div>
-<div class="md-flows-head" aria-hidden="true"><span>Hoy, a mano</span><span></span><span>Con la automatización</span></div>
-<div role="tabpanel" id="sector-general" aria-labelledby="sector-tab-general">
-<ul class="md-flow-list">
-<li class="md-flow md-reveal">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>Un cliente reserva</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Confirmación y recordatorio automáticos</span>
-</li>
-<li class="md-flow md-reveal">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 8l-9-5-9 5v8l9 5 9-5V8z"></path><path d="M3 8l9 5 9-5M12 13v8"></path></svg></span>Entra un pedido</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Se registra y se avisa automáticamente</span>
-</li>
-<li class="md-flow md-reveal">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6z"></path><path d="M14 3v6h6M8 13h8M8 17h5"></path></svg></span>Recibes un formulario</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Los datos llegan ordenados y empieza el seguimiento</span>
-</li>
-<li class="md-flow md-reveal">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg></span>Haces el mismo informe cada semana</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Se genera y se envía solo</span>
-</li>
-</ul>
-</div>
-<div role="tabpanel" id="sector-clinicas" aria-labelledby="sector-tab-clinicas" hidden="">
-<ul class="md-flow-list">
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>Un paciente pide cita</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Confirmación y recordatorio automáticos</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4M10 13.5l4 4M14 13.5l-4 4"></path></svg></span>Alguien cancela a última hora</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Se avisa a la lista de espera y el hueco se llena</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"></path></svg></span>Termina un tratamiento</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Se le pide su opinión y se programa la revisión</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></span>Llega fin de mes</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Las facturas se generan y se envían solas</span>
-</li>
-</ul>
-</div>
-<div role="tabpanel" id="sector-estetica" aria-labelledby="sector-tab-estetica" hidden="">
-<ul class="md-flow-list">
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>Un cliente reserva</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Recordatorio el día antes y menos citas perdidas</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span>Pasan 6 semanas desde su última visita</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Se le invita a volver a reservar</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"></rect><path d="M3 12h18M12 8v13M12 8C10 4 6 4 6 6.5S12 8 12 8zM12 8c2-4 6-4 6-1.5S12 8 12 8z"></path></svg></span>Es su cumpleaños</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Le llega una felicitación con un detalle</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"></rect><path d="M9 6v2M9 11v2M9 16v2"></path></svg></span>Vendes un bono de sesiones</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Las sesiones se descuentan y se avisa al acabar</span>
-</li>
-</ul>
-</div>
-<div role="tabpanel" id="sector-restaurantes" aria-labelledby="sector-tab-restaurantes" hidden="">
-<ul class="md-flow-list">
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg></span>Entra una reserva online</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Confirmación y recordatorio para que no falle</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v18M4 3v5a3 3 0 0 0 6 0V3M17 21V3c-2.5 1.5-3.5 4.5-3.5 9H17"></path></svg></span>Llega un pedido para llevar</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Pasa a cocina ordenado y sin errores</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></span>Un proveedor envía su factura</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Queda registrada y lista para la gestoría</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"></path></svg></span>Cierras el día</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Te llega al móvil el resumen de ventas</span>
-</li>
-</ul>
-</div>
-<div role="tabpanel" id="sector-tiendas" aria-labelledby="sector-tab-tiendas" hidden="">
-<ul class="md-flow-list">
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"></circle><circle cx="17" cy="20" r="1.5"></circle><path d="M3 4h2l2.4 11h11l2-8H6.2"></path></svg></span>Vendes un producto online</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">El stock se actualiza en todos tus canales</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h11v10H3zM14 10h4l3 3v3h-7"></path><circle cx="7" cy="18" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg></span>Envías un pedido</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">El cliente recibe el aviso con el seguimiento</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>Alguien deja el carrito a medias</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Le llega un recordatorio amable</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10 21a2 2 0 0 0 4 0"></path></svg></span>Queda poco stock</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Te avisa para reponer a tiempo</span>
-</li>
-</ul>
-</div>
-<div role="tabpanel" id="sector-academias" aria-labelledby="sector-tab-academias" hidden="">
-<ul class="md-flow-list">
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="4"></circle><path d="M2 21a7 7 0 0 1 14 0M19 8v6M16 11h6"></path></svg></span>Se apunta un alumno nuevo</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Alta, bienvenida y cobro, todo en orden</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"></path><path d="M9 8h6M9 12h6"></path></svg></span>Llega el recibo del mes</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Se cobra y se avisa solo</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path><path d="M10 21a2 2 0 0 0 4 0"></path></svg></span>Un alumno falta a clase</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Se avisa a la familia al momento</span>
-</li>
-<li class="md-flow">
-<span class="md-flow-from"><span class="md-flow-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9l-6-6z"></path><path d="M14 3v6h6M8 13h8M8 17h5"></path></svg></span>Acaba el trimestre</span>
-<span class="md-flow-arrow" aria-label="y entonces"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
-<span class="md-flow-to">Cada alumno recibe su informe</span>
-</li>
-</ul>
-</div>
-</div>
-</div>
-
-<!-- Calculadora de tiempo recuperable (la lógica está en main.js) -->
-<div class="md-calc" id="calculadora">
-<div class="md-calc-head">
+<div class="calc" id="calculadora">
+<div class="calc-head">
 <h3>¿Cuánto tiempo pierdes a mano?</h3>
 <p>Mueve los valores y mira lo que podrías recuperar.</p>
 </div>
-<div class="md-calc-grid">
-<div class="md-calc-inputs">
-<div class="md-calc-field">
+<div class="calc-grid">
+<div class="calc-inputs">
+<div class="calc-field">
 <label for="calc-horas">Horas a la semana en tareas repetitivas</label>
-<div class="md-calc-control">
-<input type="range" min="1" max="40" step="1" value="5" data-calc="horas" aria-label="Horas a la semana en tareas repetitivas">
-<span class="md-calc-number"><input type="number" id="calc-horas" min="1" max="40" step="1" value="5" inputmode="numeric" data-calc="horas"> h</span>
+<div class="calc-control">
+<input type="range" min="1" max="40" step="1" value="6" data-calc="horas" aria-label="Horas a la semana en tareas repetitivas">
+<span class="calc-number"><input type="number" id="calc-horas" min="1" max="40" step="1" value="6" inputmode="numeric" data-calc="horas"> h</span>
 </div>
 </div>
-<div class="md-calc-field">
+<div class="calc-field">
 <label for="calc-tarifa">Cuánto vale tu hora</label>
-<div class="md-calc-control">
-<input type="range" min="5" max="100" step="1" value="20" data-calc="tarifa" aria-label="Cuánto vale tu hora, en euros">
-<span class="md-calc-number"><input type="number" id="calc-tarifa" min="5" max="100" step="1" value="20" inputmode="numeric" data-calc="tarifa"> €</span>
+<div class="calc-control">
+<input type="range" min="5" max="100" step="1" value="18" data-calc="tarifa" aria-label="Cuánto vale tu hora, en euros">
+<span class="calc-number"><input type="number" id="calc-tarifa" min="5" max="100" step="1" value="18" inputmode="numeric" data-calc="tarifa"> €</span>
 </div>
 </div>
 </div>
-<div class="md-calc-result">
-<div class="md-calc-stat"><span class="md-calc-num" data-out="horas">11 h</span><span>recuperadas al mes</span></div>
-<div class="md-calc-stat"><span class="md-calc-num" data-out="euros">2.600 €</span><span>de tu tiempo al año</span></div>
-<p class="md-calc-payback" data-out="amortiza">Una automatización desde 490 € + IVA se amortizaría en unos 3 meses.</p>
+<div class="calc-result">
+<div class="calc-stat"><span class="calc-num" data-out="horas">13 h</span><span>recuperadas al mes</span></div>
+<div class="calc-stat"><span class="calc-num" data-out="euros">2.808 €</span><span>de tu tiempo al año</span></div>
+<p class="calc-payback" data-out="amortiza">Una automatización desde 490 € + IVA se amortizaría en unos 3 meses.</p>
 </div>
 </div>
-<p class="md-calc-live" aria-live="polite" data-out="anuncio"></p>
-<div class="md-calc-foot">
-<a class="md-btn" href="#contacto" data-servicio="Automatización de procesos" data-calc-cta>Quiero mi diagnóstico gratis</a>
-<p class="md-calc-note">Estimación orientativa: suponemos que se puede automatizar la mitad de ese tiempo. En el diagnóstico lo vemos con tu caso real.</p>
+<p class="sr-only" aria-live="polite" data-out="anuncio"></p>
+<p class="calc-note">Estimación orientativa: suponemos que se puede automatizar la mitad de ese tiempo. En el diagnóstico lo vemos con tu caso real.</p>
 </div>
+
+<div class="noche-foot">
+<p class="noche-offer"><strong>Diagnóstico gratis de 30 minutos.</strong> Después, te damos un presupuesto cerrado: automatizaciones desde 490 € + IVA y mantenimiento desde 29 € + IVA al mes.</p>
+<div class="noche-actions">
+<a class="btn btn-noche" href="#contacto" data-servicio="Automatización de procesos" data-calc-cta>Quiero mi diagnóstico gratis</a>
+<a class="noche-wa" href="#contacto" data-wa="automatizacion" hidden="">¿Prefieres WhatsApp? Escríbenos</a>
 </div>
 </div>
 </div>
 </section>
 
-<!-- PROYECTOS -->
-<section id="proyectos" class="md-section" style="background: #fff">
-<div class="md-wrap md-stack">
-<div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px">
-<span class="md-eyebrow">Proyectos</span>
-<h2 class="md-h2">Proyectos reales, negocios reales</h2>
-<p style="color: #5B6472; font-size: 17px">Productos en funcionamiento: de una tienda online a apps y sistemas que se usan cada día.</p>
-</div>
-<div class="md-grid3">
-<!-- Luna y Papel: captura en navegador. Para usar la real, guarda assets/proyectos/luna-y-papel.webp -->
-<article class="md-reveal" style="display: flex; flex-direction: column; gap: 20px">
-<div style="aspect-ratio: 4 / 3; border-radius: 24px; background: #FBF1EE; display: flex; align-items: flex-end; justify-content: center; padding: 28px 28px 0; overflow: hidden">
-<div style="width: 100%; height: 86%; background: #fff; border-radius: 14px 14px 0 0; box-shadow: 0 -10px 30px rgba(31,41,55,.08); display: flex; flex-direction: column; overflow: hidden">
-<div style="display: flex; gap: 5px; padding: 9px 12px; border-bottom: 1px solid #F0E4E0"><span style="width: 7px; height: 7px; border-radius: 50%; background: #E6EAEF"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #E6EAEF"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #E6EAEF"></span></div>
-<div class="md-shot-screen" style="flex: 1" data-shot="assets/proyectos/luna-y-papel.webp" data-alt="Tienda online de Luna y Papel">
-<div class="md-shot-ph" style="padding: 16px 18px; display: flex; flex-direction: column; gap: 10px">
-<span style="width: 60px; height: 8px; border-radius: 4px; background: #E07878"></span>
-<span style="height: 12px; width: 75%; border-radius: 6px; background: #3D2B2B"></span>
-<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 6px"><span style="height: 70px; border-radius: 10px; background: #F4D6CF"></span><span style="height: 70px; border-radius: 10px; background: #E3DAF2"></span><span style="height: 70px; border-radius: 10px; background: #F7E2D6"></span></div>
+<!-- 07 · PROYECTOS: vitrina horizontal -->
+<section id="proyectos" class="esc-vitrina" aria-labelledby="vit-t">
+<div class="wrap vitrina-head">
+<h2 id="vit-t" class="tit vitrina-title">Proyectos reales, negocios reales</h2>
+<p>Productos en funcionamiento: de una tienda online a apps y sistemas que se usan cada día.</p>
+<div class="vitrina-nav solo-js">
+<button type="button" data-dir="prev" aria-label="Proyecto anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button>
+<button type="button" data-dir="next" aria-label="Proyecto siguiente"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button>
 </div>
 </div>
-</div>
-</div>
-<div style="display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="md-chip">E-commerce</span><span class="md-chip" style="background: #EFEBF9; color: #6F5BBF">Web app</span></div>
-<h3 style="font-size: 22px; font-weight: 600">Luna y Papel</h3>
-<p style="font-size: 15px; color: #5B6472">Tienda de cuentos infantiles personalizados y regalos, con carrito, pagos y panel de producción del taller.</p>
-</div>
+<div class="vitrina-track" tabindex="0" aria-label="Proyectos">
+<article class="vitrina-panel">
+<figure class="vitrina-fig vitrina-fig-web"><img src="assets/proyectos/luna-y-papel.webp" width="1280" height="800" loading="lazy" alt="Página de inicio de la tienda online Luna y Papel, con cuentos infantiles personalizados"></figure>
+<div class="vitrina-text"><p class="vitrina-tags">Tienda online y web app</p><h3>Luna y Papel</h3><p>Tienda de cuentos infantiles personalizados y regalos, con carrito, pagos y panel de producción del taller.</p></div>
 </article>
-<!-- InfanApp: capturas en móvil. Para usar las reales, guarda assets/proyectos/infanapp-1.webp e infanapp-2.webp (formato vertical) -->
-<article class="md-reveal" style="display: flex; flex-direction: column; gap: 20px">
-<div style="aspect-ratio: 4 / 3; border-radius: 24px; background: #E3F4F0; display: flex; align-items: center; justify-content: center; gap: 16px; overflow: hidden">
-<div style="width: 120px; height: 230px; border-radius: 24px; background: #1F2937; padding: 7px; transform: translateY(24px)"><div class="md-shot-screen" style="width: 100%; height: 100%; border-radius: 18px; background: #fff" data-shot="assets/proyectos/infanapp-1.webp" data-alt="InfanApp: diario del día en la app para familias"><div class="md-shot-ph" style="padding: 16px 10px; display: flex; flex-direction: column; gap: 8px"><span style="height: 8px; width: 60%; border-radius: 4px; background: #1F2937"></span><span style="height: 56px; border-radius: 10px; background: #9FD8C8"></span><span style="height: 6px; border-radius: 3px; background: #E6EAEF"></span><span style="height: 6px; width: 70%; border-radius: 3px; background: #E6EAEF"></span><span style="height: 40px; border-radius: 10px; background: #F3C7B0"></span></div></div></div>
-<div style="width: 120px; height: 230px; border-radius: 24px; background: #1F2937; padding: 7px; transform: translateY(-12px)"><div class="md-shot-screen" style="width: 100%; height: 100%; border-radius: 18px; background: #fff" data-shot="assets/proyectos/infanapp-2.webp" data-alt="InfanApp: pantalla de inicio de la app para familias"><div class="md-shot-ph" style="padding: 16px 10px; display: flex; flex-direction: column; gap: 8px"><span style="height: 8px; width: 50%; border-radius: 4px; background: #1F2937"></span><span style="height: 30px; border-radius: 10px; background: #C9B8E0"></span><span style="height: 30px; border-radius: 10px; background: #FBF9F5; border: 1px solid #EFE9DE"></span><span style="height: 30px; border-radius: 10px; background: #FBF9F5; border: 1px solid #EFE9DE"></span></div></div></div>
-</div>
-<div style="display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="md-chip">App móvil</span><span class="md-chip" style="background: #EFEBF9; color: #6F5BBF">iOS y Android</span></div>
-<h3 style="font-size: 22px; font-weight: 600">InfanApp</h3>
-<p style="font-size: 15px; color: #5B6472">App para escuelas infantiles: diario del día, fotos y avisos que conectan a familias, maestras y dirección.</p>
-</div>
+<article class="vitrina-panel">
+<figure class="vitrina-fig vitrina-fig-phones"><img src="assets/proyectos/infanapp-1.webp" width="540" height="1146" loading="lazy" alt="InfanApp: diario del día en la app para familias"><img src="assets/proyectos/infanapp-2.webp" width="540" height="1146" loading="lazy" alt="InfanApp: pantalla de inicio de la app para familias"></figure>
+<div class="vitrina-text"><p class="vitrina-tags">App móvil para iOS y Android</p><h3>InfanApp</h3><p>App para escuelas infantiles: diario del día, fotos y avisos que conectan a familias, maestras y dirección.</p></div>
 </article>
-<!-- Reservas al vuelo: interfaz en ventana. Para usar la real, guarda assets/proyectos/reservas-al-vuelo.webp -->
-<article class="md-reveal" style="display: flex; flex-direction: column; gap: 20px">
-<div style="aspect-ratio: 4 / 3; border-radius: 24px; background: #EFEBF9; display: flex; align-items: center; justify-content: center; padding: 28px; overflow: hidden">
-<div style="width: 100%; background: #fff; border-radius: 16px; box-shadow: 0 16px 34px rgba(31,41,55,.1); overflow: hidden">
-<div style="display: flex; gap: 5px; padding: 9px 12px; border-bottom: 1px solid #E6EAEF"><span style="width: 7px; height: 7px; border-radius: 50%; background: #E6EAEF"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #E6EAEF"></span><span style="width: 7px; height: 7px; border-radius: 50%; background: #E6EAEF"></span></div>
-<div class="md-shot-screen" style="aspect-ratio: 16 / 10" data-shot="assets/proyectos/reservas-al-vuelo.webp" data-alt="Reservas al vuelo: panel del negocio con los huecos libres y reclamados">
-<div class="md-shot-ph" style="padding: 14px 18px; display: flex; flex-direction: column; gap: 12px">
-<div style="display: flex; justify-content: space-between; align-items: center"><span style="height: 10px; width: 90px; border-radius: 5px; background: #1F2937"></span><span style="height: 22px; width: 22px; border-radius: 6px; background: #EFEBF9"></span></div>
-<div style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px"><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #6F5BBF"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #E3F4F0"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #E3F4F0"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #F8FAFB"></span><span style="height: 22px; border-radius: 6px; background: #E3F4F0"></span></div>
-<div style="display: flex; gap: 8px"><span style="flex: 1; height: 30px; border-radius: 999px; border: 1.5px solid #E6EAEF"></span><span style="flex: 1; height: 30px; border-radius: 999px; background: #6F5BBF"></span></div>
-</div>
-</div>
-</div>
-</div>
-<div style="display: flex; flex-direction: column; gap: 8px">
-<div style="display: flex; gap: 8px; flex-wrap: wrap"><span class="md-chip">Reservas online</span><span class="md-chip" style="background: #EFEBF9; color: #6F5BBF">Web app</span></div>
-<h3 style="font-size: 22px; font-weight: 600">Reservas al vuelo</h3>
-<p style="font-size: 15px; color: #5B6472">Recupera las citas que deja una cancelación de última hora: el negocio publica el hueco libre y sus clientes lo reservan en segundos.</p>
-</div>
+<article class="vitrina-panel">
+<figure class="vitrina-fig vitrina-fig-web"><img src="assets/proyectos/reservas-al-vuelo.webp" width="1200" height="739" loading="lazy" alt="Reservas al vuelo: panel del negocio con los huecos libres y reclamados"></figure>
+<div class="vitrina-text"><p class="vitrina-tags">Reservas online y web app</p><h3>Reservas al vuelo</h3><p>Recupera las citas que deja una cancelación de última hora: el negocio publica el hueco libre y sus clientes lo reservan en segundos.</p></div>
 </article>
-</div>
+<article class="vitrina-panel vitrina-tuyo">
+<div class="vitrina-text"><h3>Tu proyecto, aquí</h3><p>El siguiente puede ser el tuyo. Cuéntanos tu idea y te respondemos en menos de 24 h laborables.</p><a class="btn" href="#contacto">Hablemos de tu proyecto</a></div>
+</article>
 </div>
 </section>
 
-<!-- PLANES -->
-<section id="planes" class="md-section">
-<div class="md-wrap md-stack">
-<div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px; align-self: center; text-align: center; align-items: center">
-<span class="md-eyebrow">Planes</span>
-<h2 class="md-h2">Un punto de partida claro</h2>
-<p style="color: #5B6472; font-size: 17px">La web profesional tiene precio cerrado. Para tiendas, apps y automatizaciones preparamos un presupuesto a medida antes de empezar.</p>
+<!-- 08 · PLANES -->
+<section id="planes" class="esc-planes" aria-labelledby="planes-t">
+<div class="wrap">
+<div class="planes-head">
+<h2 id="planes-t" class="tit">Un punto de partida claro</h2>
+<p>La web profesional tiene precio cerrado. Para tiendas, apps y automatizaciones preparamos un presupuesto a medida antes de empezar.</p>
 </div>
-<div class="md-plans">
-<div class="md-card" style="display: flex; flex-direction: column; gap: 24px; background: #1F2937; border-color: #1F2937; color: #fff; position: relative">
-<span style="position: absolute; top: 24px; right: 24px; padding: 6px 12px; border-radius: 999px; background: #6EC6B4; color: #1F2937; font-size: 12px; font-weight: 600">Precio cerrado</span>
-<div style="display: flex; flex-direction: column; gap: 8px; padding-right: 110px"><h3 style="font-size: 20px; font-weight: 600">Web profesional</h3><p style="font-size: 14px; color: #C4CAD3">La web completa de tu negocio, lista para crecer.</p></div>
-<div style="display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px"><span style="font-size: 14px; color: #C4CAD3">desde</span><span style="font-size: 44px; font-weight: 600; letter-spacing: -.03em; line-height: 1">349 €</span><span style="font-size: 15px; color: #C4CAD3">+ IVA</span></div>
-<div style="display: flex; flex-direction: column; gap: 12px">
-<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Hasta 6 secciones o páginas</span>
-<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Contenidos editables</span>
-<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>SEO y analítica</span>
-<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Textos legales básicos</span>
-<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>2 meses de soporte incluidos</span>
-<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Te ayudamos con los textos</span>
-<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Alojamiento del primer año incluido</span>
-<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Lista en 7 días o te devolvemos el primer plazo</span>
-<span class="md-price-feat" style="color: #E5E7EB"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Pago en 2 plazos sin intereses</span>
+<div class="planes-grid">
+<div class="plan-web">
+<h3>Web profesional</h3>
+<p class="plan-sub">La web completa de tu negocio, lista para crecer.</p>
+<p class="plan-price"><span class="plan-from">desde</span> <span class="plan-num">349 €</span> <span class="plan-iva">+ IVA</span></p>
+<ul class="plan-feats">
+<li>Hasta 6 secciones o páginas</li>
+<li>Contenidos editables</li>
+<li>SEO y analítica</li>
+<li>Textos legales básicos</li>
+<li>2 meses de soporte incluidos</li>
+<li>Te ayudamos con los textos</li>
+<li>Alojamiento del primer año incluido</li>
+<li>Lista en 7 días o te devolvemos el primer plazo</li>
+<li>Pago en 2 plazos sin intereses</li>
+</ul>
+<p class="plan-addon">Después, mantenimiento por <strong>15 € + IVA/mes</strong>, sin permanencia</p>
+<a class="btn" href="#contacto" data-servicio="Web o landing">Quiero mi web</a>
+<p class="plan-small">Precio para el alcance indicado. Funcionalidades extra, presupuesto aparte.</p>
 </div>
-<p class="md-plan-addon">Después, mantenimiento por <strong>15 € + IVA/mes</strong>, sin permanencia</p>
-<div style="display: flex; flex-direction: column; gap: 12px; margin-top: auto">
-<a class="md-btn" href="#contacto" data-servicio="Web o landing">Quiero mi web</a>
-<p style="font-size: 12px; color: #A7B0BE; text-align: center">Precio para el alcance indicado. Funcionalidades extra, presupuesto aparte.</p>
-</div>
-</div>
-<div class="md-card" style="display: flex; flex-direction: column; gap: 24px">
-<div style="display: flex; flex-direction: column; gap: 8px"><h3 style="font-size: 20px; font-weight: 600">A medida</h3><p style="font-size: 14px; color: #5B6472">Tiendas online, apps, herramientas y automatizaciones.</p></div>
-<div style="display: flex; align-items: baseline; min-height: 44px"><span style="font-size: 30px; font-weight: 600; letter-spacing: -.03em; line-height: 1.15">Presupuesto personalizado</span></div>
-<div style="display: flex; flex-direction: column; gap: 12px">
-<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Tiendas online con pagos</span>
-<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Apps web y móviles</span>
-<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Herramientas internas para tu equipo</span>
-<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Automatizaciones desde 490 € + IVA, con diagnóstico gratis</span>
-<span class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Precio cerrado antes de empezar</span>
-</div>
-<a class="md-btn md-btn-ghost" href="#contacto" style="margin-top: auto">Cuéntanos tu proyecto</a>
+<div class="plan-medida">
+<h3>A medida</h3>
+<p class="plan-sub">Tiendas online, apps, herramientas y automatizaciones.</p>
+<p class="plan-price plan-price-txt">Presupuesto personalizado</p>
+<ul class="plan-feats">
+<li>Tiendas online con pagos</li>
+<li>Apps web y móviles</li>
+<li>Herramientas internas para tu equipo</li>
+<li>Automatizaciones desde 490 € + IVA, con diagnóstico gratis</li>
+<li>Precio cerrado antes de empezar</li>
+</ul>
+<a class="btn-2" href="#contacto">Cuéntanos tu proyecto</a>
 </div>
 </div>
-
-<!-- Cómo son tus 7 días (plan web) -->
-<div class="md-days">
-<h3 class="md-days-title">Cómo son tus 7 días</h3>
-<ol class="md-days-list">
-<li><span class="md-day">Día 1</span><strong>Nos cuentas tu negocio</strong><span>Una llamada corta y nos envías textos, fotos y logo. Si no tienes los textos, te ayudamos.</span></li>
-<li><span class="md-day">Días 2–5</span><strong>Diseñamos y montamos tu web</strong><span>Adaptada a tu marca y perfecta en el móvil.</span></li>
-<li><span class="md-day">Día 6</span><strong>La revisas</strong><span>Nos dices qué quieres cambiar y lo ajustamos.</span></li>
-<li><span class="md-day">Día 7</span><strong>Publicada</strong><span>Con tu dominio y lista para recibir clientes.</span></li>
+<div class="dias">
+<h3 class="dias-title">Cómo son tus 7 días</h3>
+<div class="dias-bar" aria-hidden="true"><span></span></div>
+<ol class="dias-list">
+<li class="dia"><span class="dia-n">Día 1</span><strong>Nos cuentas tu negocio</strong><span>Una llamada corta y nos envías textos, fotos y logo. Si no tienes los textos, te ayudamos.</span></li>
+<li class="dia"><span class="dia-n">Días 2–5</span><strong>Diseñamos y montamos tu web</strong><span>Adaptada a tu marca y perfecta en el móvil.</span></li>
+<li class="dia"><span class="dia-n">Día 6</span><strong>La revisas</strong><span>Nos dices qué quieres cambiar y lo ajustamos.</span></li>
+<li class="dia"><span class="dia-n">Día 7</span><strong>Publicada</strong><span>Con tu dominio y lista para recibir clientes.</span></li>
 </ol>
-<p class="md-days-note">7 días laborables desde que tenemos tus contenidos. Si no cumplimos, te devolvemos el primer plazo.</p>
+<p class="dias-note">7 días laborables desde que tenemos tus contenidos. Si no cumplimos, te devolvemos el primer plazo.</p>
 </div>
-
 </div>
 </section>
 
-<!-- FAQ -->
-<section id="faq" class="md-section" style="background: #fff">
-<div class="md-wrap md-split">
-<div style="display: flex; flex-direction: column; gap: 16px">
-<span class="md-eyebrow">Preguntas frecuentes</span>
-<h2 class="md-h2">Lo que suelen preguntarnos</h2>
-<p style="color: #5B6472; font-size: 17px">¿Tienes otra duda? <a href="#contacto" style="font-weight: 600">Escríbenos</a> y te respondemos en menos de 24 h.</p>
+<!-- REVISIÓN GRATIS -->
+<section id="revision" class="esc-revision" aria-labelledby="rev-t">
+<div class="wrap rev-grid">
+<div class="rev-copy">
+<h2 id="rev-t" class="tit">¿Ya tienes web? Te decimos gratis cómo mejorarla</h2>
+<p>Nos pasas la dirección y en 48 h laborables te enviamos por email 3 mejoras concretas para que te escriban más clientes. Sin compromiso.</p>
+<a class="btn" href="#contacto" data-servicio="Revisión gratis de mi web">Quiero la revisión gratis</a>
+</div>
+<div class="rev-demo" aria-hidden="true">
+<p class="rev-bar"><span class="rev-url">tunegocio.com</span></p>
+<ul class="rev-list">
+<li><s>Se ve mal en el móvil</s><span>Adaptada a cualquier pantalla</span></li>
+<li><s>No aparece en Google</s><span>Preparada para que te encuentren</span></li>
+<li><s>Nadie sabe cómo pedir cita</s><span>Un botón claro en cada página</span></li>
+</ul>
+<span class="demo-tag">Ejemplo de revisión</span>
+</div>
+</div>
+</section>
+
+<!-- PREGUNTAS FRECUENTES -->
+<section id="faq" class="esc-faq" aria-labelledby="faq-t">
+<div class="wrap faq-grid">
+<div class="faq-head">
+<h2 id="faq-t" class="tit">Lo que suelen preguntarnos</h2>
+<p>¿Tienes otra duda? <a href="#contacto">Escríbenos</a> y te respondemos en menos de 24 h.</p>
 </div>
 <div class="md-faq">
 <details open="">
@@ -776,20 +601,16 @@
 </section>
 
 <!-- CONTACTO -->
-<section id="contacto" class="md-section" style="padding-top: 0">
-<div class="md-wrap">
-<div class="md-contact-panel" style="position: relative; overflow: hidden; background: #1F2937; border-radius: 40px; color: #fff">
-<svg viewBox="0 0 64 64" aria-hidden="true" style="position: absolute; width: 520px; height: 520px; left: -140px; bottom: -200px; opacity: .18"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4"></path></svg>
-<div class="md-split" style="position: relative">
-<div style="display: flex; flex-direction: column; gap: 24px">
-<span class="md-eyebrow" style="color: #6EC6B4">Contacto</span>
-<h2 class="md-h2" style="color: #fff">¿Empezamos tu proyecto?</h2>
-<p style="font-size: 18px; color: #C4CAD3; max-width: 440px">Cuéntanos qué tienes en mente, o simplemente cómo trabajas. Te respondemos en menos de 24 h laborables con ideas y un presupuesto orientativo.</p>
-<div style="display: flex; flex-direction: column; gap: 14px; padding-top: 8px">
-<a href="mailto:info@mentadev.com" style="display: flex; align-items: center; gap: 14px; color: #fff; text-decoration: none; font-weight: 500"><span style="width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,.08); display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>info@mentadev.com</a>
-<a href="#contacto" data-wa="general" hidden="" style="display: flex; align-items: center; gap: 14px; color: #fff; text-decoration: none; font-weight: 500"><span style="width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,.08); display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="#6EC6B4" aria-hidden="true"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.47-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.28-.2-.57-.35zM12.05 21.8h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88zm8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.69 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.49-8.41z"></path></svg></span>¿Prefieres WhatsApp? Escríbenos</a>
-<span style="display: flex; align-items: center; gap: 14px; color: #fff; font-weight: 500"><span style="width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,.08); display: grid; place-items: center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6EC6B4" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"></path><circle cx="12" cy="9.5" r="2.5"></circle></svg></span>En remoto, para toda España</span>
-</div>
+<section id="contacto" class="esc-contacto" aria-labelledby="contacto-t">
+<div class="wrap contacto-grid">
+<div class="contacto-copy">
+<h2 id="contacto-t" class="tit">¿Empezamos tu proyecto?</h2>
+<p>Cuéntanos qué tienes en mente, o simplemente cómo trabajas. Te respondemos en menos de 24 h laborables con ideas y un presupuesto orientativo.</p>
+<ul class="contacto-vias">
+<li><a href="mailto:info@mentadev.com">info@mentadev.com</a></li>
+<li><a href="#contacto" data-wa="general" hidden="">¿Prefieres WhatsApp? Escríbenos</a></li>
+<li>En remoto, para toda España</li>
+</ul>
 </div>
 <form id="contact-form" novalidate="" class="md-form md-steps" style="background: #fff; color: #1F2937; border-radius: 28px; display: flex; flex-direction: column; gap: 18px">
 <!-- Formulario por pasos (main.js). Los value de name="servicio" deben coincidir con SERVICIOS de worker/index.js y con los data-servicio de los CTA -->
@@ -813,6 +634,7 @@
 <fieldset class="md-step" data-step="2" hidden="">
 <legend class="md-step-title" tabindex="-1">Cuéntanos más</legend>
 <p class="md-step-chosen">Has elegido: <strong data-chosen></strong> <button type="button" class="md-step-change" data-go="1">Cambiar</button></p>
+<p class="form-sector" hidden="">Para: <strong data-sector-label></strong></p>
 <fieldset class="md-yesno" data-if="tiene-web">
 <legend>¿Tienes ya web?</legend>
 <label><input type="radio" name="tieneWeb" value="Sí"> Sí</label>
@@ -828,6 +650,7 @@
 <label class="md-field">Nombre<input type="text" name="nombre" required="" autocomplete="name" maxlength="100" placeholder="Tu nombre"></label>
 <label class="md-field">Email<input type="email" name="email" required="" autocomplete="email" maxlength="200" placeholder="tu@email.com"></label>
 </div>
+<input type="hidden" name="sector" value="">
 <div class="md-hp" aria-hidden="true"><label>Tu web<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
 </fieldset>
 
@@ -840,11 +663,10 @@
 <p class="md-form-legal">Sin compromiso. Responsable: MentaDev. Finalidad: responder a tu consulta. Puedes ejercer tus derechos de acceso, rectificación y supresión escribiendo a info@mentadev.com. Más información en la <a href="privacidad.html">política de privacidad</a>.</p>
 </form>
 </div>
-</div>
-</div>
 </section>
 
-<!-- FOOTER -->
+</main>
+
 <footer style="border-top: 1px solid #E6EAEF; padding: 40px 0">
 <div class="md-wrap" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px">
 <div class="md-foot-brand">
@@ -870,8 +692,6 @@
 </div>
 </footer>
 
-</div>
-
 <!-- Barra fija del móvil: sustituye al botón flotante por debajo de 960 px y se oculta al llegar a Contacto -->
 <div class="md-mbar">
 <a class="md-btn" href="#contacto">Hablemos</a>
@@ -886,7 +706,14 @@
 </a>
 
 <script src="site.js" defer></script>
-<script src="main.js" defer></script>
+<script src="assets/vendor/gsap/gsap.min.js" defer></script>
+<script src="assets/vendor/gsap/ScrollTrigger.min.js" defer></script>
+<script type="module" src="main.js"></script>
+<script type="module" src="js/hero-build.js"></script>
+<script type="module" src="js/escena-servicios.js"></script>
+<script type="module" src="js/escena-automatizacion.js"></script>
+<script type="module" src="js/vitrina.js"></script>
+<script type="module" src="js/interacciones.js"></script>
 <!-- Cloudflare Web Analytics: visitas agregadas, sin cookies (ver privacidad.html) -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "86ba551e367d48e094c48d4ac87cbf4f"}'></script>
 </body>
