@@ -24,8 +24,10 @@ export function pintarSitio(contenedor, sector) {
 }
 
 let tlActual = null;
+let destino = null; // sector al que va (o en el que está) la web de ejemplo
 function montar(sector, { entrada = false } = {}) {
   if (!sitio) return;
+  destino = sector.id;
   const g = gsapListo();
   if (!g || reduce.matches) { pintarSitio(sitio, sector); ventana.classList.add('is-built'); return; }
   if (tlActual) tlActual.progress(1).kill(); // [RF 1] nunca conviven dos montajes
@@ -43,7 +45,14 @@ function montar(sector, { entrada = false } = {}) {
 // --- Selector -----------------------------------------------------------
 const grupo = picker && grupoDeOpciones(picker, (boton) => {
   pararRecorrido();
-  sectorState.set(boton.dataset.sector);
+  const id = boton.dataset.sector;
+  sectorState.set(id);
+  enDemo = id;
+  // Si el sector ya era el elegido, no hay evento: la demo puede estar enseñando otro (recorrido).
+  if (destino !== id) {
+    montar(sectorPorId(id));
+    if (live) live.textContent = `Web de ejemplo para ${sectorPorId(id).etiqueta.toLowerCase()}`;
+  }
 });
 
 document.addEventListener('md:sector', ({ detail }) => {
@@ -103,7 +112,8 @@ function entrada() {
       .to(asas, { opacity: 0, duration: 0.4, delay: 1.1 });
   }
   if (picker) gsap.from(picker.children, { y: 10, opacity: 0, duration: 0.4, stagger: 0.04, delay: 0.35, ease: 'power2.out', clearProps: 'all' });
-  gsap.delayedCall(0.45, () => montar(actual, { entrada: true }));
+  // Si el visitante ya ha elegido en este medio segundo, su montaje manda.
+  gsap.delayedCall(0.45, () => { if (destino === null) montar(sectorPorId(sectorState.get()), { entrada: true }); });
   gsap.delayedCall(4.5, iniciarRecorrido);
 }
 

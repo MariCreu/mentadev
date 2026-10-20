@@ -50,6 +50,17 @@ function escenaHorizontal({ gsap }) {
     ease: 'none',
     scrollTrigger: { trigger: seccion, start: 'top top', end: () => `+=${distancia()}`, pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1 },
   });
+  // [RF 3] Con teclado: el foco en un panel lleva el scroll hasta el punto en que ese panel está a la vista.
+  const alEnfocar = (e) => {
+    const panel = e.target.closest('.vitrina-panel');
+    const st = avance.scrollTrigger;
+    // Solo con teclado: un clic en un enlace también enfoca, y no debe frenar su navegación.
+    if (!panel || !st || !e.target.matches(":focus-visible")) return;
+    const margen = parseFloat(getComputedStyle(pista).paddingLeft) || 0;
+    const fraccion = Math.min(1, Math.max(0, (panel.offsetLeft - margen) / (distancia() || 1)));
+    requestAnimationFrame(() => window.scrollTo(0, Math.round(st.start + fraccion * (st.end - st.start))));
+  };
+  seccion.addEventListener('focusin', alEnfocar);
   const revelados = [...pista.querySelectorAll('.vitrina-panel')].map((panel) => {
     const fig = panel.querySelector('.vitrina-fig');
     const texto = panel.querySelector('.vitrina-text');
@@ -59,6 +70,7 @@ function escenaHorizontal({ gsap }) {
     return tl;
   });
   return () => { // [RF 2] de vuelta al carrusel nativo
+    seccion.removeEventListener('focusin', alEnfocar);
     revelados.forEach((tl) => { tl.scrollTrigger?.kill(); tl.kill(); });
     seccion.classList.remove('is-pinned');
     gsap.set(pista, { clearProps: 'transform' });
