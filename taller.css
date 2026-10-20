@@ -133,9 +133,10 @@ html:not(.js) .md-head-progress{display:none}
 .demo-tag{position:absolute;right:12px;top:12px;font:400 11px var(--f-mono);color:var(--lav-d);background:var(--lav-s);padding:3px 8px;border-radius:6px}
 
 /* ---------- 02 · Ficha técnica ---------- */
-.esc-ficha{padding:0 0 var(--esc)}
+.esc-ficha{padding:0 0 calc(var(--esc) * .6)}
 .ficha-grid{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:clamp(32px,5vw,80px);align-items:start}
-.ficha-title{font-size:clamp(34px,4.2vw,58px)}
+.ficha-title,.esc-faq .tit{font-size:clamp(32px,3.6vw,48px)}
+.ficha-title{position:sticky;top:110px}
 .ficha{--trazo:1;position:relative}
 .ficha::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--tinta);transform:scaleX(var(--trazo));transform-origin:0 50%}
 .ficha-row{position:relative;display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1.3fr);gap:8px 24px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--linea-2)}
@@ -327,12 +328,12 @@ html:not(.js) .noche-line,.noche-line{opacity:.35}
 .dias-note{margin-top:24px;font-size:14px;color:var(--tinta-3)}
 
 /* ---------- Revisión gratis ---------- */
-.esc-revision{padding:0 0 var(--esc)}
+.esc-revision{padding:0 0 calc(var(--esc) * .6)}
 .rev-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center;padding:clamp(28px,4vw,56px);border-radius:32px;background:var(--lav-s)}
 .rev-copy{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
 .rev-copy .tit{font-size:clamp(32px,3.8vw,52px)}
 .rev-copy p{color:var(--tinta-2)}
-.rev-demo{position:relative;padding:20px;border-radius:20px;background:var(--hoja);box-shadow:0 24px 50px -30px rgba(111,91,191,.6)}
+.rev-demo{position:relative;padding:20px;border-radius:20px;background:var(--hoja);border:1px solid var(--lav)}
 .rev-bar{padding:10px 14px;border-radius:12px;background:var(--papel);border:1px solid var(--linea);font:400 14px var(--f-mono);color:var(--tinta-2);margin-bottom:16px}
 .rev-list{display:grid;gap:10px}
 .rev-list li{display:grid;gap:2px;padding:12px 14px;border-radius:12px;border:1px solid var(--linea)}
@@ -342,7 +343,7 @@ html:not(.js) .noche-line,.noche-line{opacity:.35}
 
 /* ---------- FAQ ---------- */
 .esc-faq{padding:var(--esc) 0;background:var(--hoja);border-top:1px solid var(--linea)}
-.faq-grid{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:clamp(28px,5vw,80px);align-items:start}
+.faq-grid{display:grid;grid-template-columns:minmax(0,.6fr) minmax(0,1.4fr);gap:clamp(28px,5vw,80px);align-items:start}
 .faq-head{display:grid;gap:16px;position:sticky;top:110px}
 .faq-head p{color:var(--tinta-2)}
 
@@ -369,7 +370,7 @@ footer{border-top:1px solid var(--linea);padding:44px 0 96px}
   .md-burger{display:grid}
   .hero-grid,.ficha-grid,.noche-pin,.faq-grid,.contacto-grid,.rev-grid,.planes-grid{grid-template-columns:minmax(0,1fr)}
   .serv-step{grid-template-columns:minmax(0,1fr)}
-  .faq-head,.contacto-copy{position:static}
+  .faq-head,.contacto-copy,.ficha-title{position:static}
   .vitrina-panel{grid-template-columns:minmax(0,1fr);align-items:start}
   .dias-list{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
