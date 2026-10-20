@@ -224,8 +224,12 @@ html:not(.js) .md-head-progress{display:none}
 .task-from{font-size:15px;color:var(--noche-txt);line-height:1.35}
 .task-to{position:relative;padding-left:28px;font-size:15px;font-weight:600;color:var(--menta);line-height:1.35}
 .task-to::before{content:"";position:absolute;left:0;top:.15em;width:18px;height:18px;border-radius:50%;background:var(--menta) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F161F' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12l5 5L20 7'/%3E%3C/svg%3E") center/12px no-repeat}
-.task[data-estado="mano"] .task-to{opacity:.0}
+.task-to,.task-from,.task-ico{transition:opacity .45s var(--suave),color .45s var(--suave),background .45s var(--suave),transform .45s var(--muelle)}
+.task[data-estado="mano"]{background:#1b2533;border-color:rgba(189,174,225,.18)}
+.task[data-estado="mano"] .task-to{opacity:0;transform:translateX(-10px)}
 .task[data-estado="mano"] .task-from{color:#fff}
+.task[data-estado="auto"] .task-ico{background:rgba(110,198,180,.16);color:var(--menta)}
+.calc-num.bump{animation:bump .45s var(--muelle)}
 .noche-line{position:absolute;left:38px;top:40px;width:4px;height:calc(100% - 90px);overflow:visible;pointer-events:none}
 .noche-line path{stroke:var(--menta);stroke-width:2;fill:none;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:0}
 html:not(.js) .noche-line,.noche-line{opacity:.35}
