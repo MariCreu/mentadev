@@ -194,13 +194,14 @@ html:not(.js) .md-head-progress{display:none}
 .app-slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 .app-slot{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:52px;padding:8px 10px;border-radius:10px;border:1.5px dashed rgba(110,198,180,.6);background:transparent;color:#fff;font-size:13px;cursor:pointer;text-align:left}
 .app-slot[aria-pressed="true"]{border-style:solid;border-color:var(--menta);background:rgba(110,198,180,.18)}
-.mock-app .demo-tag{background:rgba(189,174,225,.18);color:var(--lav)}
+.mock-app .demo-tag{top:auto;right:auto;bottom:14px;left:14px;background:rgba(189,174,225,.18);color:var(--lav)}
+.mock-shop .demo-tag{right:70px;top:30px}
 
 /* Escena fijada (escritorio, con JS y sin reducir movimiento) */
 .esc-servicios.is-pinned .serv-pin{height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:72px}
 .esc-servicios.is-pinned .serv-steps{display:grid;grid-template-areas:"paso";gap:0}
-.esc-servicios.is-pinned .serv-step{grid-area:paso;visibility:hidden}
-.esc-servicios.is-pinned .serv-step.is-active{visibility:visible}
+.esc-servicios.is-pinned .serv-step{grid-area:paso;opacity:0;pointer-events:none}
+.esc-servicios.is-pinned .serv-step.is-active{opacity:1;pointer-events:auto}
 
 /* ---------- 06 · Noche (automatización) ---------- */
 .esc-noche{position:relative;background:var(--noche);color:var(--noche-txt);padding:var(--esc) 0;overflow:hidden}
