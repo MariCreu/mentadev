@@ -5,21 +5,31 @@
 Landing de MentaDev para presentar los servicios: diseño web, tiendas online, apps, automatizaciones, SEO y mantenimiento.
 
 ## Stack
-HTML + CSS + JavaScript, sin dependencias ni build. Se publica con Cloudflare (Workers static assets) en https://mentadev.com.
+HTML + CSS + JavaScript (módulos ES), sin dependencias de npm ni build. La home usa GSAP + ScrollTrigger, alojados en `assets/vendor/gsap/`. Se publica con Cloudflare (Workers static assets) en https://mentadev.com.
 
 ## Ver en local
 ```bash
 python -m http.server 8080
 # abre http://localhost:8080
 ```
-También funciona abriendo `index.html` directamente en el navegador.
+Hace falta un servidor: la home usa módulos ES, que no cargan abriendo `index.html` como archivo.
 
 ## Estructura
 ```
-index.html      # Contenido de la landing (secciones: hero, servicios, proceso, proyectos, FAQ, contacto)
-styles.css      # Estilos y tokens de color de la marca
+index.html      # Home: hero, ficha, servicios, automatización, proyectos, planes, revisión, FAQ, contacto
+taller.css      # Estilos de la home (rediseño "Taller en directo")
+styles.css      # Estilos de guías, legales y 404
 site.js         # Común: menú y barra del móvil, WhatsApp, animaciones
-main.js         # Solo la home: formulario por pasos, pestañas y calculadora
+main.js         # Solo la home (módulo): formulario por pasos y calculadora
+js/             # Módulos de la home:
+  sectores.js           # Datos por sector (fuente única)
+  sector-state.js       # Sector elegido (evento md:sector)
+  calculadora.js        # Cálculo del ahorro (PRICE_FROM)
+  movimiento.js         # Preferencias de movimiento y utilidades comunes
+  hero-build.js, escena-servicios.js, escena-automatizacion.js, vitrina.js, interacciones.js  # Escenas
+  iconos.js             # Iconos SVG de trazo
+tests/          # Pruebas (node --test)
+docs/           # Spec y planes del rediseño (no se publican)
 worker/index.js # Worker: envío del formulario por email (/api/contacto)
 assets/         # Logo, favicon, fuentes, capturas de proyectos y manual de marca
 diseno-web-alicante.html, automatizacion-de-procesos.html, cuanto-cuesta-una-web.html  # Guías (SEO)
@@ -37,7 +47,12 @@ wrangler.jsonc, .assetsignore      # Despliegue en Cloudflare
   - `assets/proyectos/luna-y-papel.webp` — captura de escritorio (horizontal)
   - `assets/proyectos/infanapp-1.webp` y `infanapp-2.webp` — capturas de móvil (vertical, ~9:19)
   - `assets/proyectos/reservas-al-vuelo.webp` — interfaz (horizontal, 16:10)
-- **Colores:** variables de `:root` en `styles.css`.
+- **Colores:** variables de `:root` en `taller.css` (home) y `styles.css` (resto).
+
+## Pruebas
+```bash
+node --test "tests/*.test.mjs"
+```
 
 ## Despliegue
 Cloudflare Workers (static assets): el Worker `mentadev` está conectado a este repo y cada push a `main` se publica en https://mentadev.com.

@@ -3,7 +3,10 @@
 Landing para ofrecer servicios de diseño web y soluciones digitales.
 
 ## Stack
-- HTML + CSS + JS vanilla, sin build ni dependencias. `site.js` (común a todas las páginas con la cabecera de la web: menú y barra del móvil, WhatsApp, animaciones, capturas) y `main.js` (solo la home: formulario, pestañas por sector, calculadora); la home carga los dos, en ese orden.
+- HTML + CSS + JS vanilla, sin build ni dependencias de npm. `site.js` (común a todas las páginas con la cabecera de la web: menú y barra del móvil, WhatsApp, animaciones, capturas) y `main.js` (solo la home, módulo ES: formulario y calculadora).
+- **Home (rediseño "Taller en directo"):** estilos en `taller.css`; escenas en módulos ES de `js/` (`hero-build.js`, `escena-servicios.js`, `escena-automatizacion.js`, `vitrina.js`, `interacciones.js`) sobre `movimiento.js` (preferencias de movimiento, `gsap.matchMedia`, grupos de opciones accesibles). GSAP 3 + ScrollTrigger alojados en `assets/vendor/gsap/` (licencia en esa carpeta), con `defer`; los módulos llevan `fetchpriority="low"` para no competir con el LCP.
+- Guías, legales y 404 siguen con `styles.css` hasta que se pasen al sistema nuevo (fase 2 del rediseño).
+- Pruebas: `node --test "tests/*.test.mjs"` (en Node 24, pasar la carpeta `tests/` falla). Cubren sectores, estado de sector, calculadora, Worker y una prueba de humo del HTML.
 - Despliegue: **Cloudflare Workers (static assets)**, Worker `mentadev` conectado a este repo; cada push a `main` se publica en **mentadev.com**. Config en `wrangler.jsonc` (sirve la raíz tal cual, sin build; el Worker `worker/index.js` solo atiende `/api/*`). Lo que no debe publicarse va en `.assetsignore`.
 - Diseño de referencia inicial: lienzo "MentaDev Landing" en claude.ai (https://claude.ai/artifact/JfuyKhtKqb6CTAqTBsaoxm). La versión vigente es la del repo.
 
@@ -35,16 +38,18 @@ Manual completo en `assets/brand/manual-de-marca.png`.
   - Antracita `#1F2937` — texto principal (y fondo en modo oscuro)
   - Fondo `#F8FAFB`
 - **Variantes accesibles** (para texto y botones sobre fondo claro): menta oscuro `#2E8574`, lavanda oscuro `#6F5BBF`. La menta y la lavanda puras no tienen contraste suficiente para texto blanco encima.
-- **Tipografía:** Poppins (Light, Regular, Medium, Semibold, Bold), alojada en `assets/fonts/` (sin Google Fonts: la web no carga servicios externos, con la única excepción de Cloudflare Web Analytics).
-- **Estilo:** fresco, cercano, limpio. Textos en español, tono directo y sin tecnicismos. CTA principal en lavanda.
+- **Tipografía:** Poppins (Light, Regular, Medium, Semibold, Bold) para texto, botones y formularios; en la home, **Bricolage Grotesque** (variable) para titulares y **JetBrains Mono** solo para las anotaciones de las demos. Todo alojado en `assets/fonts/` (sin Google Fonts: la web no carga servicios externos, con la única excepción de Cloudflare Web Analytics).
+- **Estilo:** fresco, cercano, limpio. Textos en español, tono directo y sin tecnicismos.
+- **CTA (home):** principal en antracita con relieve menta (sobre fondo oscuro, menta con relieve lavanda); secundario con contorno. Como mucho un CTA principal por escena. Sin flechas "→" en los botones.
 
 ## Convenciones
-- Tokens de color en `:root` de `styles.css` (prefijo `md-` en las clases). Tema claro con secciones oscuras en antracita; sin modo oscuro automático.
+- Tokens de color en `:root` de `styles.css` (prefijo `md-` en las clases) y de `taller.css` en la home (`--menta-t` #27725F para texto menta pequeño sobre fondos claros). Tema claro con secciones oscuras en antracita; sin modo oscuro automático.
 - Sin emojis: iconos SVG de trazo inline.
 - Sin comparativas con otras opciones (Wix, cuotas mensuales, agencias): se quitó a propósito.
-- Orden de secciones: hero → garantías → servicios → automatización → proyectos → planes → FAQ → contacto. Sin sección de proceso ni "sobre mí". Excepción acordada: el bloque "Cómo son tus 7 días" (`.md-days`) dentro de Planes, bajo las tarjetas.
-- Ejemplos de automatización por sector: pestañas `.md-sector-tabs` (General, Clínicas, Estética y peluquerías, Restaurantes, Tiendas, Academias) con 4 ejemplos "hoy, a mano → con la automatización" cada una, en lenguaje de beneficio y sin nombrar tecnologías.
-- Calculadora de automatización (`#calculadora`, dentro de Automatización): supone que se automatiza la mitad del tiempo (`AUTOMATABLE`) y compara con `PRICE_FROM` (490 €) en `main.js`; si cambia el precio, actualizarlo ahí. Su CTA rellena el mensaje del formulario sin pisar lo que haya escrito el usuario.
+- Orden de escenas de la home: hero con la web de ejemplo que se construye (`.esc-hero`) → ficha de compromisos (`.esc-ficha`) → servicios web/tienda/app con demos (`.esc-servicios`, fijada en escritorio) → automatización nocturna con calculadora (`.esc-noche`) → vitrina de proyectos (`.esc-vitrina`, horizontal en escritorio) → planes con "Cómo son tus 7 días" (`.dias`) → revisión gratis → FAQ → contacto. Sin sección de proceso ni "sobre mí".
+- **Sector:** `js/sectores.js` es la fuente única (restaurante, clínica, estética, tienda, academia, otro): web de ejemplo, productos, panel, los 4 flujos "hoy, a mano → con la automatización" y los valores iniciales de la calculadora. El estado lo lleva `js/sector-state.js` (evento `md:sector`, `sessionStorage` `md-sector`); los selectores del hero y de la escena nocturna están sincronizados. El formulario manda el campo `sector` y el Worker lo añade al email (`Sector: …`). Flujos en lenguaje de beneficio y sin nombrar tecnologías.
+- **Movimiento:** el estado final está en el CSS y el JS solo anima desde ahí (sin JS o con `prefers-reduced-motion` todo se ve completo y sin escenas fijadas); solo se animan `transform`, `opacity`, `clip-path` y variables CSS; el H1 nunca empieza con `opacity: 0`; las escenas fijadas solo con ≥ 1024 px de ancho y ≥ 680 px de alto. Las demos llevan la etiqueta "Ejemplo": nada de clientes ni resultados inventados.
+- Calculadora de automatización (`#calculadora`, dentro de Automatización): cálculo en `js/calculadora.js`, que supone que se automatiza la mitad del tiempo (`AUTOMATABLE`) y compara con `PRICE_FROM` (490 €); si cambia el precio, actualizarlo ahí. Mientras no se toque, toma los valores del sector elegido. Su CTA rellena el mensaje del formulario sin pisar lo que haya escrito el usuario.
 - Formulario de contacto por pasos (`.md-steps`): 1) qué necesitas (tarjetas `name="servicio"`), 2) cuéntanos más (se adapta al servicio: web y tienda preguntan "¿Tienes ya web?"; la revisión pide la web y el mensaje es opcional), 3) nombre y email. Textos de cada servicio en `SERVICE_COPY` de `main.js`.
 - Los CTA con `data-servicio="…"` eligen ese servicio y abren el formulario en el paso 2. El valor debe coincidir con una tarjeta del paso 1 y con `SERVICIOS` de `worker/index.js`.
 - Revisión gratis de la web: compromiso de enviar **3 mejoras concretas por email en 48 h laborables**.
