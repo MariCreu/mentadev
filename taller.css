@@ -17,6 +17,7 @@
 :root{
   --papel:#F8FAFB;--hoja:#FFFFFF;--tinta:#1F2937;--tinta-2:#4B5563;--tinta-3:#6B7280;
   --menta:#6EC6B4;--menta-d:#2E8574;--menta-s:#E3F4F0;
+  --menta-t:#27725F; /* texto pequeño sobre fondos claros (≥ 5:1) */
   --lav:#BDAEE1;--lav-d:#6F5BBF;--lav-dd:#5A47A8;--lav-s:#EFEBF9;
   --noche:#0F161F;--noche-2:#172231;--noche-txt:#E8ECF1;--noche-sub:#A9B4C2;
   --linea:#E3E7EC;--linea-2:#CDD3DB;--error:#B54848;
@@ -128,7 +129,7 @@ html:not(.js) .md-head-progress{display:none}
 .demo-note-1{align-self:flex-end;margin-bottom:-6px}
 .demo-cta-row{display:flex;align-items:center;gap:12px}
 .demo-row{position:relative}
-.demo-note-3{grid-column:1/-1;justify-self:end;margin-top:-2px;color:var(--menta-d);border-color:var(--menta)}
+.demo-note-3{grid-column:1/-1;justify-self:end;margin-top:-2px;color:var(--menta-t);border-color:var(--menta)}
 .demo-tag{position:absolute;right:12px;top:12px;font:400 11px var(--f-mono);color:var(--lav-d);background:var(--lav-s);padding:3px 8px;border-radius:6px}
 
 /* ---------- 02 · Ficha técnica ---------- */
@@ -156,7 +157,7 @@ html:not(.js) .md-head-progress{display:none}
 .serv-copy h3{font:800 clamp(30px,3.2vw,46px)/1 var(--f-tit);letter-spacing:-.035em}
 .serv-copy p{color:var(--tinta-2);max-width:30em}
 .serv-incl{display:flex;flex-wrap:wrap;gap:8px}
-.serv-incl li{font-size:14px;padding:6px 12px;border-radius:999px;background:var(--menta-s);color:var(--menta-d);font-weight:500}
+.serv-incl li{font-size:14px;padding:6px 12px;border-radius:999px;background:var(--menta-s);color:var(--menta-t);font-weight:500}
 .serv-visual{position:relative}
 .mock-web .demo-site-sm{min-height:0;border-radius:18px;border:1px solid var(--linea);background-color:var(--hoja)}
 .serv-measure{position:absolute;font:400 11px/1 var(--f-mono);color:var(--lav-d);border:1px dashed var(--lav);border-radius:4px;padding:5px 8px;background:var(--papel)}
@@ -275,7 +276,7 @@ html:not(.js) .noche-line,.noche-line{opacity:.35}
 .vitrina-fig-phones{display:flex;justify-content:center;gap:18px;padding:28px;background:var(--menta-s)}
 .vitrina-fig-phones img{width:min(42%,190px);border-radius:22px;box-shadow:0 20px 40px -18px rgba(31,41,55,.5)}
 .vitrina-text{display:flex;flex-direction:column;gap:10px;padding-bottom:8px}
-.vitrina-tags{font-size:14px;color:var(--menta-d);font-weight:500}
+.vitrina-tags{font-size:14px;color:var(--menta-t);font-weight:500}
 .vitrina-text h3{font:800 clamp(28px,3vw,42px)/1 var(--f-tit);letter-spacing:-.035em}
 .vitrina-text p:last-child{color:var(--tinta-2)}
 .vitrina-tuyo{grid-template-columns:1fr;align-content:center;min-height:clamp(320px,34vw,520px);border-radius:24px;border:2px dashed var(--linea-2);padding:clamp(28px,4vw,56px)}
@@ -336,7 +337,7 @@ html:not(.js) .noche-line,.noche-line{opacity:.35}
 .rev-list{display:grid;gap:10px}
 .rev-list li{display:grid;gap:2px;padding:12px 14px;border-radius:12px;border:1px solid var(--linea)}
 .rev-list s{font-size:13px;color:var(--tinta-3);text-decoration-color:var(--error)}
-.rev-list span{font-weight:600;color:var(--menta-d)}
+.rev-list span{font-weight:600;color:var(--menta-t)}
 .rev-demo .demo-tag{top:-12px;right:16px}
 
 /* ---------- FAQ ---------- */
