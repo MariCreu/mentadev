@@ -7,7 +7,18 @@ let registrado = false;
 export function gsapListo() {
   const { gsap, ScrollTrigger } = window;
   if (!gsap || !ScrollTrigger) return null;
-  if (!registrado) { gsap.registerPlugin(ScrollTrigger); registrado = true; }
+  if (!registrado) {
+    gsap.registerPlugin(ScrollTrigger);
+    registrado = true;
+    // Al recalcular, ScrollTrigger rehace los envoltorios de las escenas fijadas y el elemento
+    // con el foco sale un instante del documento: el foco caería al body. Se guarda y se devuelve.
+    let enfocado = null;
+    ScrollTrigger.addEventListener('refreshInit', () => { enfocado = document.activeElement; });
+    ScrollTrigger.addEventListener('refresh', () => {
+      if (enfocado && enfocado !== document.body && document.activeElement !== enfocado && enfocado.isConnected) enfocado.focus({ preventScroll: true });
+      enfocado = null;
+    });
+  }
   return { gsap, ScrollTrigger };
 }
 

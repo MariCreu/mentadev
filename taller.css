@@ -160,7 +160,7 @@ html:not(.js) .md-head-progress{display:none}
 .serv-visual{position:relative}
 .mock-web .demo-site-sm{min-height:0;border-radius:18px;border:1px solid var(--linea);background-color:var(--hoja)}
 .serv-measure{position:absolute;font:400 11px/1 var(--f-mono);color:var(--lav-d);border:1px dashed var(--lav);border-radius:4px;padding:5px 8px;background:var(--papel)}
-.serv-measure-a{left:-14px;top:26%}.serv-measure-b{right:-10px;top:18%}
+.serv-measure-a{left:14px;bottom:14px}.serv-measure-b{right:-10px;top:18%}
 /* Tienda */
 .mock-shop{border-radius:18px;background:var(--hoja);border:1px solid var(--linea);padding:20px;display:grid;gap:16px}
 .shop-head{display:flex;align-items:center;justify-content:space-between;font:700 18px var(--f-tit);letter-spacing:-.02em;color:var(--acento,#A4471F)}
@@ -363,6 +363,7 @@ footer{border-top:1px solid var(--linea);padding:44px 0 96px}
 
 /* ---------- Tablet ---------- */
 @media (max-width:1023px){
+  .serv-measure-b{right:14px}
   .md-head-nav,.md-head-cta{display:none}
   .md-burger{display:grid}
   .hero-grid,.ficha-grid,.noche-pin,.faq-grid,.contacto-grid,.rev-grid,.planes-grid{grid-template-columns:minmax(0,1fr)}
