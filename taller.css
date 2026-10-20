@@ -135,7 +135,8 @@ html:not(.js) .md-head-progress{display:none}
 .esc-ficha{padding:0 0 var(--esc)}
 .ficha-grid{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:clamp(32px,5vw,80px);align-items:start}
 .ficha-title{font-size:clamp(34px,4.2vw,58px)}
-.ficha{border-top:2px solid var(--tinta)}
+.ficha{--trazo:1;position:relative}
+.ficha::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--tinta);transform:scaleX(var(--trazo));transform-origin:0 50%}
 .ficha-row{position:relative;display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1.3fr);gap:8px 24px;align-items:baseline;padding:22px 0;border-bottom:1px solid var(--linea-2)}
 .ficha-row dt{font-size:14px;font-weight:500;color:var(--tinta-3)}
 .ficha-val{font:800 clamp(24px,2.4vw,34px)/1.05 var(--f-tit);letter-spacing:-.03em}
@@ -316,7 +317,10 @@ html:not(.js) .noche-line,.noche-line{opacity:.35}
 .dias-bar{height:4px;border-radius:4px;background:var(--linea);overflow:hidden;margin-bottom:22px}
 .dias-bar span{display:block;height:100%;background:var(--menta-d);transform-origin:0 50%}
 .dias-list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
-.dia{display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--tinta-2)}
+.dia{position:relative;display:flex;flex-direction:column;gap:6px;font-size:15px;color:var(--tinta-2);transition:color .4s}
+.dia::before{content:"";width:12px;height:12px;border-radius:50%;background:var(--linea-2);margin-bottom:6px;transition:background .3s,transform .4s var(--muelle)}
+.dia.is-on::before,html:not(.js) .dia::before{background:var(--menta-d);transform:scale(1.15)}
+@media (prefers-reduced-motion:reduce){.dia::before{background:var(--menta-d)}}
 .dia strong{font-size:17px;color:var(--tinta);font-weight:600}
 .dia-n{font:400 13px var(--f-mono);color:var(--lav-d)}
 .dias-note{margin-top:24px;font-size:14px;color:var(--tinta-3)}
@@ -505,3 +509,12 @@ footer{border-top:1px solid var(--linea);padding:44px 0 96px}
 
 /* Bloques de la demo: ocultos solo hasta que hero-build.js los monta (respaldo a 3 s en el <head>) */
 @media (prefers-reduced-motion:no-preference){html.js .demo-window:not(.is-built) .demo-block,html.js .demo-window:not(.is-built) .demo-note{opacity:0}}
+
+/* Cursor acompañante de las demos (solo ratón; el del sistema sigue visible) */
+.cursor-demo{position:fixed;left:0;top:0;z-index:60;pointer-events:none;display:flex;align-items:center;gap:8px;opacity:0;transition:opacity .2s}
+.cursor-demo.is-on{opacity:1}
+.cursor-demo i{width:10px;height:10px;margin:14px 0 0 14px;border-radius:50%;background:var(--lav-d);box-shadow:0 0 0 4px rgba(111,91,191,.18)}
+.cursor-demo span{margin-top:14px;font:400 11px var(--f-mono);color:var(--lav-d);background:var(--hoja);border:1px solid var(--lav);border-radius:5px;padding:3px 6px}
+.cursor-demo span:empty{display:none}
+.btn svg,.md-btn svg{transition:transform .3s var(--muelle)}
+.btn:hover svg,.md-btn:hover svg{transform:translateX(4px)}
