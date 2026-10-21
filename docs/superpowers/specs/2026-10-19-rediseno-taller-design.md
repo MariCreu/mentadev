@@ -104,7 +104,7 @@ Elemento central: el visitante elige su tipo de negocio y toda la página se ada
   - si hay un sector elegido, el paso 2 muestra "Para: [sector]";
   - el mensaje se rellena con "Tengo un/una [sector]…" solo si está vacío (mismo criterio que la calculadora);
   - se envía el campo opcional `sector`. El Worker lo valida contra la lista y lo añade al email ("Sector: …"). Si no viene o no es válido, se ignora.
-- **Sin JavaScript:** el HTML muestra el sector "Restaurante" en la web de ejemplo, la tienda y el panel, y los ejemplos "General" de automatización.
+- **Sin JavaScript:** el HTML muestra el sector "Restaurante" en la web de ejemplo, la tienda y el panel, y también los ejemplos de automatización de "Restaurante", el sector por defecto (ya no hay sector "General"; su papel lo hace "Otro").
 
 ## 6. Escenas
 

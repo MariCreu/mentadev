@@ -85,7 +85,8 @@ const validateStep = (n) => {
   let valid = true;
   steps[n - 1].querySelectorAll('input:not([type="radio"]), textarea').forEach((field) => {
     if (field.closest('[hidden]') || field.name === 'website') return;
-    const value = field.value.trim();
+    // El texto que pone la web sola ("Tengo una academia. ") no cuenta como mensaje escrito.
+    const value = field.name === 'mensaje' && field.value.trim() === prefijoSector().trim() ? '' : field.value.trim();
     const ok = (!field.required || value !== '') && field.checkValidity() && (field.name !== 'web' || !value || isWeb(value));
     field.classList.toggle('md-invalid', !ok);
     if (!ok) valid = false;
@@ -118,7 +119,14 @@ const aplicarSector = (id) => {
   if (campoSector.value) avisoSector.querySelector('[data-sector-label]').textContent = s.etiqueta;
 };
 aplicarSector(sectorState.get());
-document.addEventListener('md:sector', ({ detail }) => aplicarSector(detail.id));
+document.addEventListener('md:sector', ({ detail }) => {
+  aplicarSector(detail.id);
+  // En el paso 2, el texto automático cambia con el sector (nunca lo que haya escrito la persona).
+  const campo = form.elements.mensaje;
+  if (currentStep === 2 && autoMensaje && campo.value === autoMensaje) {
+    campo.value = autoMensaje = prefijoSector() + autoMensaje.replace(/^Tengo [^.]+\. /, '');
+  }
+});
 
 // Desde otras páginas se llega con /?servicio=…#contacto: ese servicio queda elegido y se abre el paso 2.
 const fromUrl = new URLSearchParams(location.search).get('servicio');

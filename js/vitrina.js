@@ -3,7 +3,7 @@
 //   cada captura se revela al llegar su panel.
 // - Resto (móvil, tablet, "reducir movimiento", sin GSAP): carrusel nativo con scroll-snap,
 //   botones Anterior/Siguiente y flechas del teclado.
-import { reduce, gsapListo } from './movimiento.js';
+import { reduce, gsapListo, volverTrasRecalcular } from './movimiento.js';
 
 const seccion = document.querySelector('.esc-vitrina');
 const pista = seccion?.querySelector('.vitrina-track');
@@ -38,6 +38,7 @@ function carrusel() {
 function escenaHorizontal({ gsap }) {
   seccion.classList.add('is-pinned');
   pista.scrollLeft = 0;
+  let dentro = false;
   // Hasta que el borde derecho del último panel quede alineado con el margen de la página
   // (scrollWidth incluye desbordes internos y daría una distancia mayor de la real).
   const distancia = () => {
@@ -48,7 +49,7 @@ function escenaHorizontal({ gsap }) {
   const avance = gsap.to(pista, {
     x: () => -distancia(),
     ease: 'none',
-    scrollTrigger: { trigger: seccion, start: 'top top', end: () => `+=${distancia()}`, pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1 },
+    scrollTrigger: { trigger: seccion, start: 'top top', end: () => `+=${distancia()}`, pin: true, scrub: 1, invalidateOnRefresh: true, anticipatePin: 1, onToggle: (self) => { dentro = self.isActive; } },
   });
   // [RF 3] Con teclado: el foco en un panel lleva el scroll hasta el punto en que ese panel está a la vista.
   const alEnfocar = (e) => {
@@ -71,6 +72,7 @@ function escenaHorizontal({ gsap }) {
   });
   return () => { // [RF 2] de vuelta al carrusel nativo
     seccion.removeEventListener('focusin', alEnfocar);
+    if (dentro) volverTrasRecalcular(seccion);
     revelados.forEach((tl) => { tl.scrollTrigger?.kill(); tl.kill(); });
     seccion.classList.remove('is-pinned');
     gsap.set(pista, { clearProps: 'transform' });
@@ -85,6 +87,4 @@ if (seccion && pista) {
   if (g && !reduce.matches) {
     g.gsap.matchMedia().add('(min-width: 1024px) and (min-height: 680px) and (prefers-reduced-motion: no-preference)', () => escenaHorizontal(g));
   }
-  // Las imágenes cargan tarde (lazy): al terminar, recalcular las distancias.
-  pista.querySelectorAll('img').forEach((img) => img.addEventListener('load', () => window.ScrollTrigger?.refresh(), { once: true }));
 }

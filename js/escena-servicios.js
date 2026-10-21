@@ -4,7 +4,7 @@
 //   cambia de paso con el scroll (web → tienda → app). En el resto, bloques apilados.
 import { sectorPorId, formatearPrecio } from './sectores.js';
 import { sectorState } from './sector-state.js';
-import { reduce, gsapListo } from './movimiento.js';
+import { reduce, gsapListo, volverTrasRecalcular } from './movimiento.js';
 import { pintarSitio } from './hero-build.js';
 
 const seccion = document.querySelector('.esc-servicios');
@@ -102,22 +102,25 @@ function activar(modo, animar) {
   }
 }
 
-function escenaFijada(g) {
+function escenaFijada(g, ctx) {
   const { ScrollTrigger } = g;
   seccion.classList.add('is-pinned');
   pasos.forEach((p) => p.classList.toggle('is-active', p.dataset.step === 'web'));
   modoActual = 'web';
   seccion.dataset.mode = 'web';
   // Los pasos no activos solo se ocultan a la vista: siguen siendo alcanzables con el teclado.
+  let dentro = false;
   const st = ScrollTrigger.create({
     trigger: seccion,
     start: 'top top',
     end: '+=300%',
     pin,
     anticipatePin: 1,
+    onToggle(self) { dentro = self.isActive; },
     onUpdate(self) {
       const modo = MODOS[Math.min(2, Math.floor(self.progress * 3))];
-      if (modo !== modoActual) activar(modo, true);
+      // Dentro del contexto de matchMedia: si cambia el punto de corte, estas transiciones también se deshacen.
+      if (modo !== modoActual) ctx.add(() => activar(modo, true));
     },
   });
   // [RF 3] el foco nunca se queda en un paso invisible: se desplaza a su tramo.
@@ -125,12 +128,14 @@ function escenaFijada(g) {
     const paso = e.target.closest?.('.serv-step');
     if (!paso || paso.dataset.step === modoActual) return;
     const i = MODOS.indexOf(paso.dataset.step);
-    window.scrollTo({ top: st.start + (st.end - st.start) * ((i + 0.5) / 3), behavior: 'auto' });
+    // Tras el desplazamiento propio del navegador al enfocar, para que el nuestro sea el último.
+    requestAnimationFrame(() => window.scrollTo({ top: st.start + (st.end - st.start) * ((i + 0.5) / 3), behavior: 'auto' }));
     activar(paso.dataset.step, false);
   };
   pin.addEventListener('focusin', alEnfocar);
   return () => { // [RF 2] al salir de escritorio todo vuelve a su estado apilado
     pin.removeEventListener('focusin', alEnfocar);
+    if (dentro) volverTrasRecalcular(seccion);
     seccion.classList.remove('is-pinned');
     pasos.forEach((p) => p.classList.add('is-active'));
     seccion.dataset.mode = 'web';
@@ -156,7 +161,7 @@ if (seccion) {
   const g = gsapListo();
   if (g && !reduce.matches) {
     const mm = g.gsap.matchMedia();
-    mm.add('(min-width: 1024px) and (min-height: 680px) and (prefers-reduced-motion: no-preference)', () => escenaFijada(g));
+    mm.add('(min-width: 1024px) and (min-height: 680px) and (prefers-reduced-motion: no-preference)', (ctx) => escenaFijada(g, ctx));
     mm.add('(max-width: 1023px) and (prefers-reduced-motion: no-preference)', () => entradasMovil(g));
   }
 }

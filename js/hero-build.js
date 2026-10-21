@@ -111,7 +111,6 @@ function entrada() {
       .fromTo(asas, { opacity: 0, scale: 0.96 }, { opacity: 1, scale: 1, duration: 0.25, ease: 'back.out(2)' }, '-=0.25')
       .to(asas, { opacity: 0, duration: 0.4, delay: 1.1 });
   }
-  if (picker) gsap.from(picker.children, { y: 10, opacity: 0, duration: 0.4, stagger: 0.04, delay: 0.35, ease: 'power2.out', clearProps: 'all' });
   // Si el visitante ya ha elegido en este medio segundo, su montaje manda.
   gsap.delayedCall(0.45, () => { if (destino === null) montar(sectorPorId(sectorState.get()), { entrada: true }); });
   gsap.delayedCall(4.5, iniciarRecorrido);

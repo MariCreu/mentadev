@@ -18,25 +18,29 @@ export function gsapListo() {
       if (enfocado && enfocado !== document.body && document.activeElement !== enfocado && enfocado.isConnected) enfocado.focus({ preventScroll: true });
       enfocado = null;
     });
+    // Al llegar con #ancla (p. ej. /?servicio=…#contacto), las escenas fijadas añaden su espacio después
+    // del salto del navegador. Si la persona aún no ha tocado la página, se vuelve a colocar el destino.
+    if (location.hash.length > 1) {
+      let tocada = false;
+      for (const ev of ['wheel', 'touchstart', 'keydown', 'pointerdown']) addEventListener(ev, () => { tocada = true; }, { once: true, passive: true });
+      const colocar = () => {
+        ScrollTrigger.removeEventListener('refresh', colocar);
+        const destino = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+        if (destino && !tocada) destino.scrollIntoView({ block: 'start' });
+      };
+      ScrollTrigger.addEventListener('refresh', colocar);
+    }
   }
   return { gsap, ScrollTrigger };
 }
 
-// Ejecuta la escena que toque según tamaño y preferencia de movimiento; GSAP deshace
-// todo lo creado dentro de cada rama cuando deja de cumplirse su condición.
-export function escenas(config) {
-  const g = gsapListo();
-  if (!g) return null;
-  const mm = g.gsap.matchMedia();
-  mm.add({
-    escritorio: '(min-width: 1024px) and (prefers-reduced-motion: no-preference)',
-    movil: '(max-width: 1023px) and (prefers-reduced-motion: no-preference)',
-  }, (ctx) => {
-    if (ctx.conditions.escritorio) return config.escritorio?.(ctx);
-    if (ctx.conditions.movil) return config.movil?.(ctx);
-    return undefined;
-  });
-  return mm;
+// Al cruzar un punto de corte (girar la tablet) desaparece el espacio de una escena fijada y la
+// página saltaría hacia abajo: si se estaba dentro, se vuelve a esa sección cuando ScrollTrigger recalcula.
+export function volverTrasRecalcular(seccion) {
+  const { ScrollTrigger } = window;
+  if (!ScrollTrigger) return;
+  const volver = () => { ScrollTrigger.removeEventListener('refresh', volver); seccion.scrollIntoView({ block: 'start' }); };
+  ScrollTrigger.addEventListener('refresh', volver);
 }
 
 // Grupo de botones de opción (role="radio") con tabindex itinerante y flechas.
