@@ -21,7 +21,7 @@ function url(value, protocols = ['https:']) {
 }
 // Solo se guardan estas señales: sí/no, números y el nombre del gestor de contenidos.
 const SIGNALS = {
-  reachable: 'boolean', https: 'boolean', viewport: 'boolean', title: 'boolean', description: 'boolean',
+  website: 'boolean', reachable: 'boolean', https: 'boolean', viewport: 'boolean', title: 'boolean', description: 'boolean',
   booking: 'boolean', form: 'boolean', whatsapp: 'boolean', legal: 'boolean',
   copyrightYear: 'number', generator: 'string', ms: 'number', kb: 'number', pageSpeed: 'number',
 };
@@ -48,9 +48,12 @@ export class CRM {
   registerSource(source) {
     const values = [text(source.id), url(source.url).href, text(source.permissionRef, 1000), text(source.reviewedBy), date(source.expiresAt)];
     if (typeof source.enabled !== 'boolean') throw new Error('Falta "enabled": true o false');
-    this.db.prepare(`INSERT INTO sources VALUES (?, ?, ?, ?, ?, ?)
+    // Días que se pueden conservar los datos de esta fuente (p. ej. 30 para Google Places). Sin valor, sin límite.
+    const maxAge = source.maxAgeDays ?? null;
+    if (maxAge !== null && !(Number.isInteger(maxAge) && maxAge > 0)) throw new Error('"maxAgeDays" debe ser un número entero de días');
+    this.db.prepare(`INSERT INTO sources(id,url,permission_ref,reviewed_by,expires_at,enabled,max_age_days) VALUES (?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(id) DO UPDATE SET url=excluded.url, permission_ref=excluded.permission_ref,
-      reviewed_by=excluded.reviewed_by, expires_at=excluded.expires_at, enabled=excluded.enabled`).run(...values, Number(source.enabled));
+      reviewed_by=excluded.reviewed_by, expires_at=excluded.expires_at, enabled=excluded.enabled, max_age_days=excluded.max_age_days`).run(...values, Number(source.enabled), maxAge);
   }
   importBatch(sourceId, records) {
     const now = date(this.clock());
@@ -64,8 +67,9 @@ export class CRM {
         if (!record || Object.keys(record).some(key => !allowed.includes(key))) throw new Error('El lote trae campos no admitidos');
         const name = text(record.name), municipality = text(record.municipality);
         if (record.province !== '03' || !['health_clinic','aesthetic_clinic'].includes(record.sector)) throw new Error('Fuera de alcance: solo clínicas de la provincia de Alicante (03)');
-        const website = url(record.website, ['https:', 'http:']);
-        website.search = ''; website.hash = '';
+        // Sin web es un dato válido: son las mejores candidatas.
+        const website = record.website == null ? null : url(record.website, ['https:', 'http:']);
+        if (website) { website.search = ''; website.hash = ''; }
         const observed = date(record.observedAt);
         if (observed > now) throw new Error('La fecha de observación es futura');
         const recordId = text(record.sourceRecordId);
@@ -73,7 +77,7 @@ export class CRM {
         const identity = JSON.stringify([normalized(name), normalized(municipality)]);
         const prior = this.db.prepare('SELECT l.* FROM observations o JOIN leads l ON l.id=o.lead_id WHERE o.source_id=? AND o.source_record_id=?').get(sourceId, recordId);
         if (prior && prior.identity !== identity) throw new Error('Ese ID de la fuente ya era otra clínica: revísalo a mano');
-        this.db.prepare('INSERT INTO leads(identity,name,municipality,province,sector,website,created_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(identity) DO NOTHING').run(identity,name,municipality,'03',record.sector,website.href,now);
+        this.db.prepare('INSERT INTO leads(identity,name,municipality,province,sector,website,created_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(identity) DO NOTHING').run(identity,name,municipality,'03',record.sector,website?.href ?? null,now);
         const lead = this.db.prepare('SELECT id FROM leads WHERE identity=?').get(identity);
         this.db.prepare('INSERT INTO observations VALUES(?,?,?,?) ON CONFLICT(source_id,source_record_id) DO UPDATE SET observed_at=max(observed_at,excluded.observed_at)').run(lead.id,sourceId,recordId,observed);
         return lead.id;
@@ -90,12 +94,27 @@ export class CRM {
     const blocked = result.blocked === true;
     if (!blocked && (!Number.isInteger(outcome?.score) || !outcome.problems.every(key => PROBLEMS[key]))) throw new Error('Puntuación no válida');
     this.db.prepare('INSERT INTO analyses(lead_id,analyzed_at,final_url,blocked,score,problems,signals) VALUES(?,?,?,?,?,?,?)').run(
-      id, date(this.clock()), url(result.url, ['https:', 'http:']).href, Number(blocked),
+      id, date(this.clock()), result.url == null ? null : url(result.url, ['https:', 'http:']).href, Number(blocked),
       blocked ? null : outcome.score, JSON.stringify(blocked ? [] : outcome.problems), blocked ? '{}' : signals(result.signals));
   }
   latestAnalysis(id) {
     const row = this.db.prepare('SELECT * FROM analyses WHERE lead_id=? ORDER BY analyzed_at DESC, id DESC LIMIT 1').get(id);
     return row && { ...row, blocked: row.blocked === 1, problems: JSON.parse(row.problems), signals: JSON.parse(row.signals) };
+  }
+  // Borra lo que una fuente con plazo (maxAgeDays) no permite conservar: observaciones caducadas y las
+  // fichas que se quedan sin ninguna. Las excluidas se mantienen para respetar que no quieren contacto.
+  purge() {
+    const now = Date.parse(date(this.clock()));
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      const stale = this.db.prepare('SELECT o.source_id, o.source_record_id, o.observed_at, s.max_age_days FROM observations o JOIN sources s ON s.id=o.source_id WHERE s.max_age_days IS NOT NULL').all()
+        .filter(row => now - Date.parse(row.observed_at) > row.max_age_days * 86_400_000);
+      const remove = this.db.prepare('DELETE FROM observations WHERE source_id=? AND source_record_id=?');
+      for (const row of stale) remove.run(row.source_id, row.source_record_id);
+      const leads = this.db.prepare("DELETE FROM leads WHERE status <> 'suppressed' AND id NOT IN (SELECT lead_id FROM observations)").run().changes;
+      this.db.exec('COMMIT');
+      return { observations: stale.length, leads };
+    } catch (error) { this.db.exec('ROLLBACK'); throw error; }
   }
   // Fichas por llamar, de mejor a peor candidata. Las descartadas y excluidas no salen.
   ranking() {

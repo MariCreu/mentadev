@@ -5,7 +5,8 @@ CREATE TABLE IF NOT EXISTS sources (
   permission_ref TEXT NOT NULL,
   reviewed_by TEXT NOT NULL,
   expires_at TEXT NOT NULL,
-  enabled INTEGER NOT NULL CHECK(enabled IN (0,1))
+  enabled INTEGER NOT NULL CHECK(enabled IN (0,1)),
+  max_age_days INTEGER CHECK(max_age_days IS NULL OR max_age_days > 0)
 );
 CREATE TABLE IF NOT EXISTS leads (
   id INTEGER PRIMARY KEY,
@@ -14,7 +15,7 @@ CREATE TABLE IF NOT EXISTS leads (
   municipality TEXT NOT NULL,
   province TEXT NOT NULL CHECK(province = '03'),
   sector TEXT NOT NULL CHECK(sector IN ('health_clinic','aesthetic_clinic')),
-  website TEXT NOT NULL,
+  website TEXT,
   status TEXT NOT NULL DEFAULT 'new' CHECK(status IN ('new','qualified','rejected','suppressed')),
   created_at TEXT NOT NULL
 );
@@ -36,7 +37,7 @@ CREATE TABLE IF NOT EXISTS analyses (
   id INTEGER PRIMARY KEY,
   lead_id INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
   analyzed_at TEXT NOT NULL,
-  final_url TEXT NOT NULL,
+  final_url TEXT,
   blocked INTEGER NOT NULL CHECK(blocked IN (0,1)),
   score INTEGER CHECK(score BETWEEN 0 AND 10),
   problems TEXT NOT NULL,

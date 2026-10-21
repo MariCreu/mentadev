@@ -52,8 +52,8 @@ rechazo completo si uno falla. No se admiten campos adicionales, emails,
 teléfonos, personas, pacientes, reseñas ni datos de salud. El código de provincia
 es una declaración del importador: el operador debe comprobar municipio y
 actividad contra la fuente antes de importar. No hay verificación geográfica
-automática. Webs de clínicas con http o https (las que siguen en http son justo
-buenas candidatas); fuentes solo https. Se eliminan query y fragmento de la web.
+automática. Webs de clínicas con http o https, o vacías si no tienen (las que siguen
+en http o no tienen web son justo buenas candidatas); fuentes solo https. Se eliminan query y fragmento de la web.
 
 Se deduplica por nombre normalizado + municipio. Un mismo nombre en municipios
 distintos crea fichas distintas; dos sedes con el mismo nombre en el mismo
@@ -98,22 +98,49 @@ las clínicas requiere que la política de red del entorno lo permita.
 
 ## Descubrimiento desde fuentes autorizadas
 
-No se entrega ningún conector activo ni listado real. Registro de fuentes vacío
-por defecto. Candidatas a evaluar, **no aprobadas**:
+No se entrega ningún listado real y el registro de fuentes está vacío por defecto.
+Hay un adaptador para Google Places (abajo); el resto son candidatas a evaluar,
+**no aprobadas**:
 
 | Fuente | Uso propuesto | Condición previa |
 | --- | --- | --- |
 | Exportación propia o datos aportados por una clínica | Alta manual mínima | Documentar procedencia, finalidad y base del tratamiento |
 | Catálogo público sanitario de Generalitat/REGCESS | Verificar centro y municipio | Localizar dataset/export oficial, revisar licencia y condiciones de reutilización; público no equivale a reutilizable |
-| Directorios con licencia/API contratada | Descubrimiento limitado | Contrato que permita almacenamiento y uso previsto, cuotas y retención |
+| Google Places API (New), con clave propia | Descubrimiento (`discover`) | Condiciones de Google Maps Platform vigentes: plazo de conservación (`maxAgeDays`), cuotas y presupuesto |
+| Otros directorios con licencia/API contratada | Descubrimiento limitado | Contrato que permita almacenamiento y uso previsto, cuotas y retención |
 | Web propia de la clínica | Revisión técnica de la portada (`analyze`) y confirmación humana de actividad | Solo señales técnicas; nunca se copian contenidos ni datos de contacto |
 
-Un futuro adaptador debe usar una fuente aprobada del registro, comprobar permiso
+Todo adaptador debe usar una fuente aprobada del registro, comprobar permiso
 y caducidad antes de cada ejecución, limitar peticiones según contrato, conservar
 ID y fecha de observación y producir el mismo esquema mínimo. Nada de esquivar
 restricciones, copiar Google Maps/directorios sin permiso, comprar listas de
 procedencia dudosa o interpretar robots.txt como una licencia. Importar un lote
 no autoriza enviar publicidad.
+
+### Google Places
+
+```sh
+# source-google.json: {"id":"google-places","url":"https://cloud.google.com/maps-platform/terms",
+#   "permissionRef":"Condiciones de Google Maps Platform revisadas el <fecha>","reviewedBy":"operador",
+#   "expiresAt":"<fecha de la próxima revisión>","enabled":true,"maxAgeDays":30}
+node prospecting/cli.mjs private-data/crm.sqlite source private-data/source-google.json
+node prospecting/cli.mjs private-data/crm.sqlite discover google-places "clínica dental Benidorm" health_clinic
+node prospecting/cli.mjs private-data/crm.sqlite purge
+```
+
+`discovery.mjs` usa Text Search con `GOOGLE_MAPS_API_KEY` (como máximo 3 páginas de
+20 resultados por búsqueda) y pide solo id, nombre, dirección desglosada, web y
+estado: nunca teléfono, reseñas, valoraciones ni fotos. Descarta los cerrados y
+los que no tienen código postal 03xxx; las clínicas **sin web** se importan
+(`website` vacío) y puntúan 10 en `analyze`. El `place_id` se guarda como
+`sourceRecordId`, así que repetir una búsqueda renueva la fecha de observación
+en vez de duplicar.
+
+Las condiciones de Google Maps Platform no permiten guardar indefinidamente sus
+datos (salvo el `place_id`): comprobad el plazo en la versión vigente y ponedlo
+en `maxAgeDays`. `purge` borra las referencias de fuentes con plazo que lo han
+superado y las fichas que se quedan sin ninguna; las excluidas se conservan para
+respetar que no quieren contacto. Ejecutad `purge` al menos una vez por semana.
 
 ## Protección de datos y contacto en España
 

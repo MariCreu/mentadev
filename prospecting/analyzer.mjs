@@ -7,6 +7,7 @@ const TIMEOUT_MS = 15_000;
 // Cada problema suma puntos: cuanto peor está la web, mejor candidata es la clínica.
 // Los textos van sin tecnicismos porque acaban en el guion de llamada.
 export const PROBLEMS = {
+  sinweb: { points: 10, reason: 'No tiene web', fix: 'Tener web propia: hoy quien os busca en internet no encuentra una página vuestra con lo que hacéis y cómo pedir cita.' },
   caida: { points: 9, reason: 'La web no carga', fix: 'Volver a tener la web en marcha: ahora mismo quien os busca en internet no encuentra nada.' },
   inseguro: { points: 3, reason: 'Sin conexión segura', fix: 'Activar la conexión segura: el navegador marca la web como «No segura» y eso echa para atrás a los pacientes.' },
   movil: { points: 2, reason: 'No adaptada al móvil', fix: 'Adaptarla al móvil: la mayoría de pacientes os buscan desde el teléfono y ahora tienen que hacer zoom para leerla.' },
@@ -52,7 +53,8 @@ export function analyzeHtml(html, { url, ms = null, pageSpeed = null }) {
 
 export function score(signals, year = new Date().getUTCFullYear()) {
   const found = [];
-  if (!signals.reachable) found.push('caida');
+  if (signals.website === false) found.push('sinweb');
+  else if (!signals.reachable) found.push('caida');
   else {
     if (!signals.https) found.push('inseguro');
     if (!signals.viewport) found.push('movil');
