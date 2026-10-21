@@ -16,3 +16,11 @@ docs
 docs/**
 tests
 tests/**
+prospecting
+prospecting/**
+.github
+.github/**
+private-data
+private-data/**
+**/*.sqlite*
+**/*.db

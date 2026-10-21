@@ -9,3 +9,6 @@ dist/
 .env.*
 .wrangler/
 .dev.vars
+private-data/
+*.sqlite*
+*.db
