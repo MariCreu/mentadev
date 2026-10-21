@@ -50,13 +50,14 @@ wrangler.jsonc, .assetsignore      # Despliegue en Cloudflare
 - **Colores:** variables de `:root` en `taller.css` (home) y `styles.css` (resto).
 
 ## Pruebas
-
-La base local del agente comercial (fase 1, sin envíos) está documentada en
-[`prospecting/README.md`](prospecting/README.md). Requiere Node 24 y queda excluida
-de los archivos públicos de la web.
 ```bash
 node --test "tests/*.test.mjs"
 ```
+
+## Prospección (uso interno)
+La base local del agente comercial (fase 1, sin envíos) está documentada en
+[`prospecting/README.md`](prospecting/README.md). Requiere Node 24 y queda excluida
+de los archivos públicos de la web.
 
 ## Despliegue
 Cloudflare Workers (static assets): el Worker `mentadev` está conectado a este repo y cada push a `main` se publica en https://mentadev.com.

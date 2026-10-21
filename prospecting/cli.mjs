@@ -13,6 +13,6 @@ if (!database || !['source','import','list','status'].includes(command)) {
     if (command === 'import') console.log(JSON.stringify(crm.importBatch(args[0], JSON.parse(readFileSync(args[1], 'utf8')))));
     if (command === 'list') console.log(JSON.stringify(crm.list(), null, 2));
     if (command === 'status') crm.setStatus(Number(args[0]), args[1], args[2]);
-  } catch { console.error('Operation failed; check input, source authorization and database path.'); process.exitCode = 1; }
+  } catch (error) { console.error(`Operation failed: ${error.message}`); process.exitCode = 1; }
   finally { crm?.close(); }
 }
