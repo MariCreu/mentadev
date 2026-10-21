@@ -18,7 +18,7 @@ Hace falta un servidor: la home usa módulos ES, que no cargan abriendo `index.h
 ```
 index.html      # Home: hero, ficha, servicios, automatización, proyectos, planes, revisión, FAQ, contacto
 taller.css      # Estilos de la home (rediseño "Taller en directo")
-styles.css      # Estilos de guías, legales y 404
+paginas.css     # Bloques de lectura de guías, legales y 404 (sobre los tokens de taller.css)
 site.js         # Común: menú y barra del móvil, WhatsApp, animaciones
 main.js         # Solo la home (módulo): formulario por pasos y calculadora
 js/             # Módulos de la home:
@@ -47,7 +47,7 @@ wrangler.jsonc, .assetsignore      # Despliegue en Cloudflare
   - `assets/proyectos/luna-y-papel.webp` — captura de escritorio (horizontal)
   - `assets/proyectos/infanapp-1.webp` y `infanapp-2.webp` — capturas de móvil (vertical, ~9:19)
   - `assets/proyectos/reservas-al-vuelo.webp` — interfaz (horizontal, 16:10)
-- **Colores:** variables de `:root` en `taller.css` (home) y `styles.css` (resto).
+- **Colores:** variables de `:root` en `taller.css` (las usan todas las páginas).
 
 ## Pruebas
 ```bash

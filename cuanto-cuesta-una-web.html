@@ -92,55 +92,56 @@
 }
 </script>
 <link rel="preload" href="/assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/poppins-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css">
+<link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/taller.css">
+<link rel="stylesheet" href="/paginas.css">
 </head>
 <body>
-<!-- Página generada con la cabecera, el pie y la barra del móvil de index.html: si cambian allí, cambiarlos también aquí -->
-<div style="width: 100%; overflow-x: clip; background: #F8FAFB">
+<a class="skip" href="#contenido">Saltar al contenido</a>
 
-<!-- NAV -->
-<header id="top" style="position: sticky; top: 0; z-index: 20; background: rgba(248,250,251,.86); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(230,234,239,.7)">
-<div class="md-wrap" style="display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 24px">
-<a href="/" aria-label="MentaDev, inicio" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1F2937">
-<svg width="36" height="36" viewBox="0 0 64 64" aria-hidden="true"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path><path d="M31 55Q37 31 54 10" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".35"></path></svg>
-<span style="font-size: 22px; font-weight: 600; letter-spacing: -.03em">Menta<span style="color: #9D88D8">Dev</span></span>
+<header id="top" class="md-head">
+<div class="wrap md-head-in">
+<a class="md-logo" href="/" aria-label="MentaDev, inicio">
+<svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path></svg>
+<span>Menta<span>Dev</span></span>
 </a>
-<nav class="md-hide-m" aria-label="Principal" style="display: flex; align-items: center; gap: 32px">
-<a class="md-nav-link" href="/#servicios">Servicios</a>
-<a class="md-nav-link" href="/#automatizacion">Automatización</a>
-<a class="md-nav-link" href="/#proyectos">Proyectos</a>
-<a class="md-nav-link" href="/#planes">Planes</a>
-<a class="md-nav-link" href="/#faq">FAQ</a>
+<nav class="md-head-nav" aria-label="Principal">
+<a href="/#servicios">Servicios</a>
+<a href="/#automatizacion">Automatización</a>
+<a href="/#proyectos">Proyectos</a>
+<a href="/#planes">Planes</a>
 </nav>
-<a class="md-btn md-hide-m" href="/#contacto" style="min-height: 46px; padding: 0 22px; font-size: 15px">Hablemos</a>
+<a class="btn btn-sm md-head-cta" href="/#contacto">Hablemos</a>
 <button type="button" class="md-burger" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path class="md-burger-open" d="M4 7h16M4 12h16M4 17h16"></path><path class="md-burger-close" d="M6 6l12 12M18 6L6 18"></path></svg>
 </button>
 </div>
-<!-- Menú del móvil: lo abre .md-burger -->
 <nav id="menu-movil" class="md-mnav" aria-label="Menú" hidden="">
 <a href="/#servicios">Servicios</a>
 <a href="/#automatizacion">Automatización</a>
 <a href="/#proyectos">Proyectos</a>
 <a href="/#planes">Planes</a>
-<a href="/#faq">FAQ</a>
+<a href="/#faq">Preguntas frecuentes</a>
 <a href="/#contacto">Contacto</a>
 </nav>
 </header>
 
-<main>
+<main id="contenido">
 <section class="md-page-hero">
 <div class="md-wrap">
 <nav class="md-crumbs" aria-label="Estás en"><a href="/">Inicio</a><span aria-hidden="true">/</span><span aria-current="page">Cuánto cuesta una web</span></nav>
-<span class="md-eyebrow">Guía de precios 2026</span>
-<h1>¿Cuánto cuesta una <span style="color: #6F5BBF">página web</span> en 2026?</h1>
+<h1>¿Cuánto cuesta una página web en 2026?</h1>
 <p class="md-page-lead">Depende de lo que necesites, pero no tiene por qué ser un misterio. En esta guía te contamos los precios orientativos según el tipo de web, qué hace que suba el precio y qué gastos tendrás después de publicarla.</p>
-<div class="md-page-hero-actions"><a class="md-btn" href="/?servicio=Web%20o%20landing#contacto">Pide tu presupuesto cerrado <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div>
+<div class="md-page-hero-actions"><a class="md-btn" href="/?servicio=Web%20o%20landing#contacto">Pide tu presupuesto cerrado</a></div>
+<dl class="pg-datos">
+<div><dt>Web profesional</dt><dd>desde 349 € + IVA</dd></div>
+<div><dt>Mantenimiento</dt><dd>15 € + IVA al mes</dd></div>
+<div><dt>Pago</dt><dd>En 2 plazos sin intereses</dd></div>
+</dl>
 </div>
 </section>
 
-<section class="md-section" style="padding-top: 24px">
+<section class="md-section">
 <div class="md-wrap">
 <article class="md-prose">
 <h2>La respuesta corta</h2>
@@ -188,52 +189,51 @@
 
 <h2>Nuestro precio</h2>
 <div class="md-card md-prose-offer">
-<p style="margin: 0; font-size: 15px; color: #5B6472">Web profesional</p>
-<p style="margin: 0; display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px"><span style="font-size: 14px; color: #5B6472">desde</span><span style="font-size: 40px; font-weight: 600; letter-spacing: -.03em; line-height: 1; color: #1F2937">349 €</span><span style="font-size: 15px; color: #5B6472">+ IVA</span></p>
+<p class="pg-oferta-nombre">Web profesional</p>
+<p class="pg-oferta-precio"><span>desde</span><b>349 €</b><span>+ IVA</span></p>
 <ul class="md-feat-list">
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Hasta 6 secciones o páginas</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Contenidos editables, SEO y analítica</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Textos legales básicos y ayuda con los textos</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Alojamiento del primer año y 2 meses de soporte</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Lista en 7 días laborables o te devolvemos el primer plazo</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Pago en 2 plazos sin intereses</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>La web y el dominio, a tu nombre</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Hasta 6 secciones o páginas</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Contenidos editables, SEO y analítica</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Textos legales básicos y ayuda con los textos</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Alojamiento del primer año y 2 meses de soporte</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Lista en 7 días laborables o te devolvemos el primer plazo</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Pago en 2 plazos sin intereses</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>La web y el dominio, a tu nombre</li>
 </ul>
-<p style="margin: 0; font-size: 14px; color: #5B6472">Después, mantenimiento opcional por 15 € + IVA al mes, sin permanencia. Tiendas, apps y funciones especiales, con presupuesto cerrado.</p>
-<a class="md-btn" href="/?servicio=Web%20o%20landing#contacto" style="align-self: flex-start">Quiero mi web <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<p class="pg-oferta-nota">Después, mantenimiento opcional por 15 € + IVA al mes, sin permanencia. Tiendas, apps y funciones especiales, con presupuesto cerrado.</p>
+<a class="md-btn" href="/?servicio=Web%20o%20landing#contacto">Quiero mi web</a>
 </div>
 
 <h2>Preguntas frecuentes</h2>
 <div class="md-faq">
 <details>
 <summary>¿Cuánto cuesta mantener una web al año?<span class="md-plus" aria-hidden="true">+</span></summary>
-<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 680px">Lo mínimo es el dominio (unos 10–15 € al año) y el alojamiento. Si además quieres que alguien se encargue de las actualizaciones, la seguridad, las copias y los pequeños cambios, súmale un mantenimiento mensual. El nuestro cuesta 15 € + IVA al mes, sin permanencia.</p>
+<p>Lo mínimo es el dominio (unos 10–15 € al año) y el alojamiento. Si además quieres que alguien se encargue de las actualizaciones, la seguridad, las copias y los pequeños cambios, súmale un mantenimiento mensual. El nuestro cuesta 15 € + IVA al mes, sin permanencia.</p>
 </details>
 <details>
 <summary>¿Por qué hay webs tan baratas y otras tan caras?<span class="md-plus" aria-hidden="true">+</span></summary>
-<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 680px">Por lo que incluyen: el número de páginas, si el diseño es a medida, si te ayudan con los textos, las funciones especiales y el soporte después. Antes de comparar precios, compara qué entra en cada uno.</p>
+<p>Por lo que incluyen: el número de páginas, si el diseño es a medida, si te ayudan con los textos, las funciones especiales y el soporte después. Antes de comparar precios, compara qué entra en cada uno.</p>
 </details>
 <details>
 <summary>¿El dominio tiene que estar a mi nombre?<span class="md-plus" aria-hidden="true">+</span></summary>
-<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 680px">Sí, conviene siempre. Así la dirección de tu web es tuya pase lo que pase. Nosotros registramos el dominio a tu nombre y lo dejamos todo configurado.</p>
+<p>Sí, conviene siempre. Así la dirección de tu web es tuya pase lo que pase. Nosotros registramos el dominio a tu nombre y lo dejamos todo configurado.</p>
 </details>
 </div>
 </article>
 </div>
 </section>
 
-<section class="md-section" style="padding-top: 0">
+<section class="md-section">
 <div class="md-wrap">
 <div class="md-cta-band">
-<h2 class="md-h2" style="color: #fff">¿Quieres saber cuánto costaría la tuya?</h2>
+<h2 class="md-h2">¿Quieres saber cuánto costaría la tuya?</h2>
 <p>Cuéntanos qué necesitas y te respondemos en menos de 24 h laborables con un presupuesto cerrado, sin compromiso.</p>
-<div class="md-cta-band-actions"><a class="md-btn" href="/?servicio=Web%20o%20landing#contacto">Pide tu presupuesto <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a><a class="md-link-arrow" href="/?servicio=Revisi%C3%B3n%20gratis%20de%20mi%20web#contacto" style="color: #C9BEEA">¿Ya tienes web? Te la revisamos gratis <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div>
+<div class="md-cta-band-actions"><a class="md-btn" href="/?servicio=Web%20o%20landing#contacto">Pide tu presupuesto</a><a class="md-link-arrow" href="/?servicio=Revisi%C3%B3n%20gratis%20de%20mi%20web#contacto">¿Ya tienes web? Te la revisamos gratis</a></div>
 </div>
 </div>
 </section>
 </main>
 
-<!-- FOOTER -->
 <footer style="border-top: 1px solid #E6EAEF; padding: 40px 0">
 <div class="md-wrap" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px">
 <div class="md-foot-brand">
@@ -258,8 +258,6 @@
 <nav aria-label="Guías" class="md-foot-guides"><span>Guías:</span><a href="/diseno-web-alicante">Diseño web en Alicante</a><a href="/automatizacion-de-procesos">Automatización de procesos</a><a href="/cuanto-cuesta-una-web">Cuánto cuesta una web</a></nav>
 </div>
 </footer>
-
-</div>
 
 <!-- Barra fija del móvil: sustituye al botón flotante por debajo de 960 px y se oculta al llegar a Contacto -->
 <div class="md-mbar">

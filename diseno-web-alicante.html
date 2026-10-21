@@ -120,95 +120,94 @@
 }
 </script>
 <link rel="preload" href="/assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="/assets/fonts/poppins-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/styles.css">
+<link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/taller.css">
+<link rel="stylesheet" href="/paginas.css">
 </head>
 <body>
-<!-- Página generada con la cabecera, el pie y la barra del móvil de index.html: si cambian allí, cambiarlos también aquí -->
-<div style="width: 100%; overflow-x: clip; background: #F8FAFB">
+<a class="skip" href="#contenido">Saltar al contenido</a>
 
-<!-- NAV -->
-<header id="top" style="position: sticky; top: 0; z-index: 20; background: rgba(248,250,251,.86); backdrop-filter: blur(14px); border-bottom: 1px solid rgba(230,234,239,.7)">
-<div class="md-wrap" style="display: flex; align-items: center; justify-content: space-between; height: 76px; gap: 24px">
-<a href="/" aria-label="MentaDev, inicio" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: #1F2937">
-<svg width="36" height="36" viewBox="0 0 64 64" aria-hidden="true"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path><path d="M31 55Q37 31 54 10" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity=".35"></path></svg>
-<span style="font-size: 22px; font-weight: 600; letter-spacing: -.03em">Menta<span style="color: #9D88D8">Dev</span></span>
+<header id="top" class="md-head">
+<div class="wrap md-head-in">
+<a class="md-logo" href="/" aria-label="MentaDev, inicio">
+<svg width="34" height="34" viewBox="0 0 64 64" aria-hidden="true"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"></path><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"></path></svg>
+<span>Menta<span>Dev</span></span>
 </a>
-<nav class="md-hide-m" aria-label="Principal" style="display: flex; align-items: center; gap: 32px">
-<a class="md-nav-link" href="/#servicios">Servicios</a>
-<a class="md-nav-link" href="/#automatizacion">Automatización</a>
-<a class="md-nav-link" href="/#proyectos">Proyectos</a>
-<a class="md-nav-link" href="/#planes">Planes</a>
-<a class="md-nav-link" href="/#faq">FAQ</a>
+<nav class="md-head-nav" aria-label="Principal">
+<a href="/#servicios">Servicios</a>
+<a href="/#automatizacion">Automatización</a>
+<a href="/#proyectos">Proyectos</a>
+<a href="/#planes">Planes</a>
 </nav>
-<a class="md-btn md-hide-m" href="/#contacto" style="min-height: 46px; padding: 0 22px; font-size: 15px">Hablemos</a>
+<a class="btn btn-sm md-head-cta" href="/#contacto">Hablemos</a>
 <button type="button" class="md-burger" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path class="md-burger-open" d="M4 7h16M4 12h16M4 17h16"></path><path class="md-burger-close" d="M6 6l12 12M18 6L6 18"></path></svg>
 </button>
 </div>
-<!-- Menú del móvil: lo abre .md-burger -->
 <nav id="menu-movil" class="md-mnav" aria-label="Menú" hidden="">
 <a href="/#servicios">Servicios</a>
 <a href="/#automatizacion">Automatización</a>
 <a href="/#proyectos">Proyectos</a>
 <a href="/#planes">Planes</a>
-<a href="/#faq">FAQ</a>
+<a href="/#faq">Preguntas frecuentes</a>
 <a href="/#contacto">Contacto</a>
 </nav>
 </header>
 
-<main>
+<main id="contenido">
 <section class="md-page-hero">
 <div class="md-wrap">
 <nav class="md-crumbs" aria-label="Estás en"><a href="/">Inicio</a><span aria-hidden="true">/</span><span aria-current="page">Diseño web en Alicante</span></nav>
-<span class="md-eyebrow">Diseño web en Alicante</span>
-<h1>Diseño web en Alicante para <span style="color: #6F5BBF">pequeños negocios</span></h1>
+<h1>Diseño web en Alicante para pequeños negocios</h1>
 <p class="md-page-lead">Somos un estudio de la Marina Baixa, en Polop. Diseñamos webs profesionales para negocios de Benidorm, Altea, La Nucía, l’Alfàs del Pi, la Vila Joiosa, Alicante y el resto de la provincia: desde 349 € + IVA, con precio cerrado y listas en 7 días laborables.</p>
-<div class="md-page-hero-actions"><a class="md-btn" href="/?servicio=Web%20o%20landing#contacto">Quiero mi web <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a><a class="md-btn md-btn-ghost" href="/?servicio=Revisi%C3%B3n%20gratis%20de%20mi%20web#contacto">Revisar mi web gratis</a></div>
+<div class="md-page-hero-actions"><a class="md-btn" href="/?servicio=Web%20o%20landing#contacto">Quiero mi web</a><a class="md-btn md-btn-ghost" href="/?servicio=Revisi%C3%B3n%20gratis%20de%20mi%20web#contacto">Revisar mi web gratis</a></div>
+<dl class="pg-datos">
+<div><dt>Web profesional</dt><dd>desde 349 € + IVA</dd></div>
+<div><dt>Plazo</dt><dd>7 días laborables</dd></div>
+<div><dt>Zona</dt><dd>Marina Baixa y provincia de Alicante</dd></div>
+</dl>
 </div>
 </section>
 
 <section class="md-section">
 <div class="md-wrap md-split">
-<div style="display: flex; flex-direction: column; gap: 16px">
-<span class="md-eyebrow">Qué incluye</span>
+<div>
 <h2 class="md-h2">Tu web completa, desde 349 € + IVA</h2>
-<p style="color: #5B6472; font-size: 17px">Un precio cerrado para la web de tu negocio, sin cuotas obligatorias. Después, si quieres despreocuparte, el mantenimiento cuesta 15 € + IVA al mes, sin permanencia.</p>
-<p style="color: #5B6472; font-size: 17px">El dominio se registra a tu nombre (suele costar unos 10–15 € al año) y la web es 100 % tuya.</p>
+<p>Un precio cerrado para la web de tu negocio, sin cuotas obligatorias. Después, si quieres despreocuparte, el mantenimiento cuesta 15 € + IVA al mes, sin permanencia.</p>
+<p>El dominio se registra a tu nombre (suele costar unos 10–15 € al año) y la web es 100 % tuya.</p>
 </div>
 <div class="md-card">
 <ul class="md-feat-list">
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Hasta 6 secciones o páginas</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Contenidos editables sin tocar código</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Preparada para las búsquedas de tu zona (SEO) y con analítica</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Textos legales básicos</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Te ayudamos con los textos</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Alojamiento del primer año incluido</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>2 meses de soporte incluidos</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Lista en 7 días laborables o te devolvemos el primer plazo</li>
-<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 20px; margin-top: 2px"><path d="M5 12l5 5L20 7"></path></svg>Pago en 2 plazos sin intereses</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Hasta 6 secciones o páginas</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Contenidos editables sin tocar código</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Preparada para las búsquedas de tu zona (SEO) y con analítica</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Textos legales básicos</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Te ayudamos con los textos</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Alojamiento del primer año incluido</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>2 meses de soporte incluidos</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Lista en 7 días laborables o te devolvemos el primer plazo</li>
+<li class="md-price-feat"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2E8574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"></path></svg>Pago en 2 plazos sin intereses</li>
 </ul>
 </div>
 </div>
 </section>
 
-<section class="md-section" style="padding-top: 0">
+<section class="md-section">
 <div class="md-wrap md-stack">
-<div style="display: flex; flex-direction: column; gap: 16px; max-width: 680px">
-<span class="md-eyebrow">Por qué con nosotros</span>
+<div>
 <h2 class="md-h2">Un estudio de aquí, que te atiende de verdad</h2>
 </div>
 <div class="md-grid3">
-<article class="md-card" style="display: flex; flex-direction: column; gap: 12px"><h3 style="font-size: 20px; font-weight: 600">Conocemos la zona</h3><p style="font-size: 15px; color: #5B6472">Turismo, hostelería, salud, estética, comercio… Pensamos tu web para los clientes de aquí y para quienes vienen de fuera y te buscan desde el móvil.</p></article>
-<article class="md-card" style="display: flex; flex-direction: column; gap: 12px"><h3 style="font-size: 20px; font-weight: 600">Que te encuentren en Google</h3><p style="font-size: 15px; color: #5B6472">Cuidamos lo que más pesa en las búsquedas locales, como «fisioterapia en Altea» o «restaurante en Benidorm»: tu dirección, tus servicios y una web rápida.</p></article>
-<article class="md-card" style="display: flex; flex-direction: column; gap: 12px"><h3 style="font-size: 20px; font-weight: 600">Trato directo</h3><p style="font-size: 15px; color: #5B6472">Hablas siempre con el equipo que diseña y programa tu web, y te respondemos en menos de 24 h laborables.</p></article>
+<article class="md-card"><h3>Conocemos la zona</h3><p>Turismo, hostelería, salud, estética, comercio… Pensamos tu web para los clientes de aquí y para quienes vienen de fuera y te buscan desde el móvil.</p></article>
+<article class="md-card"><h3>Que te encuentren en Google</h3><p>Cuidamos lo que más pesa en las búsquedas locales, como «fisioterapia en Altea» o «restaurante en Benidorm»: tu dirección, tus servicios y una web rápida.</p></article>
+<article class="md-card"><h3>Trato directo</h3><p>Hablas siempre con el equipo que diseña y programa tu web, y te respondemos en menos de 24 h laborables.</p></article>
 </div>
 </div>
 </section>
 
-<section class="md-section" style="padding-top: 0">
+<section class="md-section">
 <div class="md-wrap">
-<div class="md-days" style="margin: 0">
+<div class="md-days">
 <h3 class="md-days-title">Cómo son tus 7 días</h3>
 <ol class="md-days-list">
 <li><span class="md-day">Día 1</span><strong>Nos cuentas tu negocio</strong><span>Una llamada corta y nos envías textos, fotos y logo. Si no tienes los textos, te ayudamos.</span></li>
@@ -221,50 +220,48 @@
 </div>
 </section>
 
-<section class="md-section" style="background: #fff">
+<section class="md-section">
 <div class="md-wrap md-split">
-<div style="display: flex; flex-direction: column; gap: 16px">
-<span class="md-eyebrow">Preguntas frecuentes</span>
+<div>
 <h2 class="md-h2">Lo que suelen preguntarnos</h2>
-<p style="color: #5B6472; font-size: 17px">¿Quieres ver lo que hemos hecho? Mira nuestros <a href="/#proyectos" style="font-weight: 600">proyectos</a>.</p>
+<p>¿Quieres ver lo que hemos hecho? Mira nuestros <a href="/#proyectos">proyectos</a>.</p>
 </div>
 <div class="md-faq">
 <details>
 <summary>¿Cuánto cuesta una web para un negocio en Alicante?<span class="md-plus" aria-hidden="true">+</span></summary>
-<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 680px">Nuestra web profesional parte de 349 € + IVA, con precio cerrado. Incluye hasta 6 secciones, contenidos editables, SEO y analítica, textos legales básicos, ayuda con los textos, el alojamiento del primer año y 2 meses de soporte. Puedes pagarla en 2 plazos sin intereses.</p>
+<p>Nuestra web profesional parte de 349 € + IVA, con precio cerrado. Incluye hasta 6 secciones, contenidos editables, SEO y analítica, textos legales básicos, ayuda con los textos, el alojamiento del primer año y 2 meses de soporte. Puedes pagarla en 2 plazos sin intereses.</p>
 </details>
 <details>
 <summary>¿Trabajáis solo con negocios de Alicante?<span class="md-plus" aria-hidden="true">+</span></summary>
-<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 680px">No. Estamos en Polop, en la Marina Baixa, y damos servicio a negocios de toda la provincia, pero trabajamos en remoto con negocios de toda España.</p>
+<p>No. Estamos en Polop, en la Marina Baixa, y damos servicio a negocios de toda la provincia, pero trabajamos en remoto con negocios de toda España.</p>
 </details>
 <details>
 <summary>¿En cuánto tiempo tengo mi web?<span class="md-plus" aria-hidden="true">+</span></summary>
-<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 680px">En 7 días laborables desde que tenemos tus contenidos. Si no está publicada en ese plazo, te devolvemos el primer plazo.</p>
+<p>En 7 días laborables desde que tenemos tus contenidos. Si no está publicada en ese plazo, te devolvemos el primer plazo.</p>
 </details>
 <details>
 <summary>¿Me ayudáis a aparecer en Google cuando buscan mi negocio en mi pueblo?<span class="md-plus" aria-hidden="true">+</span></summary>
-<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 680px">Sí. Preparamos la web para las búsquedas de tu zona, con tu dirección, tu horario y los servicios que ofreces bien escritos, y te explicamos cómo enlazarla con tu ficha de Google.</p>
+<p>Sí. Preparamos la web para las búsquedas de tu zona, con tu dirección, tu horario y los servicios que ofreces bien escritos, y te explicamos cómo enlazarla con tu ficha de Google.</p>
 </details>
 <details>
 <summary>Ya tengo web, ¿podéis mejorarla?<span class="md-plus" aria-hidden="true">+</span></summary>
-<p style="padding-top: 12px; color: #5B6472; font-size: 16px; max-width: 680px">Sí. Pídenos la revisión gratis: nos pasas la dirección y en 48 h laborables te enviamos por email 3 mejoras concretas.</p>
+<p>Sí. Pídenos la revisión gratis: nos pasas la dirección y en 48 h laborables te enviamos por email 3 mejoras concretas.</p>
 </details>
 </div>
 </div>
 </section>
 
-<section class="md-section" style="padding-top: 0">
+<section class="md-section">
 <div class="md-wrap">
 <div class="md-cta-band">
-<h2 class="md-h2" style="color: #fff">¿Empezamos tu web?</h2>
+<h2 class="md-h2">¿Empezamos tu web?</h2>
 <p>Cuéntanos a qué se dedica tu negocio y te respondemos en menos de 24 h laborables con ideas y un presupuesto cerrado.</p>
-<div class="md-cta-band-actions"><a class="md-btn" href="/?servicio=Web%20o%20landing#contacto">Quiero mi web <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a><a class="md-link-arrow" href="/cuanto-cuesta-una-web" style="color: #C9BEEA">¿Cuánto cuesta una web? <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a></div>
+<div class="md-cta-band-actions"><a class="md-btn" href="/?servicio=Web%20o%20landing#contacto">Quiero mi web</a><a class="md-link-arrow" href="/cuanto-cuesta-una-web">¿Cuánto cuesta una web?</a></div>
 </div>
 </div>
 </section>
 </main>
 
-<!-- FOOTER -->
 <footer style="border-top: 1px solid #E6EAEF; padding: 40px 0">
 <div class="md-wrap" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px">
 <div class="md-foot-brand">
@@ -289,8 +286,6 @@
 <nav aria-label="Guías" class="md-foot-guides"><span>Guías:</span><a href="/diseno-web-alicante">Diseño web en Alicante</a><a href="/automatizacion-de-procesos">Automatización de procesos</a><a href="/cuanto-cuesta-una-web">Cuánto cuesta una web</a></nav>
 </div>
 </footer>
-
-</div>
 
 <!-- Barra fija del móvil: sustituye al botón flotante por debajo de 960 px y se oculta al llegar a Contacto -->
 <div class="md-mbar">

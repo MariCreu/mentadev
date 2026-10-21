@@ -2,7 +2,7 @@
    MentaDev · home "Taller en directo"
    Estados finales en CSS; el movimiento lo añaden los módulos de js/
    solo con JavaScript y sin "reducir movimiento".
-   Guías, legales y 404 siguen usando styles.css (fase 2).
+   Guías, legales y 404 cargan además paginas.css.
    ===================================================================== */
 
 /* ---------- Fuentes ---------- */
@@ -27,7 +27,7 @@
   --wrap:1280px;--gutter:clamp(16px,4vw,48px);
   --muelle:cubic-bezier(.34,1.56,.64,1);--suave:cubic-bezier(.22,1,.36,1);
   --esc:clamp(88px,11vw,168px);
-  /* alias para las reglas heredadas de styles.css (formulario, FAQ, pie, barra móvil) */
+  /* alias para las reglas heredadas de la versión anterior (formulario, FAQ, pie, barra móvil) */
   --ink:var(--tinta);--ink2:var(--tinta-2);--ink3:var(--tinta-3);--line:var(--linea);--bg:var(--papel);--card:var(--hoja);
   --mint:var(--menta);--mint-d:var(--menta-d);--mint-s:var(--menta-s);--lav-dd:#5A47A8;
 }
@@ -417,7 +417,7 @@ footer{border-top:1px solid var(--linea);padding:44px 0 96px}
 }
 
 /* =====================================================================
-   Heredado de styles.css (formulario por pasos, FAQ, pie, menú y barra del móvil).
+   Heredado de la versión anterior (formulario por pasos, FAQ, pie, menú y barra del móvil).
    Mismas reglas; los colores salen de los alias de :root.
    ===================================================================== */
 .md-nav-link{color:var(--ink2);text-decoration:none;font-weight:500;font-size:15px}
