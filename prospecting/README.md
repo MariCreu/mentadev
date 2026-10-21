@@ -11,11 +11,13 @@ Worker `worker/index.js` para `/api/contacto`, binding de correo `EMAIL`, sin ba
 de datos ni autenticación. `wrangler.jsonc` publica la raíz; cada push a `main`
 despliega la web. Por ello este módulo vive en `prospecting/`, excluido de assets,
 sin imports desde la web y sin tocar el Worker, sus bindings ni el formulario.
-No hay API pública, cron, scraping, modelo de IA ni transporte de mensajes.
+No hay API pública, cron, modelo de IA ni transporte de mensajes. La única
+conexión a internet es la revisión de la portada de cada clínica (ver más abajo).
 SQLite local evita introducir una base pública sin control de acceso.
 
 Flujo: autorización por operador → fichero JSON mínimo → validación de alcance →
-transacción SQLite → revisión humana → qualified/rejected/suppressed.
+transacción SQLite → revisión de la web → ranking y ficha de llamada →
+decisión humana → qualified/rejected/suppressed.
 `qualified` significa interés comercial interno, nunca permiso de contacto.
 
 ## Probar y usar
@@ -50,7 +52,8 @@ rechazo completo si uno falla. No se admiten campos adicionales, emails,
 teléfonos, personas, pacientes, reseñas ni datos de salud. El código de provincia
 es una declaración del importador: el operador debe comprobar municipio y
 actividad contra la fuente antes de importar. No hay verificación geográfica
-automática. Solo URLs HTTPS; no se visitan y se eliminan query y fragmento de web.
+automática. Webs de clínicas con http o https (las que siguen en http son justo
+buenas candidatas); fuentes solo https. Se eliminan query y fragmento de la web.
 
 Se deduplica por nombre normalizado + municipio. Un mismo nombre en municipios
 distintos crea fichas distintas; dos sedes con el mismo nombre en el mismo
@@ -62,6 +65,37 @@ cambios de estado; no se borra al reimportar. Las actividades guardan actor, fec
 y estado, sin texto libre. El acceso directo a SQLite puede modificar datos: no
 es una frontera de seguridad frente al propietario del equipo.
 
+## Revisión de webs y ficha de llamada
+
+```sh
+node prospecting/cli.mjs check https://example.com/              # prueba sin guardar nada
+node prospecting/cli.mjs private-data/crm.sqlite analyze 1       # o "all": todas menos descartadas y excluidas
+node prospecting/cli.mjs private-data/crm.sqlite ranking         # de mejor a peor candidata
+node prospecting/cli.mjs private-data/crm.sqlite report 1        # problemas, 3 mejoras y guion de llamada
+```
+
+`analyzer.mjs` hace como máximo dos peticiones por clínica, identificándose como
+`MentaDevRevision/1.0 (+https://mentadev.com)`: `robots.txt` (si prohíbe la web
+entera, no se revisa) y la portada (si responde 401, 403 o 429 tampoco se puntúa:
+rechaza robots, no está caída), con 15 s de tiempo límite, 2 MB como máximo
+y 2 s de pausa entre webs. No sigue enlaces ni abre otras páginas. Solo guarda
+señales técnicas en la tabla `analyses`: conexión segura, adaptación al móvil,
+título y descripción, cita online, formulario o WhatsApp (solo si existen),
+textos legales, año del pie, gestor de contenidos, tiempo de respuesta y peso.
+Nunca emails, teléfonos, nombres ni texto de la página; `crm.mjs` rechaza
+cualquier otra señal.
+
+Cada problema suma puntos (tabla `PROBLEMS` de `analyzer.mjs`): cuanto peor está la
+web, más alta la puntuación (máximo 10). `report.mjs` genera las 3 mejoras de más
+peso y un guion de llamada con plantillas fijas, sin IA y sin afirmar nada que la
+revisión no haya comprobado. El guion ofrece no volver a llamar; si lo piden, la
+ficha pasa a `suppressed`.
+
+Con `GOOGLE_MAPS_API_KEY` en el entorno (clave restringida a Places API y PageSpeed
+Insights API), la velocidad se mide con PageSpeed en móvil (lenta: < 50/100) en lugar
+del tiempo de respuesta. En la sesión en la nube de Claude Code, abrir las webs de
+las clínicas requiere que la política de red del entorno lo permita.
+
 ## Descubrimiento desde fuentes autorizadas
 
 No se entrega ningún conector activo ni listado real. Registro de fuentes vacío
@@ -72,7 +106,7 @@ por defecto. Candidatas a evaluar, **no aprobadas**:
 | Exportación propia o datos aportados por una clínica | Alta manual mínima | Documentar procedencia, finalidad y base del tratamiento |
 | Catálogo público sanitario de Generalitat/REGCESS | Verificar centro y municipio | Localizar dataset/export oficial, revisar licencia y condiciones de reutilización; público no equivale a reutilizable |
 | Directorios con licencia/API contratada | Descubrimiento limitado | Contrato que permita almacenamiento y uso previsto, cuotas y retención |
-| Web propia de la clínica | Confirmación humana de actividad y web | Revisar términos y permiso de acceso/reutilización; sin extracción automática |
+| Web propia de la clínica | Revisión técnica de la portada (`analyze`) y confirmación humana de actividad | Solo señales técnicas; nunca se copian contenidos ni datos de contacto |
 
 Un futuro adaptador debe usar una fuente aprobada del registro, comprobar permiso
 y caducidad antes de cada ejecución, limitar peticiones según contrato, conservar

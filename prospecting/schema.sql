@@ -32,3 +32,14 @@ CREATE TABLE IF NOT EXISTS activities (
   status TEXT NOT NULL,
   created_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS analyses (
+  id INTEGER PRIMARY KEY,
+  lead_id INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+  analyzed_at TEXT NOT NULL,
+  final_url TEXT NOT NULL,
+  blocked INTEGER NOT NULL CHECK(blocked IN (0,1)),
+  score INTEGER CHECK(score BETWEEN 0 AND 10),
+  problems TEXT NOT NULL,
+  signals TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS analyses_lead ON analyses(lead_id, analyzed_at);
