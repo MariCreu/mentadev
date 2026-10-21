@@ -2,6 +2,7 @@
 // La única red la usa analyzer.mjs para revisar la portada de cada clínica.
 import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { PROBLEMS } from './analyzer.mjs';
 
 function text(value, max = 200) {
@@ -33,6 +34,10 @@ function signals(value) {
   }
   return JSON.stringify(value);
 }
+// Versión del esquema (PRAGMA user_version). Si cambia schema.sql, subirla y añadir el paso en migrate().
+const SCHEMA_VERSION = 2;
+// Huella de una ficha excluida: permite reconocerla al reimportarla sin guardar su nombre ni su municipio.
+const fingerprint = identity => 'sha256:' + createHash('sha256').update(identity).digest('hex');
 function normalized(value) {
   return value.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/\s+/g, ' ').trim();
 }
@@ -41,7 +46,41 @@ export class CRM {
   constructor(path = ':memory:', clock = () => new Date().toISOString()) {
     this.clock = clock;
     this.db = new DatabaseSync(path);
-    this.db.exec(readFileSync(new URL('./schema.sql', import.meta.url), 'utf8'));
+    this.migrate();
+  }
+  // Crea la base o la pone al día sin perder datos. Versión 1 (primera fase): sin plazo por fuente,
+  // con la web obligatoria y sin revisiones; se detecta porque ya tiene tablas y user_version = 0.
+  migrate() {
+    const { user_version: version } = this.db.prepare('PRAGMA user_version').get();
+    if (version > SCHEMA_VERSION) throw new Error('La base es de una versión más nueva del CRM');
+    if (version === SCHEMA_VERSION) { this.db.exec('PRAGMA foreign_keys = ON'); return; }
+    const v1 = version === 0 && Boolean(this.db.prepare("SELECT 1 FROM sqlite_master WHERE type='table' AND name='sources'").get());
+    this.db.exec('PRAGMA foreign_keys = OFF');
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      if (v1) {
+        this.db.exec(`ALTER TABLE sources ADD COLUMN max_age_days INTEGER CHECK(max_age_days IS NULL OR max_age_days > 0);
+          CREATE TABLE leads_v2 (
+            id INTEGER PRIMARY KEY,
+            identity TEXT NOT NULL UNIQUE,
+            name TEXT NOT NULL,
+            municipality TEXT NOT NULL,
+            province TEXT NOT NULL CHECK(province = '03'),
+            sector TEXT NOT NULL CHECK(sector IN ('health_clinic','aesthetic_clinic')),
+            website TEXT,
+            status TEXT NOT NULL DEFAULT 'new' CHECK(status IN ('new','qualified','rejected','suppressed')),
+            created_at TEXT NOT NULL
+          );
+          INSERT INTO leads_v2 SELECT id, identity, name, municipality, province, sector, website, status, created_at FROM leads;
+          DROP TABLE leads;
+          ALTER TABLE leads_v2 RENAME TO leads;`);
+      }
+      this.db.exec(readFileSync(new URL('./schema.sql', import.meta.url), 'utf8'));
+      if (this.db.prepare('PRAGMA foreign_key_check').all().length) throw new Error('Referencias rotas al actualizar la base');
+      this.db.exec(`PRAGMA user_version = ${SCHEMA_VERSION}`);
+      this.db.exec('COMMIT');
+    } catch (error) { this.db.exec('ROLLBACK'); throw error; }
+    finally { this.db.exec('PRAGMA foreign_keys = ON'); }
   }
   close() { this.db.close(); }
   // Lo rellena a mano quien opera el CRM, nunca a partir de los datos importados.
@@ -74,11 +113,15 @@ export class CRM {
         if (observed > now) throw new Error('La fecha de observación es futura');
         const recordId = text(record.sourceRecordId);
         // Coincidencia prudente: las sedes de una cadena en municipios distintos son fichas distintas.
-        const identity = JSON.stringify([normalized(name), normalized(municipality)]);
+        const identity = JSON.stringify([normalized(name), normalized(municipality)]), hidden = fingerprint(identity);
         const prior = this.db.prepare('SELECT l.* FROM observations o JOIN leads l ON l.id=o.lead_id WHERE o.source_id=? AND o.source_record_id=?').get(sourceId, recordId);
-        if (prior && prior.identity !== identity) throw new Error('Ese ID de la fuente ya era otra clínica: revísalo a mano');
-        this.db.prepare('INSERT INTO leads(identity,name,municipality,province,sector,website,created_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(identity) DO NOTHING').run(identity,name,municipality,'03',record.sector,website?.href ?? null,now);
-        const lead = this.db.prepare('SELECT id FROM leads WHERE identity=?').get(identity);
+        if (prior && prior.identity !== identity && prior.identity !== hidden) throw new Error('Ese ID de la fuente ya era otra clínica: revísalo a mano');
+        // Una excluida ya anonimizada se reconoce por su huella y no recupera nombre ni web.
+        let lead = this.db.prepare('SELECT id FROM leads WHERE identity=?').get(hidden);
+        if (!lead) {
+          this.db.prepare('INSERT INTO leads(identity,name,municipality,province,sector,website,created_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(identity) DO NOTHING').run(identity,name,municipality,'03',record.sector,website?.href ?? null,now);
+          lead = this.db.prepare('SELECT id FROM leads WHERE identity=?').get(identity);
+        }
         this.db.prepare('INSERT INTO observations VALUES(?,?,?,?) ON CONFLICT(source_id,source_record_id) DO UPDATE SET observed_at=max(observed_at,excluded.observed_at)').run(lead.id,sourceId,recordId,observed);
         return lead.id;
       });
@@ -102,18 +145,29 @@ export class CRM {
     return row && { ...row, blocked: row.blocked === 1, problems: JSON.parse(row.problems), signals: JSON.parse(row.signals) };
   }
   // Borra lo que una fuente con plazo (maxAgeDays) no permite conservar: observaciones caducadas y las
-  // fichas que se quedan sin ninguna. Las excluidas se mantienen para respetar que no quieren contacto.
+  // fichas que se quedan sin ninguna. Las excluidas se mantienen para respetar que no quieren contacto, pero
+  // sin los datos caducados: solo su huella (para reconocerlas) y su estado; se borran nombre, municipio, web y revisiones.
   purge() {
     const now = Date.parse(date(this.clock()));
     this.db.exec('BEGIN IMMEDIATE');
     try {
-      const stale = this.db.prepare('SELECT o.source_id, o.source_record_id, o.observed_at, s.max_age_days FROM observations o JOIN sources s ON s.id=o.source_id WHERE s.max_age_days IS NOT NULL').all()
+      const stale = this.db.prepare('SELECT o.lead_id, o.source_id, o.source_record_id, o.observed_at, s.max_age_days FROM observations o JOIN sources s ON s.id=o.source_id WHERE s.max_age_days IS NOT NULL').all()
         .filter(row => now - Date.parse(row.observed_at) > row.max_age_days * 86_400_000);
       const remove = this.db.prepare('DELETE FROM observations WHERE source_id=? AND source_record_id=?');
       for (const row of stale) remove.run(row.source_id, row.source_record_id);
+      const hide = this.db.prepare("UPDATE leads SET identity=?, name='Clínica excluida', municipality='-', website=NULL WHERE id=?");
+      const forget = this.db.prepare('DELETE FROM analyses WHERE lead_id=?');
+      let anonymized = 0;
+      for (const id of new Set(stale.map(row => row.lead_id))) {
+        const lead = this.db.prepare('SELECT identity, status FROM leads WHERE id=?').get(id);
+        if (lead?.status !== 'suppressed' || lead.identity.startsWith('sha256:')) continue;
+        hide.run(fingerprint(lead.identity), id);
+        forget.run(id);
+        anonymized++;
+      }
       const leads = this.db.prepare("DELETE FROM leads WHERE status <> 'suppressed' AND id NOT IN (SELECT lead_id FROM observations)").run().changes;
       this.db.exec('COMMIT');
-      return { observations: stale.length, leads };
+      return { observations: stale.length, leads, anonymized };
     } catch (error) { this.db.exec('ROLLBACK'); throw error; }
   }
   // Fichas por llamar, de mejor a peor candidata. Las descartadas y excluidas no salen.

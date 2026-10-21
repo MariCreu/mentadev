@@ -51,6 +51,11 @@ try {
   } else if (argv[0] && commands.includes(argv[1])) {
     const [database, command, ...args] = argv;
     crm = new CRM(database);
+    // Lo que una fuente no permite conservar se borra antes de cualquier otra cosa.
+    if (command !== 'purge') {
+      const { observations, leads, anonymized } = crm.purge();
+      if (observations || leads || anonymized) console.error(`Borrado por plazo de conservación: ${observations} referencias, ${leads} fichas y ${anonymized} excluidas anonimizadas.`);
+    }
     if (command === 'source') crm.registerSource(JSON.parse(readFileSync(args[0], 'utf8')));
     if (command === 'import') console.log(`Fichas: ${crm.importBatch(args[0], JSON.parse(readFileSync(args[1], 'utf8'))).join(', ')}`);
     if (command === 'discover') {
@@ -63,8 +68,8 @@ try {
       for (const item of skipped) console.log(`  - ${item.name}: ${item.reason}`);
     }
     if (command === 'purge') {
-      const { observations, leads } = crm.purge();
-      console.log(`Borradas ${observations} referencias caducadas y ${leads} fichas.`);
+      const { observations, leads, anonymized } = crm.purge();
+      console.log(`Borradas ${observations} referencias caducadas y ${leads} fichas; ${anonymized} excluidas anonimizadas.`);
     }
     if (command === 'list') console.log(JSON.stringify(crm.list(), null, 2));
     if (command === 'analyze') await analyze(crm, args[0]);

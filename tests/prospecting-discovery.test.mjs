@@ -72,11 +72,11 @@ test('purge borra lo caducado de fuentes con plazo y conserva las excluidas', t 
   crm.setStatus(excluida, 'suppressed', 'operador');
   now = '2026-10-25T10:00:00.000Z';
   crm.importBatch('google-places', [{ ...base, name: 'Renovada', sourceRecordId: 'c', observedAt: now }]);
-  assert.deepEqual(crm.purge(), { observations: 0, leads: 0 });
+  assert.deepEqual(crm.purge(), { observations: 0, leads: 0, anonymized: 0 });
   now = '2026-11-05T10:00:00.000Z';
-  assert.deepEqual(crm.purge(), { observations: 2, leads: 0 });
+  assert.deepEqual(crm.purge(), { observations: 2, leads: 0, anonymized: 1 });
   assert.deepEqual(crm.list().map(l => l.id), [caduca, excluida, renovada]);
   crm.db.prepare("DELETE FROM observations WHERE source_id='manual'").run();
-  assert.deepEqual(crm.purge(), { observations: 0, leads: 1 });
+  assert.deepEqual(crm.purge(), { observations: 0, leads: 1, anonymized: 0 });
   assert.deepEqual(crm.list().map(l => l.id), [excluida, renovada]);
 });

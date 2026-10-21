@@ -139,8 +139,17 @@ en vez de duplicar.
 Las condiciones de Google Maps Platform no permiten guardar indefinidamente sus
 datos (salvo el `place_id`): comprobad el plazo en la versión vigente y ponedlo
 en `maxAgeDays`. `purge` borra las referencias de fuentes con plazo que lo han
-superado y las fichas que se quedan sin ninguna; las excluidas se conservan para
-respetar que no quieren contacto. Ejecutad `purge` al menos una vez por semana.
+superado y las fichas que se quedan sin ninguna. Las excluidas se conservan para
+respetar que no quieren contacto, pero anonimizadas: se borran nombre, municipio,
+web y revisiones, y solo queda una huella (SHA-256 del nombre y el municipio
+normalizados) con su estado, para reconocerlas si vuelven a salir en una búsqueda.
+Cada comando del CLI ejecuta antes ese borrado, así que no depende de acordarse;
+`purge` lo lanza a mano.
+
+La base guarda su versión de esquema (`PRAGMA user_version`) y se actualiza sola
+al abrirla, sin perder datos: una base creada con la primera fase se pone al día
+al usarla con esta versión. Si cambia `schema.sql`, subir `SCHEMA_VERSION` y añadir
+el paso en `migrate()` de `crm.mjs`.
 
 ## Protección de datos y contacto en España
 
@@ -176,8 +185,8 @@ documentados. El borrado y la revisión de retención son manuales en esta fase.
 1. Revisar permisos de una fuente concreta y un lote pequeño, sin contacto.
 2. Validar deduplicación con direcciones/ID oficial de sedes y municipios INE;
    añadir corrección, borrado y retención auditables antes de ampliar datos.
-3. Preparar interfaz privada con autenticación y roles, decidir alojamiento y
-   migración versionada; no reutilizar la web pública como panel CRM.
+3. Preparar interfaz privada con autenticación y roles y decidir alojamiento;
+   no reutilizar la web pública como panel CRM.
 4. Solo tras revisión jurídica y permisos: modelar evidencia por canal, revocación,
    exclusión y aprobación humana. Cualquier envío queda fuera de esta PR.
 
