@@ -19,7 +19,7 @@ Diseñamos y desarrollamos webs, apps y automatizaciones para negocios que quier
 ## 2 · Web profesional — `02-web-profesional.jpg`
 Tu web profesional, lista en 7 días ⏱️
 
-Desde 349 € + IVA, con precio cerrado:
+Desde 249 € + IVA, con precio cerrado:
 ✔️ Hasta 6 secciones
 ✔️ Diseño adaptado a tu marca
 ✔️ Te ayudamos con los textos

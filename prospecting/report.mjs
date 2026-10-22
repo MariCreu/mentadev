@@ -4,7 +4,7 @@
 import { PROBLEMS } from './analyzer.mjs';
 
 const DE_SECTOR = { health_clinic: 'de la clínica', aesthetic_clinic: 'del centro de estética' };
-const PRECIO_WEB = '349 € + IVA';
+const PRECIO_WEB = '249 € + IVA';
 const PLAZO_WEB = '7 días laborables';
 
 export function improvements(problems) {

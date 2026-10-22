@@ -41,7 +41,7 @@ test('trae preguntas frecuentes con respuesta, con los precios y plazos reales',
   const f = ficha(conWeb, revisada);
   assert.ok(f.preguntas.length >= 10);
   const buscar = (re) => f.preguntas.find((p) => re.test(p.pregunta));
-  assert.match(buscar(/cuánto cuesta/i).respuesta, /349 € \+ IVA/);
+  assert.match(buscar(/cuánto cuesta/i).respuesta, /249 € \+ IVA/);
   assert.match(buscar(/número/i).respuesta, /Google/);
   assert.ok(buscar(/alguien/i), 'ya tenemos a alguien que nos lleva la web');
   assert.ok(buscar(/no me interesa/i));
@@ -62,7 +62,7 @@ test('sin web: ofrece la web con su precio y plazo, y no habla de "revisar su we
   const f = ficha(sinWebLead, sinWebAnalisis);
   const texto = f.pasos.flatMap((p) => p.frases).join(' ');
   assert.doesNotMatch(texto, /hemos revisado la web/i);
-  assert.match(texto, /349 € \+ IVA/);
+  assert.match(texto, /249 € \+ IVA/);
   assert.match(texto, /7 días laborables/);
   assert.ok(f.antes.some((a) => /busca/i.test(a)), 'comprobar que de verdad no tiene web');
 });

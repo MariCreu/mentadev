@@ -48,7 +48,7 @@ test('el borrador del email: revisión con 3 mejoras, origen del email y forma d
   assert.match(b.cuerpo, /1\. .*\n.*\n\n2\. /);
   assert.match(b.cuerpo, /por teléfono el 22\/10\/2026/);
   assert.match(b.cuerpo, /«baja»/);
-  assert.match(b.cuerpo, /349 € \+ IVA/);
+  assert.match(b.cuerpo, /249 € \+ IVA/);
 });
 
 test('sin web, el borrador es una propuesta de web con precio, plazo y lo que incluye', (t) => {
@@ -57,7 +57,7 @@ test('sin web, el borrador es una propuesta de web con precio, plazo y lo que in
   const b = borradorEmail(c.lead(sinWeb), c.latestAnalysis(sinWeb), c.consentimiento(sinWeb));
   assert.match(b.asunto, /propuesta/i);
   assert.match(b.cuerpo, /^Hola:/);
-  assert.match(b.cuerpo, /349 € \+ IVA/);
+  assert.match(b.cuerpo, /249 € \+ IVA/);
   assert.match(b.cuerpo, /7 días laborables/);
   assert.match(b.cuerpo, /primer plazo/);
   assert.doesNotMatch(b.cuerpo, /revisión de vuestra web/);
