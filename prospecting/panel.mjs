@@ -32,9 +32,10 @@ export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
     const clinica = crm.lead(id);
     const analisis = crm.latestAnalysis(id);
     const consentimiento = crm.consentimiento(id) ?? null;
+    const demo = crm.demo(id) ?? null;
     const demoPorDefecto = { ...crm.demoPorDefecto(id) };
     demoPorDefecto.tratamientos = [...demoPorDefecto.tratamientos];
-    return { clinica, ficha: ficha(clinica, analisis), consentimiento, email: borradorEmail(clinica, analisis, consentimiento), demo: crm.demo(id) ?? null, demoPorDefecto, catalogo: CATALOGO };
+    return { clinica, ficha: ficha(clinica, analisis), consentimiento, email: borradorEmail(clinica, analisis, consentimiento, demo), demo, demoPorDefecto, catalogo: CATALOGO };
   };
   let trabajo = { activo: false, tipo: null, hecho: 0, total: 0, mensaje: '', error: null };
   const lanzar = (tipo, tarea) => {

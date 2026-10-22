@@ -27,11 +27,11 @@ export function ficha(lead, analysis) {
   if (!mejoras.length) return { ...base, pasos: [], guion: [], preguntas: [], apuros: [], antes: [], revision: '' };
 
   const de = DE_SECTOR[lead.sector] ?? 'de la clínica';
-  const loQueMandamos = sinWeb ? 'la propuesta' : 'la revisión';
+  const loQueMandamos = sinWeb ? 'la propuesta con la web de ejemplo' : 'la revisión';
 
   // En vosotros: sirve para entenderla y para decírsela tal cual a la clínica.
   const revision = sinWeb
-    ? `Como no tenéis web, en lugar de revisarla os mandamos por email una propuesta gratis: qué secciones tendría vuestra web, qué pondríamos en cada una y el precio cerrado (desde ${PRECIO_WEB}, lista en ${PLAZO_WEB}). Es gratis y sin compromiso: si no os convence, no pasa nada.`
+    ? `Como no tenéis web, en lugar de revisarla os mandamos por email el enlace a una web de ejemplo con vuestro nombre, que podéis abrir en el móvil, y lo que tendría vuestra web con el precio cerrado (desde ${PRECIO_WEB}, lista en ${PLAZO_WEB}). Es gratis y sin compromiso: si no os convence, no pasa nada.`
     : `Es muy sencillo: miramos vuestra web con calma, como la vería un paciente desde el móvil y desde el ordenador, y en 48 h laborables os mandamos por email 3 mejoras concretas, explicadas sin tecnicismos, para que más pacientes os escriban y pidan cita. Es gratis y sin compromiso: las mejoras son vuestras y las podéis hacer con quien queráis. Si luego queréis que las hagamos nosotros, os damos un precio cerrado antes de empezar.`;
 
   // Pensado para quien coja el teléfono (casi siempre recepción): no hace falta que te pasen con nadie.
@@ -44,18 +44,18 @@ export function ficha(lead, analysis) {
       titulo: 'Qué les ofreces',
       frases: sinWeb
         ? [
-          'Hemos visto que no tenéis web propia y os hemos preparado una propuesta: qué tendría vuestra web y cuánto costaría exactamente.',
-          '¿Os la mandamos gratis por email, para que la vea quien lleve estos temas?',
+          'Hemos visto que no tenéis web propia y os hemos preparado una web de ejemplo con el nombre de vuestra clínica, para que veáis cómo quedaría.',
+          '¿Os mandamos el enlace por email, gratis, para que la vea quien lleve estos temas?',
         ]
         : [
-          `Hemos estado mirando vuestra web y hemos visto ${mejoras.length === 1 ? 'una cosa concreta' : `${mejoras.length} cosas concretas`} que se pueden mejorar para que os escriban y pidan cita más pacientes.`,
+          `Hemos estado mirando vuestra web y hemos visto ${mejoras.length === 1 ? 'una cosa concreta' : `${mejoras.length} cosas concretas`} que se pueden mejorar para que os escriban y pidan cita más pacientes, y una idea de cómo podría verse una web nueva.`,
           `¿Os las mandamos gratis por email, para que las vea quien se encargue de la web ${de}?`,
         ],
     },
     {
       titulo: 'Si dicen que sí',
       frases: [
-        `¡Genial! ¿A qué email os ${sinWeb ? 'la' : 'lo'} mandamos? ¿Y a la atención de quién?`,
+        `¡Genial! ¿A qué email os lo mandamos? ¿Y a la atención de quién?`,
         '(Repite el email letra a letra para no equivocarte.)',
         `Perfecto: os llegará de MentaDev${sinWeb ? '' : ' en 48 h laborables'}. ¿Me dices tu nombre, para saber con quién he hablado?`,
         'Muchas gracias, que vaya muy bien el día.',
@@ -65,7 +65,7 @@ export function ficha(lead, analysis) {
     {
       titulo: 'Si dudan o dicen que no',
       frases: [
-        `(Si dudan) No os compromete a nada: es un email con ${sinWeb ? 'la propuesta' : 'las mejoras'}, lo leéis cuando podáis y, si no os sirve, lo borráis.`,
+        `(Si dudan) No os compromete a nada: es un email con ${sinWeb ? 'el enlace a la web de ejemplo y la propuesta' : 'las mejoras'}, lo leéis cuando podáis y, si no os sirve, lo borráis.`,
         '(Si te dicen que se lo tienen que preguntar a alguien) Claro. ¿Te parece que os lo mandemos y así se lo enseñas?',
         '(Si dicen que no) Sin problema, gracias igualmente. ¿Preferís que no os volvamos a llamar? (Si dicen que sí, márcala como «No volver a llamar».)',
       ],
@@ -76,7 +76,7 @@ export function ficha(lead, analysis) {
         ? [
           `Hola, soy [tu nombre], de MentaDev. Hemos visto que ${lead.name} no tiene web propia: si alguien os busca en internet, solo encuentra vuestra ficha de Google.`,
           `Hacemos webs para clínicas desde ${PRECIO_WEB}, con precio cerrado y lista en ${PLAZO_WEB}, con el alojamiento del primer año y 2 meses de soporte incluidos.`,
-          'Si os parece, os mandamos por email una propuesta gratis con lo que tendría vuestra web y cuánto costaría. ¿A qué email?',
+          'Si os parece, os mandamos por email una web de ejemplo con vuestro nombre, gratis, y lo que costaría la vuestra. ¿A qué email?',
         ]
         : [
           `Hola, soy [tu nombre], de MentaDev. Hemos estado mirando webs de clínicas de ${lead.municipality} y, en la vuestra, nos hemos fijado en ${mejoras.length === 1 ? 'una cosa que se puede mejorar' : `${mejoras.length} cosas que se pueden mejorar`} sin mucho esfuerzo:`,
@@ -90,10 +90,10 @@ export function ficha(lead, analysis) {
     { pregunta: '¿Quiénes sois? ¿De dónde sois?', respuesta: 'Somos MentaDev, un estudio de desarrollo web de la Marina Baixa, en Polop. Hacemos webs, tiendas online y herramientas para negocios pequeños, y siempre habláis con quien hace el trabajo.' },
     { pregunta: '¿Cómo habéis conseguido mi número?', respuesta: 'Está en vuestra ficha pública de Google. Si preferís que no os llamemos más, lo apuntamos ahora mismo y no volvemos a hacerlo.' },
     { pregunta: '¿Qué es eso de la revisión exactamente?', respuesta: revision },
-    { pregunta: '¿Cuánto cuesta?', respuesta: `${sinWeb ? 'La propuesta' : 'La revisión'} es gratis. Si después queréis una web nueva, empieza desde ${PRECIO_WEB} con precio cerrado, y se puede pagar en 2 plazos sin intereses. Cosas como la cita online o una tienda se presupuestan aparte, siempre con precio cerrado antes de empezar.` },
+    { pregunta: '¿Cuánto cuesta?', respuesta: `${sinWeb ? 'La web de ejemplo y la propuesta son gratis' : 'La revisión es gratis'}. Si después queréis una web nueva, empieza desde ${PRECIO_WEB} con precio cerrado, y se puede pagar en 2 plazos sin intereses. Cosas como la cita online o una tienda se presupuestan aparte, siempre con precio cerrado antes de empezar.` },
     { pregunta: '¿Cuánto tardaríais en hacerla?', respuesta: `Una web profesional está lista en ${PLAZO_WEB} desde que tenemos vuestros textos y fotos. Si no la publicamos en ese plazo, os devolvemos el primer plazo.` },
     { pregunta: 'Ya tenemos a alguien que nos lleva la web', respuesta: `Perfecto, entonces ${loQueMandamos} os viene aún mejor: se la podéis pasar a esa persona para que haga los cambios. No pretendemos quitarle el trabajo a nadie.` },
-    { pregunta: 'No me interesa', respuesta: `Lo entiendo. Solo es un email con ${sinWeb ? 'una propuesta' : '3 cosas concretas'}: lo leéis cuando podáis y, si no os sirve, lo borráis. ¿Os lo mandamos? (Si insisten: «Sin problema, gracias por tu tiempo».)` },
+    { pregunta: 'No me interesa', respuesta: `Lo entiendo. Solo es un email con ${sinWeb ? 'una web de ejemplo y una propuesta' : '3 cosas concretas'}: lo leéis cuando podáis y, si no os sirve, lo borráis. ¿Os lo mandamos? (Si insisten: «Sin problema, gracias por tu tiempo».)` },
     { pregunta: '¿Esto es una venta?', respuesta: `Para ser claros: ofrecemos ${loQueMandamos} gratis para que nos conozcáis. Si luego queréis que lo hagamos nosotros, os damos un precio cerrado; si no, lo que os mandamos es vuestro igualmente.` },
     { pregunta: 'Ahora no puedo, llámame más tarde', respuesta: '¿A qué hora os viene mejor? (Apunta el día y la hora, y llama a esa hora exacta.) O, si lo preferís, os lo mandamos por email y lo veis con calma.' },
     { pregunta: 'Mándame información por email', respuesta: `¡Claro! ¿A qué email? Os mandamos ${loQueMandamos} de vuestra clínica, que es más útil que un folleto.` },
@@ -105,7 +105,7 @@ export function ficha(lead, analysis) {
   ];
 
   const apuros = [
-    `Me he liado un poco: lo importante es que os mandamos gratis ${sinWeb ? 'una propuesta para vuestra web' : '3 mejoras para vuestra web'}. ¿A qué email os la envío?`,
+    `Me he liado un poco: lo importante es que os mandamos gratis ${sinWeb ? 'una web de ejemplo y una propuesta para vuestra clínica' : '3 mejoras para vuestra web'}. ¿A qué email os la envío?`,
     'No sé decirte eso ahora mismo, pero lo consulto y te lo pongo en el email.',
     'Si notas que molestas: «Te dejo trabajar. ¿Te lo mando por email y lo miras cuando puedas?»',
     'Si hay un silencio, no lo rellenes: espera. Muchas veces la otra persona está pensando.',
@@ -119,6 +119,7 @@ export function ficha(lead, analysis) {
         : `Busca «${lead.name} ${lead.municipality}» en Google. Si encuentras una web suya, pulsa «He encontrado su web» y el guion se adapta.`)
       : `Abre su web un minuto en el móvil (${lead.website}): así hablas de lo que has visto con tus propios ojos.`,
     esMovil(lead.phone) ? 'Su teléfono es un móvil: puede ser de una persona (autónomo). Antes de llamar, consulta la Lista Robinson.' : null,
+    'Si sale en la conversación, pregunta qué tratamientos hacen: los marcarás en su web de ejemplo.',
     'No tienes que vender nada por teléfono: el objetivo de la llamada es solo conseguir su email para mandarles lo que les ofreces.',
     'Mejor a media mañana o a media tarde, y no justo al abrir ni a la hora de comer.',
   ].filter(Boolean);
@@ -157,7 +158,9 @@ const fechaCorta = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(
 const dominio = (web) => web.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 
 // Email para la clínica que ha dicho que sí por teléfono. Se revisa y se envía a mano desde el correo.
-export function borradorEmail(lead, analysis, consentimiento) {
+const AVISO_EJEMPLO = 'Las fotos, el horario y la dirección son de ejemplo y los textos, orientativos: es una idea para que veáis cómo quedaría. La adaptaríamos a vuestra clínica con vuestras fotos, tratamientos y datos.';
+
+export function borradorEmail(lead, analysis, consentimiento, demo = null) {
   if (!consentimiento || !analysis || analysis.blocked) return null;
   const sinWeb = analysis.problems.includes('sinweb');
   const saludo = consentimiento.atencion ? `Hola, ${consentimiento.atencion}:` : 'Hola:';
@@ -167,15 +170,17 @@ export function borradorEmail(lead, analysis, consentimiento) {
     '[tu nombre]',
     'MentaDev · https://mentadev.com',
     '',
-    `Os escribimos porque nos disteis este email por teléfono el ${fechaCorta(consentimiento.fecha)} para recibir ${sinWeb ? 'esta propuesta' : 'esta revisión'}. Si no queréis recibir más emails nuestros, respondednos «baja» y no os escribiremos más.`,
+    `Os escribimos porque nos disteis este email por teléfono el ${fechaCorta(consentimiento.fecha)} para recibir ${sinWeb ? (demo ? 'esta propuesta con una web de ejemplo' : 'esta propuesta') : 'esta revisión'}. Si no queréis recibir más emails nuestros, respondednos «baja» y no os escribiremos más.`,
   ];
   if (sinWeb) {
     return {
       para: consentimiento.email,
-      asunto: `${lead.name}: propuesta de web (gratis y sin compromiso)`,
+      asunto: demo ? `${demo.nombre}: vuestra web de ejemplo (gratis y sin compromiso)` : `${lead.name}: propuesta de web (gratis y sin compromiso)`,
       cuerpo: [
         saludo, '',
-        `Como hablamos por teléfono, os mandamos la propuesta para la web de ${lead.name}. Hoy, quien os busca en internet solo encuentra vuestra ficha de Google; con una web propia, los pacientes ven qué hacéis y pueden pediros cita.`, '',
+        ...(demo
+          ? [`Como hablamos por teléfono, os hemos preparado una web de ejemplo con el nombre de ${demo.nombre}, para que veáis cómo podría ser la vuestra. Podéis abrirla en el móvil o en el ordenador:`, '', demo.enlace, '', AVISO_EJEMPLO, '', 'Hoy, quien os busca en internet solo encuentra vuestra ficha de Google; con una web propia, los pacientes ven qué hacéis y pueden pediros cita.', '']
+          : [`Como hablamos por teléfono, os mandamos la propuesta para la web de ${lead.name}. Hoy, quien os busca en internet solo encuentra vuestra ficha de Google; con una web propia, los pacientes ven qué hacéis y pueden pediros cita.`, '']),
         'Lo que tendría vuestra web:',
         '- Inicio: quiénes sois, qué tratamientos hacéis y cómo pedir cita.',
         '- Tratamientos: una sección por cada servicio, explicado de forma sencilla.',
@@ -197,6 +202,7 @@ export function borradorEmail(lead, analysis, consentimiento) {
       saludo, '',
       `Como hablamos por teléfono, os mandamos la revisión gratis de vuestra web (${dominio(lead.website)}). La hemos mirado como la vería un paciente, desde el móvil y desde el ordenador. Estas son las mejoras que os proponemos:`, '',
       ...tres.flatMap((key, i) => [`${i + 1}. ${PROBLEMS[key].fix}`, `   Lo que hemos visto: ${PROBLEMS[key].significa}`, '']),
+      ...(demo ? ['Y para que veáis cómo podría verse una web nueva, os hemos preparado una de ejemplo con vuestro nombre:', '', demo.enlace, '', AVISO_EJEMPLO, ''] : []),
       `Son vuestras: podéis hacerlas con quien queráis. Si preferís que nos encarguemos nosotros, os damos un precio cerrado antes de empezar; como referencia, una web profesional nueva parte de ${PRECIO_WEB} y está lista en ${PLAZO_WEB}.`, '',
       'Si tenéis cualquier duda, respondednos a este email.',
       ...pie,

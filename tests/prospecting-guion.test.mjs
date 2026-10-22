@@ -81,3 +81,12 @@ test('la terminal muestra también las preguntas y las frases de rescate', () =>
   assert.match(texto, /Si te quedas en blanco/);
   assert.match(texto, /Qué es la revisión/);
 });
+
+test('con la web de ejemplo: la oferta sin web la menciona y se avisa de preguntar los tratamientos', () => {
+  const s = ficha(sinWebLead, sinWebAnalisis);
+  assert.match(s.pasos[1].frases.join(' '), /web de ejemplo/);
+  assert.match(s.revision, /web de ejemplo con vuestro nombre/);
+  const c = ficha(conWeb, revisada);
+  assert.match(c.pasos[1].frases.join(' '), /una idea de cómo podría verse una web nueva/);
+  for (const f of [s, c]) assert.ok(f.antes.includes('Si sale en la conversación, pregunta qué tratamientos hacen: los marcarás en su web de ejemplo.'));
+});

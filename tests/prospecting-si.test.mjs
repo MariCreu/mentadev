@@ -72,7 +72,9 @@ test('guion para recepción: presentación, oferta y pedir el email, sin pedir q
   assert.match(f.pasos[2].frases.join(' '), /Han dicho que sí/);
   const s = ficha(c.lead(sinWeb), c.latestAnalysis(sinWeb));
   assert.match(s.pasos[1].frases.join(' '), /no tenéis web propia/);
-  assert.match(s.pasos[1].frases.join(' '), /propuesta/);
+  assert.match(s.pasos[1].frases.join(' '), /web de ejemplo con el nombre de vuestra clínica/);
+  assert.match(s.pasos[1].frases.join(' '), /¿Os mandamos el enlace por email, gratis/);
+  assert.ok(s.antes.some((a) => /qué tratamientos hacen: los marcarás en su web de ejemplo/.test(a)));
   assert.ok(s.antes.some((a) => /Busca/.test(a)), 'sin comprobar: buscar su web antes de llamar');
   // Ya comprobado a mano: no se vuelve a pedir que la busques.
   c.setWebsite(sinWeb, null);
@@ -109,4 +111,38 @@ test('comprobar la web a mano: encontrada (se revisa) o confirmada sin web; el g
   const detalle = await (await fetch(`${url}/api/clinicas/${conWeb}`)).json();
   assert.equal(detalle.consentimiento.email, 'info@lenta.example');
   assert.match(detalle.email.cuerpo, /«baja»/);
+});
+
+const PARRAFO = 'Las fotos, el horario y la dirección son de ejemplo y los textos, orientativos: es una idea para que veáis cómo quedaría. La adaptaríamos a vuestra clínica con vuestras fotos, tratamientos y datos.';
+const demo = { nombre: 'Clínica Sonrisa', tipo: 'dental', tratamientos: [0], whatsapp: false, fecha: ahora, enlace: 'https://mentadev.com/demo/#d=abc123' };
+
+test('sin web, con demo: el enlace va en su línea y el aviso de que es un ejemplo', (t) => {
+  const { c, sinWeb } = crm(t);
+  c.registrarSi(sinWeb, { email: 'hola@sonrisa.example', quien: 'Recepción' });
+  const b = borradorEmail(c.lead(sinWeb), c.latestAnalysis(sinWeb), c.consentimiento(sinWeb), demo);
+  assert.equal(b.asunto, 'Clínica Sonrisa: vuestra web de ejemplo (gratis y sin compromiso)');
+  assert.ok(b.cuerpo.split('\n').includes(demo.enlace));
+  assert.ok(b.cuerpo.includes(PARRAFO));
+  assert.match(b.cuerpo, /os hemos preparado una web de ejemplo con el nombre de Clínica Sonrisa/);
+  assert.match(b.cuerpo, /Lo que tendría vuestra web/);
+  assert.match(b.cuerpo, /«baja»/);
+});
+
+test('con web, con demo: se mantienen las 3 mejoras y se añade la web de ejemplo', (t) => {
+  const { c, conWeb } = crm(t);
+  c.registrarSi(conWeb, { email: 'info@lenta.example', quien: 'Recepción' });
+  const b = borradorEmail(c.lead(conWeb), c.latestAnalysis(conWeb), c.consentimiento(conWeb), demo);
+  assert.match(b.asunto, /Dental Lenta/);
+  assert.match(b.cuerpo, /1\. .*\n.*\n\n2\. .*\n.*\n\n3\. /);
+  assert.ok(b.cuerpo.split('\n').includes(demo.enlace));
+  assert.ok(b.cuerpo.includes(PARRAFO));
+  assert.ok(b.cuerpo.indexOf(demo.enlace) < b.cuerpo.indexOf('Son vuestras'));
+});
+
+test('sin demo el email no cambia', (t) => {
+  const { c, sinWeb } = crm(t);
+  c.registrarSi(sinWeb, { email: 'hola@sonrisa.example', quien: 'Recepción' });
+  const b = borradorEmail(c.lead(sinWeb), c.latestAnalysis(sinWeb), c.consentimiento(sinWeb), null);
+  assert.doesNotMatch(b.cuerpo, /de ejemplo/);
+  assert.match(b.asunto, /propuesta de web/);
 });

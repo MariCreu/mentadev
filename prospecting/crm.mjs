@@ -218,7 +218,7 @@ export class CRM {
     const ahora = date(this.clock());
     this.db.exec('BEGIN IMMEDIATE');
     try {
-      this.db.prepare('INSERT INTO consentimientos(lead_id,email,quien,atencion,canal,que,fecha) VALUES(?,?,?,?,?,?,?)').run(id, correo, persona, destinatario, 'llamada', 'Recibir por email la revisión gratis de su web o una propuesta de web', ahora);
+      this.db.prepare('INSERT INTO consentimientos(lead_id,email,quien,atencion,canal,que,fecha) VALUES(?,?,?,?,?,?,?)').run(id, correo, persona, destinatario, 'llamada', 'Recibir por email la revisión gratis de su web o una propuesta con una web de ejemplo', ahora);
       this.db.prepare("UPDATE leads SET status='qualified' WHERE id=?").run(id);
       this.db.prepare('INSERT INTO activities(lead_id,actor,status,created_at) VALUES(?,?,?,?)').run(id, 'panel', 'qualified', ahora);
       this.db.exec('COMMIT');

@@ -139,3 +139,12 @@ test('la demo de una clínica excluida da 400', async (t) => {
   await enviar(`${url}/api/clinicas/${ids.sinWeb}/estado`, { estado: 'suppressed', confirmar: true });
   assert.equal((await enviar(`${url}/api/clinicas/${ids.sinWeb}/demo`, { nombre: 'X', tipo: 'dental', tratamientos: [], whatsapp: false })).status, 400);
 });
+
+test('con la demo preparada y el sí apuntado, el email lleva el enlace', async (t) => {
+  const { url, ids } = await preparar(t);
+  const { demo } = await (await enviar(`${url}/api/clinicas/${ids.sinWeb}/demo`, { nombre: 'Consulta del Dr. Soler', tipo: 'medica', tratamientos: [0], whatsapp: false })).json();
+  assert.equal((await enviar(`${url}/api/clinicas/${ids.sinWeb}/si`, { email: 'hola@soler.example', quien: 'Recepción' })).status, 200);
+  const d = await (await fetch(`${url}/api/clinicas/${ids.sinWeb}`)).json();
+  assert.ok(d.email.cuerpo.split('\n').includes(demo.enlace));
+  assert.match(d.email.asunto, /^Consulta del Dr\. Soler:/);
+});

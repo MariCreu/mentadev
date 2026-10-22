@@ -38,12 +38,24 @@ volver a llamar (con confirmación; no se deshace).
 
 ### Del sí al email
 
-El guion está pensado para recepción: se ofrece la revisión gratis (o la propuesta de web, si no
-tienen) y se pide el email. Con «Han dicho que sí» se apunta el email, quién lo ha dado y cuándo
+El guion está pensado para recepción: se ofrece la revisión gratis (o una web de ejemplo con su nombre y la propuesta,
+si no tienen web) y se pide el email. Con «Han dicho que sí» se apunta el email, quién lo ha dado y cuándo
 (tabla `consentimientos`, LSSI art. 21: comunicación solicitada). La ficha prepara el borrador
 (`borradorEmail` en `report.mjs`) para abrirlo en el correo o copiarlo; se revisa y se envía a
 mano. Si luego piden no llamar más, se borra su email. «No tiene web» / «He encontrado su web»
 guardan la comprobación (`web_verificada`) y vuelven a revisar al momento: el guion se adapta.
+
+### Web de ejemplo
+
+Cada clínica puede tener una web de ejemplo con su nombre: «Web de ejemplo» en la ficha del panel
+(nombre, tipo, tratamientos y WhatsApp). Es la página pública `demo/` de mentadev.com, con
+`noindex`, que no guarda nada en el servidor: los datos viajan en el propio enlace (`#d=…`, el
+fragmento no llega al servidor). Horario, dirección y fotos son de ejemplo y están etiquetados como
+tal; el teléfono y el municipio salen de la ficha. Se guarda en la tabla `demos` (una por clínica,
+con el mismo plazo que el resto de sus datos) y se borra al excluir o anonimizar la clínica. Si hay
+demo, el borrador del email lleva el enlace en su propia línea y el aviso de que es un ejemplo; sin
+demo, el email no cambia y el panel recuerda prepararla. En la llamada, si sale, pregunta qué
+tratamientos hacen para marcarlos.
 
 ## Probar y usar
 

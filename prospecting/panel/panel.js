@@ -215,7 +215,8 @@ function pintar({ clinica, ficha, consentimiento, email, demo, demoPorDefecto, c
     $('#e-para').textContent = email.para;
     $('#e-asunto').textContent = email.asunto;
     $('#e-cuerpo').textContent = email.cuerpo;
-    $('#e-nota').textContent = ficha.sinWeb ? 'Antes de enviarlo, cambia [tu nombre] y repásalo.' : 'Antes de enviarlo, cambia [tu nombre] y mira su web un momento para confirmar lo que dice. Lo prometimos en 48 h laborables.';
+    const sinDemo = demo ? '' : ' Prepara la web de ejemplo para añadirla al email.';
+    $('#e-nota').textContent = (ficha.sinWeb ? 'Antes de enviarlo, cambia [tu nombre] y repásalo.' : 'Antes de enviarlo, cambia [tu nombre] y mira su web un momento para confirmar lo que dice. Lo prometimos en 48 h laborables.') + sinDemo;
     $('#e-abrir').href = `mailto:${email.para}?subject=${encodeURIComponent(email.asunto)}&body=${encodeURIComponent(email.cuerpo)}`;
   }
   if (matchMedia('(max-width: 980px)').matches) $('#ficha').scrollIntoView({ behavior: 'smooth', block: 'start' });
