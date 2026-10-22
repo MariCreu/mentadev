@@ -22,7 +22,7 @@ export function report(lead, analysis) {
   lines.push('Mejoras propuestas', ...mejoras.map((text, i) => `${i + 1}. ${text}`), '');
   lines.push(
     'Guion de llamada',
-    `- Hola, buenos días. Os llamamos de MentaDev, un estudio de desarrollo web de la provincia de Alicante. ¿Podemos hablar con quien lleva la web ${DE_SECTOR[lead.sector] ?? 'de la clínica'}?`,
+    `- Hola, buenos días. Os llamamos de MentaDev, un estudio de desarrollo web de la provincia de Alicante. ¿Podemos hablar con quien ${analysis.problems.includes('sinweb') ? 'se encarga de la imagen y la presencia en internet' : 'lleva la web'} ${DE_SECTOR[lead.sector] ?? 'de la clínica'}?`,
     analysis.problems.includes('sinweb')
       ? `- Hemos visto que ${lead.name} no tiene web propia y creemos que os puede ayudar:`
       : `- Hemos revisado la web de ${lead.name} y hemos visto ${mejoras.length === 1 ? 'una cosa que se puede mejorar' : `${mejoras.length} cosas que se pueden mejorar`} sin mucho esfuerzo:`,

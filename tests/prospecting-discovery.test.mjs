@@ -53,6 +53,7 @@ test('clínicas sin web: se importan, puntúan 10 y el guion lo dice', t => {
   const ficha = report(crm.lead(sinWeb), crm.latestAnalysis(sinWeb));
   assert.match(ficha, /sin web/);
   assert.match(ficha, /no tiene web propia/);
+  assert.doesNotMatch(ficha, /quien lleva la web/, 'a una clínica sin web no se le pregunta por quien lleva la web');
   assert.throws(() => crm.registerSource({ id: 'x', url: 'https://example.com/', permissionRef: 'p', reviewedBy: 'o', expiresAt: '2027-01-01T00:00:00Z', enabled: true, maxAgeDays: 0 }));
 });
 
