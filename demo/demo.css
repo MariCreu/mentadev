@@ -1,0 +1,256 @@
+/* Demo de web de clínica (mentadev.com/demo/). Estilo propio de clínica, no el de MentaDev.
+   Motivo visual: el arco mediterráneo (fachadas encaladas de la Marina Baixa). El color de acento
+   lo pone demo.js según el tipo de clínica (--acento); el resto se deriva de él. */
+
+@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:200 800;font-display:swap;src:url("/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2") format("woff2")}
+@font-face{font-family:"Poppins";font-style:normal;font-weight:400;font-display:swap;src:url("/assets/fonts/poppins-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Poppins";font-style:normal;font-weight:500;font-display:swap;src:url("/assets/fonts/poppins-latin-500-normal.woff2") format("woff2")}
+@font-face{font-family:"Poppins";font-style:normal;font-weight:600;font-display:swap;src:url("/assets/fonts/poppins-latin-600-normal.woff2") format("woff2")}
+
+:root{
+  --acento:#27725F;
+  --cal:#F3F6F6;            /* blanco de cal, frío */
+  --hoja:#FFFFFF;
+  --tinta:#15212C;
+  --tinta-2:#46525E;
+  --linea:rgba(21,33,44,.13);
+  --acento-hondo:color-mix(in oklab, var(--acento) 58%, #08131D);
+  --velo:color-mix(in oklab, var(--acento) 8%, #FFFFFF);
+  --velo-2:color-mix(in oklab, var(--acento) 16%, #FFFFFF);
+  --abierto:#1E7F4A;
+  --cerrado:#A8452F;
+  --error:#B3261E;
+  --titular:"Bricolage Grotesque", "Arial Narrow", Arial, sans-serif;
+  --texto:"Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --lado:max(1.25rem, calc((100% - 74rem) / 2));
+  --cab:4rem;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--cal);color:var(--tinta);font:400 1rem/1.65 var(--texto);overflow-x:clip}
+img{display:block;max-width:100%}
+h1,h2,h3{font-family:var(--titular);font-weight:600;letter-spacing:-.022em;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+button,input{font:inherit;color:inherit}
+[hidden]{display:none !important}
+.sprite{position:absolute;width:0;height:0;overflow:hidden}
+.ico{width:1.2em;height:1.2em;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:3px solid var(--acento);outline-offset:3px;border-radius:6px}
+section[id]{scroll-margin-top:calc(var(--cab) + .5rem)}
+
+/* ---------- Franja de aviso ---------- */
+.franja{display:flex;gap:.5rem;align-items:flex-start;justify-content:center;padding:.6rem var(--lado);background:var(--velo-2);color:var(--tinta);font-size:.8125rem;line-height:1.5}
+.franja .ico{margin-top:.1rem;color:var(--acento)}
+
+/* ---------- Cabecera ---------- */
+.cab{position:sticky;top:0;z-index:20;background:color-mix(in srgb, var(--cal) 90%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
+.cab-in{display:flex;align-items:center;gap:.75rem;min-height:var(--cab);padding:.5rem var(--lado)}
+.marca{display:flex;align-items:center;gap:.55rem;min-width:0;margin-right:auto;text-decoration:none;font:600 1.0625rem/1.15 var(--titular);letter-spacing:-.015em}
+.marca span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.marca-arco{width:1.9rem;height:1.9rem;flex:none;fill:none;stroke:var(--acento);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.cab-nav{display:none}
+.idioma{display:flex;flex:none;padding:3px;border:1px solid var(--linea);border-radius:999px;background:var(--hoja)}
+.idioma button{min-width:2.75rem;min-height:2.5rem;padding:0 .6rem;border:0;border-radius:999px;background:none;font-size:.8125rem;font-weight:600;letter-spacing:.04em;cursor:pointer;color:var(--tinta-2)}
+.idioma button[aria-pressed="true"]{background:var(--tinta);color:#fff}
+.cab .cab-cita{display:none}
+
+/* ---------- Botones ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:3rem;padding:0 1.35rem;border-radius:999px;border:1.5px solid transparent;font-weight:500;font-size:.9688rem;line-height:1.2;text-decoration:none;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s}
+.btn-cita{background:var(--acento);color:#fff}
+.btn-cita:hover{background:var(--acento-hondo)}
+.btn-linea{border-color:color-mix(in oklab, var(--acento) 55%, transparent);color:var(--acento);background:var(--hoja)}
+.btn-linea:hover{border-color:var(--acento);background:var(--velo)}
+.btn-texto{background:none;border:0;padding:0 .5rem;color:var(--tinta-2);text-decoration:underline;text-underline-offset:.2em}
+.btn[disabled]{opacity:.42;cursor:not-allowed}
+
+/* ---------- Fotos y arcos ---------- */
+.foto{position:relative;margin:0;overflow:hidden;background:var(--velo-2)}
+.foto img{width:100%;height:100%;object-fit:cover}
+/* Arco de medio punto: radio horizontal 50 % y vertical = ancho/2 respecto al alto (--arv). */
+.arco{aspect-ratio:var(--ar);border-radius:50% 50% .9rem .9rem / var(--arv) var(--arv) .9rem .9rem;--ar:4/5;--arv:40%}
+.etiqueta{position:absolute;left:.75rem;bottom:.75rem;padding:.2rem .6rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--tinta);font-size:.75rem;font-weight:500;line-height:1.5}
+
+/* ---------- Portada ---------- */
+.portada{display:grid;gap:2.25rem;padding:2.5rem var(--lado) 3.5rem}
+.portada h1{font-size:clamp(2.6rem, 7.4vw + .6rem, 5.6rem);line-height:.98;letter-spacing:-.035em;font-weight:620;max-width:12ch}
+.entradilla{margin-top:1.25rem;font-size:1.0625rem;color:var(--tinta-2);max-width:38ch}
+.estado{display:inline-flex;align-items:center;gap:.6rem;margin-top:1.75rem;padding:.55rem 1rem .55rem .85rem;border-radius:999px;background:var(--hoja);border:1px solid var(--linea);font-size:.9375rem;font-weight:500;line-height:1.35}
+.estado-punto{position:relative;width:.6rem;height:.6rem;flex:none;border-radius:50%;background:var(--cerrado)}
+.estado.abierto .estado-punto{background:var(--abierto)}
+.estado.abierto .estado-punto::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--abierto);opacity:0}
+.acciones{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.25rem}
+.estado:not([hidden]) + .acciones{margin-top:1rem}
+.portada-texto{align-self:center}
+.portada-foto{position:relative;padding:1rem 1rem 0 0}
+.portada-foto .arco{--ar:4/4.4;--arv:45.5%}
+.arco-eco{position:absolute;inset:0 0 1rem 1rem;border:1.5px solid color-mix(in oklab, var(--acento) 45%, transparent);border-radius:50% 50% 1rem 1rem / 45.5% 45.5% 1rem 1rem;pointer-events:none}
+
+/* ---------- Tratamientos ---------- */
+.trat{display:grid;gap:2rem;padding:4rem var(--lado)}
+.trat h2,.sobre h2,.visita h2,.cita h2,.contacto h2{font-size:clamp(2rem, 3.6vw + 1rem, 3.25rem);line-height:1.04}
+.seccion-entradilla{margin-top:.9rem;color:var(--tinta-2);max-width:40ch}
+.trat-foto{display:none;margin-top:2.5rem}
+.trat-lista{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--linea)}
+.trat-lista li{display:grid;gap:.35rem;padding:1.35rem 0 1.35rem 1.6rem;border-top:1px solid var(--linea);position:relative}
+.trat-lista li::before{content:"";position:absolute;left:0;top:1.72rem;width:.7rem;height:.85rem;border:1.5px solid var(--acento);border-bottom:0;border-radius:.35rem .35rem 0 0 / .35rem .35rem 0 0}
+.trat-lista h3{font-size:1.3rem;line-height:1.2}
+.trat-lista p{color:var(--tinta-2)}
+
+/* ---------- Sobre la clínica ---------- */
+.sobre{display:grid;gap:2rem;padding:4rem var(--lado);background:var(--velo)}
+.sobre-foto{aspect-ratio:4/3;border-radius:1.25rem 7rem 1.25rem 1.25rem}
+.sobre-texto{align-self:center}
+.sobre-texto p{margin-top:1.25rem;font-size:1.125rem;line-height:1.7;max-width:36em}
+
+/* ---------- Primera visita ---------- */
+.visita{padding:4rem var(--lado)}
+.pasos{list-style:none;margin:2.25rem 0 0;padding:0;display:grid;gap:0;counter-reset:paso}
+.pasos li{position:relative;display:grid;grid-template-columns:3rem 1fr;gap:1.1rem;padding-bottom:1.75rem}
+.pasos li:not(:last-child)::before{content:"";position:absolute;left:1.5rem;top:3.6rem;bottom:.3rem;width:1.5px;background:color-mix(in oklab, var(--acento) 35%, transparent)}
+.paso-n{display:flex;align-items:flex-end;justify-content:center;width:3rem;height:3.4rem;padding-bottom:.45rem;border-radius:50% 50% .5rem .5rem / 44% 44% .5rem .5rem;background:var(--acento);color:#fff;font:600 1.3rem/1 var(--titular)}
+.pasos p{align-self:center;font-size:1.0625rem;max-width:34ch}
+
+/* ---------- Pedir cita ---------- */
+.cita{position:relative;overflow:hidden;padding:4rem var(--lado);background:var(--acento-hondo);color:#fff}
+/* Eco del arco de la portada, al fondo de la banda */
+.cita::before{content:"";position:absolute;left:-6rem;bottom:-12rem;width:26rem;height:34rem;border:1.5px solid rgba(255,255,255,.14);border-radius:50% 50% 0 0 / 38% 38% 0 0;pointer-events:none}
+.cita::after{content:"";position:absolute;left:-2rem;bottom:-12rem;width:18rem;height:26rem;border:1.5px solid rgba(255,255,255,.08);border-radius:50% 50% 0 0 / 35% 35% 0 0;pointer-events:none}
+.cita :focus-visible{outline-color:var(--acento)}
+.cita-texto :focus-visible{outline-color:#fff}
+.cita-in{position:relative;z-index:1;display:grid;gap:2rem}
+.cita-texto p{margin-top:1rem;color:rgba(255,255,255,.86);max-width:34ch;font-size:1.0625rem}
+.cita-form{scroll-margin-top:calc(var(--cab) + 1rem);background:var(--hoja);color:var(--tinta);border-radius:1.5rem;padding:1.35rem 1.15rem 1.5rem;box-shadow:0 2rem 4rem -2rem rgba(0,0,0,.5);min-width:0}
+.cita-progreso{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1.25rem;font-size:.875rem;font-weight:500;color:var(--tinta-2)}
+.cita-barra{display:flex;gap:.3rem}
+.cita-barra i{width:1.75rem;height:.3rem;border-radius:999px;background:var(--linea)}
+.cita-barra i.on{background:var(--acento)}
+.grupo{border:0;margin:0;padding:0;min-width:0}
+.grupo + .grupo{margin-top:1.5rem}
+.cita-pregunta{display:block;padding:0;margin-bottom:1rem;font:600 1.4rem/1.2 var(--titular);letter-spacing:-.015em}
+.cita-pregunta:focus{outline:none}
+.cita-sub{display:block;padding:0;margin-bottom:.75rem;font-weight:600;font-size:.9375rem}
+.opciones{display:flex;flex-wrap:wrap;gap:.5rem}
+.opcion{position:relative;display:block}
+.opcion input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.opcion > span{display:block;padding:.7rem 1.05rem;border:1.5px solid var(--linea);border-radius:999px;font-size:.9375rem;line-height:1.3;transition:background-color .15s,border-color .15s,color .15s}
+.opcion:hover > span{border-color:color-mix(in oklab, var(--acento) 60%, transparent)}
+.opcion input:checked + span{background:var(--acento);border-color:var(--acento);color:#fff}
+.opcion input:focus-visible + span{outline:3px solid var(--acento);outline-offset:2px}
+.dias{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.5rem}
+.dias .opcion > span{display:flex;flex-direction:column;align-items:center;padding:.6rem .25rem;border-radius:1rem;text-align:center}
+.dia-sem{font-size:.8125rem;font-weight:500}
+.dia-num{font:600 1.5rem/1.15 var(--titular)}
+.campo{display:block}
+.campo + .campo{margin-top:1rem}
+.campo span{display:block;margin-bottom:.35rem;font-weight:500;font-size:.9375rem}
+.campo input{display:block;width:100%;min-height:3rem;padding:0 .95rem;border:1.5px solid var(--linea);border-radius:.8rem;background:var(--hoja);font-size:1rem}
+.campo input:focus{border-color:var(--acento);outline:none;box-shadow:0 0 0 3px color-mix(in oklab, var(--acento) 30%, transparent)}
+.cita-error{margin-top:1rem;color:var(--error);font-size:.9375rem;font-weight:500}
+.cita-nav{display:flex;align-items:center;justify-content:space-between;gap:.75rem;margin-top:1.75rem}
+.cita-nav .btn-cita{margin-left:auto}
+.resumen{text-align:left}
+.resumen-ok{display:flex;align-items:center;justify-content:center;width:3rem;height:3rem;border-radius:50%;background:var(--velo-2);color:var(--acento);margin-bottom:1rem}
+.resumen-ok .ico{width:1.6rem;height:1.6rem;stroke-width:2.2}
+.resumen-caja{margin-top:1rem;padding:1rem 1.1rem;border-radius:1rem;background:var(--velo);font-size:1.0625rem}
+.resumen-aviso{margin-top:1rem;font-weight:500}
+.resumen-demo{margin-top:.35rem;color:var(--tinta-2);font-size:.9375rem}
+.resumen .btn{margin-top:1.5rem}
+
+/* ---------- Contacto ---------- */
+.contacto{display:grid;gap:2.5rem;padding:4rem var(--lado)}
+.datos{margin:2rem 0 0}
+.dato + .dato{margin-top:1.75rem}
+.dato dt{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;font-weight:600}
+.dato dt .ico{color:var(--acento)}
+.dato dd{margin:.5rem 0 0 1.7rem}
+.ejemplo{display:inline-block;padding:.05rem .55rem;border-radius:999px;background:var(--velo-2);color:var(--tinta);font-size:.75rem;font-weight:500;line-height:1.6}
+.horario{border-collapse:collapse;width:100%;max-width:24rem}
+.horario th,.horario td{padding:.5rem 0;border-bottom:1px solid var(--linea);vertical-align:top;font-weight:400}
+.horario th{text-align:left;color:var(--tinta-2);padding-right:1rem}
+.horario td{text-align:right;font-variant-numeric:tabular-nums}
+.horario td span{display:inline-block;white-space:nowrap}
+.horario td span + span{margin-left:.9rem}
+.horario tr.hoy th,.horario tr.hoy td{color:var(--tinta);font-weight:600}
+.horario tr.hoy th::after{content:"";display:inline-block;width:.4rem;height:.4rem;margin-left:.45rem;border-radius:50%;background:var(--acento);vertical-align:middle}
+.tel-grande{font:600 1.6rem/1.2 var(--titular);color:var(--acento);text-decoration:none;letter-spacing:-.01em}
+.tel-grande:hover{text-decoration:underline}
+.contacto-foto{position:relative;max-width:30rem;width:100%;justify-self:center}
+.contacto-foto .arco{--ar:4/5;--arv:40%}
+.contacto-foto .etiqueta{bottom:5.25rem}
+.llegar{position:relative;margin:-4.25rem 1rem 0;padding:1rem 1.2rem;border-radius:1rem;background:var(--hoja);box-shadow:0 1rem 2.5rem -1.25rem rgba(21,33,44,.35)}
+.llegar h3{font-size:1.15rem}
+.llegar p{color:var(--tinta-2);margin-top:.15rem}
+
+/* ---------- Pie ---------- */
+.pie{display:flex;flex-wrap:wrap;gap:.5rem 2rem;justify-content:space-between;padding:2rem var(--lado) 2.25rem;background:var(--tinta);color:rgba(255,255,255,.88);font-size:.9375rem}
+.pie p:first-child{font:600 1.1rem/1.3 var(--titular);color:#fff}
+.pie a{color:#fff;text-underline-offset:.2em}
+.pie :focus-visible{outline-color:#fff}
+
+/* ---------- Barra fija del móvil ---------- */
+.barra-movil{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:.5rem;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom));background:color-mix(in srgb, var(--hoja) 94%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--linea)}
+.barra-movil .btn{flex:1 1 auto;min-width:0;padding:0 .85rem;font-size:.9063rem}
+.barra-movil .barra-llamar{flex:0 1 auto}
+/* Con JS, la barra solo aparece cuando los botones de la portada y el formulario no están a la vista. */
+.barra-movil.oculta{transform:translateY(110%);visibility:hidden}
+@media (prefers-reduced-motion:no-preference){.barra-movil{transition:transform .3s ease,visibility .3s}}
+body{padding-bottom:4.5rem}
+
+@media (min-width:480px){
+  .dias{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .cita-form{padding:1.75rem 1.75rem 2rem}
+}
+
+@media (min-width:760px){
+  body{padding-bottom:0}
+  .barra-movil{display:none}
+  .cab .cab-cita{display:inline-flex;min-height:2.75rem;padding:0 1.1rem;font-size:.9375rem}
+  .marca{font-size:1.2rem}
+  .trat-lista li{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:2rem;align-items:baseline}
+  .pasos{grid-template-columns:repeat(4,minmax(0,1fr));gap:1.5rem}
+  .pasos li{grid-template-columns:none;align-content:start;gap:1rem;padding-bottom:0}
+  .pasos li:not(:last-child)::before{left:3.6rem;right:-1.5rem;top:1.9rem;bottom:auto;width:auto;height:1.5px}
+  .pasos p{align-self:start}
+}
+
+@media (min-width:1024px){
+  .cab-nav{display:flex;gap:1.6rem;margin-right:.5rem}
+  .cab-nav a{text-decoration:none;font-size:.9375rem;color:var(--tinta-2)}
+  .cab-nav a:hover{color:var(--tinta);text-decoration:underline;text-underline-offset:.35em}
+  .portada{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:4.5rem;align-items:center;padding-top:3.5rem;padding-bottom:5rem;min-height:calc(100svh - var(--cab) - 2.5rem)}
+  .portada-foto{padding:1.5rem 1.5rem 0 0;justify-self:end;width:min(100%, calc((100svh - 15rem) * .8 + 1.5rem))}
+  .portada-foto .arco{--ar:4/5;--arv:40%}
+  .arco-eco{border-radius:50% 50% 1rem 1rem / 40% 40% 1rem 1rem;inset:0 0 1.5rem 1.5rem}
+  .trat{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:5rem;padding-block:6rem;align-items:start}
+  .trat-cab{position:sticky;top:calc(var(--cab) + 2rem)}
+  .trat-lista li{padding-block:1.9rem}
+  .trat-lista li::before{top:2.35rem}
+  .trat-lista h3{font-size:1.55rem}
+  .trat-foto{display:block;--ar:4/4;--arv:50%;max-width:24rem}
+  .sobre{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:5rem;padding-block:6rem}
+  .sobre-foto{aspect-ratio:5/4;border-radius:1.5rem 12rem 1.5rem 1.5rem}
+  .visita{padding-block:6rem}
+  .cita{padding-block:6rem}
+  .cita-in{grid-template-columns:minmax(0,.75fr) minmax(0,1.25fr);gap:5rem;align-items:start}
+  .cita-form{padding:2.25rem 2.25rem 2.5rem}
+  .contacto{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5rem;padding-block:6rem;align-items:center}
+}
+
+/* ---------- Movimiento: una sola entrada orquestada en la portada ---------- */
+@media (prefers-reduced-motion:no-preference){
+  html{scroll-behavior:smooth}
+  .portada-foto .foto{animation:arco-entra 1.2s cubic-bezier(.2,.7,.15,1) both}
+  .arco-eco{animation:eco-entra 1.5s cubic-bezier(.2,.7,.15,1) .15s both}
+  .estado,.acciones{animation:sube .7s cubic-bezier(.2,.7,.2,1) .35s both}
+  .acciones{animation-delay:.45s}
+  .estado.abierto .estado-punto::after{animation:latido 2.4s ease-out infinite}
+  .opcion input:checked + span{animation:marca .25s ease-out}
+  .cita-paso-entra{animation:sube .35s ease-out both}
+}
+@keyframes arco-entra{from{opacity:0;transform:translateY(1.5rem) scale(1.04)}to{opacity:1;transform:none}}
+@keyframes eco-entra{from{opacity:0;transform:translate(1rem,-1rem)}to{opacity:1;transform:none}}
+@keyframes sube{from{opacity:0;transform:translateY(.6rem)}to{opacity:1;transform:none}}
+@keyframes latido{0%{opacity:.55;transform:scale(1)}100%{opacity:0;transform:scale(2.8)}}
+@keyframes marca{from{transform:scale(.96)}to{transform:none}}
