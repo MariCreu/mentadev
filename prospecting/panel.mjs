@@ -119,13 +119,24 @@ if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const crm = new CRM(fileURLToPath(new URL('../private-data/crm.sqlite', import.meta.url)));
   crm.purge();
   const servidor = crearPanel({ crm, clave: process.env.GOOGLE_MAPS_API_KEY || null });
-  servidor.listen(PUERTO, '127.0.0.1', () => {
-    const direccion = `http://localhost:${PUERTO}`;
-    console.log(`Panel de prospección en ${direccion} (cierra esta ventana para pararlo)`);
+  const direccion = `http://localhost:${PUERTO}`;
+  const abrirNavegador = () => {
     if (!process.argv.includes('--sin-navegador') && process.platform === 'win32') import('node:child_process').then(({ exec }) => exec(`start "" ${direccion}`));
+  };
+  servidor.listen(PUERTO, '127.0.0.1', () => {
+    console.log(`Panel de prospección en ${direccion}`);
+    console.log('Deja esta ventana abierta mientras lo uses; ciérrala para pararlo.');
+    abrirNavegador();
   });
   servidor.on('error', (error) => {
-    console.error(error.code === 'EADDRINUSE' ? `El panel ya está abierto: ve a http://localhost:${PUERTO}` : error.message);
+    if (error.code === 'EADDRINUSE') {
+      // Ya hay un panel abierto (otra ventana): se abre el navegador en él.
+      console.log(`El panel ya estaba abierto en ${direccion}: lo abro en el navegador.`);
+      abrirNavegador();
+      setTimeout(() => process.exit(0), 1500);
+      return;
+    }
+    console.error(error.message);
     process.exit(1);
   });
 }
