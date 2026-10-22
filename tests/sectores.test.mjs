@@ -63,3 +63,19 @@ test('los colores de sector se leen con texto blanco y ninguno es marrón', () =
     assert.ok(h === null || h < 12 || h > 55, `${s.id}: ${s.acento} es marrón u ocre`);
   }
 });
+
+test('cada sector trae la reserva de la web de ejemplo del hero', () => {
+  const minutos = (h) => { const [a, b] = h.split(':').map(Number); return a * 60 + b; };
+  for (const s of SECTORES) {
+    const r = s.reserva;
+    assert.ok(r.elige && r.nueva && r.hecha, s.id);
+    assert.ok(r.boton === undefined || (typeof r.boton === 'string' && r.boton), s.id);
+    assert.equal(r.horas.length, 3, s.id);
+    for (const h of r.horas) assert.match(h, /^([01]\d|2[0-3]):[0-5]\d$/, `${s.id} ${h}`);
+    const orden = r.horas.map(minutos);
+    assert.deepEqual(orden, [...orden].sort((a, b) => a - b), `${s.id}: horas en orden`);
+    for (const h of r.horas) assert.ok(!s.panel.citas.some((c) => c.hora === h), `${s.id}: ${h} ya está ocupada en la agenda`);
+    assert.ok(s.panel.libres >= r.horas.length, `${s.id}: hay más horas que huecos libres`);
+    assert.ok(s.productos.slice(0, 2).every((p) => p.nombre), s.id); // los 2 servicios con precio de la web
+  }
+});
