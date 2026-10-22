@@ -36,6 +36,15 @@ volver a llamar (con confirmación; no se deshace).
 - La interfaz (`prospecting/panel/`) pinta los datos con `textContent`, nunca `innerHTML`.
 - Buscar y revisar comparten código con la terminal (`acciones.mjs`).
 
+### Del sí al email
+
+El guion está pensado para recepción: se ofrece la revisión gratis (o la propuesta de web, si no
+tienen) y se pide el email. Con «Han dicho que sí» se apunta el email, quién lo ha dado y cuándo
+(tabla `consentimientos`, LSSI art. 21: comunicación solicitada). La ficha prepara el borrador
+(`borradorEmail` en `report.mjs`) para abrirlo en el correo o copiarlo; se revisa y se envía a
+mano. Si luego piden no llamar más, se borra su email. «No tiene web» / «He encontrado su web»
+guardan la comprobación (`web_verificada`) y vuelven a revisar al momento: el guion se adapta.
+
 ## Probar y usar
 
 Desde la raíz del repositorio:

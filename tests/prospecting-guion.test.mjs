@@ -10,14 +10,13 @@ const sinWebLead = { id: 8, name: 'Dentalium', municipality: 'Benidorm', sector:
 const sinWebAnalisis = { blocked: false, score: 10, problems: ['sinweb'], analyzed_at: '2026-10-22T10:00:00.000Z' };
 const todoTexto = (f) => JSON.stringify(f);
 
-test('el guion va por pasos: saludo (con recepción), por qué llamas, qué ofreces y cierre', () => {
+test('el guion va por pasos, pensado para quien coja el teléfono', () => {
   const f = ficha(conWeb, revisada);
-  assert.deepEqual(f.pasos.map((p) => p.titulo), ['Saludo', 'Por qué llamas', 'Qué les ofreces', 'Cierre']);
+  assert.deepEqual(f.pasos.map((p) => p.titulo), ['Presentación', 'Qué les ofreces', 'Si dicen que sí', 'Si dudan o dicen que no', 'Si te pasan con el responsable']);
   assert.ok(f.pasos.every((p) => p.frases.length >= 1));
-  assert.ok(f.pasos[0].siRecepcion?.length >= 1, 'qué decir si contesta recepción');
   assert.ok(f.guion.length >= 6, 'el guion plano (para copiar) sigue existiendo');
   // Se dice a la clínica: en vosotros, no en tercera persona ("Su dirección…").
-  const porQue = f.pasos[1].frases.join(' ');
+  const porQue = f.pasos[4].frases.join(' ');
   assert.doesNotMatch(porQue, /\bSu\b|\bsu web\b/);
   assert.match(porQue, /vuestr/);
 });

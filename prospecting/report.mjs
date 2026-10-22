@@ -27,7 +27,6 @@ export function ficha(lead, analysis) {
   if (!mejoras.length) return { ...base, pasos: [], guion: [], preguntas: [], apuros: [], antes: [], revision: '' };
 
   const de = DE_SECTOR[lead.sector] ?? 'de la clínica';
-  const quien = sinWeb ? 'quien se encarga de la imagen y la presencia en internet' : 'quien lleva la web';
   const loQueMandamos = sinWeb ? 'la propuesta' : 'la revisión';
 
   // En vosotros: sirve para entenderla y para decírsela tal cual a la clínica.
@@ -35,50 +34,55 @@ export function ficha(lead, analysis) {
     ? `Como no tenéis web, en lugar de revisarla os mandamos por email una propuesta gratis: qué secciones tendría vuestra web, qué pondríamos en cada una y el precio cerrado (desde ${PRECIO_WEB}, lista en ${PLAZO_WEB}). Es gratis y sin compromiso: si no os convence, no pasa nada.`
     : `Es muy sencillo: miramos vuestra web con calma, como la vería un paciente desde el móvil y desde el ordenador, y en 48 h laborables os mandamos por email 3 mejoras concretas, explicadas sin tecnicismos, para que más pacientes os escriban y pidan cita. Es gratis y sin compromiso: las mejoras son vuestras y las podéis hacer con quien queráis. Si luego queréis que las hagamos nosotros, os damos un precio cerrado antes de empezar.`;
 
+  // Pensado para quien coja el teléfono (casi siempre recepción): no hace falta que te pasen con nadie.
   const pasos = [
     {
-      titulo: 'Saludo',
-      frases: [
-        `Hola, buenos días. Soy [tu nombre], de MentaDev, un estudio de la Marina Baixa que hace webs para clínicas. ¿Hablo con ${quien} ${de}?`,
-        '(Si te dicen que sí) Perfecto, te robo solo un minuto.',
-      ],
-      siRecepcion: [
-        `Os llamo por ${sinWeb ? 'la presencia en internet' : 'la web'} ${de}. ¿Con quién podría hablar de eso?`,
-        '(Si no está) ¿Cuándo es mejor llamar? ¿Y por quién pregunto?',
-        '(Si te piden que lo mandes por email) Claro: ¿a qué email, y a la atención de quién?',
-      ],
-    },
-    {
-      titulo: 'Por qué llamas',
-      frases: sinWeb
-        ? [
-          `Hemos visto que ${lead.name} no tiene web propia: si alguien os busca en internet, solo encuentra vuestra ficha de Google.`,
-          'Y muchos pacientes, antes de pedir cita, miran la web para ver qué hacéis y cómo es la clínica.',
-        ]
-        : [
-          `Hemos estado mirando webs de clínicas de ${lead.municipality} y, en la vuestra, nos hemos fijado en ${mejoras.length === 1 ? 'una cosa que se puede mejorar' : `${mejoras.length} cosas que se pueden mejorar`} sin mucho esfuerzo:`,
-          ...analysis.problems.slice(0, 3).map(key => `· ${PROBLEMS[key].reason}: ${PROBLEMS[key].dicho}`),
-        ],
+      titulo: 'Presentación',
+      frases: [`Hola, buenos días. Soy [tu nombre], de MentaDev, un estudio de la Marina Baixa que hace webs para clínicas. Es solo un momento.`],
     },
     {
       titulo: 'Qué les ofreces',
       frases: sinWeb
         ? [
-          `Hacemos webs para clínicas desde ${PRECIO_WEB}, con precio cerrado y lista en ${PLAZO_WEB}. Incluye el alojamiento del primer año y 2 meses de soporte.`,
-          'Si os parece, os mandamos por email una propuesta gratis: qué tendría vuestra web y cuánto costaría exactamente. Sin compromiso.',
+          'Hemos visto que no tenéis web propia y os hemos preparado una propuesta: qué tendría vuestra web y cuánto costaría exactamente.',
+          '¿Os la mandamos gratis por email, para que la vea quien lleve estos temas?',
         ]
         : [
-          'Os proponemos una revisión gratis: la miramos con calma y en 48 h laborables os mandamos por email 3 mejoras concretas, explicadas sin tecnicismos.',
-          'Es gratis y sin compromiso: las mejoras son vuestras y las podéis hacer con quien queráis.',
+          `Hemos estado mirando vuestra web y hemos visto ${mejoras.length === 1 ? 'una cosa concreta' : `${mejoras.length} cosas concretas`} que se pueden mejorar para que os escriban y pidan cita más pacientes.`,
+          `¿Os las mandamos gratis por email, para que las vea quien se encargue de la web ${de}?`,
         ],
     },
     {
-      titulo: 'Cierre',
+      titulo: 'Si dicen que sí',
       frases: [
-        `¿A qué email os mandamos ${loQueMandamos}? ¿Y a la atención de quién?`,
-        `(Repite el email letra a letra.) Perfecto: os llegará de MentaDev${sinWeb ? '' : ' en 48 h laborables'}. Muchas gracias por tu tiempo.`,
+        `¡Genial! ¿A qué email os ${sinWeb ? 'la' : 'lo'} mandamos? ¿Y a la atención de quién?`,
+        '(Repite el email letra a letra para no equivocarte.)',
+        `Perfecto: os llegará de MentaDev${sinWeb ? '' : ' en 48 h laborables'}. ¿Me dices tu nombre, para saber con quién he hablado?`,
+        'Muchas gracias, que vaya muy bien el día.',
+        '(Al colgar, pulsa «Han dicho que sí» y apunta el email y quién te lo ha dado.)',
+      ],
+    },
+    {
+      titulo: 'Si dudan o dicen que no',
+      frases: [
+        `(Si dudan) No os compromete a nada: es un email con ${sinWeb ? 'la propuesta' : 'las mejoras'}, lo leéis cuando podáis y, si no os sirve, lo borráis.`,
+        '(Si te dicen que se lo tienen que preguntar a alguien) Claro. ¿Te parece que os lo mandemos y así se lo enseñas?',
         '(Si dicen que no) Sin problema, gracias igualmente. ¿Preferís que no os volvamos a llamar? (Si dicen que sí, márcala como «No volver a llamar».)',
       ],
+    },
+    {
+      titulo: 'Si te pasan con el responsable',
+      frases: sinWeb
+        ? [
+          `Hola, soy [tu nombre], de MentaDev. Hemos visto que ${lead.name} no tiene web propia: si alguien os busca en internet, solo encuentra vuestra ficha de Google.`,
+          `Hacemos webs para clínicas desde ${PRECIO_WEB}, con precio cerrado y lista en ${PLAZO_WEB}, con el alojamiento del primer año y 2 meses de soporte incluidos.`,
+          'Si os parece, os mandamos por email una propuesta gratis con lo que tendría vuestra web y cuánto costaría. ¿A qué email?',
+        ]
+        : [
+          `Hola, soy [tu nombre], de MentaDev. Hemos estado mirando webs de clínicas de ${lead.municipality} y, en la vuestra, nos hemos fijado en ${mejoras.length === 1 ? 'una cosa que se puede mejorar' : `${mejoras.length} cosas que se pueden mejorar`} sin mucho esfuerzo:`,
+          ...analysis.problems.slice(0, 3).map(key => `· ${PROBLEMS[key].reason}: ${PROBLEMS[key].dicho}`),
+          'Os proponemos una revisión gratis: la miramos con calma y en 48 h laborables os mandamos por email 3 mejoras concretas, explicadas sin tecnicismos. ¿A qué email?',
+        ],
     },
   ];
 
@@ -110,14 +114,16 @@ export function ficha(lead, analysis) {
 
   const antes = [
     sinWeb
-      ? `Busca «${lead.name} ${lead.municipality}» en Google: si encuentras una web suya, no digas que no tienen; usa entonces lo que veas en ella.`
+      ? (lead.web_verificada
+        ? 'Ya has comprobado que no tiene web: ofréceles una web entera, no una revisión.'
+        : `Busca «${lead.name} ${lead.municipality}» en Google. Si encuentras una web suya, pulsa «He encontrado su web» y el guion se adapta.`)
       : `Abre su web un minuto en el móvil (${lead.website}): así hablas de lo que has visto con tus propios ojos.`,
     esMovil(lead.phone) ? 'Su teléfono es un móvil: puede ser de una persona (autónomo). Antes de llamar, consulta la Lista Robinson.' : null,
     'No tienes que vender nada por teléfono: el objetivo de la llamada es solo conseguir su email para mandarles lo que les ofreces.',
     'Mejor a media mañana o a media tarde, y no justo al abrir ni a la hora de comer.',
   ].filter(Boolean);
 
-  const guion = pasos.flatMap(p => [`${p.titulo.toUpperCase()}`, ...p.frases, ...(p.siRecepcion ? ['Si contesta recepción:', ...p.siRecepcion] : [])]);
+  const guion = pasos.flatMap(p => [p.titulo.toUpperCase(), ...p.frases]);
   return { ...base, revision, pasos, preguntas, apuros, antes, guion };
 }
 
@@ -140,10 +146,60 @@ export function report(lead, analysis) {
   lines.push('Guion de llamada');
   for (const p of f.pasos) {
     lines.push(`${p.titulo}:`, ...p.frases.map(l => (l.startsWith('·') ? `    ${l}` : `  - ${l}`)));
-    if (p.siRecepcion) lines.push('  Si contesta recepción:', ...p.siRecepcion.map(l => `    - ${l}`));
   }
   lines.push('', 'Si te preguntan…', ...f.preguntas.flatMap(q => [`- «${q.pregunta}»`, `  ${q.respuesta}`]), '');
   lines.push('Si te quedas en blanco', ...f.apuros.map(a => `- ${a}`), '');
   lines.push(`Si piden que no les llamemos más: status ${lead.id} suppressed <tu-nombre>`);
   return lines.join('\n');
+}
+
+const fechaCorta = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`;
+const dominio = (web) => web.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+
+// Email para la clínica que ha dicho que sí por teléfono. Se revisa y se envía a mano desde el correo.
+export function borradorEmail(lead, analysis, consentimiento) {
+  if (!consentimiento || !analysis || analysis.blocked) return null;
+  const sinWeb = analysis.problems.includes('sinweb');
+  const saludo = consentimiento.atencion ? `Hola, ${consentimiento.atencion}:` : 'Hola:';
+  const pie = [
+    '',
+    'Un saludo,',
+    '[tu nombre]',
+    'MentaDev · https://mentadev.com',
+    '',
+    `Os escribimos porque nos disteis este email por teléfono el ${fechaCorta(consentimiento.fecha)} para recibir ${sinWeb ? 'esta propuesta' : 'esta revisión'}. Si no queréis recibir más emails nuestros, respondednos «baja» y no os escribiremos más.`,
+  ];
+  if (sinWeb) {
+    return {
+      para: consentimiento.email,
+      asunto: `${lead.name}: propuesta de web (gratis y sin compromiso)`,
+      cuerpo: [
+        saludo, '',
+        `Como hablamos por teléfono, os mandamos la propuesta para la web de ${lead.name}. Hoy, quien os busca en internet solo encuentra vuestra ficha de Google; con una web propia, los pacientes ven qué hacéis y pueden pediros cita.`, '',
+        'Lo que tendría vuestra web:',
+        '- Inicio: quiénes sois, qué tratamientos hacéis y cómo pedir cita.',
+        '- Tratamientos: una sección por cada servicio, explicado de forma sencilla.',
+        '- Equipo y clínica: fotos y presentación, para dar confianza antes de la primera visita.',
+        '- Contacto y cómo llegar: teléfono, WhatsApp, mapa y horario.',
+        '- Textos legales: aviso legal, privacidad y cookies.', '',
+        `Precio: desde ${PRECIO_WEB}, cerrado antes de empezar y en 2 plazos sin intereses. Incluye hasta 6 secciones, adaptación al móvil, preparación para Google, alojamiento del primer año y 2 meses de soporte. El dominio va a vuestro nombre.`,
+        `Plazo: lista en ${PLAZO_WEB} desde que tenemos vuestros textos y fotos (si no los tenéis, os ayudamos). Si no la publicamos en ese plazo, os devolvemos el primer plazo.`, '',
+        'Si os encaja, respondednos a este email y lo hablamos sin compromiso.',
+        ...pie,
+      ].join('\n'),
+    };
+  }
+  const tres = analysis.problems.slice(0, 3);
+  return {
+    para: consentimiento.email,
+    asunto: `${lead.name}: ${tres.length === 1 ? 'una mejora' : `${tres.length} mejoras`} para vuestra web (revisión gratis)`,
+    cuerpo: [
+      saludo, '',
+      `Como hablamos por teléfono, os mandamos la revisión gratis de vuestra web (${dominio(lead.website)}). La hemos mirado como la vería un paciente, desde el móvil y desde el ordenador. Estas son las mejoras que os proponemos:`, '',
+      ...tres.flatMap((key, i) => [`${i + 1}. ${PROBLEMS[key].fix}`, `   Lo que hemos visto: ${PROBLEMS[key].significa}`, '']),
+      `Son vuestras: podéis hacerlas con quien queráis. Si preferís que nos encarguemos nosotros, os damos un precio cerrado antes de empezar; como referencia, una web profesional nueva parte de ${PRECIO_WEB} y está lista en ${PLAZO_WEB}.`, '',
+      'Si tenéis cualquier duda, respondednos a este email.',
+      ...pie,
+    ].join('\n'),
+  };
 }

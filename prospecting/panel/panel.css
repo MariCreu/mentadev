@@ -124,6 +124,30 @@ h1{font-family:var(--f-tit);font-weight:800;font-size:clamp(34px,4vw,52px);lette
 .mejoras li::before{content:counter(m);position:absolute;left:0;top:0;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;background:var(--tinta);color:#fff;font-size:13px;font-weight:600}
 .guion #f-guion{display:flex;flex-direction:column;gap:10px;padding:18px;border-radius:18px;background:var(--papel);font-size:15px}
 .guion #f-guion p.punto-guion{padding-left:16px;color:var(--tinta-2)}
+/* Comprobar la web a mano */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.verificada{margin-top:6px;font-size:13px;font-weight:600;color:var(--menta-t)}
+.verificada::before{content:"✓ ";}
+.comprobar{margin-top:12px;padding:12px 14px;border-radius:14px;background:var(--papel);display:flex;flex-direction:column;gap:10px}
+.comprobar-t{font-size:13px;font-weight:600;color:var(--tinta-2)}
+.comprobar-botones{display:flex;flex-wrap:wrap;gap:8px}
+.comprobar-form{display:flex;gap:8px}
+.comprobar-form input{flex:1;min-width:0;height:38px;border:1.5px solid var(--linea-2);border-radius:12px;padding:0 12px;background:var(--hoja)}
+.comprobar-form input:focus{outline:none;border-color:var(--lav-d);box-shadow:0 0 0 4px var(--lav-s)}
+
+/* Email para enviar */
+.correo{border-top:0;margin-top:4px;padding:20px;border-radius:20px;background:var(--menta-s)}
+.correo h3{color:var(--menta-t)}
+.consentido{font-size:13px;font-weight:600;color:var(--menta-t);margin:-6px 0 12px}
+.correo-cab{display:grid;grid-template-columns:max-content minmax(0,1fr);gap:4px 12px;font-size:14px;margin-bottom:10px}
+.correo-cab dt{font-weight:600;color:var(--tinta-3)}
+.correo-cab dd{word-break:break-word}
+.correo-cuerpo{white-space:pre-wrap;font:400 14px/1.6 var(--f-txt);background:var(--hoja);border-radius:14px;padding:16px;max-height:340px;overflow:auto;margin-bottom:12px}
+.correo-acciones{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:10px}
+.campo-ancho{width:100%;margin-top:12px}
+.campo-ancho input{width:100%;min-width:0}
+#form-si p{margin-bottom:4px}
+
 /* Pestañas de la ficha */
 .f-pestanas{border-top:1px solid var(--linea);padding-top:16px}
 .subpestanas{display:flex;gap:4px;padding:4px;background:var(--papel);border-radius:14px;margin-bottom:4px}

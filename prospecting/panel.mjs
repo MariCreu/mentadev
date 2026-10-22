@@ -8,7 +8,7 @@ import { readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { CRM } from './crm.mjs';
-import { ficha } from './report.mjs';
+import { ficha, borradorEmail } from './report.mjs';
 import { buscar, revisar } from './acciones.mjs';
 
 const PUERTO = 4321;
@@ -19,6 +19,13 @@ const PERMITIDAS = new Set(['poppins-latin-400-normal.woff2', 'poppins-latin-500
 const SECTORES = new Set(['health_clinic', 'aesthetic_clinic']);
 
 export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
+  // Todo lo que la ficha necesita de una clínica: datos, guion, sí apuntado y borrador del email.
+  const detalleDe = (id) => {
+    const clinica = crm.lead(id);
+    const analisis = crm.latestAnalysis(id);
+    const consentimiento = crm.consentimiento(id) ?? null;
+    return { clinica, ficha: ficha(clinica, analisis), consentimiento, email: borradorEmail(clinica, analisis, consentimiento) };
+  };
   let trabajo = { activo: false, tipo: null, hecho: 0, total: 0, mensaje: '', error: null };
   const lanzar = (tipo, tarea) => {
     trabajo = { activo: true, tipo, hecho: 0, total: 0, mensaje: tipo === 'buscar' ? 'Buscando en Google…' : 'Preparando la revisión…', error: null };
@@ -57,7 +64,7 @@ export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
         if (detalle) {
           const clinica = crm.lead(Number(detalle[1]));
           if (!clinica) return responder(404, { error: 'Esa clínica no existe' });
-          return responder(200, { clinica, ficha: ficha(clinica, crm.latestAnalysis(clinica.id)) });
+          return responder(200, detalleDe(clinica.id));
         }
         if (ruta === '/api/trabajo') return responder(200, trabajo);
         if (ruta === '/api/estado') return responder(200, { clave: Boolean(clave) });
@@ -78,6 +85,23 @@ export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
           if (datos.estado === 'suppressed' && datos.confirmar !== true) return responder(400, { error: 'Confirma que no quieres volver a llamar: no se puede deshacer' });
           try { crm.setStatus(id, datos.estado, 'panel'); } catch (error) { return responder(400, { error: error.message }); }
           return responder(200, { clinica: crm.lead(id) });
+        }
+        const si = ruta.match(/^\/api\/clinicas\/(\d+)\/si$/);
+        if (si) {
+          const id = Number(si[1]);
+          if (!crm.lead(id)) return responder(404, { error: 'Esa clínica no existe' });
+          try { crm.registrarSi(id, { email: datos.email, quien: datos.quien, atencion: datos.atencion }); } catch (error) { return responder(400, { error: error.message }); }
+          return responder(200, detalleDe(id));
+        }
+        // Web comprobada a mano: se guarda y se vuelve a revisar al momento, para que el guion se adapte.
+        const web = ruta.match(/^\/api\/clinicas\/(\d+)\/web$/);
+        if (web) {
+          const id = Number(web[1]);
+          if (!crm.lead(id)) return responder(404, { error: 'Esa clínica no existe' });
+          const direccion = typeof datos.web === 'string' && datos.web.trim() ? datos.web.trim().replace(/^(?!https?:\/\/)/i, 'https://') : null;
+          try { crm.setWebsite(id, direccion); } catch (error) { return responder(400, { error: error.message }); }
+          await revisar(crm, [id], { pageSpeedKey: clave, fetchImpl, pausa: 0 });
+          return responder(200, detalleDe(id));
         }
         if (ruta === '/api/buscar') {
           const consulta = typeof datos.consulta === 'string' ? datos.consulta.trim() : '';

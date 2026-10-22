@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS leads (
   sector TEXT NOT NULL CHECK(sector IN ('health_clinic','aesthetic_clinic')),
   website TEXT,
   phone TEXT,
+  web_verificada TEXT,
   status TEXT NOT NULL DEFAULT 'new' CHECK(status IN ('new','qualified','rejected','suppressed')),
   created_at TEXT NOT NULL
 );
@@ -45,3 +46,14 @@ CREATE TABLE IF NOT EXISTS analyses (
   signals TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS analyses_lead ON analyses(lead_id, analyzed_at);
+-- Clínicas que han dicho que sí a recibir algo por email (consentimiento previo, LSSI art. 21).
+CREATE TABLE IF NOT EXISTS consentimientos (
+  id INTEGER PRIMARY KEY,
+  lead_id INTEGER NOT NULL REFERENCES leads(id) ON DELETE CASCADE,
+  email TEXT NOT NULL,
+  quien TEXT NOT NULL,
+  atencion TEXT,
+  canal TEXT NOT NULL,
+  que TEXT NOT NULL,
+  fecha TEXT NOT NULL
+);

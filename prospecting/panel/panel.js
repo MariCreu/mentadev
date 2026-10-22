@@ -138,8 +138,13 @@ async function abrir(id) {
   seleccion = id;
   document.querySelectorAll('.fila').forEach((f) => f.toggleAttribute('aria-current', Number(f.dataset.id) === id));
   document.querySelectorAll('.fila[aria-current]').forEach((f) => f.setAttribute('aria-current', 'true'));
-  const { clinica, ficha } = await api(`/api/clinicas/${id}`);
-  fichaActual = { clinica, ficha };
+  pintar(await api(`/api/clinicas/${id}`));
+}
+
+const fechaCorta = (iso) => (iso ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : '');
+
+function pintar({ clinica, ficha, consentimiento, email }) {
+  fichaActual = { clinica, ficha, consentimiento, email };
   $('#ficha-vacia').hidden = true;
   $('#ficha-detalle').hidden = false;
 
@@ -159,6 +164,16 @@ async function abrir(id) {
   web.hidden = !clinica.website;
   $('#f-sin-web').hidden = Boolean(clinica.website);
   if (clinica.website) { web.textContent = clinica.website.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, ''); web.href = clinica.website; }
+  // Comprobación a mano: el guion se adapta a lo que encuentres.
+  $('#f-verificada').hidden = !clinica.web_verificada;
+  $('#f-verificada').textContent = clinica.web_verificada ? `Comprobado por ti el ${fechaCorta(clinica.web_verificada)}` : '';
+  $('#f-sin-web').hidden = Boolean(clinica.website) || Boolean(clinica.web_verificada);
+  $('#f-comprobar').hidden = clinica.status === 'suppressed';
+  $('#f-comprobar-t').textContent = clinica.website ? '¿No es la suya, o ya no la tiene?' : (clinica.web_verificada ? '¿Al final sí tiene web?' : '¿Seguro que no tiene web? Búscala en Google y dímelo:');
+  $('#b-sin-web').hidden = !clinica.website && Boolean(clinica.web_verificada);
+  $('#b-sin-web').textContent = clinica.website ? 'No tiene web' : 'Confirmado: no tiene web';
+  $('#b-otra-web').textContent = clinica.website ? 'Es otra dirección' : 'He encontrado su web';
+  $('#form-web').hidden = true;
 
   const revisada = ficha.estado === 'revisada';
   $('#f-puntuacion').hidden = !revisada;
@@ -191,6 +206,17 @@ async function abrir(id) {
 
   document.querySelectorAll('.acciones [data-estado]').forEach((b) => { b.hidden = clinica.status === 'suppressed' || b.dataset.estado === clinica.status; });
   $('#no-llamar').hidden = clinica.status === 'suppressed';
+  $('#han-dicho-si').hidden = clinica.status === 'suppressed' || Boolean(consentimiento);
+  // Email para enviar a quien ha dicho que sí.
+  $('#f-correo').hidden = !email;
+  if (email) {
+    $('#f-consentido').textContent = `Dijo que sí ${consentimiento.quien}, el ${fechaCorta(consentimiento.fecha)}.`;
+    $('#e-para').textContent = email.para;
+    $('#e-asunto').textContent = email.asunto;
+    $('#e-cuerpo').textContent = email.cuerpo;
+    $('#e-nota').textContent = ficha.sinWeb ? 'Antes de enviarlo, cambia [tu nombre] y repásalo.' : 'Antes de enviarlo, cambia [tu nombre] y mira su web un momento para confirmar lo que dice. Lo prometimos en 48 h laborables.';
+    $('#e-abrir').href = `mailto:${email.para}?subject=${encodeURIComponent(email.asunto)}&body=${encodeURIComponent(email.cuerpo)}`;
+  }
   if (matchMedia('(max-width: 980px)').matches) $('#ficha').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
@@ -270,3 +296,39 @@ $('#revisar').addEventListener('click', async () => {
   const t = await api('/api/trabajo');
   if (t.activo) { pintarTrabajo(t); seguir(); }
 })();
+
+// ---------- Comprobar la web ----------
+async function guardarWeb(web) {
+  if (!fichaActual) return;
+  const boton = $('#form-web button');
+  boton.disabled = true;
+  try {
+    aviso(web ? 'Revisando su web…' : 'Apuntado: no tiene web');
+    pintar(await api(`/api/clinicas/${fichaActual.clinica.id}/web`, { web }));
+    if (web) aviso('Web revisada: el guion ya está adaptado');
+    await cargar();
+  } catch (error) { aviso(error.message, true); } finally { boton.disabled = false; }
+}
+$('#b-sin-web').addEventListener('click', () => guardarWeb(null));
+$('#b-otra-web').addEventListener('click', () => { $('#form-web').hidden = false; $('#i-web').focus(); });
+$('#form-web').addEventListener('submit', (e) => { e.preventDefault(); guardarWeb($('#i-web').value); });
+
+// ---------- Han dicho que sí ----------
+$('#han-dicho-si').addEventListener('click', () => {
+  $('#si-nombre').textContent = fichaActual?.clinica.name ?? '';
+  $('#form-si').reset();
+  $('#dialogo-si').showModal();
+});
+$('#si-cancelar').addEventListener('click', () => $('#dialogo-si').close());
+$('#form-si').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  try {
+    const datos = await api(`/api/clinicas/${fichaActual.clinica.id}/si`, { email: $('#si-email').value, quien: $('#si-quien').value, atencion: $('#si-atencion').value });
+    $('#dialogo-si').close();
+    aviso('¡Apuntado! Ya tienes el email preparado');
+    await cargar();
+    pintar(datos);
+    $('#f-correo').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (error) { aviso(error.message, true); }
+});
+$('#e-copiar').addEventListener('click', () => fichaActual?.email && copiar(`Para: ${fichaActual.email.para}\nAsunto: ${fichaActual.email.asunto}\n\n${fichaActual.email.cuerpo}`, 'Email'));

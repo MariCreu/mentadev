@@ -51,7 +51,7 @@ test('al anonimizar una excluida se borra también su teléfono, y no vuelve al 
   assert.equal(crm.lead(id).phone, null);
 });
 
-test('una base de la versión 2 gana la columna del teléfono sin perder datos', (t) => {
+test('una base de la versión 2 gana las columnas nuevas sin perder datos', (t) => {
   const dir = mkdtempSync(join(tmpdir(), 'md-crm-'));
   t.after(() => rmSync(dir, { recursive: true, force: true }));
   const path = join(dir, 'crm.sqlite');
@@ -62,7 +62,7 @@ test('una base de la versión 2 gana la columna del teléfono sin perder datos',
     PRAGMA user_version = 2;`);
   v2.close();
   const crm = new CRM(path);
-  assert.equal(crm.db.prepare('PRAGMA user_version').get().user_version, 3);
+  assert.equal(crm.db.prepare('PRAGMA user_version').get().user_version, 4);
   assert.equal(crm.lead(1).name, 'Sol');
   assert.equal(crm.lead(1).phone, null);
   crm.close();

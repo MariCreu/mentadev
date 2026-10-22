@@ -35,7 +35,7 @@ function signals(value) {
   return JSON.stringify(value);
 }
 // Versión del esquema (PRAGMA user_version). Si cambia schema.sql, subirla y añadir el paso en migrate().
-const SCHEMA_VERSION = 3;
+const SCHEMA_VERSION = 4;
 // Huella de una ficha excluida: permite reconocerla al reimportarla sin guardar su nombre ni su municipio.
 const fingerprint = identity => 'sha256:' + createHash('sha256').update(identity).digest('hex');
 function normalized(value) {
@@ -50,7 +50,7 @@ export class CRM {
   }
   // Crea la base o la pone al día sin perder datos. Versión 1 (primera fase): sin plazo por fuente,
   // con la web obligatoria y sin revisiones; se detecta porque ya tiene tablas y user_version = 0.
-  // Versión 3: teléfono de la clínica (columna phone).
+  // Versión 3: teléfono de la clínica (columna phone). Versión 4: web comprobada a mano y consentimientos.
   migrate() {
     const { user_version: version } = this.db.prepare('PRAGMA user_version').get();
     if (version > SCHEMA_VERSION) throw new Error('La base es de una versión más nueva del CRM');
@@ -77,7 +77,9 @@ export class CRM {
           ALTER TABLE leads_v2 RENAME TO leads;`);
       }
       this.db.exec(readFileSync(new URL('./schema.sql', import.meta.url), 'utf8'));
-      if (!this.db.prepare("SELECT 1 FROM pragma_table_info('leads') WHERE name='phone'").get()) this.db.exec('ALTER TABLE leads ADD COLUMN phone TEXT');
+      for (const columna of ['phone', 'web_verificada']) {
+        if (!this.db.prepare("SELECT 1 FROM pragma_table_info('leads') WHERE name=?").get(columna)) this.db.exec(`ALTER TABLE leads ADD COLUMN ${columna} TEXT`);
+      }
       if (this.db.prepare('PRAGMA foreign_key_check').all().length) throw new Error('Referencias rotas al actualizar la base');
       this.db.exec(`PRAGMA user_version = ${SCHEMA_VERSION}`);
       this.db.exec('COMMIT');
@@ -192,6 +194,35 @@ export class CRM {
     const n = Object.fromEntries(this.db.prepare('SELECT status, count(*) AS n FROM leads GROUP BY status').all().map((r) => [r.status, r.n]));
     return { porllamar: n.new ?? 0, interesadas: n.qualified ?? 0, descartadas: n.rejected ?? 0, nollamar: n.suppressed ?? 0, pendientes: this.pendientes().length };
   }
+  // Web comprobada a mano: la dirección buena (http/https) o null si de verdad no tiene.
+  setWebsite(id, web) {
+    const lead = this.lead(id);
+    if (!lead || lead.status === 'suppressed') throw new Error('La ficha no existe o está excluida');
+    const direccion = web == null ? null : url(web, ['https:', 'http:']);
+    if (direccion) { direccion.search = ''; direccion.hash = ''; }
+    this.db.prepare('UPDATE leads SET website=?, web_verificada=? WHERE id=?').run(direccion?.href ?? null, date(this.clock()), id);
+  }
+  // "Han dicho que sí": email que nos dan, quién lo dice y cuándo. La clínica pasa a interesada.
+  registrarSi(id, { email, quien, atencion = null } = {}) {
+    const lead = this.lead(id);
+    if (!lead || lead.status === 'suppressed') throw new Error('La ficha no existe o está excluida');
+    const correo = typeof email === 'string' ? email.trim().toLowerCase() : '';
+    if (correo.length > 200 || !/^[^\s@<>"]+@[^\s@<>"]+\.[a-z]{2,}$/i.test(correo)) throw new Error('El email no es válido');
+    let persona;
+    try { persona = text(quien, 100); } catch { throw new Error('Falta quién te ha dicho que sí'); }
+    const destinatario = atencion == null || (typeof atencion === 'string' && !atencion.trim()) ? null : text(atencion, 100);
+    const ahora = date(this.clock());
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      this.db.prepare('INSERT INTO consentimientos(lead_id,email,quien,atencion,canal,que,fecha) VALUES(?,?,?,?,?,?,?)').run(id, correo, persona, destinatario, 'llamada', 'Recibir por email la revisión gratis de su web o una propuesta de web', ahora);
+      this.db.prepare("UPDATE leads SET status='qualified' WHERE id=?").run(id);
+      this.db.prepare('INSERT INTO activities(lead_id,actor,status,created_at) VALUES(?,?,?,?)').run(id, 'panel', 'qualified', ahora);
+      this.db.exec('COMMIT');
+    } catch (error) { this.db.exec('ROLLBACK'); throw error; }
+  }
+  consentimiento(id) {
+    return this.db.prepare('SELECT * FROM consentimientos WHERE lead_id=? ORDER BY fecha DESC, id DESC LIMIT 1').get(id);
+  }
   // Fichas por llamar, de mejor a peor candidata. Las descartadas y excluidas no salen.
   ranking() {
     return this.db.prepare(`SELECT l.id, l.name, l.municipality, l.status, a.score, a.analyzed_at FROM leads l
@@ -207,6 +238,8 @@ export class CRM {
       const lead = this.db.prepare('SELECT status FROM leads WHERE id=?').get(id);
       if (!lead || lead.status === 'suppressed') throw new Error('La ficha no existe o está excluida');
       this.db.prepare('UPDATE leads SET status=? WHERE id=?').run(status,id);
+      // Si piden no llamar más, tampoco se guarda el email que nos dieron.
+      if (status === 'suppressed') this.db.prepare('DELETE FROM consentimientos WHERE lead_id=?').run(id);
       this.db.prepare('INSERT INTO activities(lead_id,actor,status,created_at) VALUES(?,?,?,?)').run(id,actor,status,date(this.clock()));
       this.db.exec('COMMIT');
     } catch (error) { this.db.exec('ROLLBACK'); throw error; }

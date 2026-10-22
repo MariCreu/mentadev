@@ -34,7 +34,7 @@ test('una base creada con la primera versión se actualiza sola y conserva sus d
   old.exec(V1);
   old.close();
   const crm = new CRM(path, () => '2026-10-21T10:00:00.000Z');
-  assert.equal(crm.db.prepare('PRAGMA user_version').get().user_version, 3);
+  assert.equal(crm.db.prepare('PRAGMA user_version').get().user_version, 4);
   assert.equal(crm.lead(1).status, 'suppressed');
   assert.ok('phone' in crm.lead(1), 'la columna del teléfono existe tras actualizar');
   assert.equal(crm.db.prepare('SELECT count(*) AS n FROM activities').get().n, 1);
@@ -49,7 +49,7 @@ test('abrir una base ya actualizada no cambia nada', t => {
   const path = tmp(t);
   new CRM(path).close();
   const crm = new CRM(path);
-  assert.equal(crm.db.prepare('PRAGMA user_version').get().user_version, 3);
+  assert.equal(crm.db.prepare('PRAGMA user_version').get().user_version, 4);
   assert.ok(crm.db.prepare("SELECT 1 FROM pragma_table_info('sources') WHERE name='max_age_days'").get());
   crm.close();
 });

@@ -96,7 +96,32 @@
           <span class="etiqueta">Web</span>
           <a id="f-web" target="_blank" rel="noopener noreferrer"></a>
           <span id="f-sin-web" class="nota" hidden>Sin web en Google. Búscala antes de llamar: puede que tenga una.</span>
+          <p class="verificada" id="f-verificada" hidden></p>
+          <div class="comprobar" id="f-comprobar">
+            <p class="comprobar-t" id="f-comprobar-t"></p>
+            <div class="comprobar-botones">
+              <button class="btn-2 btn-sm" type="button" id="b-sin-web">No tiene web</button>
+              <button class="btn-2 btn-sm" type="button" id="b-otra-web">He encontrado su web</button>
+            </div>
+            <form class="comprobar-form" id="form-web" hidden>
+              <label class="sr" for="i-web">Dirección de su web</label>
+              <input id="i-web" type="text" inputmode="url" autocomplete="off" placeholder="clinicadental.es" required>
+              <button class="btn btn-sm" type="submit">Guardar y revisar</button>
+            </form>
+          </div>
         </div>
+
+        <section class="bloque correo" id="f-correo" hidden>
+          <h3>Email para enviar</h3>
+          <p class="consentido" id="f-consentido"></p>
+          <dl class="correo-cab"><dt>Para</dt><dd id="e-para"></dd><dt>Asunto</dt><dd id="e-asunto"></dd></dl>
+          <pre class="correo-cuerpo" id="e-cuerpo"></pre>
+          <div class="correo-acciones">
+            <a class="btn btn-sm" id="e-abrir">Abrir en mi correo</a>
+            <button class="btn-2 btn-sm" type="button" id="e-copiar">Copiar texto</button>
+          </div>
+          <p class="nota" id="e-nota"></p>
+        </section>
 
         <div class="puntuacion" id="f-puntuacion">
           <span class="nota-grande" id="f-score"></span>
@@ -155,7 +180,7 @@
         </div>
 
         <footer class="acciones">
-          <button class="btn" type="button" data-estado="qualified">Interesada</button>
+          <button class="btn" type="button" id="han-dicho-si">Han dicho que sí</button>
           <button class="btn-2" type="button" data-estado="rejected">Descartar</button>
           <button class="btn-2" type="button" data-estado="new">Volver a por llamar</button>
           <button class="peligro" type="button" id="no-llamar">No volver a llamar</button>
@@ -164,6 +189,20 @@
     </aside>
   </div>
 </main>
+
+<dialog id="dialogo-si" aria-labelledby="si-t">
+  <form id="form-si">
+    <h2 id="si-t">¡Bien! Apunta su sí</h2>
+    <p>Así queda constancia de que <span id="si-nombre"></span> ha pedido recibir el email.</p>
+    <label class="campo campo-ancho"><span>Email que te han dado</span><input id="si-email" type="email" required autocomplete="off" placeholder="info@clinica.es"></label>
+    <label class="campo campo-ancho"><span>Quién te ha dicho que sí</span><input id="si-quien" type="text" required maxlength="100" autocomplete="off" placeholder="Recepción (Marta)"></label>
+    <label class="campo campo-ancho"><span>A la atención de (si te lo han dicho)</span><input id="si-atencion" type="text" maxlength="100" autocomplete="off" placeholder="Dra. García"></label>
+    <div class="dialogo-acciones">
+      <button class="btn-2" type="button" id="si-cancelar">Cancelar</button>
+      <button class="btn" type="submit">Guardar</button>
+    </div>
+  </form>
+</dialog>
 
 <dialog id="confirmar" aria-labelledby="confirmar-t">
   <form method="dialog">
