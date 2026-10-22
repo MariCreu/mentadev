@@ -232,6 +232,7 @@ export class CRM {
     const lead = this.lead(id);
     if (!lead || lead.status === 'suppressed') throw new Error('La ficha no existe o está excluida');
     const d = validar({ nombre, tipo, tratamientos, whatsapp, telefono: lead.phone, municipio: lead.municipality });
+    if (d.tratamientos.length === 0) throw new Error('Marca al menos un tratamiento');
     this.db.prepare('INSERT OR REPLACE INTO demos(lead_id,nombre,tipo,tratamientos,whatsapp,fecha) VALUES(?,?,?,?,?,?)').run(id, d.nombre, d.tipo, JSON.stringify(d.tratamientos), Number(d.whatsapp), date(this.clock()));
   }
   demo(id) {

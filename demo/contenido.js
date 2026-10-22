@@ -9,10 +9,15 @@ export const IDIOMAS = ['es', 'en'];
 //   {n}         número de paso de la cita     {motivo}    tratamiento o motivo elegido
 //   {dia}       día elegido para la cita      {franja}    franjaManana o franjaTarde
 //   {telefono}  teléfono que deja el paciente
+//   {canales}   cómo pedir cita: COMUNES.canalesConWhatsapp o canalesSinWhatsapp, según haya WhatsApp
+//               (los textos nunca nombran WhatsApp: solo aparece si la clínica lo tiene)
 export const COMUNES = {
   es: {
     idioma: 'Idioma',
     clinicaPorDefecto: 'Vuestra clínica',
+    titulo: '{nombre} · Web de ejemplo',
+    canalesConWhatsapp: 'por teléfono, por WhatsApp o desde esta web',
+    canalesSinWhatsapp: 'por teléfono o desde esta web',
     franja: 'Web de ejemplo preparada por MentaDev para {nombre}. Fotos, horario, dirección y textos son orientativos.',
     fotoEjemplo: 'Foto de ejemplo',
     ejemplo: 'Ejemplo',
@@ -71,6 +76,9 @@ export const COMUNES = {
   en: {
     idioma: 'Language',
     clinicaPorDefecto: 'Your clinic',
+    titulo: '{nombre} · Sample website',
+    canalesConWhatsapp: 'by phone, on WhatsApp or through this website',
+    canalesSinWhatsapp: 'by phone or through this website',
     franja: 'Sample website prepared by MentaDev for {nombre}. Photos, opening hours, address and texts are for illustration only.',
     fotoEjemplo: 'Example photo',
     ejemplo: 'Example',
@@ -293,7 +301,7 @@ export const CONTENIDO = {
         entradilla: 'Consulta médica en {municipio}. Te atendemos sin prisas y te explicamos todo con palabras claras.',
         sobre: 'Somos una consulta pequeña, y eso nos permite conocer a nuestros pacientes y dedicar a cada uno el tiempo que necesita. Te escuchamos, te explicamos lo que vemos y decidimos contigo los siguientes pasos.',
         primeraVisita: [
-          'Pides cita por teléfono, por WhatsApp o desde esta web.',
+          'Pides cita {canales}.',
           'Nos cuentas qué te pasa y repasamos tus antecedentes y tu medicación.',
           'Te exploramos y, si hace falta, pedimos las pruebas necesarias.',
           'Te explicamos el diagnóstico y el tratamiento, y quedamos para el seguimiento.',
@@ -304,7 +312,7 @@ export const CONTENIDO = {
         entradilla: 'Medical practice in {municipio}. We see you without rushing and explain everything in plain words.',
         sobre: "We're a small practice, which means we get to know our patients and give each of them the time they need. We listen, explain what we find and agree the next steps together.",
         primeraVisita: [
-          'Book by phone, on WhatsApp or through this website.',
+          'Book {canales}.',
           "Tell us what's wrong and we go over your medical history and medication.",
           'We examine you and, if needed, arrange any tests.',
           'We explain the diagnosis and treatment, and set up your follow-up.',
@@ -371,7 +379,7 @@ export const CONTENIDO = {
       },
     },
     fotos: {
-      portada: foto('estetica-portada', 'Cabina de estética luminosa con camilla y productos para la piel', 'Bright beauty treatment room with a couch and skincare products'),
+      portada: foto('estetica-portada', 'Toalla enrollada, vela y tulipanes rosas sobre una mesa blanca', 'Rolled towel, candle and pink tulips on a white table'),
       clinica: foto('estetica-clinica', 'Cabina luminosa con camilla y lavabo', 'Bright treatment room with a couch and basin'),
       ambiente: foto('estetica-ambiente', 'Masaje facial relajante en cabina', 'Relaxing facial massage in a treatment room'),
       contacto,
@@ -411,7 +419,7 @@ export const CONTENIDO = {
         entradilla: 'Clínica en {municipio}. Te atendemos con cercanía y te explicamos cada paso con palabras claras.',
         sobre: 'Somos un equipo pequeño y cercano. Dedicamos a cada paciente el tiempo que necesita, le explicamos lo que hacemos y por qué, y decidimos juntos cada paso del tratamiento.',
         primeraVisita: [
-          'Pides cita por teléfono, por WhatsApp o desde esta web.',
+          'Pides cita {canales}.',
           'Nos cuentas qué te pasa y qué esperas de la consulta.',
           'Te valoramos y te explicamos lo que vemos.',
           'Te proponemos un plan y lo decidimos juntos, sin compromiso.',
@@ -422,7 +430,7 @@ export const CONTENIDO = {
         entradilla: 'Clinic in {municipio}. A personal service, with every step explained in plain words.',
         sobre: "We're a small, friendly team. We give each patient the time they need, explain what we're doing and why, and agree every step of the treatment together.",
         primeraVisita: [
-          'Book by phone, on WhatsApp or through this website.',
+          'Book {canales}.',
           "Tell us what's going on and what you'd like from the appointment.",
           'We assess you and explain what we find.',
           'We suggest a plan and decide on it together, with no commitment.',

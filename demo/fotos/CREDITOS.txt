@@ -14,7 +14,7 @@ fisio-ambiente.webp | Sincerely Media | https://unsplash.com/photos/wGFibXDQlBI 
 medica-portada.webp | Daniel Sone (National Cancer Institute) | https://unsplash.com/photos/NFvdKIhxYlU | Unsplash License
 medica-clinica.webp | Immo Wegmann | https://unsplash.com/photos/njrDE70M2VI | Unsplash License
 manos-consulta.webp | Vitaly Gariev | https://unsplash.com/photos/E0xu1n9yiPk | Unsplash License
-estetica-portada.webp | Atikah Akhtar | https://unsplash.com/photos/6xlyKFFvufg | Unsplash License
+estetica-portada.webp | autor no identificado (Unsplash) | https://images.unsplash.com/photo-1540555700478-4be289fbecef | Unsplash License
 estetica-clinica.webp | Mayur Roxan | https://unsplash.com/photos/CvO17EzwmSE | Unsplash License
 estetica-ambiente.webp | Anna Keibalo | https://unsplash.com/photos/BJ7i-96glwM | Unsplash License
 generica-portada.webp | Benyamin Bohlouli | https://unsplash.com/photos/B_sK_xgzwVA | Unsplash License

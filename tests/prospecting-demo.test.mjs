@@ -97,3 +97,10 @@ test('migración desde la versión 4', (t) => {
   assert.equal(crm.list().length, 1);
   crm.close();
 });
+
+test('guardarDemo exige al menos un tratamiento', () => {
+  const { crm, sinWeb } = preparar();
+  assert.throws(() => crm.guardarDemo(sinWeb, { ...datos, tratamientos: [] }), /Marca al menos un tratamiento/);
+  assert.throws(() => crm.guardarDemo(sinWeb, { ...datos, tratamientos: ['x', -1, 99] }), /Marca al menos un tratamiento/);
+  assert.equal(crm.demo(sinWeb), null);
+});

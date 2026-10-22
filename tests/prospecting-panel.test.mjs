@@ -148,3 +148,35 @@ test('con la demo preparada y el sí apuntado, el email lleva el enlace', async 
   assert.ok(d.email.cuerpo.split('\n').includes(demo.enlace));
   assert.match(d.email.asunto, /^Consulta del Dr\. Soler:/);
 });
+
+test('la vista previa de la demo se sirve en /demo/ y solo de las carpetas permitidas', async (t) => {
+  const { url } = await preparar(t);
+  const html = await fetch(url + '/demo/');
+  assert.equal(html.status, 200);
+  assert.match(html.headers.get('content-type'), /text\/html/);
+  assert.match(await html.text(), /<html/);
+  for (const archivo of ['enlace.js', 'demo.js', 'horario.js', 'contenido.js']) {
+    const r = await fetch(`${url}/demo/${archivo}`);
+    assert.equal(r.status, 200, archivo);
+    assert.match(r.headers.get('content-type'), /text\/javascript/, archivo);
+  }
+  assert.match((await fetch(url + '/demo/demo.css')).headers.get('content-type'), /text\/css/);
+  const foto = await fetch(url + '/demo/fotos/medica-portada.webp');
+  assert.equal(foto.status, 200);
+  assert.equal(foto.headers.get('content-type'), 'image/webp');
+  const fuente = await fetch(url + '/assets/fonts/poppins-latin-400-normal.woff2');
+  assert.equal(fuente.status, 200);
+  assert.equal(fuente.headers.get('content-type'), 'font/woff2');
+  assert.equal((await fetch(url + '/assets/fonts/unknown')).status, 404);
+  assert.equal((await fetch(url + '/demo/../prospecting/crm.mjs')).status, 404);
+  assert.equal((await fetch(url + '/demo/..%2Fprospecting%2Fcrm.mjs')).status, 404);
+  assert.equal((await fetch(url + '/demo/fotos/..%2F..%2Fprospecting%2Fcrm.mjs')).status, 404);
+  assert.equal((await fetch(url + '/demo/fotos/CREDITOS.txt')).status, 404);
+});
+
+test('guardar la demo sin ningún tratamiento da 400', async (t) => {
+  const { url, ids } = await preparar(t);
+  const r = await enviar(`${url}/api/clinicas/${ids.sinWeb}/demo`, { nombre: 'X', tipo: 'medica', tratamientos: [], whatsapp: false });
+  assert.equal(r.status, 400);
+  assert.match((await r.json()).error, /Marca al menos un tratamiento/);
+});

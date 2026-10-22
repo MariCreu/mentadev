@@ -1,4 +1,4 @@
-// Página de la demo de clínica (demo/): sin indexar, con analítica, sin servicios externos y avisada sin JS.
+// Página de la demo de clínica (demo/): sin indexar, sin analítica, sin servicios externos y avisada sin JS.
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
@@ -12,8 +12,12 @@ test('noindex en la página, en _headers y en robots.txt', () => {
   assert.doesNotMatch(leer('sitemap.xml'), /\/demo/);
 });
 
-test('lleva la analítica', () => {
-  assert.match(leer('demo/index.html'), /86ba551e367d48e094c48d4ac87cbf4f/);
+test('sin analítica: el enlace lleva datos de la clínica y el beacon podría enviarlos a Cloudflare', () => {
+  const html = leer('demo/index.html');
+  assert.doesNotMatch(html, /cloudflareinsights|beacon|86ba551e367d48e094c48d4ac87cbf4f/i);
+  const scripts = [...html.matchAll(/<script[^>]*>/gi)].map((m) => m[0]);
+  assert.ok(scripts.length >= 1);
+  for (const s of scripts) assert.doesNotMatch(s, /src\s*=\s*["\x27]?(https?:)?\/\//i, s);
 });
 
 // Todas las URL de todos los atributos que cargan o enlazan algo, en todas las etiquetas
@@ -22,8 +26,8 @@ const ATRIBUTO_URL = /\s(?:src|href|srcset|poster|data|action|formaction)\s*=\s*
 const urlsDe = (html) => [...html.matchAll(/<[a-z][^>]*>/gi)]
   .flatMap(([etiqueta]) => [...etiqueta.matchAll(ATRIBUTO_URL)].map((m) => m[1] ?? m[2] ?? m[3]))
   .flatMap((v) => v.split(',').map((x) => x.trim().split(/\s+/)[0]));
-// Lo único externo permitido: el beacon de la analítica y el enlace del pie a MentaDev.
-const PERMITIDOS = ['https://static.cloudflareinsights.com/beacon.min.js', 'https://mentadev.com/'];
+// Lo único externo permitido: el enlace del pie a MentaDev.
+const PERMITIDOS = ['https://mentadev.com/'];
 const externos = (html) => urlsDe(html).filter((url) => /^(https?:)?\/\//i.test(url) && !PERMITIDOS.includes(url));
 
 test('sin servicios externos', () => {
@@ -63,4 +67,14 @@ test('sin JS se ve completa y avisada', () => {
 
 test('demo.js no usa innerHTML ni insertAdjacentHTML', () => {
   assert.doesNotMatch(leer('demo/demo.js'), /innerHTML|outerHTML|insertAdjacentHTML|document\.write/);
+});
+
+test('un día que no existe no rompe el selector de cita', () => {
+  assert.match(leer('demo/demo.js'), /proximosDias\(\)\.find\(\(x\) => x\.clave === value\);\r?\n\s*if \(!d\) return;/);
+});
+
+test('el título de la pestaña sale de COMUNES y sigue el idioma', () => {
+  const js = leer('demo/demo.js');
+  assert.match(js, /document\.title = rellenar\(t\.titulo, h\)/);
+  assert.doesNotMatch(js, /Web de ejemplo`/);
 });

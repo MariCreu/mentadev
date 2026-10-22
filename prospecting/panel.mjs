@@ -17,6 +17,11 @@ const PUERTO = 4321;
 const CARPETA = new URL('./panel/', import.meta.url);
 const FUENTES = new URL('../assets/fonts/', import.meta.url);
 const ESTATICOS = { '/': ['index.html', 'text/html; charset=utf-8'], '/panel.css': ['panel.css', 'text/css; charset=utf-8'], '/panel.js': ['panel.js', 'text/javascript; charset=utf-8'], '/favicon.svg': ['../../assets/favicon.svg', 'image/svg+xml'] };
+const DEMO = new URL('../demo/', import.meta.url);
+const TIPOS_ARCHIVO = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.webp': 'image/webp', '.woff2': 'font/woff2' };
+// Vista previa local de la demo: solo estos archivos de demo/ y las fuentes que usa (nada más de esas carpetas ni de fuera).
+const DEMO_ARCHIVOS = /^\/demo\/(?:(?:enlace|horario|contenido|demo)\.js|demo\.css|fotos\/[a-z0-9-]+\.webp)$/;
+const FUENTES_DEMO = new Set(['poppins-latin-400-normal.woff2', 'poppins-latin-500-normal.woff2', 'poppins-latin-600-normal.woff2', 'bricolage-grotesque-latin-wght-normal.woff2']);
 const PERMITIDAS = new Set(['poppins-latin-400-normal.woff2', 'poppins-latin-500-normal.woff2', 'poppins-latin-600-normal.woff2', 'bricolage-grotesque-latin-wght-normal.woff2']);
 // Catálogo de la demo para el formulario: tipos, títulos de tratamientos (en español) y los que se marcan por defecto.
 const CATALOGO = {
@@ -61,6 +66,15 @@ export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
         if (ESTATICOS[ruta]) {
           const [archivo, tipo] = ESTATICOS[ruta];
           return responder(200, await readFile(new URL(archivo, CARPETA)), tipo);
+        }
+        if (ruta === '/demo/' || DEMO_ARCHIVOS.test(ruta)) {
+          const relativa = ruta === '/demo/' ? 'index.html' : ruta.slice('/demo/'.length);
+          return responder(200, await readFile(new URL(relativa, DEMO)), TIPOS_ARCHIVO[relativa.slice(relativa.lastIndexOf('.'))]);
+        }
+        if (ruta.startsWith('/assets/fonts/')) {
+          const nombre = ruta.slice('/assets/fonts/'.length);
+          if (!FUENTES_DEMO.has(nombre)) return responder(404, { error: 'No existe' });
+          return responder(200, await readFile(new URL(nombre, FUENTES)), 'font/woff2');
         }
         if (ruta.startsWith('/fuentes/')) {
           const nombre = ruta.slice('/fuentes/'.length);

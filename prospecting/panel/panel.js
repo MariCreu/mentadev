@@ -191,7 +191,7 @@ function pintar({ clinica, ficha, consentimiento, email, demo, demoPorDefecto, c
     $('#f-antes').replaceChildren(...ficha.antes.map((a) => el('li', '', a)));
     $('#f-detalle').replaceChildren(...ficha.detalle.flatMap((d) => [el('dt', '', d.problema), el('dd', '', d.significa)]));
     $('#f-mejoras').replaceChildren(...ficha.mejoras.map((m) => el('li', '', m)));
-    $('#f-revision-t').textContent = ficha.sinWeb ? 'Qué es la propuesta gratis (díselo así)' : 'Qué es la revisión gratis (díselo así)';
+    $('#f-revision-t').textContent = ficha.sinWeb ? 'Qué les mandamos gratis (díselo así)' : 'Qué es la revisión gratis (díselo así)';
     $('#f-revision').textContent = ficha.revision;
     $('#f-pasos').replaceChildren(...ficha.pasos.map(paso));
     $('#f-apuros').replaceChildren(...ficha.apuros.map((a) => el('li', '', a)));
@@ -223,6 +223,8 @@ function pintar({ clinica, ficha, consentimiento, email, demo, demoPorDefecto, c
 }
 
 // ---------- Web de ejemplo ----------
+// «Abrir demo» abre la vista previa de este ordenador (mismo fragmento #d=); «Copiar enlace» copia el de mentadev.com.
+const enlaceLocal = (enlace) => `${location.origin}/demo/${new URL(enlace).hash}`;
 function casillasDemo(tipo, marcados) {
   const titulos = fichaActual.catalogo.tratamientos[tipo];
   $('#d-trat').replaceChildren(...titulos.map((t, i) => {
@@ -249,7 +251,7 @@ function pintarDemo(clinica, valores, guardada, catalogo) {
   $('#d-guardar').textContent = guardada ? 'Guardar cambios' : 'Preparar demo';
   $('#d-abrir').hidden = !guardada;
   $('#d-copiar').hidden = !guardada;
-  if (guardada) $('#d-abrir').href = guardada.enlace; else $('#d-abrir').removeAttribute('href');
+  if (guardada) $('#d-abrir').href = enlaceLocal(guardada.enlace); else $('#d-abrir').removeAttribute('href');
   $('#d-fecha').hidden = !guardada;
   $('#d-fecha').textContent = guardada ? `Guardada el ${fechaCorta(guardada.fecha)}. Si cambias algo, pulsa «Guardar cambios» para actualizar el enlace.` : '';
 }
@@ -260,13 +262,15 @@ $('#d-tipo').addEventListener('change', () => {
 $('#form-demo').addEventListener('submit', async (e) => {
   e.preventDefault();
   if (!fichaActual) return;
+  const tratamientos = [...document.querySelectorAll('#d-trat input:checked')].map((c) => Number(c.value));
+  if (tratamientos.length === 0) return aviso('Marca al menos un tratamiento', true);
   const boton = $('#d-guardar');
   boton.disabled = true;
   try {
     const datos = await api(`/api/clinicas/${fichaActual.clinica.id}/demo`, {
       nombre: $('#d-nombre').value,
       tipo: $('#d-tipo').value,
-      tratamientos: [...document.querySelectorAll('#d-trat input:checked')].map((c) => Number(c.value)),
+      tratamientos,
       whatsapp: $('#d-wa').checked,
     });
     pintar(datos);

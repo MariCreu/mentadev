@@ -136,3 +136,23 @@ test('sin precios, reseñas ni promesas de resultados', () => {
     assert.ok(!new RegExp(`(^|[^a-záéíóúñ])${p}`).test(texto), p);
   }
 });
+
+test('WhatsApp solo aparece por el hueco {canales}, nunca escrito en los textos', () => {
+  const recorrer = (v, ruta, fuera) => {
+    if (typeof v === 'string') { if (/whatsapp/i.test(v)) fuera.push(ruta); }
+    else if (v && typeof v === 'object') for (const [k, x] of Object.entries(v)) recorrer(x, `${ruta}.${k}`, fuera);
+  };
+  const fuera = [];
+  recorrer(CONTENIDO, 'CONTENIDO', fuera);
+  assert.deepEqual(fuera, []);
+  for (const idioma of IDIOMAS) {
+    assert.ok(lleno(COMUNES[idioma].canalesConWhatsapp), idioma);
+    assert.ok(lleno(COMUNES[idioma].canalesSinWhatsapp), idioma);
+    assert.match(COMUNES[idioma].canalesConWhatsapp, /WhatsApp/);
+    assert.doesNotMatch(COMUNES[idioma].canalesSinWhatsapp, /whatsapp/i);
+    assert.ok(lleno(COMUNES[idioma].titulo) && COMUNES[idioma].titulo.includes('{nombre}'), idioma);
+  }
+  for (const tipo of ['medica', 'generica']) for (const idioma of IDIOMAS) {
+    assert.ok(CONTENIDO[tipo].textos[idioma].primeraVisita[0].includes('{canales}'), `${tipo} ${idioma}`);
+  }
+});

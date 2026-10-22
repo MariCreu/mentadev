@@ -53,7 +53,7 @@ const idiomaInicial = () => {
 let idioma = idiomaInicial();
 const T = () => COMUNES[idioma];
 const nombre = () => (datos ? datos.nombre : T().clinicaPorDefecto);
-const huecosBase = () => ({ nombre: nombre(), municipio });
+const huecosBase = () => ({ nombre: nombre(), municipio, canales: datos?.whatsapp && internacional ? T().canalesConWhatsapp : T().canalesSinWhatsapp });
 
 // ---------- Teléfono ----------
 const digitos = datos && datos.telefono ? datos.telefono.replace(/\D/g, '') : '';
@@ -118,7 +118,7 @@ function pintarContenido() {
   const textos = C.textos[idioma];
   const h = huecosBase();
   document.documentElement.lang = idioma;
-  document.title = `${nombre()} · Web de ejemplo`;
+  document.title = rellenar(t.titulo, h);
   for (const n of $$('[data-t]')) n.textContent = rellenar(t[n.dataset.t], h);
   for (const n of $$('[data-t-aria]')) n.setAttribute('aria-label', t[n.dataset.tAria]);
   for (const n of $$('[data-nombre]')) n.textContent = nombre();
@@ -137,7 +137,7 @@ function pintarContenido() {
     return el('li', {}, el('h3', { texto: x.t }), el('p', { texto: x.d }));
   }));
   $('[data-primera-visita]').replaceChildren(...textos.primeraVisita.map((paso, i) =>
-    el('li', {}, el('span', { clase: 'paso-n', 'aria-hidden': 'true', texto: String(i + 1) }), el('p', { texto: paso }))));
+    el('li', {}, el('span', { clase: 'paso-n', 'aria-hidden': 'true', texto: String(i + 1) }), el('p', { texto: rellenar(paso, h) }))));
   for (const b of $$('[data-idioma]')) b.setAttribute('aria-pressed', String(b.dataset.idioma === idioma));
   const wa = $('[data-whatsapp]');
   if (!wa.hidden) wa.href = `https://wa.me/${internacional}?text=${encodeURIComponent(t.whatsappMensaje)}`;
@@ -292,8 +292,9 @@ function montarCita() {
     if (name === 'motivo') cita.motivo = value;
     if (name === 'franja') cita.franja = value;
     if (name === 'dia') {
-      cita.dia = value;
       const d = proximosDias().find((x) => x.clave === value);
+      if (!d) return;
+      cita.dia = value;
       cita.diaInfo = { sem: d.sem, num: d.num };
       if (!d.franjas.includes(cita.franja)) cita.franja = d.franjas.length === 1 ? d.franjas[0] : null;
       const nuevo = grupoFranjas(d);
