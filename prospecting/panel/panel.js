@@ -82,6 +82,51 @@ function fila(c) {
 }
 
 // ---------- Ficha ----------
+// Lo que va entre paréntesis son indicaciones para quien llama: se pintan aparte.
+function frase(etiqueta, texto) {
+  const e = el(etiqueta);
+  for (const trozo of texto.split(/(\([^)]*\))/)) {
+    if (!trozo) continue;
+    e.append(/^\(.*\)$/.test(trozo) ? el('em', 'indicacion', trozo.slice(1, -1)) : document.createTextNode(trozo));
+  }
+  return e;
+}
+function paso(p) {
+  const li = el('li', 'paso');
+  li.append(el('h4', '', p.titulo));
+  for (const f of p.frases) {
+    const linea = frase('p', f);
+    if (f.startsWith('·')) linea.className = 'punto-guion';
+    li.append(linea);
+  }
+  if (p.siRecepcion) {
+    const caja = el('div', 'recepcion');
+    caja.append(el('p', 'recepcion-t', 'Si contesta recepción'), ...p.siRecepcion.map((f) => frase('p', f)));
+    li.append(caja);
+  }
+  return li;
+}
+function elegirPestana(id, foco = true) {
+  for (const t of document.querySelectorAll('.subpestanas [role="tab"]')) {
+    const activa = t.id === id;
+    t.setAttribute('aria-selected', String(activa));
+    t.tabIndex = activa ? 0 : -1;
+    $(`#${t.getAttribute('aria-controls')}`).hidden = !activa;
+    if (activa && foco) t.focus();
+  }
+}
+document.querySelectorAll('.subpestanas [role="tab"]').forEach((t, i, todas) => {
+  t.addEventListener('click', () => elegirPestana(t.id));
+  t.addEventListener('keydown', (e) => {
+    const d = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+    if (d) { e.preventDefault(); elegirPestana(todas[(i + d + todas.length) % todas.length].id); }
+  });
+});
+const textoGuion = (f) => [
+  ...f.pasos.flatMap((p) => [`${p.titulo.toUpperCase()}`, ...p.frases, ...(p.siRecepcion ? ['Si contesta recepción:', ...p.siRecepcion] : []), '']),
+  'SI TE QUEDAS EN BLANCO', ...f.apuros, '',
+  'SI TE PREGUNTAN…', ...f.preguntas.flatMap((q) => [`«${q.pregunta}»`, q.respuesta, '']),
+].join('\n');
 function cerrarFicha() {
   seleccion = null;
   fichaActual = null;
@@ -119,16 +164,29 @@ async function abrir(id) {
   $('#f-puntuacion').hidden = !revisada;
   $('#f-bloqueada').hidden = ficha.estado !== 'bloqueada';
   $('#f-sin-revisar').hidden = ficha.estado !== 'sin-revisar';
-  $('#f-bloque-mejoras').hidden = !revisada || !ficha.mejoras.length;
-  $('#f-bloque-guion').hidden = !revisada || !ficha.guion.length;
+  $('#f-pestanas').hidden = !revisada || !ficha.mejoras.length;
   if (revisada) {
     const nota = $('#f-score');
     nota.textContent = ficha.score;
     nota.className = `nota-grande ${banda(ficha.score)}`;
     nota.setAttribute('aria-label', `${ficha.score} sobre 10`);
     $('#f-problemas').replaceChildren(...(ficha.problemas.length ? ficha.problemas : ['Su web está bien resuelta']).map((p) => el('li', '', p)));
+  }
+  if (revisada && ficha.mejoras.length) {
+    $('#f-antes').replaceChildren(...ficha.antes.map((a) => el('li', '', a)));
+    $('#f-detalle').replaceChildren(...ficha.detalle.flatMap((d) => [el('dt', '', d.problema), el('dd', '', d.significa)]));
     $('#f-mejoras').replaceChildren(...ficha.mejoras.map((m) => el('li', '', m)));
-    $('#f-guion').replaceChildren(...ficha.guion.map((l) => (l.startsWith('·') ? el('p', 'punto-guion', l) : el('p', '', l))));
+    $('#f-revision-t').textContent = ficha.sinWeb ? 'Qué es la propuesta gratis (díselo así)' : 'Qué es la revisión gratis (díselo así)';
+    $('#f-revision').textContent = ficha.revision;
+    $('#f-pasos').replaceChildren(...ficha.pasos.map(paso));
+    $('#f-apuros').replaceChildren(...ficha.apuros.map((a) => el('li', '', a)));
+    $('#f-preguntas').replaceChildren(...ficha.preguntas.map((q) => {
+      const d = el('details', 'pregunta');
+      const s = el('summary', '', q.pregunta);
+      d.append(s, frase('p', q.respuesta));
+      return d;
+    }));
+    elegirPestana('t-resumen', false);
   }
 
   document.querySelectorAll('.acciones [data-estado]').forEach((b) => { b.hidden = clinica.status === 'suppressed' || b.dataset.estado === clinica.status; });
@@ -158,7 +216,7 @@ async function copiar(texto, que) {
   try { await navigator.clipboard.writeText(texto); aviso(`${que} copiado`); } catch { aviso('No se ha podido copiar', true); }
 }
 $('#copiar-tel').addEventListener('click', () => fichaActual?.clinica.phone && copiar(fichaActual.clinica.phone, 'Teléfono'));
-$('#copiar-guion').addEventListener('click', () => fichaActual && copiar(fichaActual.ficha.guion.join('\n'), 'Guion'));
+$('#copiar-guion').addEventListener('click', () => fichaActual && copiar(textoGuion(fichaActual.ficha), 'Guion'));
 
 // ---------- Pestañas ----------
 document.querySelectorAll('[data-vista]').forEach((b) => b.addEventListener('click', () => {

@@ -108,18 +108,51 @@
         <p class="nota" id="f-bloqueada" hidden>No se ha podido revisar su web automáticamente (no admite robots o su certificado no se pudo verificar). Mírala en el navegador.</p>
         <p class="nota" id="f-sin-revisar" hidden>Aún no se ha revisado su web. Usa «Revisar webs pendientes».</p>
 
-        <section class="bloque" id="f-bloque-mejoras">
-          <h3>Mejoras que le propondríamos</h3>
-          <ol class="mejoras" id="f-mejoras"></ol>
-        </section>
-
-        <section class="bloque guion" id="f-bloque-guion">
-          <div class="bloque-cab">
-            <h3>Guion de llamada</h3>
-            <button class="enlace" type="button" id="copiar-guion">Copiar guion</button>
+        <div class="f-pestanas" id="f-pestanas">
+          <div class="subpestanas" role="tablist" aria-label="Partes de la ficha">
+            <button role="tab" id="t-resumen" aria-controls="p-resumen" aria-selected="true">Resumen</button>
+            <button role="tab" id="t-guion" aria-controls="p-guion" aria-selected="false" tabindex="-1">Guion</button>
+            <button role="tab" id="t-preguntas" aria-controls="p-preguntas" aria-selected="false" tabindex="-1">Si te preguntan…</button>
           </div>
-          <div id="f-guion"></div>
-        </section>
+
+          <div role="tabpanel" id="p-resumen" aria-labelledby="t-resumen">
+            <section class="bloque">
+              <h3>Antes de llamar</h3>
+              <ul class="lista-check" id="f-antes"></ul>
+            </section>
+            <section class="bloque">
+              <h3>Lo que hemos visto</h3>
+              <dl class="detalle" id="f-detalle"></dl>
+            </section>
+            <section class="bloque">
+              <h3>Mejoras que les propondríamos</h3>
+              <ol class="mejoras" id="f-mejoras"></ol>
+            </section>
+            <section class="bloque">
+              <div class="explica">
+                <h3 id="f-revision-t">Qué es la revisión gratis</h3>
+                <p id="f-revision"></p>
+              </div>
+            </section>
+          </div>
+
+          <div role="tabpanel" id="p-guion" aria-labelledby="t-guion" hidden>
+            <div class="bloque-cab bloque-cab-sola">
+              <p class="nota">Léelo tal cual. Lo que va entre paréntesis son indicaciones para ti.</p>
+              <button class="enlace" type="button" id="copiar-guion">Copiar guion</button>
+            </div>
+            <ol class="pasos" id="f-pasos"></ol>
+            <div class="rescate">
+              <h3>Si te quedas en blanco</h3>
+              <ul id="f-apuros"></ul>
+            </div>
+          </div>
+
+          <div role="tabpanel" id="p-preguntas" aria-labelledby="t-preguntas" hidden>
+            <p class="nota nota-arriba">Las preguntas que más suelen salir, con una respuesta para leer o adaptar.</p>
+            <div class="preguntas" id="f-preguntas"></div>
+          </div>
+        </div>
 
         <footer class="acciones">
           <button class="btn" type="button" data-estado="qualified">Interesada</button>

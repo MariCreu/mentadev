@@ -5,18 +5,20 @@ const MAX_BYTES = 2_000_000;
 const TIMEOUT_MS = 15_000;
 
 // Cada problema suma puntos: cuanto peor está la web, mejor candidata es la clínica.
-// Los textos van sin tecnicismos porque acaban en el guion de llamada.
+// Los textos van sin tecnicismos porque acaban en el guion de llamada: reason (etiqueta corta),
+// significa (qué hemos visto, explicado en llano), dicho (lo mismo, para decírselo a la clínica)
+// y fix (la mejora que proponemos).
 export const PROBLEMS = {
-  sinweb: { points: 10, reason: 'No tiene web', fix: 'Tener web propia: hoy quien os busca en internet no encuentra una página vuestra con lo que hacéis y cómo pedir cita.' },
-  caida: { points: 9, reason: 'La web no carga', fix: 'Volver a tener la web en marcha: ahora mismo quien os busca en internet no encuentra nada.' },
-  inseguro: { points: 3, reason: 'Sin conexión segura', fix: 'Activar la conexión segura: el navegador marca la web como «No segura» y eso echa para atrás a los pacientes.' },
-  movil: { points: 2, reason: 'No adaptada al móvil', fix: 'Adaptarla al móvil: la mayoría de pacientes os buscan desde el teléfono y ahora tienen que hacer zoom para leerla.' },
-  cita: { points: 2, reason: 'Sin cita online', fix: 'Añadir cita online: que el paciente pida hora a cualquier hora sin tener que llamar.' },
-  lenta: { points: 1, reason: 'Tarda en cargar', fix: 'Hacerla más rápida: si tarda, mucha gente se va antes de verla.' },
-  contacto: { points: 1, reason: 'Sin formulario ni WhatsApp', fix: 'Poner WhatsApp o un formulario corto para resolver dudas sin llamar.' },
-  legal: { points: 1, reason: 'Sin textos legales visibles', fix: 'Añadir aviso legal, privacidad y cookies: en una clínica es obligatorio y da confianza.' },
-  google: { points: 1, reason: 'Poco preparada para Google', fix: 'Mejorar cómo aparece en Google: un título y una descripción que digan qué hacéis y dónde.' },
-  antigua: { points: 1, reason: 'Parece sin actualizar', fix: 'Actualizar los contenidos: un pie de página con un año antiguo da sensación de abandono.' },
+  sinweb: { points: 10, reason: 'No tiene web', significa: 'En su ficha de Google no aparece ninguna web. Quien los busca en internet solo encuentra esa ficha.', dicho: 'no tenéis web propia: quien os busca en internet solo encuentra vuestra ficha de Google.', fix: 'Tener web propia: hoy quien os busca en internet no encuentra una página vuestra con lo que hacéis y cómo pedir cita.' },
+  caida: { points: 9, reason: 'La web no carga', significa: 'Al intentar abrir su web no carga: la dirección no responde. Para quien los busca, es como si no tuvieran web.', dicho: 'al intentar abrir vuestra web, no carga: para quien os busca es como si no tuvierais web.', fix: 'Volver a tener la web en marcha: ahora mismo quien os busca en internet no encuentra nada.' },
+  inseguro: { points: 3, reason: 'Sin conexión segura', significa: 'Su dirección empieza por «http» y no por «https»: el navegador enseña «No seguro» al lado de la dirección.', dicho: 'vuestra dirección empieza por «http» y no por «https», y el navegador pone «No seguro» al lado.', fix: 'Activar la conexión segura: el navegador marca la web como «No segura» y eso echa para atrás a los pacientes.' },
+  movil: { points: 2, reason: 'No adaptada al móvil', significa: 'La página no está preparada para pantallas pequeñas: en el móvil se ve en pequeño y hay que ampliar para leer.', dicho: 'en el móvil vuestra página se ve en pequeño y hay que ampliar para leerla.', fix: 'Adaptarla al móvil: la mayoría de pacientes os buscan desde el teléfono y ahora tienen que hacer zoom para leerla.' },
+  cita: { points: 2, reason: 'Sin cita online', significa: 'En la portada no hemos encontrado ninguna forma de pedir cita por internet: para pedir hora hay que llamar.', dicho: 'no hemos visto en vuestra portada ninguna forma de pedir cita por internet: para pedir hora hay que llamar.', fix: 'Añadir cita online: que el paciente pida hora a cualquier hora sin tener que llamar.' },
+  lenta: { points: 1, reason: 'Tarda en cargar', significa: 'Al revisarla tardó más de 3 segundos en cargar (o sacó nota baja en la prueba de velocidad de Google para móvil).', dicho: 'vuestra web tarda bastante en cargar, y mucha gente se va antes de verla.', fix: 'Hacerla más rápida: si tarda, mucha gente se va antes de verla.' },
+  contacto: { points: 1, reason: 'Sin formulario ni WhatsApp', significa: 'En la portada no hay formulario de contacto ni botón de WhatsApp.', dicho: 'en vuestra portada no hay formulario ni botón de WhatsApp para escribiros.', fix: 'Poner WhatsApp o un formulario corto para resolver dudas sin llamar.' },
+  legal: { points: 1, reason: 'Sin textos legales visibles', significa: 'En la portada no aparecen enlaces al aviso legal, la privacidad o las cookies.', dicho: 'en vuestra portada no aparecen el aviso legal, la privacidad ni las cookies.', fix: 'Añadir aviso legal, privacidad y cookies: en una clínica es obligatorio y da confianza.' },
+  google: { points: 1, reason: 'Poco preparada para Google', significa: 'Le falta el título o la descripción que enseña Google en los resultados de búsqueda.', dicho: 'en Google vuestra web sale sin un título y una descripción que digan qué hacéis y dónde.', fix: 'Mejorar cómo aparece en Google: un título y una descripción que digan qué hacéis y dónde.' },
+  antigua: { points: 1, reason: 'Parece sin actualizar', significa: 'El pie de la página muestra un año de hace 3 o más años: da sensación de web abandonada.', dicho: 'el pie de vuestra página tiene un año antiguo y da sensación de web sin actualizar.', fix: 'Actualizar los contenidos: un pie de página con un año antiguo da sensación de abandono.' },
 };
 
 const BOOKING = /(pedir|solicitar|reservar|coger|concertar)\s+(una\s+)?cita|cita\s+(online|previa)|reserva\s+online|doctoralia|booksy|treatwell|reservio|calendly|bookings?\b/i;
