@@ -123,7 +123,7 @@ test('sin web, con demo: el enlace va en su línea y el aviso de que es un ejemp
   assert.equal(b.asunto, 'Clínica Sonrisa: vuestra web de ejemplo (gratis y sin compromiso)');
   assert.ok(b.cuerpo.split('\n').includes(demo.enlace));
   assert.ok(b.cuerpo.includes(PARRAFO));
-  assert.match(b.cuerpo, /os hemos preparado una web de ejemplo con el nombre de Clínica Sonrisa/);
+  assert.match(b.cuerpo, /os hemos preparado una web de ejemplo para Clínica Sonrisa/);
   assert.match(b.cuerpo, /Lo que tendría vuestra web/);
   assert.match(b.cuerpo, /«baja»/);
 });

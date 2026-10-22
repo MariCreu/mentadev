@@ -126,8 +126,8 @@ test('COMUNES.es y COMUNES.en tienen las mismas claves', () => {
 test('COMUNES lleva los avisos de ejemplo tal cual', () => {
   const es = Object.values(COMUNES.es).flat();
   const en = Object.values(COMUNES.en).flat();
-  for (const s of ['Foto de ejemplo', 'Ejemplo', 'Web de ejemplo preparada por MentaDev para {nombre}. Fotos, horario, dirección y textos son orientativos.', 'En vuestra web, esta solicitud os llegaría al momento por email.', 'Calle Ejemplo, 1 · {municipio}', 'Abierto ahora · cierra a las {h}', 'Cerrado · abre {cuando} a las {h}']) assert.ok(es.includes(s), s);
-  for (const s of ['Example photo', 'Example', 'Sample website prepared by MentaDev for {nombre}. Photos, opening hours, address and texts are for illustration only.', 'On your website, this request would reach you by email instantly.', 'Calle Ejemplo, 1 · {municipio}']) assert.ok(en.includes(s), s);
+  for (const s of ['Foto de ejemplo', 'Ejemplo', 'Web de ejemplo preparada por MentaDev para {nombre}. Fotos, horario, dirección y textos son orientativos.', 'Calle Ejemplo, 1 · {municipio}', 'Abierto ahora · cierra a las {h}', 'Cerrado · abre {cuando} a las {h}']) assert.ok(es.includes(s), s);
+  for (const s of ['Example photo', 'Example', 'Sample website prepared by MentaDev for {nombre}. Photos, opening hours, address and texts are for illustration only.', 'Calle Ejemplo, 1 · {municipio}']) assert.ok(en.includes(s), s);
 });
 
 test('sin precios, reseñas ni promesas de resultados', () => {

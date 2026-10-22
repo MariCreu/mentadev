@@ -2,6 +2,8 @@
 
 Fecha: 2026-10-22 · Estado: aprobado por la titular
 
+> **Cambio del 2026-10-22 (decisión de la titular):** se quitó la «Pedir cita» en 3 pasos y todos los botones «Pedir cita». La demo se centra en dar confianza cuando un paciente busca a la clínica; los CTA son «Llamar» (solo con teléfono) y «Contacto». La reserva de citas desde la web se ofrece solo como extra opcional en el email, presupuestada aparte. Las menciones a la cita en 3 pasos de más abajo quedan como histórico.
+
 ## Para qué
 
 Cuando una clínica dice que sí por teléfono, hoy le mandamos un email con texto: qué tendría su web

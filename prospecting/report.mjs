@@ -178,14 +178,15 @@ export function borradorEmail(lead, analysis, consentimiento, demo = null) {
       cuerpo: [
         saludo, '',
         ...(demo
-          ? [`Como hablamos por teléfono, os hemos preparado una web de ejemplo con el nombre de ${demo.nombre}, para que veáis cómo podría ser la vuestra. Podéis abrirla en el móvil o en el ordenador:`, '', demo.enlace, '', AVISO_EJEMPLO, '', 'Hoy, quien os busca en internet solo encuentra vuestra ficha de Google; con una web propia, los pacientes ven qué hacéis y pueden pediros cita.', '']
-          : [`Como hablamos por teléfono, os mandamos la propuesta para la web de ${lead.name}. Hoy, quien os busca en internet solo encuentra vuestra ficha de Google; con una web propia, los pacientes ven qué hacéis y pueden pediros cita.`, '']),
+          ? [`Como hablamos por teléfono, os hemos preparado una web de ejemplo para ${demo.nombre}, para que veáis cómo podría ser la vuestra. Podéis abrirla en el móvil o en el ordenador:`, '', demo.enlace, '', AVISO_EJEMPLO, '', 'Hoy, quien os busca en internet solo encuentra vuestra ficha de Google. Una web propia da confianza cuando un paciente os busca: ve quiénes sois, qué tratamientos hacéis y cómo contactar con vosotros.', '']
+          : [`Como hablamos por teléfono, os mandamos la propuesta para la web de ${lead.name}. Hoy, quien os busca en internet solo encuentra vuestra ficha de Google. Una web propia da confianza cuando un paciente os busca: ve quiénes sois, qué tratamientos hacéis y cómo contactar con vosotros.`, '']),
         'Lo que tendría vuestra web:',
-        '- Inicio: quiénes sois, qué tratamientos hacéis y cómo pedir cita.',
+        '- Inicio: quiénes sois, qué tratamientos hacéis y cómo contactar con vosotros.',
         '- Tratamientos: una sección por cada servicio, explicado de forma sencilla.',
         '- Equipo y clínica: fotos y presentación, para dar confianza antes de la primera visita.',
         '- Contacto y cómo llegar: teléfono, WhatsApp, mapa y horario.',
         '- Textos legales: aviso legal, privacidad y cookies.', '',
+        'Si más adelante os resulta útil, podemos añadir la reserva de citas desde la web, con confirmación de la clínica o de la forma que mejor encaje en vuestro día a día. Se presupuesta aparte, con precio cerrado.', '',
         `Precio: desde ${PRECIO_WEB}, cerrado antes de empezar y en 2 plazos sin intereses. Incluye hasta 6 secciones, adaptación al móvil, preparación para Google, alojamiento del primer año y 2 meses de soporte. El dominio va a vuestro nombre.`,
         `Plazo: lista en ${PLAZO_WEB} desde que tenemos vuestros textos y fotos (si no los tenéis, os ayudamos). Si no la publicamos en ese plazo, os devolvemos el primer plazo.`, '',
         'Si os encaja, respondednos a este email y lo hablamos sin compromiso.',

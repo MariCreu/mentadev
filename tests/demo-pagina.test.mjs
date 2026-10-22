@@ -2,6 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
+import { COMUNES, CONTENIDO } from '../demo/contenido.js';
 
 const leer = (archivo) => readFileSync(new URL(`../${archivo}`, import.meta.url), 'utf8');
 
@@ -42,14 +43,14 @@ test('sin servicios externos: detecta cualquier atributo externo, no solo el pri
   assert.deepEqual(externos('<img src="/a.webp" srcset="/a.webp 1x, https://cdn.example.com/a.webp 2x">'), ['https://cdn.example.com/a.webp']);
   assert.deepEqual(externos('<link rel="preload" as="font" crossorigin href=//fonts.example.com/x.woff2>'), ['//fonts.example.com/x.woff2']);
   assert.deepEqual(externos("<script type='module' src='https://cdn.example.com/x.js'></script>"), ['https://cdn.example.com/x.js']);
-  assert.deepEqual(externos('<a href="#cita"></a><a href="tel:+34965851801"></a><a href="https://mentadev.com/"></a>'), []);
+  assert.deepEqual(externos('<a href="#contacto"></a><a href="tel:+34965851801"></a><a href="https://mentadev.com/"></a>'), []);
 });
 
 test('los anclajes internos no borran los datos del enlace', async () => {
   const { esFragmentoDemo } = await import('../demo/enlace.js');
   assert.equal(esFragmentoDemo('#d=eyJ2IjoxfQ'), true);
   assert.equal(esFragmentoDemo('#d=roto'), true);
-  for (const h of ['', '#', '#cita', '#inicio', '#contacto', '#tratamientos', '#data']) assert.equal(esFragmentoDemo(h), false, h);
+  for (const h of ['', '#', '#inicio', '#contacto', '#tratamientos', '#data']) assert.equal(esFragmentoDemo(h), false, h);
   const js = leer('demo/demo.js');
   // La recarga por hashchange solo ocurre con un fragmento de demo, y los clics en anclajes se interceptan.
   const recarga = js.match(/addEventListener\(\s*'hashchange'[^\n]*/)[0];
@@ -69,8 +70,13 @@ test('demo.js no usa innerHTML ni insertAdjacentHTML', () => {
   assert.doesNotMatch(leer('demo/demo.js'), /innerHTML|outerHTML|insertAdjacentHTML|document\.write/);
 });
 
-test('un día que no existe no rompe el selector de cita', () => {
-  assert.match(leer('demo/demo.js'), /proximosDias\(\)\.find\(\(x\) => x\.clave === value\);\r?\n\s*if \(!d\) return;/);
+test('sin reserva de citas: ni la página ni los textos prometen pedir cita desde la web', () => {
+  const html = leer('demo/index.html');
+  assert.doesNotMatch(html, /id="cita"|href="#cita"|data-cita/);
+  const textos = html + JSON.stringify(COMUNES) + JSON.stringify(CONTENIDO) + leer('demo/demo.js');
+  for (const prohibido of ['Pedir cita', 'Pide tu cita', 'Book an appointment', 'Book your appointment', 'desde esta web', 'through this website', 'Solicitar cita']) {
+    assert.ok(!textos.includes(prohibido), prohibido);
+  }
 });
 
 test('el título de la pestaña sale de COMUNES y sigue el idioma', () => {
