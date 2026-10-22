@@ -166,9 +166,8 @@ export function borradorEmail(lead, analysis, consentimiento, demo = null) {
   const saludo = consentimiento.atencion ? `Hola, ${consentimiento.atencion}:` : 'Hola:';
   const pie = [
     '',
+    // La firma (logo, nombre y web) la pone Gmail al enviar desde info@mentadev.com.
     'Un saludo,',
-    '[tu nombre]',
-    'MentaDev · https://mentadev.com',
     '',
     `Os escribimos porque nos disteis este email por teléfono el ${fechaCorta(consentimiento.fecha)} para recibir ${sinWeb ? (demo ? 'esta propuesta con una web de ejemplo' : 'esta propuesta') : 'esta revisión'}. Si no queréis recibir más emails nuestros, respondednos «baja» y no os escribiremos más.`,
   ];
