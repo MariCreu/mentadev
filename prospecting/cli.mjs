@@ -22,7 +22,7 @@ GOOGLE_MAPS_API_KEY es necesaria para discover; con ella, la velocidad se mide t
 const googleKey = process.env.GOOGLE_MAPS_API_KEY || null;
 const describe = (result) => {
   const site = result.url ?? 'sin web';
-  if (result.blocked) return `${site}: no permite la revisión automática (robots.txt o acceso denegado)`;
+  if (result.blocked) return `${site}: no se ha podido revisar automáticamente (${result.reason === 'certificado' ? 'certificado que Node no puede verificar; en el navegador puede verse bien' : 'robots.txt o acceso denegado'})`;
   const { score: points, problems } = score(result.signals);
   return `${site}: ${points}/10 · ${problems.map(key => PROBLEMS[key].reason).join(', ') || 'sin problemas claros'}`;
 };

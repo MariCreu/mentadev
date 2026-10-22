@@ -65,6 +65,17 @@ test('la revisión pide solo robots.txt y la portada, identificándose', async (
   assert.equal((await analyzeSite('https://example.com/', { fetchImpl: denied })).blocked, true);
 });
 
+// Node no completa la cadena del certificado como hacen los navegadores: un fallo de verificación
+// no significa que la web esté caída, solo que no se ha podido revisar automáticamente.
+test('un certificado que Node no puede verificar no cuenta como web caída; un dominio inexistente, sí', async () => {
+  const tls = Object.assign(new TypeError('fetch failed'), { cause: Object.assign(new Error('unable to verify the first certificate'), { code: 'UNABLE_TO_VERIFY_LEAF_SIGNATURE' }) });
+  const conCertificado = await analyzeSite('https://example.com/', { fetchImpl: fakeFetch({ '/': tls }).impl });
+  assert.equal(conCertificado.blocked, true);
+  assert.equal(conCertificado.reason, 'certificado');
+  const dns = Object.assign(new TypeError('fetch failed'), { cause: Object.assign(new Error('getaddrinfo ENOTFOUND'), { code: 'ENOTFOUND' }) });
+  assert.equal((await analyzeSite('https://example.com/', { fetchImpl: fakeFetch({ '/': dns }).impl })).signals.reachable, false);
+});
+
 test('el CRM guarda revisiones, ordena por puntuación y genera la ficha de llamada', t => {
   const now = '2026-10-21T10:00:00.000Z';
   const crm = new CRM(':memory:', () => now);

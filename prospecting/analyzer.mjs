@@ -127,7 +127,10 @@ export async function analyzeSite(url, { fetchImpl = fetch, pageSpeedKey = null,
     if ([401, 403, 429].includes(response.status)) return { url: target.href, blocked: true };
     if (!response.ok) return { url: target.href, signals: { reachable: false } };
     html = await readCapped(response);
-  } catch {
+  } catch (error) {
+    // Node no completa la cadena del certificado como los navegadores: la web puede verse bien en
+    // cualquier navegador. No se puntúa como caída; se marca para revisarla a mano.
+    if (/^(UNABLE_TO_|CERT_|SELF_SIGNED|DEPTH_ZERO|ERR_TLS)/.test(error?.cause?.code ?? '')) return { url: target.href, blocked: true, reason: 'certificado' };
     return { url: target.href, signals: { reachable: false } };
   }
   const ms = now() - start;

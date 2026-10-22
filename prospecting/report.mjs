@@ -10,7 +10,7 @@ export function improvements(problems) {
 
 export function report(lead, analysis) {
   if (!analysis) return `${lead.name} (${lead.municipality})\nSin revisar todavía: ejecuta "analyze ${lead.id}".`;
-  if (analysis.blocked) return `${lead.name} (${lead.municipality})\nSu web no permite la revisión automática (robots.txt o acceso denegado). Revisadla a mano si os interesa.`;
+  if (analysis.blocked) return `${lead.name} (${lead.municipality})\nSu web no se ha podido revisar automáticamente (robots.txt, acceso denegado o un certificado que no se pudo verificar). Revisadla a mano en el navegador si os interesa.`;
   const mejoras = improvements(analysis.problems);
   const lines = [
     `${lead.name} (${lead.municipality}) · ${lead.website ?? 'sin web'}`,
