@@ -56,3 +56,7 @@ export function leerEnlace(hash) {
     return null;
   }
 }
+
+// ¿Este fragmento trae datos de una clínica? Solo entonces la página debe recargarse al cambiar el `#`:
+// los anclajes internos (#cita, #contacto…) nunca deben sustituir ni borrar el `#d=…`.
+export const esFragmentoDemo = (hash) => /^#?d=/.test(String(hash || ''));

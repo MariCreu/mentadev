@@ -39,6 +39,8 @@ button,input{font:inherit;color:inherit}
 .ico{width:1.2em;height:1.2em;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 :focus-visible{outline:3px solid var(--acento);outline-offset:3px;border-radius:6px}
 section[id]{scroll-margin-top:calc(var(--cab) + .5rem)}
+/* Las secciones reciben el foco al usar los anclajes (para lectores de pantalla); no necesitan anillo. */
+section[tabindex="-1"]:focus{outline:none}
 
 /* ---------- Franja de aviso ---------- */
 .franja{display:flex;gap:.5rem;align-items:flex-start;justify-content:center;padding:.6rem var(--lado);background:var(--velo-2);color:var(--tinta);font-size:.8125rem;line-height:1.5}
@@ -113,7 +115,7 @@ section[id]{scroll-margin-top:calc(var(--cab) + .5rem)}
 .pasos p{align-self:center;font-size:1.0625rem;max-width:34ch}
 
 /* ---------- Pedir cita ---------- */
-.cita{position:relative;overflow:hidden;padding:4rem var(--lado);background:var(--acento-hondo);color:#fff}
+.cita{position:relative;overflow:clip;padding:4rem var(--lado);background:var(--acento-hondo);color:#fff}
 /* Eco del arco de la portada, al fondo de la banda */
 .cita::before{content:"";position:absolute;left:-6rem;bottom:-12rem;width:26rem;height:34rem;border:1.5px solid rgba(255,255,255,.14);border-radius:50% 50% 0 0 / 38% 38% 0 0;pointer-events:none}
 .cita::after{content:"";position:absolute;left:-2rem;bottom:-12rem;width:18rem;height:26rem;border:1.5px solid rgba(255,255,255,.08);border-radius:50% 50% 0 0 / 35% 35% 0 0;pointer-events:none}

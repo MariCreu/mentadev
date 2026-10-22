@@ -1,6 +1,6 @@
 // Demo de web de clínica: pinta los datos del enlace (#d=…) sobre la página de ejemplo.
 // Todo lo que viene del enlace se escribe como texto (textContent/atributos), nunca como HTML.
-import { leerEnlace } from './enlace.js';
+import { leerEnlace, esFragmentoDemo } from './enlace.js';
 import { ahoraEnMadrid, estadoHorario, hhmm } from './horario.js';
 import { IDIOMAS, COMUNES, CONTENIDO } from './contenido.js';
 
@@ -161,11 +161,16 @@ function montarSelector() {
 }
 
 // ---------- Cita en 3 pasos ----------
-const cita = { paso: 1, motivo: null, dia: null, franja: null, nombre: '', telefono: '', enviada: false, error: false };
+// diaInfo guarda el día elegido ({sem, num}) para que el resumen no dependa de la fecha de hoy.
+const CITA_VACIA = { paso: 1, motivo: null, dia: null, diaInfo: null, franja: null, nombre: '', telefono: '', enviada: false, error: false };
+const cita = { ...CITA_VACIA };
+
+// Fecha de hoy en Madrid, «AAAA-MM-DD».
+const fechaMadrid = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit' })
+  .format(new Date());
 
 function proximosDias() {
-  const [y, m, d] = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit' })
-    .format(new Date()).split('-').map(Number);
+  const [y, m, d] = fechaMadrid().split('-').map(Number);
   const dias = [];
   for (let i = 1; i <= 14 && dias.length < 6; i++) {
     const f = new Date(Date.UTC(y, m - 1, d + i, 12));
@@ -221,7 +226,7 @@ function pintarCita(enfocar) {
   const partes = [];
 
   if (cita.enviada) {
-    const dia = proximosDias().find((d) => d.clave === cita.dia);
+    const dia = cita.diaInfo;
     const motivo = motivos().find((x) => x.valor === cita.motivo);
     titulo = el('h3', { clase: 'cita-pregunta', tabindex: '-1', texto: t.resumenTitulo });
     partes.push(el('div', { clase: 'resumen' },
@@ -289,6 +294,7 @@ function montarCita() {
     if (name === 'dia') {
       cita.dia = value;
       const d = proximosDias().find((x) => x.clave === value);
+      cita.diaInfo = { sem: d.sem, num: d.num };
       if (!d.franjas.includes(cita.franja)) cita.franja = d.franjas.length === 1 ? d.franjas[0] : null;
       const nuevo = grupoFranjas(d);
       const viejo = $('[data-franjas]', form);
@@ -306,7 +312,7 @@ function montarCita() {
       cita.error = false;
       pintarCita(true);
     } else if (ev.target.closest('[data-reiniciar]')) {
-      Object.assign(cita, { paso: 1, motivo: null, dia: null, franja: null, nombre: '', telefono: '', enviada: false, error: false });
+      Object.assign(cita, CITA_VACIA);
       pintarCita(true);
     }
   });
@@ -344,6 +350,41 @@ function montarBarraMovil() {
   io.observe($('#cita'));
 }
 
+// ---------- Anclajes internos: desplazan sin tocar el #d=… de la URL ----------
+// Si cambiaran el fragmento, se perderían los datos de la clínica al recargar o copiar el enlace.
+function montarAnclajes() {
+  const sinMovimiento = matchMedia('(prefers-reduced-motion: reduce)');
+  document.addEventListener('click', (ev) => {
+    if (ev.defaultPrevented || ev.button !== 0 || ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey) return;
+    const a = ev.target.closest('a[href^="#"]');
+    if (!a) return;
+    const destino = document.getElementById(a.getAttribute('href').slice(1));
+    if (!destino) return;
+    ev.preventDefault();
+    destino.scrollIntoView({ behavior: sinMovimiento.matches ? 'auto' : 'smooth', block: 'start' });
+    if (!destino.hasAttribute('tabindex')) destino.setAttribute('tabindex', '-1');
+    destino.focus({ preventScroll: true });
+  });
+}
+
+// ---------- Cada minuto: estado del horario y, si ha cambiado el día, el día de hoy y los días de la cita ----------
+let fechaPintada = fechaMadrid();
+function cadaMinuto() {
+  pintarEstado();
+  const hoy = fechaMadrid();
+  if (hoy === fechaPintada) return;
+  fechaPintada = hoy;
+  pintarHorario();
+  if (cita.enviada || cita.paso === 1) return;
+  if (cita.dia && !proximosDias().some((d) => d.clave === cita.dia)) {
+    // El día elegido ya no está entre los próximos: se vuelve a elegir.
+    Object.assign(cita, { paso: 2, dia: null, diaInfo: null, franja: null, error: false });
+    pintarCita(false);
+  } else if (cita.paso === 2) {
+    pintarCita(false);
+  }
+}
+
 // ---------- Arranque ----------
 document.documentElement.style.setProperty('--acento', C.acento);
 $('meta[name="theme-color"]').setAttribute('content', C.acento);
@@ -353,6 +394,8 @@ pintarTelefono();
 pintarWhatsapp();
 pintarContenido();
 montarBarraMovil();
-setInterval(pintarEstado, 60 * 1000);
-document.addEventListener('visibilitychange', () => { if (!document.hidden) { pintarEstado(); pintarHorario(); } });
-window.addEventListener('hashchange', () => location.reload());
+montarAnclajes();
+setInterval(cadaMinuto, 60 * 1000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) cadaMinuto(); });
+// Solo un enlace de demo nuevo (#d=…) cambia la clínica; los anclajes internos no llegan aquí (ver montarAnclajes).
+window.addEventListener('hashchange', () => { if (esFragmentoDemo(location.hash)) location.reload(); });
