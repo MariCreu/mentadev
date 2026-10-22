@@ -102,11 +102,13 @@ test('cada foto existe en disco, pesa ≤ 250 KB, es WebP y tiene alt en es y en
   }
 });
 
-test('CREDITOS.txt nombra cada archivo de demo/fotos/', () => {
-  const creditos = readFileSync(raiz + 'demo/fotos/CREDITOS.txt', 'utf8');
-  const fotos = readdirSync(raiz + 'demo/fotos').filter((f) => f !== 'CREDITOS.txt');
+test('CREDITOS.txt nombra cada archivo de demo/fotos/ y solo archivos que existen', () => {
+  // Cada línea de crédito: «archivo.webp | autor | URL | licencia».
+  const nombrados = readFileSync(raiz + 'demo/fotos/CREDITOS.txt', 'utf8').split(/\r?\n/)
+    .map((l) => /^([a-z0-9-]+\.webp) \| [^|]+ \| https:\/\/\S+ \| .+$/.exec(l.trim())).filter(Boolean).map((m) => m[1]);
+  const fotos = readdirSync(raiz + 'demo/fotos').filter((f) => f !== 'CREDITOS.txt').sort();
   assert.ok(fotos.length > 0);
-  for (const f of fotos) assert.ok(creditos.includes(f), f);
+  assert.deepEqual([...nombrados].sort(), fotos);
 });
 
 test('COMUNES.es y COMUNES.en tienen las mismas claves', () => {

@@ -173,7 +173,7 @@ export const CONTENIDO = {
       es: {
         titular: 'Tu sonrisa, en buenas manos',
         entradilla: 'Odontología para toda la familia en {municipio}. Te explicamos cada paso y buscamos contigo el tratamiento que mejor te encaja.',
-        sobre: 'Somos una clínica dental cercana, de las de toda la vida, con equipos actuales. Nos gusta explicar las cosas con calma y sin tecnicismos, y que salgas de la consulta sabiendo qué te hemos hecho y por qué.',
+        sobre: 'Somos una clínica dental cercana, con equipos actuales. Nos gusta explicar las cosas con calma y sin tecnicismos, y que salgas de la consulta sabiendo qué te hemos hecho y por qué.',
         primeraVisita: [
           'Nos cuentas qué te preocupa y repasamos tu historial.',
           'Hacemos una revisión completa y, si hace falta, una radiografía.',
@@ -184,7 +184,7 @@ export const CONTENIDO = {
       en: {
         titular: 'Your smile, in good hands',
         entradilla: 'Family dentistry in {municipio}. We explain every step and work out with you the treatment that suits you best.',
-        sobre: "We're a friendly, family-run dental clinic with up-to-date equipment. We like to explain things calmly and in plain words, so you leave knowing exactly what we've done and why.",
+        sobre: "We're a friendly dental clinic with up-to-date equipment. We like to explain things calmly and in plain words, so you leave knowing exactly what we've done and why.",
         primeraVisita: [
           'You tell us what is worrying you and we go over your history.',
           'We give you a full check-up and, if needed, an X-ray.',
@@ -210,8 +210,8 @@ export const CONTENIDO = {
         'Injuries', 'Sprains, tendinitis, muscle knots and other muscle and joint injuries.'),
       tr('Dolor de espalda y cuello', 'Buscamos el origen de tu dolor y trabajamos para que te muevas mejor.',
         'Back and neck pain', 'We look for the cause of your pain and work with you so you can move more freely.'),
-      tr('Fisioterapia deportiva', 'Para volver a tu deporte después de una lesión y prevenir la siguiente.',
-        'Sports physiotherapy', 'To help you get back to your sport after an injury and prevent the next one.'),
+      tr('Fisioterapia deportiva', 'Te acompañamos en la vuelta a tu deporte después de una lesión y te damos pautas para cuidarte.',
+        'Sports physiotherapy', 'We support your return to sport after an injury and give you guidance on looking after yourself.'),
       tr('Rehabilitación tras una operación', 'Te acompañamos en la recuperación después de una cirugía o una fractura.',
         'Rehabilitation after surgery', 'We support your recovery after an operation or a fracture.'),
       tr('Suelo pélvico', 'Valoración y tratamiento en un entorno privado y de confianza, también tras el embarazo.',
@@ -265,8 +265,8 @@ export const CONTENIDO = {
     acento: '#2B5DA8',
     horario: semana(tramos('9:00-14:00', '16:30-19:30')),
     tratamientos: [
-      tr('Medicina general', 'Consulta para cualquier problema de salud, sin largas esperas.',
-        'General practice', 'An appointment for any health concern, without long waits.'),
+      tr('Medicina general', 'Consulta para cualquier problema de salud: te escuchamos y te orientamos.',
+        'General practice', 'An appointment for any health concern: we listen and point you in the right direction.'),
       tr('Revisiones de salud', 'Un chequeo completo para saber cómo estás y prevenir.',
         'Health check-ups', 'A full check-up to see how you are and stay ahead of problems.'),
       tr('Análisis clínicos', 'Hacemos la extracción en la consulta y te explicamos los resultados.',
@@ -371,7 +371,7 @@ export const CONTENIDO = {
       },
     },
     fotos: {
-      portada: foto('estetica-portada', 'Aplicación de una mascarilla facial con pincel', 'A face mask being applied with a brush'),
+      portada: foto('estetica-portada', 'Cabina de estética luminosa con camilla y productos para la piel', 'Bright beauty treatment room with a couch and skincare products'),
       clinica: foto('estetica-clinica', 'Cabina luminosa con camilla y lavabo', 'Bright treatment room with a couch and basin'),
       ambiente: foto('estetica-ambiente', 'Masaje facial relajante en cabina', 'Relaxing facial massage in a treatment room'),
       contacto,
