@@ -58,7 +58,7 @@ doctor Soler (#29, Benidorm, sin web).
 - La página trata lo que lee del enlace como texto (nunca `innerHTML`), valida y recorta cada campo,
   y si el enlace falta o está roto muestra la demo con «Vuestra clínica» y datos de ejemplo.
 - `noindex` (meta y `X-Robots-Tag` en `_headers`), fuera de `sitemap.xml`, `Disallow: /demo/` en
-  `robots.txt`. Lleva el script de Cloudflare Web Analytics como todas las páginas.
+  `robots.txt`. Sin el script de Cloudflare Web Analytics: el enlace lleva datos de la clínica y no deben salir del navegador.
 - Igual que mentadev.com: sin servicios externos (fotos y fuentes propias; nada de mapa incrustado:
   «cómo llegar» es una ilustración o foto de ejemplo), sin cookies, HTML/CSS/JS vanilla,
   mobile-first, contraste, foco visible y `prefers-reduced-motion`.

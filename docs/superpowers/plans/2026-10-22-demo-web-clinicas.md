@@ -23,7 +23,7 @@
 - Dirección de ejemplo: `Calle Ejemplo, 1 · [municipio]` (en inglés igual). Nunca una calle real.
 - Ninguna persona en la sección «sobre la clínica»; caras solo en fotos de ambiente.
 - La cita no envía nada; al terminar: «En vuestra web, esta solicitud os llegaría al momento por email.»
-- `noindex`: `<meta name="robots" content="noindex">` y `X-Robots-Tag: noindex` para `/demo/*` en `_headers`; `Disallow: /demo/` en `robots.txt`; no en `sitemap.xml`. Script de Cloudflare Web Analytics (token `86ba551e367d48e094c48d4ac87cbf4f`) antes de `</body>`.
+- `noindex`: `<meta name="robots" content="noindex">` y `X-Robots-Tag: noindex` para `/demo/*` en `_headers`; `Disallow: /demo/` en `robots.txt`; no en `sitemap.xml`. Sin el script de Cloudflare Web Analytics (cambiado tras la revisión final: el enlace lleva datos de la clínica).
 - Mobile-first, bien a 360 px sin scroll horizontal; foco visible; `prefers-reduced-motion`.
 - Precios y plazos del email: los de `report.mjs` (`PRECIO_WEB`, `PLAZO_WEB`), sin tocarlos.
 - Voz en primera persona del plural.
