@@ -2,23 +2,9 @@
 // la tienda, el panel, la automatización, la calculadora y el formulario.
 // Los productos, precios y citas son EJEMPLOS (la interfaz los marca como tales).
 // Precio en céntimos; 0 = "Gratis".
-export const SECTOR_POR_DEFECTO = 'restaurante';
+export const SECTOR_POR_DEFECTO = 'clinica';
 
 export const SECTORES = [
-  {
-    id: 'restaurante', etiqueta: 'Restaurante', articulo: 'un restaurante', acento: '#A4471F',
-    web: { nombre: 'Tu restaurante', titular: 'Cocina de casa, mesa reservada.', boton: 'Reservar mesa' },
-    productos: [{ nombre: 'Menú del día', precio: 1450 }, { nombre: 'Parrillada para dos', precio: 3200 }, { nombre: 'Tarta casera', precio: 450 }],
-    panel: { titulo: 'Reservas de hoy', unidad: 'mesas', libres: 3, citas: [
-      { hora: '13:30', texto: 'Mesa 4 · 2 personas' }, { hora: '14:00', texto: 'Mesa 7 · 4 personas' },
-      { hora: '20:30', texto: 'Mesa 2 · 3 personas' }, { hora: '21:00', texto: 'Mesa 9 · 6 personas' }] },
-    flujos: [
-      { icono: 'cal', desde: 'Entra una reserva online', hasta: 'Confirmación y recordatorio para que no falle' },
-      { icono: 'food', desde: 'Llega un pedido para llevar', hasta: 'Pasa a cocina ordenado y sin errores' },
-      { icono: 'receipt', desde: 'Un proveedor envía su factura', hasta: 'Queda registrada y lista para la gestoría' },
-      { icono: 'chart', desde: 'Cierras el día', hasta: 'Te llega al móvil el resumen de ventas' }],
-    calculadora: { horas: 6, tarifa: 18 },
-  },
   {
     id: 'clinica', etiqueta: 'Clínica', articulo: 'una clínica', acento: '#22688A',
     web: { nombre: 'Tu clínica', titular: 'Tu salud, en buenas manos.', boton: 'Pedir cita' },
@@ -32,6 +18,20 @@ export const SECTORES = [
       { icono: 'star', desde: 'Termina un tratamiento', hasta: 'Se le pide su opinión y se programa la revisión' },
       { icono: 'receipt', desde: 'Llega fin de mes', hasta: 'Las facturas se generan y se envían solas' }],
     calculadora: { horas: 5, tarifa: 25 },
+  },
+  {
+    id: 'restaurante', etiqueta: 'Restaurante', articulo: 'un restaurante', acento: '#27725F',
+    web: { nombre: 'Tu restaurante', titular: 'Cocina de casa, mesa reservada.', boton: 'Reservar mesa' },
+    productos: [{ nombre: 'Menú del día', precio: 1450 }, { nombre: 'Parrillada para dos', precio: 3200 }, { nombre: 'Tarta casera', precio: 450 }],
+    panel: { titulo: 'Reservas de hoy', unidad: 'mesas', libres: 3, citas: [
+      { hora: '13:30', texto: 'Mesa 4 · 2 personas' }, { hora: '14:00', texto: 'Mesa 7 · 4 personas' },
+      { hora: '20:30', texto: 'Mesa 2 · 3 personas' }, { hora: '21:00', texto: 'Mesa 9 · 6 personas' }] },
+    flujos: [
+      { icono: 'cal', desde: 'Entra una reserva online', hasta: 'Confirmación y recordatorio para que no falle' },
+      { icono: 'food', desde: 'Llega un pedido para llevar', hasta: 'Pasa a cocina ordenado y sin errores' },
+      { icono: 'receipt', desde: 'Un proveedor envía su factura', hasta: 'Queda registrada y lista para la gestoría' },
+      { icono: 'chart', desde: 'Cierras el día', hasta: 'Te llega al móvil el resumen de ventas' }],
+    calculadora: { horas: 6, tarifa: 18 },
   },
   {
     id: 'estetica', etiqueta: 'Peluquería y estética', articulo: 'una peluquería o centro de estética', acento: '#9A3B6B',
@@ -48,7 +48,7 @@ export const SECTORES = [
     calculadora: { horas: 4, tarifa: 18 },
   },
   {
-    id: 'tienda', etiqueta: 'Tienda', articulo: 'una tienda', acento: '#8A5A12',
+    id: 'tienda', etiqueta: 'Tienda', articulo: 'una tienda', acento: '#6F5BBF',
     web: { nombre: 'Tu tienda', titular: 'Lo que te gusta, a un clic.', boton: 'Ver productos' },
     productos: [{ nombre: 'Taza de cerámica', precio: 950 }, { nombre: 'Camiseta', precio: 1990 }, { nombre: 'Pack regalo', precio: 2900 }],
     panel: { titulo: 'Pedidos de hoy', unidad: 'envíos', libres: 5, citas: [

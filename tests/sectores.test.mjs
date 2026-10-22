@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import { SECTORES, SECTOR_POR_DEFECTO, sectorPorId, formatearPrecio } from '../js/sectores.js';
 
 test('hay 6 sectores con ids fijos y en orden', () => {
-  assert.deepEqual(SECTORES.map((s) => s.id), ['restaurante', 'clinica', 'estetica', 'tienda', 'academia', 'otro']);
-  assert.equal(sectorPorId(SECTOR_POR_DEFECTO).etiqueta, 'Restaurante');
+  // Clínica primero (sector por defecto); Restaurante, segundo.
+  assert.deepEqual(SECTORES.map((s) => s.id), ['clinica', 'restaurante', 'estetica', 'tienda', 'academia', 'otro']);
+  assert.equal(sectorPorId(SECTOR_POR_DEFECTO).etiqueta, 'Clínica');
   assert.equal(sectorPorId('nada'), undefined);
 });
 
@@ -40,4 +41,25 @@ test('el acento de cada sector tiene contraste AA con texto blanco', () => {
 test('formatearPrecio muestra euros en español y "Gratis" para 0', () => {
   assert.equal(formatearPrecio(0), 'Gratis');
   assert.match(formatearPrecio(1450), /^14,50\s€$/);
+});
+
+// Contraste con texto blanco (botones de la web de ejemplo) y sin tonos marrones ni ocres.
+const canales = (hex) => hex.match(/\w\w/g).map((x) => parseInt(x, 16) / 255);
+const luminancia = (hex) => {
+  const [r, g, b] = canales(hex).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const tono = (hex) => {
+  const [r, g, b] = canales(hex);
+  const max = Math.max(r, g, b), d = max - Math.min(r, g, b);
+  if (d < 0.08) return null; // gris
+  const h = max === r ? ((g - b) / d) % 6 : max === g ? (b - r) / d + 2 : (r - g) / d + 4;
+  return (h * 60 + 360) % 360;
+};
+test('los colores de sector se leen con texto blanco y ninguno es marrón', () => {
+  for (const s of SECTORES) {
+    assert.ok(1.05 / (luminancia(s.acento.slice(1)) + 0.05) >= 4.5, `${s.id}: contraste`);
+    const h = tono(s.acento.slice(1));
+    assert.ok(h === null || h < 12 || h > 55, `${s.id}: ${s.acento} es marrón u ocre`);
+  }
 });
