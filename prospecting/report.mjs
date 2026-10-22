@@ -11,7 +11,7 @@ export function improvements(problems) {
   return problems.slice(0, 3).map(key => PROBLEMS[key].fix);
 }
 
-const esMovil = (tel) => /^[67]/.test((tel ?? '').replace(/\D/g, '').replace(/^34/, ''));
+export const esMovil = (tel) => /^[67]/.test((tel ?? '').replace(/\D/g, '').replace(/^34/, ''));
 
 // Estructura común para el panel y para el texto de la terminal.
 export function ficha(lead, analysis) {

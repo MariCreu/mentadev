@@ -4,6 +4,9 @@ import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { PROBLEMS } from './analyzer.mjs';
+import { esMovil } from './report.mjs';
+import { validar, crearEnlace } from '../demo/enlace.js';
+import { CONTENIDO } from '../demo/contenido.js';
 
 function text(value, max = 200) {
   if (typeof value !== 'string' || !value.trim() || value.length > max || /[\x00-\x1f]/.test(value)) throw new Error('Texto vacío, demasiado largo o con caracteres no válidos');
@@ -35,7 +38,7 @@ function signals(value) {
   return JSON.stringify(value);
 }
 // Versión del esquema (PRAGMA user_version). Si cambia schema.sql, subirla y añadir el paso en migrate().
-const SCHEMA_VERSION = 4;
+const SCHEMA_VERSION = 5;
 // Huella de una ficha excluida: permite reconocerla al reimportarla sin guardar su nombre ni su municipio.
 const fingerprint = identity => 'sha256:' + createHash('sha256').update(identity).digest('hex');
 function normalized(value) {
@@ -50,7 +53,7 @@ export class CRM {
   }
   // Crea la base o la pone al día sin perder datos. Versión 1 (primera fase): sin plazo por fuente,
   // con la web obligatoria y sin revisiones; se detecta porque ya tiene tablas y user_version = 0.
-  // Versión 3: teléfono de la clínica (columna phone). Versión 4: web comprobada a mano y consentimientos.
+  // Versión 3: teléfono de la clínica (columna phone). Versión 4: web comprobada a mano y consentimientos. Versión 5: demos.
   migrate() {
     const { user_version: version } = this.db.prepare('PRAGMA user_version').get();
     if (version > SCHEMA_VERSION) throw new Error('La base es de una versión más nueva del CRM');
@@ -170,6 +173,7 @@ export class CRM {
         if (lead?.status !== 'suppressed' || lead.identity.startsWith('sha256:')) continue;
         hide.run(fingerprint(lead.identity), id);
         forget.run(id);
+        this.db.prepare('DELETE FROM demos WHERE lead_id=?').run(id);
         anonymized++;
       }
       const leads = this.db.prepare("DELETE FROM leads WHERE status <> 'suppressed' AND id NOT IN (SELECT lead_id FROM observations)").run().changes;
@@ -223,6 +227,24 @@ export class CRM {
   consentimiento(id) {
     return this.db.prepare('SELECT * FROM consentimientos WHERE lead_id=? ORDER BY fecha DESC, id DESC LIMIT 1').get(id);
   }
+  // Demo de la clínica: nombre, tipo, tratamientos y WhatsApp; el teléfono y el municipio se toman de la ficha.
+  guardarDemo(id, { nombre, tipo, tratamientos, whatsapp } = {}) {
+    const lead = this.lead(id);
+    if (!lead || lead.status === 'suppressed') throw new Error('La ficha no existe o está excluida');
+    const d = validar({ nombre, tipo, tratamientos, whatsapp, telefono: lead.phone, municipio: lead.municipality });
+    this.db.prepare('INSERT OR REPLACE INTO demos(lead_id,nombre,tipo,tratamientos,whatsapp,fecha) VALUES(?,?,?,?,?,?)').run(id, d.nombre, d.tipo, JSON.stringify(d.tratamientos), Number(d.whatsapp), date(this.clock()));
+  }
+  demo(id) {
+    const fila = this.db.prepare('SELECT * FROM demos WHERE lead_id=?').get(id);
+    if (!fila) return null;
+    const lead = this.lead(id);
+    const demo = { nombre: fila.nombre, tipo: fila.tipo, tratamientos: JSON.parse(fila.tratamientos), whatsapp: fila.whatsapp === 1, fecha: fila.fecha };
+    return { ...demo, enlace: crearEnlace({ ...demo, telefono: lead.phone, municipio: lead.municipality }) };
+  }
+  demoPorDefecto(id) {
+    const lead = this.lead(id);
+    return { nombre: lead.name, tipo: 'generica', tratamientos: CONTENIDO.generica.defecto, whatsapp: esMovil(lead.phone) };
+  }
   // Fichas por llamar, de mejor a peor candidata. Las descartadas y excluidas no salen.
   ranking() {
     return this.db.prepare(`SELECT l.id, l.name, l.municipality, l.status, a.score, a.analyzed_at FROM leads l
@@ -239,7 +261,10 @@ export class CRM {
       if (!lead || lead.status === 'suppressed') throw new Error('La ficha no existe o está excluida');
       this.db.prepare('UPDATE leads SET status=? WHERE id=?').run(status,id);
       // Si piden no llamar más, tampoco se guarda el email que nos dieron.
-      if (status === 'suppressed') this.db.prepare('DELETE FROM consentimientos WHERE lead_id=?').run(id);
+      if (status === 'suppressed') {
+        this.db.prepare('DELETE FROM consentimientos WHERE lead_id=?').run(id);
+        this.db.prepare('DELETE FROM demos WHERE lead_id=?').run(id);
+      }
       this.db.prepare('INSERT INTO activities(lead_id,actor,status,created_at) VALUES(?,?,?,?)').run(id,actor,status,date(this.clock()));
       this.db.exec('COMMIT');
     } catch (error) { this.db.exec('ROLLBACK'); throw error; }

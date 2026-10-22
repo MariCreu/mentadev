@@ -57,3 +57,12 @@ CREATE TABLE IF NOT EXISTS consentimientos (
   que TEXT NOT NULL,
   fecha TEXT NOT NULL
 );
+-- Versión 5: demo de cada clínica (los datos del enlace; teléfono y municipio salen de la ficha).
+CREATE TABLE IF NOT EXISTS demos (
+  lead_id INTEGER PRIMARY KEY REFERENCES leads(id) ON DELETE CASCADE,
+  nombre TEXT NOT NULL,
+  tipo TEXT NOT NULL,
+  tratamientos TEXT NOT NULL,
+  whatsapp INTEGER NOT NULL CHECK(whatsapp IN (0,1)),
+  fecha TEXT NOT NULL
+);

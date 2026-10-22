@@ -62,7 +62,7 @@ test('una base de la versión 2 gana las columnas nuevas sin perder datos', (t) 
     PRAGMA user_version = 2;`);
   v2.close();
   const crm = new CRM(path);
-  assert.equal(crm.db.prepare('PRAGMA user_version').get().user_version, 4);
+  assert.equal(crm.db.prepare('PRAGMA user_version').get().user_version, 5);
   assert.equal(crm.lead(1).name, 'Sol');
   assert.equal(crm.lead(1).phone, null);
   crm.close();
