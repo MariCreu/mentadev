@@ -120,7 +120,7 @@ test('sin web, con demo: el enlace va en su línea y el aviso de que es un ejemp
   const { c, sinWeb } = crm(t);
   c.registrarSi(sinWeb, { email: 'hola@sonrisa.example', quien: 'Recepción' });
   const b = borradorEmail(c.lead(sinWeb), c.latestAnalysis(sinWeb), c.consentimiento(sinWeb), demo);
-  assert.equal(b.asunto, 'Clínica Sonrisa: vuestra web de ejemplo (gratis y sin compromiso)');
+  assert.equal(b.asunto, 'Clínica Sonrisa: así podría ser vuestra web (ejemplo gratis)');
   assert.ok(b.cuerpo.split('\n').includes(demo.enlace));
   assert.ok(b.cuerpo.includes(PARRAFO));
   assert.match(b.cuerpo, /os hemos preparado una web de ejemplo para Clínica Sonrisa/);
