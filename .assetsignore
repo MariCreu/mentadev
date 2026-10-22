@@ -24,3 +24,4 @@ private-data
 private-data/**
 **/*.sqlite*
 **/*.db
+abrir-panel.cmd

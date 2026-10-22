@@ -20,6 +20,22 @@ transacción SQLite → revisión de la web → ranking y ficha de llamada →
 decisión humana → qualified/rejected/suppressed.
 `qualified` significa interés comercial interno, nunca permiso de contacto.
 
+## Panel local
+
+Doble clic en `abrir-panel.cmd` (raíz del repo) o `node prospecting/panel.mjs`: se abre
+http://localhost:4321. Buscar en Google (importa y revisa las webs nuevas, con progreso),
+lista de mejor a peor candidata con vistas por estado, ficha con teléfono, web, problemas,
+3 mejoras y guion, y botones para marcar interesada, descartada, volver a por llamar o no
+volver a llamar (con confirmación; no se deshace).
+
+- Escucha solo en 127.0.0.1 y rechaza cualquier `Host` que no sea localhost (DNS rebinding).
+- Las acciones son POST con JSON y la cabecera `x-panel: 1`, que una web ajena no puede
+  enviar sin permiso del navegador.
+- Usa `private-data/crm.sqlite` y la clave de `private-data/.env`; al arrancar y antes de
+  cada búsqueda borra lo caducado (`purge`).
+- La interfaz (`prospecting/panel/`) pinta los datos con `textContent`, nunca `innerHTML`.
+- Buscar y revisar comparten código con la terminal (`acciones.mjs`).
+
 ## Probar y usar
 
 Desde la raíz del repositorio:

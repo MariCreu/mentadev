@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Prospección · MentaDev</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fuentes/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/panel.css">
+</head>
+<body>
+<header class="barra">
+  <div class="barra-in">
+    <a class="marca" href="/" aria-label="Prospección, inicio">
+      <svg width="30" height="30" viewBox="0 0 64 64" aria-hidden="true"><path d="M30 58C13 56 4 42 4 24c17 0 29 13 26 34z" fill="#BDAEE1"/><path d="M30 58C21 36 31 13 57 6c3 25-7 45-27 52z" fill="#6EC6B4" opacity=".92"/></svg>
+      <span>Menta<span>Dev</span></span>
+      <em>Prospección</em>
+    </a>
+    <p class="clave" id="clave" hidden></p>
+  </div>
+</header>
+
+<main class="panel">
+  <section class="cabecera" aria-labelledby="titulo">
+    <div>
+      <h1 id="titulo">Clínicas por llamar</h1>
+      <p class="sub" id="subtitulo">De mejor a peor candidata, según lo que le falta a su web.</p>
+    </div>
+    <form class="buscador" id="buscador">
+      <label class="campo">
+        <span>Buscar en Google</span>
+        <input id="consulta" name="consulta" type="search" maxlength="120" placeholder="clínica dental Altea" autocomplete="off" required>
+      </label>
+      <label class="campo campo-sector">
+        <span>Tipo</span>
+        <select id="sector" name="sector">
+          <option value="health_clinic">Salud (dental, fisio…)</option>
+          <option value="aesthetic_clinic">Estética</option>
+        </select>
+      </label>
+      <button class="btn" type="submit" id="buscar">Buscar clínicas</button>
+    </form>
+  </section>
+
+  <div class="trabajo" id="trabajo" hidden role="status">
+    <div class="trabajo-texto"><span class="punto" aria-hidden="true"></span><span id="trabajo-mensaje"></span></div>
+    <div class="trabajo-barra" aria-hidden="true"><span id="trabajo-barra"></span></div>
+  </div>
+
+  <nav class="vistas" aria-label="Filtrar clínicas">
+    <div class="pestanas" role="tablist">
+      <button role="tab" data-vista="porllamar" aria-selected="true">Por llamar <b data-cuenta="porllamar">0</b></button>
+      <button role="tab" data-vista="interesadas" aria-selected="false">Interesadas <b data-cuenta="interesadas">0</b></button>
+      <button role="tab" data-vista="descartadas" aria-selected="false">Descartadas <b data-cuenta="descartadas">0</b></button>
+      <button role="tab" data-vista="nollamar" aria-selected="false">No llamar <b data-cuenta="nollamar">0</b></button>
+      <button role="tab" data-vista="todas" aria-selected="false">Todas</button>
+    </div>
+    <button class="btn-2 btn-sm" type="button" id="revisar" hidden>Revisar webs pendientes</button>
+  </nav>
+
+  <div class="rejilla">
+    <section class="lista" aria-label="Clínicas">
+      <ul id="lista"></ul>
+      <div class="vacio" id="vacio" hidden>
+        <p class="vacio-t">Aún no hay clínicas aquí.</p>
+        <p>Busca arriba, por ejemplo, «clínica dental Altea» o «fisioterapia Benidorm».</p>
+      </div>
+    </section>
+
+    <aside class="ficha" id="ficha" aria-live="polite">
+      <div class="ficha-vacia" id="ficha-vacia">
+        <p class="vacio-t">Elige una clínica</p>
+        <p>Verás su teléfono, lo que le falta a su web, 3 mejoras y el guion de llamada.</p>
+      </div>
+      <article id="ficha-detalle" hidden>
+        <header class="ficha-cab">
+          <p class="ficha-lugar" id="f-lugar"></p>
+          <h2 id="f-nombre"></h2>
+          <span class="estado" id="f-estado"></span>
+        </header>
+
+        <div class="contacto">
+          <div class="telefono">
+            <span class="etiqueta">Teléfono</span>
+            <a id="f-tel" class="tel"></a>
+            <span id="f-sin-tel" class="nota" hidden>No figura en Google: búscalo en su ficha de Google Maps.</span>
+          </div>
+          <button class="icono" type="button" id="copiar-tel" aria-label="Copiar teléfono">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+          </button>
+        </div>
+        <p class="aviso-movil" id="f-movil" hidden>Es un móvil: puede ser de una persona (autónomo). Antes de llamar, consulta la Lista Robinson.</p>
+
+        <div class="web">
+          <span class="etiqueta">Web</span>
+          <a id="f-web" target="_blank" rel="noopener noreferrer"></a>
+          <span id="f-sin-web" class="nota" hidden>Sin web en Google. Búscala antes de llamar: puede que tenga una.</span>
+        </div>
+
+        <div class="puntuacion" id="f-puntuacion">
+          <span class="nota-grande" id="f-score"></span>
+          <div>
+            <span class="etiqueta">Como cliente potencial</span>
+            <ul class="problemas" id="f-problemas"></ul>
+          </div>
+        </div>
+        <p class="nota" id="f-bloqueada" hidden>No se ha podido revisar su web automáticamente (no admite robots o su certificado no se pudo verificar). Mírala en el navegador.</p>
+        <p class="nota" id="f-sin-revisar" hidden>Aún no se ha revisado su web. Usa «Revisar webs pendientes».</p>
+
+        <section class="bloque" id="f-bloque-mejoras">
+          <h3>Mejoras que le propondríamos</h3>
+          <ol class="mejoras" id="f-mejoras"></ol>
+        </section>
+
+        <section class="bloque guion" id="f-bloque-guion">
+          <div class="bloque-cab">
+            <h3>Guion de llamada</h3>
+            <button class="enlace" type="button" id="copiar-guion">Copiar guion</button>
+          </div>
+          <div id="f-guion"></div>
+        </section>
+
+        <footer class="acciones">
+          <button class="btn" type="button" data-estado="qualified">Interesada</button>
+          <button class="btn-2" type="button" data-estado="rejected">Descartar</button>
+          <button class="btn-2" type="button" data-estado="new">Volver a por llamar</button>
+          <button class="peligro" type="button" id="no-llamar">No volver a llamar</button>
+        </footer>
+      </article>
+    </aside>
+  </div>
+</main>
+
+<dialog id="confirmar" aria-labelledby="confirmar-t">
+  <form method="dialog">
+    <h2 id="confirmar-t">¿No volver a llamar a <span id="confirmar-nombre"></span>?</h2>
+    <p>Se apunta para siempre y no se puede deshacer: no volverá a salir aunque aparezca en otra búsqueda.</p>
+    <div class="dialogo-acciones">
+      <button class="btn-2" value="cancelar">Cancelar</button>
+      <button class="peligro-lleno" value="si">Sí, no llamar más</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="avisos" id="avisos" role="status" aria-live="polite"></div>
+<script src="/panel.js" type="module"></script>
+</body>
+</html>

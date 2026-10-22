@@ -175,6 +175,23 @@ export class CRM {
       return { observations: stale.length, leads, anonymized };
     } catch (error) { this.db.exec('ROLLBACK'); throw error; }
   }
+  // Vistas del panel, de mejor a peor candidata: por llamar (new), interesadas (qualified),
+  // descartadas (rejected), no llamar (suppressed) y todas.
+  vista(nombre) {
+    const filtro = { porllamar: "l.status='new'", interesadas: "l.status='qualified'", descartadas: "l.status='rejected'", nollamar: "l.status='suppressed'", todas: '1=1' }[nombre];
+    if (!filtro) throw new Error('Vista no válida');
+    return this.db.prepare(`SELECT l.id, l.name, l.municipality, l.sector, l.website, l.phone, l.status, a.score, a.blocked, a.analyzed_at FROM leads l
+      LEFT JOIN analyses a ON a.id = (SELECT id FROM analyses WHERE lead_id=l.id ORDER BY analyzed_at DESC, id DESC LIMIT 1)
+      WHERE ${filtro} ORDER BY a.score IS NULL, a.score DESC, l.id`).all().map((r) => ({ ...r, blocked: r.blocked === 1 }));
+  }
+  // Fichas por llamar o interesadas que aún no tienen revisión.
+  pendientes() {
+    return this.db.prepare("SELECT id FROM leads l WHERE status IN ('new','qualified') AND NOT EXISTS (SELECT 1 FROM analyses a WHERE a.lead_id=l.id) ORDER BY id").all().map((r) => r.id);
+  }
+  cuentas() {
+    const n = Object.fromEntries(this.db.prepare('SELECT status, count(*) AS n FROM leads GROUP BY status').all().map((r) => [r.status, r.n]));
+    return { porllamar: n.new ?? 0, interesadas: n.qualified ?? 0, descartadas: n.rejected ?? 0, nollamar: n.suppressed ?? 0, pendientes: this.pendientes().length };
+  }
   // Fichas por llamar, de mejor a peor candidata. Las descartadas y excluidas no salen.
   ranking() {
     return this.db.prepare(`SELECT l.id, l.name, l.municipality, l.status, a.score, a.analyzed_at FROM leads l
@@ -183,7 +200,8 @@ export class CRM {
   }
   setStatus(id, status, actor) {
     actor = text(actor);
-    if (!['qualified','rejected','suppressed'].includes(status)) throw new Error('Estado no válido: qualified, rejected o suppressed');
+    // 'new' permite deshacer una marca (volver a "por llamar"); desde 'suppressed' no se vuelve nunca.
+    if (!['new','qualified','rejected','suppressed'].includes(status)) throw new Error('Estado no válido: new, qualified, rejected o suppressed');
     this.db.exec('BEGIN IMMEDIATE');
     try {
       const lead = this.db.prepare('SELECT status FROM leads WHERE id=?').get(id);

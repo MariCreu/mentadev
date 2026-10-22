@@ -1,0 +1,131 @@
+// Panel local de prospección: http://localhost:4321 (solo en este ordenador).
+// Arranque: doble clic en abrir-panel.cmd, o `node prospecting/panel.mjs`.
+// - Escucha solo en 127.0.0.1 y rechaza cualquier Host que no sea localhost (protege del DNS rebinding).
+// - Las acciones (POST) exigen JSON y la cabecera x-panel, que una web ajena no puede enviar sin permiso.
+// - Los datos siguen en private-data/crm.sqlite; nada se publica.
+import { createServer } from 'node:http';
+import { readFile } from 'node:fs/promises';
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { CRM } from './crm.mjs';
+import { ficha } from './report.mjs';
+import { buscar, revisar } from './acciones.mjs';
+
+const PUERTO = 4321;
+const CARPETA = new URL('./panel/', import.meta.url);
+const FUENTES = new URL('../assets/fonts/', import.meta.url);
+const ESTATICOS = { '/': ['index.html', 'text/html; charset=utf-8'], '/panel.css': ['panel.css', 'text/css; charset=utf-8'], '/panel.js': ['panel.js', 'text/javascript; charset=utf-8'], '/favicon.svg': ['../../assets/favicon.svg', 'image/svg+xml'] };
+const PERMITIDAS = new Set(['poppins-latin-400-normal.woff2', 'poppins-latin-500-normal.woff2', 'poppins-latin-600-normal.woff2', 'bricolage-grotesque-latin-wght-normal.woff2']);
+const SECTORES = new Set(['health_clinic', 'aesthetic_clinic']);
+
+export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
+  let trabajo = { activo: false, tipo: null, hecho: 0, total: 0, mensaje: '', error: null };
+  const lanzar = (tipo, tarea) => {
+    trabajo = { activo: true, tipo, hecho: 0, total: 0, mensaje: tipo === 'buscar' ? 'Buscando en Google…' : 'Preparando la revisión…', error: null };
+    const avance = ({ hecho, total, nombre }) => { trabajo = { ...trabajo, hecho, total, mensaje: nombre ? `Revisando ${hecho + 1} de ${total}: ${nombre}` : trabajo.mensaje }; };
+    tarea(avance)
+      .then((mensaje) => { trabajo = { ...trabajo, activo: false, mensaje }; })
+      .catch((error) => { trabajo = { ...trabajo, activo: false, error: error.message }; });
+  };
+
+  return createServer(async (req, res) => {
+    const responder = (estado, cuerpo, tipo = 'application/json; charset=utf-8') => {
+      res.writeHead(estado, { 'content-type': tipo, 'cache-control': 'no-store', 'x-content-type-options': 'nosniff', 'referrer-policy': 'no-referrer' });
+      res.end(typeof cuerpo === 'string' || Buffer.isBuffer(cuerpo) ? cuerpo : JSON.stringify(cuerpo));
+    };
+    try {
+      const host = (req.headers.host ?? '').replace(/:\d+$/, '');
+      if (!['localhost', '127.0.0.1', '[::1]'].includes(host)) return responder(403, { error: 'Solo desde este ordenador' });
+      const url = new URL(req.url, 'http://localhost');
+      const ruta = url.pathname;
+
+      if (req.method === 'GET') {
+        if (ESTATICOS[ruta]) {
+          const [archivo, tipo] = ESTATICOS[ruta];
+          return responder(200, await readFile(new URL(archivo, CARPETA)), tipo);
+        }
+        if (ruta.startsWith('/fuentes/')) {
+          const nombre = ruta.slice('/fuentes/'.length);
+          if (!PERMITIDAS.has(nombre)) return responder(404, { error: 'No existe' });
+          return responder(200, await readFile(new URL(nombre, FUENTES)), 'font/woff2');
+        }
+        if (ruta === '/api/clinicas') {
+          const vista = url.searchParams.get('vista') ?? 'porllamar';
+          return responder(200, { clinicas: crm.vista(vista), cuentas: crm.cuentas() });
+        }
+        const detalle = ruta.match(/^\/api\/clinicas\/(\d+)$/);
+        if (detalle) {
+          const clinica = crm.lead(Number(detalle[1]));
+          if (!clinica) return responder(404, { error: 'Esa clínica no existe' });
+          return responder(200, { clinica, ficha: ficha(clinica, crm.latestAnalysis(clinica.id)) });
+        }
+        if (ruta === '/api/trabajo') return responder(200, trabajo);
+        if (ruta === '/api/estado') return responder(200, { clave: Boolean(clave) });
+        return responder(404, { error: 'No existe' });
+      }
+
+      if (req.method === 'POST') {
+        if (req.headers['x-panel'] !== '1' || !String(req.headers['content-type']).startsWith('application/json')) return responder(403, { error: 'Petición no permitida' });
+        let texto = '';
+        for await (const trozo of req) { texto += trozo; if (texto.length > 10_000) return responder(413, { error: 'Demasiado grande' }); }
+        let datos;
+        try { datos = JSON.parse(texto || '{}'); } catch { return responder(400, { error: 'JSON no válido' }); }
+
+        const marca = ruta.match(/^\/api\/clinicas\/(\d+)\/estado$/);
+        if (marca) {
+          const id = Number(marca[1]);
+          if (!crm.lead(id)) return responder(404, { error: 'Esa clínica no existe' });
+          if (datos.estado === 'suppressed' && datos.confirmar !== true) return responder(400, { error: 'Confirma que no quieres volver a llamar: no se puede deshacer' });
+          try { crm.setStatus(id, datos.estado, 'panel'); } catch (error) { return responder(400, { error: error.message }); }
+          return responder(200, { clinica: crm.lead(id) });
+        }
+        if (ruta === '/api/buscar') {
+          const consulta = typeof datos.consulta === 'string' ? datos.consulta.trim() : '';
+          if (!consulta || consulta.length > 120) return responder(400, { error: 'Escribe qué buscar, por ejemplo «clínica dental Altea»' });
+          if (!SECTORES.has(datos.sector)) return responder(400, { error: 'Sector no válido' });
+          if (!clave) return responder(400, { error: 'Falta GOOGLE_MAPS_API_KEY en private-data/.env' });
+          if (trabajo.activo) return responder(409, { error: 'Ya hay una búsqueda o revisión en marcha' });
+          lanzar('buscar', async (avance) => {
+            crm.purge();
+            const r = await buscar(crm, { consulta, sector: datos.sector, clave, fetchImpl });
+            const nuevas = r.ids.filter((id) => !crm.latestAnalysis(id));
+            await revisar(crm, nuevas, { pageSpeedKey: clave, fetchImpl, pausa, alAvanzar: avance });
+            return `${r.encontradas} ${r.encontradas === 1 ? 'encontrada' : 'encontradas'}, ${r.sinWeb} sin web, ${nuevas.length} ${nuevas.length === 1 ? 'web revisada' : 'webs revisadas'}`;
+          });
+          return responder(202, trabajo);
+        }
+        if (ruta === '/api/revisar') {
+          if (trabajo.activo) return responder(409, { error: 'Ya hay una búsqueda o revisión en marcha' });
+          const ids = crm.pendientes();
+          lanzar('revisar', async (avance) => {
+            await revisar(crm, ids, { pageSpeedKey: clave, fetchImpl, pausa, alAvanzar: avance });
+            return `${ids.length} ${ids.length === 1 ? 'web revisada' : 'webs revisadas'}`;
+          });
+          return responder(202, trabajo);
+        }
+        return responder(404, { error: 'No existe' });
+      }
+      return responder(405, { error: 'Método no permitido' });
+    } catch (error) {
+      return responder(500, { error: error.message });
+    }
+  });
+}
+
+// Arranque directo: lee la clave de private-data/.env, abre la base y el navegador.
+if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
+  const env = new URL('../private-data/.env', import.meta.url);
+  if (existsSync(env)) process.loadEnvFile(fileURLToPath(env));
+  const crm = new CRM(fileURLToPath(new URL('../private-data/crm.sqlite', import.meta.url)));
+  crm.purge();
+  const servidor = crearPanel({ crm, clave: process.env.GOOGLE_MAPS_API_KEY || null });
+  servidor.listen(PUERTO, '127.0.0.1', () => {
+    const direccion = `http://localhost:${PUERTO}`;
+    console.log(`Panel de prospección en ${direccion} (cierra esta ventana para pararlo)`);
+    if (!process.argv.includes('--sin-navegador') && process.platform === 'win32') import('node:child_process').then(({ exec }) => exec(`start "" ${direccion}`));
+  });
+  servidor.on('error', (error) => {
+    console.error(error.code === 'EADDRINUSE' ? `El panel ya está abierto: ve a http://localhost:${PUERTO}` : error.message);
+    process.exit(1);
+  });
+}
