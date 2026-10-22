@@ -1,0 +1,21 @@
+Fotos de ejemplo de la demo de clínica (mentadev.com/demo/)
+Todas de Unsplash, bajo la Licencia de Unsplash (https://unsplash.com/license):
+uso comercial permitido, sin necesidad de permiso ni atribución.
+Descargadas en WebP desde images.unsplash.com (unas 1000-1600 px de ancho, calidad 45-70).
+
+archivo | autor | URL | licencia
+contacto.webp | Miguel Hernández | https://unsplash.com/photos/MxTFmj8jWUQ | Unsplash License
+dental-portada.webp | Benyamin Bohlouli | https://unsplash.com/photos/e7MJLM5VGjY | Unsplash License
+dental-clinica.webp | Katarzyna Zygnerska | https://unsplash.com/photos/44jaETSVX2I | Unsplash License
+dental-ambiente.webp | Quang Tri NGUYEN | https://unsplash.com/photos/VckdJzo7ig0 | Unsplash License
+fisio-portada.webp | Sincerely Media | https://unsplash.com/photos/inoZpsBQRqk | Unsplash License
+fisio-clinica.webp | Caroline Badran | https://unsplash.com/photos/m56-PAdMhM0 | Unsplash License
+fisio-ambiente.webp | Sincerely Media | https://unsplash.com/photos/wGFibXDQlBI | Unsplash License
+medica-portada.webp | Daniel Sone (National Cancer Institute) | https://unsplash.com/photos/NFvdKIhxYlU | Unsplash License
+medica-clinica.webp | Immo Wegmann | https://unsplash.com/photos/njrDE70M2VI | Unsplash License
+manos-consulta.webp | Vitaly Gariev | https://unsplash.com/photos/E0xu1n9yiPk | Unsplash License
+estetica-portada.webp | Rosa Rafael | https://unsplash.com/photos/Pe9IXUuC6QU | Unsplash License
+estetica-clinica.webp | Mayur Roxan | https://unsplash.com/photos/CvO17EzwmSE | Unsplash License
+estetica-ambiente.webp | Anna Keibalo | https://unsplash.com/photos/BJ7i-96glwM | Unsplash License
+generica-portada.webp | Benyamin Bohlouli | https://unsplash.com/photos/B_sK_xgzwVA | Unsplash License
+generica-clinica.webp | Brian Wangenheim | https://unsplash.com/photos/K7Qh7RFtUuo | Unsplash License
