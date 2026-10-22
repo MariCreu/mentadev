@@ -216,8 +216,9 @@ function pintar({ clinica, ficha, consentimiento, email, demo, demoPorDefecto, c
     $('#e-asunto').textContent = email.asunto;
     $('#e-cuerpo').textContent = email.cuerpo;
     const sinDemo = demo ? '' : ' Prepara la web de ejemplo para añadirla al email.';
-    $('#e-nota').textContent = (ficha.sinWeb ? 'Antes de enviarlo, cambia [tu nombre] y repásalo.' : 'Antes de enviarlo, cambia [tu nombre] y mira su web un momento para confirmar lo que dice. Lo prometimos en 48 h laborables.') + sinDemo;
-    $('#e-abrir').href = `mailto:${email.para}?subject=${encodeURIComponent(email.asunto)}&body=${encodeURIComponent(email.cuerpo)}`;
+    $('#e-nota').textContent = (ficha.sinWeb ? 'Repásalo antes de enviarlo.' : 'Antes de enviarlo, mira su web un momento para confirmar lo que dice. Lo prometimos en 48 h laborables.') + ' Comprueba que en «De» pone info@mentadev.com y que sale la firma.' + sinDemo;
+    // Redacción de Gmail ya rellenada; el remitente y la firma son los predeterminados de Gmail (info@mentadev.com).
+    $('#e-abrir').href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email.para)}&su=${encodeURIComponent(email.asunto)}&body=${encodeURIComponent(email.cuerpo)}`;
   }
   if (matchMedia('(max-width: 980px)').matches) $('#ficha').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }

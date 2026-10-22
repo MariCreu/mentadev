@@ -188,10 +188,9 @@ export function borradorEmail(lead, analysis, consentimiento, demo = null) {
         '- Equipo y clínica: fotos y presentación, para dar confianza antes de la primera visita.',
         '- Contacto y cómo llegar: teléfono, WhatsApp, mapa y horario.',
         '- Textos legales: aviso legal, privacidad y cookies.', '',
-        'Si más adelante os resulta útil, podemos añadir la reserva de citas desde la web, con confirmación de la clínica o de la forma que mejor encaje en vuestro día a día. Se presupuesta aparte, con precio cerrado.', '',
-        `Precio: desde ${PRECIO_WEB}, cerrado antes de empezar y en 2 plazos sin intereses. Incluye hasta 6 secciones, adaptación al móvil, preparación para Google, alojamiento del primer año y 2 meses de soporte. El dominio va a vuestro nombre.`,
+        `Si más adelante os resulta útil, podemos añadir la reserva de citas desde la web, con confirmación de la clínica o como mejor os encaje, o cualquier otra funcionalidad que os haga el día a día más fácil. Pero esta puesta a punto en el mundo web tiene un precio sin sorpresas: ${PRECIO_WEB}, cerrado antes de empezar y en 2 plazos sin intereses. Incluye hasta 6 secciones, adaptación al móvil, preparación para Google, alojamiento del primer año y 2 meses de soporte. El dominio va a vuestro nombre.`,
         `Plazo: lista en ${PLAZO_WEB} desde que tenemos vuestros textos y fotos (si no los tenéis, os ayudamos). Si no la publicamos en ese plazo, os devolvemos el primer plazo.`, '',
-        'Si os encaja, respondednos a este email y en una llamada corta os contamos los siguientes pasos. Sin compromiso: si no es el momento, no pasa nada.',
+        'Si os encaja o queréis más información, respondednos a este email. Sin compromiso: si no es el momento, no pasa nada.',
         ...pie,
       ].join('\n'),
     };
