@@ -1,9 +1,10 @@
 // Descubrimiento con Google Places API (New), Text Search. Solo pide los campos que el CRM
-// admite (nunca teléfono, reseñas ni fotos) y devuelve un lote listo para importBatch.
+// admite (el teléfono de la clínica, para llamar; nunca reseñas, valoraciones ni fotos) y devuelve un lote
+// listo para importBatch. Pedir el teléfono pasa la búsqueda a una categoría de precio superior de Google.
 // Las condiciones de Google Maps Platform limitan cuánto tiempo se guardan sus datos (salvo el
 // place_id): la fuente se registra con maxAgeDays y el comando "purge" borra lo caducado.
 const ENDPOINT = 'https://places.googleapis.com/v1/places:searchText';
-const FIELDS = ['places.id', 'places.displayName', 'places.addressComponents', 'places.websiteUri', 'places.businessStatus', 'nextPageToken'];
+const FIELDS = ['places.id', 'places.displayName', 'places.addressComponents', 'places.websiteUri', 'places.businessStatus', 'places.nationalPhoneNumber', 'nextPageToken'];
 const PAGE_SIZE = 20;
 
 export async function searchPlaces(query, { key, fetchImpl = fetch, maxPages = 3 } = {}) {
@@ -47,7 +48,8 @@ export function toRecords(places, { sector, observedAt }) {
       : !municipality ? 'sin municipio' : null;
     if (reason) { skipped.push({ name: name ?? place.id ?? '?', reason }); continue; }
     const website = place.websiteUri && /^https?:\/\//i.test(place.websiteUri) ? place.websiteUri : null;
-    records.push({ name: name.slice(0, 200), municipality, province: '03', sector, website, sourceRecordId: place.id, observedAt });
+    const phone = place.nationalPhoneNumber?.trim() || null;
+    records.push({ name: name.slice(0, 200), municipality, province: '03', sector, website, phone, sourceRecordId: place.id, observedAt });
   }
   // Un mismo lugar puede salir en varias páginas: se queda una vez.
   const unique = [...new Map(records.map(record => [record.sourceRecordId, record])).values()];

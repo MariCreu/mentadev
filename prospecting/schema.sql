@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS leads (
   province TEXT NOT NULL CHECK(province = '03'),
   sector TEXT NOT NULL CHECK(sector IN ('health_clinic','aesthetic_clinic')),
   website TEXT,
+  phone TEXT,
   status TEXT NOT NULL DEFAULT 'new' CHECK(status IN ('new','qualified','rejected','suppressed')),
   created_at TEXT NOT NULL
 );

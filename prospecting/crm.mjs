@@ -35,7 +35,7 @@ function signals(value) {
   return JSON.stringify(value);
 }
 // Versión del esquema (PRAGMA user_version). Si cambia schema.sql, subirla y añadir el paso en migrate().
-const SCHEMA_VERSION = 2;
+const SCHEMA_VERSION = 3;
 // Huella de una ficha excluida: permite reconocerla al reimportarla sin guardar su nombre ni su municipio.
 const fingerprint = identity => 'sha256:' + createHash('sha256').update(identity).digest('hex');
 function normalized(value) {
@@ -50,6 +50,7 @@ export class CRM {
   }
   // Crea la base o la pone al día sin perder datos. Versión 1 (primera fase): sin plazo por fuente,
   // con la web obligatoria y sin revisiones; se detecta porque ya tiene tablas y user_version = 0.
+  // Versión 3: teléfono de la clínica (columna phone).
   migrate() {
     const { user_version: version } = this.db.prepare('PRAGMA user_version').get();
     if (version > SCHEMA_VERSION) throw new Error('La base es de una versión más nueva del CRM');
@@ -76,6 +77,7 @@ export class CRM {
           ALTER TABLE leads_v2 RENAME TO leads;`);
       }
       this.db.exec(readFileSync(new URL('./schema.sql', import.meta.url), 'utf8'));
+      if (!this.db.prepare("SELECT 1 FROM pragma_table_info('leads') WHERE name='phone'").get()) this.db.exec('ALTER TABLE leads ADD COLUMN phone TEXT');
       if (this.db.prepare('PRAGMA foreign_key_check').all().length) throw new Error('Referencias rotas al actualizar la base');
       this.db.exec(`PRAGMA user_version = ${SCHEMA_VERSION}`);
       this.db.exec('COMMIT');
@@ -102,13 +104,15 @@ export class CRM {
     this.db.exec('BEGIN IMMEDIATE');
     try {
       const ids = records.map(record => {
-        const allowed = ['name','municipality','province','sector','website','sourceRecordId','observedAt'];
+        const allowed = ['name','municipality','province','sector','website','phone','sourceRecordId','observedAt'];
         if (!record || Object.keys(record).some(key => !allowed.includes(key))) throw new Error('El lote trae campos no admitidos');
         const name = text(record.name), municipality = text(record.municipality);
         if (record.province !== '03' || !['health_clinic','aesthetic_clinic'].includes(record.sector)) throw new Error('Fuera de alcance: solo clínicas de la provincia de Alicante (03)');
         // Sin web es un dato válido: son las mejores candidatas.
         const website = record.website == null ? null : url(record.website, ['https:', 'http:']);
         if (website) { website.search = ''; website.hash = ''; }
+        const phone = record.phone == null ? null : text(record.phone, 30);
+        if (phone !== null && !/^\+?[\d][\d\s().-]{5,24}$/.test(phone)) throw new Error('Teléfono no válido');
         const observed = date(record.observedAt);
         if (observed > now) throw new Error('La fecha de observación es futura');
         const recordId = text(record.sourceRecordId);
@@ -119,7 +123,8 @@ export class CRM {
         // Una excluida ya anonimizada se reconoce por su huella y no recupera nombre ni web.
         let lead = this.db.prepare('SELECT id FROM leads WHERE identity=?').get(hidden);
         if (!lead) {
-          this.db.prepare('INSERT INTO leads(identity,name,municipality,province,sector,website,created_at) VALUES(?,?,?,?,?,?,?) ON CONFLICT(identity) DO NOTHING').run(identity,name,municipality,'03',record.sector,website?.href ?? null,now);
+          // Al repetir la búsqueda se renueva el teléfono (salvo en las excluidas).
+          this.db.prepare("INSERT INTO leads(identity,name,municipality,province,sector,website,phone,created_at) VALUES(?,?,?,?,?,?,?,?) ON CONFLICT(identity) DO UPDATE SET phone=COALESCE(excluded.phone, leads.phone) WHERE leads.status <> 'suppressed'").run(identity,name,municipality,'03',record.sector,website?.href ?? null,phone,now);
           lead = this.db.prepare('SELECT id FROM leads WHERE identity=?').get(identity);
         }
         this.db.prepare('INSERT INTO observations VALUES(?,?,?,?) ON CONFLICT(source_id,source_record_id) DO UPDATE SET observed_at=max(observed_at,excluded.observed_at)').run(lead.id,sourceId,recordId,observed);
@@ -155,7 +160,7 @@ export class CRM {
         .filter(row => now - Date.parse(row.observed_at) > row.max_age_days * 86_400_000);
       const remove = this.db.prepare('DELETE FROM observations WHERE source_id=? AND source_record_id=?');
       for (const row of stale) remove.run(row.source_id, row.source_record_id);
-      const hide = this.db.prepare("UPDATE leads SET identity=?, name='Clínica excluida', municipality='-', website=NULL WHERE id=?");
+      const hide = this.db.prepare("UPDATE leads SET identity=?, name='Clínica excluida', municipality='-', website=NULL, phone=NULL WHERE id=?");
       const forget = this.db.prepare('DELETE FROM analyses WHERE lead_id=?');
       let anonymized = 0;
       for (const id of new Set(stale.map(row => row.lead_id))) {

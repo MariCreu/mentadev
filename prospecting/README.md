@@ -49,7 +49,8 @@ Ejemplo **ficticio**, no constituye autorización para reutilizar una fuente rea
 
 Sectores: `health_clinic`, `aesthetic_clinic`. Máximo 100 registros por lote,
 rechazo completo si uno falla. No se admiten campos adicionales, emails,
-teléfonos, personas, pacientes, reseñas ni datos de salud. El código de provincia
+personas, pacientes, reseñas ni datos de salud. Sí el teléfono de la clínica
+(`phone`, opcional y validado), para la ficha de llamada. El código de provincia
 es una declaración del importador: el operador debe comprobar municipio y
 actividad contra la fuente antes de importar. No hay verificación geográfica
 automática. Webs de clínicas con http o https, o vacías si no tienen (las que siguen
@@ -82,7 +83,7 @@ y 2 s de pausa entre webs. No sigue enlaces ni abre otras páginas. Solo guarda
 señales técnicas en la tabla `analyses`: conexión segura, adaptación al móvil,
 título y descripción, cita online, formulario o WhatsApp (solo si existen),
 textos legales, año del pie, gestor de contenidos, tiempo de respuesta y peso.
-Nunca emails, teléfonos, nombres ni texto de la página; `crm.mjs` rechaza
+De la web nunca se guardan emails, teléfonos, nombres ni texto de la página; `crm.mjs` rechaza
 cualquier otra señal.
 
 Cada problema suma puntos (tabla `PROBLEMS` de `analyzer.mjs`): cuanto peor está la
@@ -129,8 +130,11 @@ node prospecting/cli.mjs private-data/crm.sqlite purge
 ```
 
 `discovery.mjs` usa Text Search con `GOOGLE_MAPS_API_KEY` (como máximo 3 páginas de
-20 resultados por búsqueda) y pide solo id, nombre, dirección desglosada, web y
-estado: nunca teléfono, reseñas, valoraciones ni fotos. Descarta los cerrados y
+20 resultados por búsqueda) y pide solo id, nombre, dirección desglosada, web,
+estado y teléfono de la clínica: nunca reseñas, valoraciones ni fotos. Pedir el
+teléfono pasa la búsqueda a una categoría de precio superior de Google; el teléfono
+se conserva con el mismo plazo (`maxAgeDays`) y, si es de un autónomo, antes de
+llamar hay que consultar la Lista Robinson. Descarta los cerrados y
 los que no tienen código postal 03xxx; las clínicas **sin web** se importan
 (`website` vacío) y puntúan 10 en `analyze`. El `place_id` se guarda como
 `sourceRecordId`, así que repetir una búsqueda renueva la fecha de observación

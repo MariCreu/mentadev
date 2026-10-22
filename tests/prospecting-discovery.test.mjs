@@ -30,7 +30,9 @@ test('pide a Places solo los campos admitidos y recorre páginas', async () => {
   assert.equal(calls.length, 2);
   assert.equal(calls[1].body.pageToken, 't2');
   assert.equal(calls[0].headers['X-Goog-Api-Key'], 'k');
-  assert.doesNotMatch(calls[0].headers['X-Goog-FieldMask'], /phone|review|photo|rating/i);
+  // El teléfono de la clínica sí (para llamar); reseñas, fotos y valoraciones, nunca.
+  assert.match(calls[0].headers['X-Goog-FieldMask'], /places\.nationalPhoneNumber/);
+  assert.doesNotMatch(calls[0].headers['X-Goog-FieldMask'], /review|photo|rating|internationalPhone/i);
   await assert.rejects(searchPlaces('x', { key: null }), /GOOGLE_MAPS_API_KEY/);
   await assert.rejects(searchPlaces('x', { key: 'k', fetchImpl: async () => new Response(JSON.stringify({ error: { message: 'API key not valid' } }), { status: 400 }) }), /400: API key not valid/);
 });

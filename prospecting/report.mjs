@@ -14,6 +14,7 @@ export function report(lead, analysis) {
   const mejoras = improvements(analysis.problems);
   const lines = [
     `${lead.name} (${lead.municipality}) · ${lead.website ?? 'sin web'}`,
+    `Teléfono: ${lead.phone ?? 'no figura en Google: búscalo en su ficha de Google Maps'}`,
     `Puntuación como cliente potencial: ${analysis.score}/10 · revisada el ${analysis.analyzed_at.slice(0, 10)}`,
     `Problemas: ${analysis.problems.map(key => PROBLEMS[key].reason).join(', ') || 'ninguno claro'}`,
     '',
