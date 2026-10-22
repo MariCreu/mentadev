@@ -111,6 +111,28 @@
           </div>
         </div>
 
+        <section class="bloque demo" id="f-demo" hidden aria-labelledby="d-t">
+          <h3 id="d-t">Web de ejemplo</h3>
+          <p class="nota" id="d-nota">Una web de muestra con los datos de esta clínica, para enseñársela. Se ve con un enlace; no se publica nada.</p>
+          <form id="form-demo">
+            <div class="demo-fila">
+              <label class="campo"><span>Nombre que se mostrará</span><input id="d-nombre" type="text" required maxlength="80" autocomplete="off"></label>
+              <label class="campo"><span>Tipo de clínica</span><select id="d-tipo"></select></label>
+            </div>
+            <fieldset class="demo-trat">
+              <legend>Tratamientos que se muestran</legend>
+              <div id="d-trat"></div>
+            </fieldset>
+            <label class="demo-check"><input type="checkbox" id="d-wa"><span id="d-wa-t">Con WhatsApp</span></label>
+            <div class="correo-acciones">
+              <button class="btn btn-sm" type="submit" id="d-guardar">Preparar demo</button>
+              <a class="btn-2 btn-sm" id="d-abrir" target="_blank" rel="noopener noreferrer" hidden>Abrir demo</a>
+              <button class="btn-2 btn-sm" type="button" id="d-copiar" hidden>Copiar enlace</button>
+            </div>
+            <p class="nota" id="d-fecha" hidden></p>
+          </form>
+        </section>
+
         <section class="bloque correo" id="f-correo" hidden>
           <h3>Email para enviar</h3>
           <p class="consentido" id="f-consentido"></p>

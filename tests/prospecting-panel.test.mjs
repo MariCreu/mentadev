@@ -105,3 +105,37 @@ test('ficha() da la estructura que usan el panel y el texto de la terminal', () 
   assert.equal(f.sinWeb, true);
   assert.ok(f.guion.some((l) => /no tiene web propia/.test(l)));
 });
+
+test('el detalle trae el catálogo de la demo y aún no hay demo guardada', async (t) => {
+  const { url, ids } = await preparar(t);
+  const d = await (await fetch(`${url}/api/clinicas/${ids.sinWeb}`)).json();
+  assert.equal(d.catalogo.tipos.length, 5);
+  assert.equal(d.demo, null);
+  assert.equal(d.demoPorDefecto.nombre, 'Sonrisa Sin Web');
+  assert.ok(d.catalogo.tratamientos.dental.every((x) => typeof x === 'string'));
+  assert.ok(Array.isArray(d.catalogo.defecto.medica));
+});
+
+test('preparar la demo devuelve el enlace', async (t) => {
+  const { url, ids } = await preparar(t);
+  const r = await enviar(`${url}/api/clinicas/${ids.sinWeb}/demo`, { nombre: 'Consulta del Dr. Soler', tipo: 'medica', tratamientos: [0, 1], whatsapp: false });
+  assert.equal(r.status, 200);
+  const { demo } = await r.json();
+  assert.ok(demo.enlace.startsWith('https://mentadev.com/demo/#d='));
+  assert.equal(demo.nombre, 'Consulta del Dr. Soler');
+});
+
+test('la demo: sin x-panel se rechaza, los índices inválidos se descartan y la clínica inexistente es 404', async (t) => {
+  const { url, ids } = await preparar(t);
+  const cuerpo = { nombre: 'X', tipo: 'dental', tratamientos: [0, 99], whatsapp: false };
+  assert.equal((await enviar(`${url}/api/clinicas/${ids.sinWeb}/demo`, cuerpo, {})).status, 403);
+  const { demo } = await (await enviar(`${url}/api/clinicas/${ids.sinWeb}/demo`, cuerpo)).json();
+  assert.deepEqual(demo.tratamientos, [0]);
+  assert.equal((await enviar(`${url}/api/clinicas/999/demo`, cuerpo)).status, 404);
+});
+
+test('la demo de una clínica excluida da 400', async (t) => {
+  const { url, ids } = await preparar(t);
+  await enviar(`${url}/api/clinicas/${ids.sinWeb}/estado`, { estado: 'suppressed', confirmar: true });
+  assert.equal((await enviar(`${url}/api/clinicas/${ids.sinWeb}/demo`, { nombre: 'X', tipo: 'dental', tratamientos: [], whatsapp: false })).status, 400);
+});

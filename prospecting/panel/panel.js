@@ -143,8 +143,8 @@ async function abrir(id) {
 
 const fechaCorta = (iso) => (iso ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : '');
 
-function pintar({ clinica, ficha, consentimiento, email }) {
-  fichaActual = { clinica, ficha, consentimiento, email };
+function pintar({ clinica, ficha, consentimiento, email, demo, demoPorDefecto, catalogo }) {
+  fichaActual = { clinica, ficha, consentimiento, email, demo, catalogo };
   $('#ficha-vacia').hidden = true;
   $('#ficha-detalle').hidden = false;
 
@@ -207,6 +207,7 @@ function pintar({ clinica, ficha, consentimiento, email }) {
   document.querySelectorAll('.acciones [data-estado]').forEach((b) => { b.hidden = clinica.status === 'suppressed' || b.dataset.estado === clinica.status; });
   $('#no-llamar').hidden = clinica.status === 'suppressed';
   $('#han-dicho-si').hidden = clinica.status === 'suppressed' || Boolean(consentimiento);
+  pintarDemo(clinica, demo ?? demoPorDefecto, demo, catalogo);
   // Email para enviar a quien ha dicho que sí.
   $('#f-correo').hidden = !email;
   if (email) {
@@ -219,6 +220,59 @@ function pintar({ clinica, ficha, consentimiento, email }) {
   }
   if (matchMedia('(max-width: 980px)').matches) $('#ficha').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
+
+// ---------- Web de ejemplo ----------
+function casillasDemo(tipo, marcados) {
+  const titulos = fichaActual.catalogo.tratamientos[tipo];
+  $('#d-trat').replaceChildren(...titulos.map((t, i) => {
+    const l = el('label');
+    const c = el('input');
+    c.type = 'checkbox';
+    c.value = i;
+    c.checked = marcados.includes(i);
+    l.append(c, el('span', '', t));
+    return l;
+  }));
+}
+function pintarDemo(clinica, valores, guardada, catalogo) {
+  $('#f-demo').hidden = clinica.status === 'suppressed';
+  if (clinica.status === 'suppressed') return;
+  $('#d-nombre').value = valores.nombre;
+  $('#d-tipo').replaceChildren(...catalogo.tipos.map((t) => { const o = el('option', '', t.nombre); o.value = t.id; return o; }));
+  $('#d-tipo').value = valores.tipo;
+  casillasDemo(valores.tipo, valores.tratamientos);
+  const hayTel = Boolean(clinica.phone);
+  $('#d-wa').disabled = !hayTel;
+  $('#d-wa').checked = hayTel && valores.whatsapp;
+  $('#d-wa-t').textContent = hayTel ? 'Con WhatsApp' : 'Con WhatsApp (no tiene teléfono)';
+  $('#d-guardar').textContent = guardada ? 'Guardar cambios' : 'Preparar demo';
+  $('#d-abrir').hidden = !guardada;
+  $('#d-copiar').hidden = !guardada;
+  if (guardada) $('#d-abrir').href = guardada.enlace; else $('#d-abrir').removeAttribute('href');
+  $('#d-fecha').hidden = !guardada;
+  $('#d-fecha').textContent = guardada ? `Guardada el ${fechaCorta(guardada.fecha)}. Si cambias algo, pulsa «Guardar cambios» para actualizar el enlace.` : '';
+}
+// Al cambiar de tipo se marcan los tratamientos que suelen encajar con él.
+$('#d-tipo').addEventListener('change', () => {
+  if (fichaActual) casillasDemo($('#d-tipo').value, fichaActual.catalogo.defecto[$('#d-tipo').value]);
+});
+$('#form-demo').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  if (!fichaActual) return;
+  const boton = $('#d-guardar');
+  boton.disabled = true;
+  try {
+    const datos = await api(`/api/clinicas/${fichaActual.clinica.id}/demo`, {
+      nombre: $('#d-nombre').value,
+      tipo: $('#d-tipo').value,
+      tratamientos: [...document.querySelectorAll('#d-trat input:checked')].map((c) => Number(c.value)),
+      whatsapp: $('#d-wa').checked,
+    });
+    pintar(datos);
+    aviso('Demo preparada: ya puedes abrirla o copiar el enlace');
+  } catch (error) { aviso(error.message, true); } finally { boton.disabled = false; }
+});
+$('#d-copiar').addEventListener('click', () => fichaActual?.demo && copiar(fichaActual.demo.enlace, 'Enlace'));
 
 async function marcar(estado, confirmar = false) {
   if (!fichaActual) return;

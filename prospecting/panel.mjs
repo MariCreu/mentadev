@@ -10,12 +10,20 @@ import { fileURLToPath } from 'node:url';
 import { CRM } from './crm.mjs';
 import { ficha, borradorEmail } from './report.mjs';
 import { buscar, revisar } from './acciones.mjs';
+import { TIPOS } from '../demo/enlace.js';
+import { CONTENIDO } from '../demo/contenido.js';
 
 const PUERTO = 4321;
 const CARPETA = new URL('./panel/', import.meta.url);
 const FUENTES = new URL('../assets/fonts/', import.meta.url);
 const ESTATICOS = { '/': ['index.html', 'text/html; charset=utf-8'], '/panel.css': ['panel.css', 'text/css; charset=utf-8'], '/panel.js': ['panel.js', 'text/javascript; charset=utf-8'], '/favicon.svg': ['../../assets/favicon.svg', 'image/svg+xml'] };
 const PERMITIDAS = new Set(['poppins-latin-400-normal.woff2', 'poppins-latin-500-normal.woff2', 'poppins-latin-600-normal.woff2', 'bricolage-grotesque-latin-wght-normal.woff2']);
+// Catálogo de la demo para el formulario: tipos, títulos de tratamientos (en español) y los que se marcan por defecto.
+const CATALOGO = {
+  tipos: TIPOS.map((id) => ({ id, nombre: CONTENIDO[id].nombre.es })),
+  tratamientos: Object.fromEntries(TIPOS.map((id) => [id, CONTENIDO[id].tratamientos.map((x) => x.es.t)])),
+  defecto: Object.fromEntries(TIPOS.map((id) => [id, [...CONTENIDO[id].defecto]])),
+};
 const SECTORES = new Set(['health_clinic', 'aesthetic_clinic']);
 
 export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
@@ -24,7 +32,9 @@ export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
     const clinica = crm.lead(id);
     const analisis = crm.latestAnalysis(id);
     const consentimiento = crm.consentimiento(id) ?? null;
-    return { clinica, ficha: ficha(clinica, analisis), consentimiento, email: borradorEmail(clinica, analisis, consentimiento) };
+    const demoPorDefecto = { ...crm.demoPorDefecto(id) };
+    demoPorDefecto.tratamientos = [...demoPorDefecto.tratamientos];
+    return { clinica, ficha: ficha(clinica, analisis), consentimiento, email: borradorEmail(clinica, analisis, consentimiento), demo: crm.demo(id) ?? null, demoPorDefecto, catalogo: CATALOGO };
   };
   let trabajo = { activo: false, tipo: null, hecho: 0, total: 0, mensaje: '', error: null };
   const lanzar = (tipo, tarea) => {
@@ -91,6 +101,13 @@ export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
           const id = Number(si[1]);
           if (!crm.lead(id)) return responder(404, { error: 'Esa clínica no existe' });
           try { crm.registrarSi(id, { email: datos.email, quien: datos.quien, atencion: datos.atencion }); } catch (error) { return responder(400, { error: error.message }); }
+          return responder(200, detalleDe(id));
+        }
+        const demo = ruta.match(/^\/api\/clinicas\/(\d+)\/demo$/);
+        if (demo) {
+          const id = Number(demo[1]);
+          if (!crm.lead(id)) return responder(404, { error: 'Esa clínica no existe' });
+          try { crm.guardarDemo(id, { nombre: datos.nombre, tipo: datos.tipo, tratamientos: datos.tratamientos, whatsapp: datos.whatsapp }); } catch (error) { return responder(400, { error: error.message }); }
           return responder(200, detalleDe(id));
         }
         // Web comprobada a mano: se guarda y se vuelve a revisar al momento, para que el guion se adapte.
