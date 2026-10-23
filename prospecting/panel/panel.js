@@ -3,6 +3,7 @@ const $ = (s) => document.querySelector(s);
 const TITULOS = {
   porllamar: ['Clínicas por llamar', 'De mejor a peor candidata, según lo que le falta a su web.'],
   interesadas: ['Interesadas', 'Las que han mostrado interés. Prepara su propuesta.'],
+  seguimiento: ['Seguimiento', 'Emails enviados hace 3 días laborables o más y sin respuesta. Llámales.'],
   descartadas: ['Descartadas', 'No encajan ahora. Puedes devolverlas a «por llamar».'],
   nollamar: ['No llamar', 'Han pedido no recibir más llamadas. No vuelven a salir en las búsquedas.'],
   todas: ['Todas las clínicas', 'Todo lo que hay en tu base local.'],
@@ -143,7 +144,7 @@ async function abrir(id) {
 
 const fechaCorta = (iso) => (iso ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : '');
 
-function pintar({ clinica, ficha, consentimiento, email, demo, demoPorDefecto, catalogo }) {
+function pintar({ clinica, ficha, consentimiento, seguimiento, email, demo, demoPorDefecto, catalogo }) {
   fichaActual = { clinica, ficha, consentimiento, email, demo, catalogo };
   $('#ficha-vacia').hidden = true;
   $('#ficha-detalle').hidden = false;
@@ -221,6 +222,7 @@ function pintar({ clinica, ficha, consentimiento, email, demo, demoPorDefecto, c
     $('#e-nota').textContent = (ficha.sinWeb ? 'Repásalo antes de enviarlo.' : 'Antes de enviarlo, mira su web un momento para confirmar lo que dice. Lo prometimos en 48 h laborables.') + ' Comprueba que en «De» pone info@mentadev.com y que sale la firma.' + sinDemo;
     // Redacción de Gmail ya rellenada; el remitente y la firma son los predeterminados de Gmail (info@mentadev.com).
     $('#e-abrir').href = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email.para)}&su=${encodeURIComponent(email.asunto)}&body=${encodeURIComponent(email.cuerpo)}`;
+    pintarSeguimiento(seguimiento, ficha);
   }
   if (matchMedia('(max-width: 980px)').matches) $('#ficha').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
@@ -395,3 +397,39 @@ $('#form-si').addEventListener('submit', async (e) => {
   } catch (error) { aviso(error.message, true); }
 });
 $('#e-copiar').addEventListener('click', () => fichaActual?.email && copiar(`Para: ${fichaActual.email.para}\nAsunto: ${fichaActual.email.asunto}\n\n${fichaActual.email.cuerpo}`, 'Email'));
+
+// ---------- Seguimiento del email enviado ----------
+function pintarSeguimiento(seguimiento, ficha) {
+  const respondido = Boolean(seguimiento?.resultado);
+  $('#s-enviado').textContent = seguimiento ? 'Lo he vuelto a enviar' : 'Email enviado';
+  $('#s-texto').hidden = !seguimiento;
+  $('#s-resultados').hidden = !seguimiento || respondido;
+  const textos = { contestado: 'Ha contestado', quiere: 'Quiere la web', no_interesa: 'No le interesa' };
+  if (seguimiento) {
+    $('#s-texto').textContent = respondido
+      ? `Enviado el ${fechaCorta(seguimiento.enviado)} · ${textos[seguimiento.resultado]} (${fechaCorta(seguimiento.resultado_fecha)})`
+      : `Enviado el ${fechaCorta(seguimiento.enviado)} · seguimiento a partir del ${fechaCorta(seguimiento.desde)}`;
+  }
+  const guion = ficha.seguimiento;
+  $('#s-guion').hidden = !guion?.toca;
+  $('#s-frases').replaceChildren(...(guion?.toca ? guion.guion.map((f) => frase('p', f)) : []));
+}
+$('#s-enviado').addEventListener('click', async () => {
+  if (!fichaActual) return;
+  try {
+    const datos = await api(`/api/clinicas/${fichaActual.clinica.id}/enviado`, {});
+    aviso('Apuntado: te avisamos para el seguimiento');
+    await cargar();
+    pintar(datos);
+  } catch (error) { aviso(error.message, true); }
+});
+document.querySelectorAll('[data-resultado]').forEach((b) => b.addEventListener('click', async () => {
+  if (!fichaActual) return;
+  const id = fichaActual.clinica.id;
+  try {
+    const datos = await api(`/api/clinicas/${id}/resultado`, { resultado: b.dataset.resultado });
+    aviso('Apuntado');
+    await cargar();
+    if (seleccion === id) pintar(datos);
+  } catch (error) { aviso(error.message, true); }
+}));

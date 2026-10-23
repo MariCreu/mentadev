@@ -52,6 +52,7 @@
     <div class="pestanas" role="tablist">
       <button role="tab" data-vista="porllamar" aria-selected="true">Por llamar <b data-cuenta="porllamar">0</b></button>
       <button role="tab" data-vista="interesadas" aria-selected="false">Interesadas <b data-cuenta="interesadas">0</b></button>
+      <button role="tab" data-vista="seguimiento" aria-selected="false">Seguimiento <b data-cuenta="seguimiento">0</b></button>
       <button role="tab" data-vista="descartadas" aria-selected="false">Descartadas <b data-cuenta="descartadas">0</b></button>
       <button role="tab" data-vista="nollamar" aria-selected="false">No llamar <b data-cuenta="nollamar">0</b></button>
       <button role="tab" data-vista="todas" aria-selected="false">Todas</button>
@@ -144,6 +145,16 @@
             <button class="btn-2 btn-sm" type="button" id="e-copiar">Copiar texto</button>
           </div>
           <p class="nota" id="e-nota"></p>
+          <div class="seguimiento" id="f-seg">
+            <button class="btn-2 btn-sm" type="button" id="s-enviado">Email enviado</button>
+            <p class="consentido" id="s-texto" hidden></p>
+            <div class="correo-acciones" id="s-resultados" hidden>
+              <button class="btn-2 btn-sm" type="button" data-resultado="contestado">Ha contestado</button>
+              <button class="btn-2 btn-sm" type="button" data-resultado="quiere">Quiere la web</button>
+              <button class="btn-2 btn-sm" type="button" data-resultado="no_interesa">No le interesa</button>
+            </div>
+            <div class="recepcion" id="s-guion" hidden><p class="recepcion-t">Seguimiento: llama ahora</p><div id="s-frases"></div></div>
+          </div>
         </section>
 
         <div class="puntuacion" id="f-puntuacion">

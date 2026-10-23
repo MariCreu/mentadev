@@ -14,7 +14,7 @@ export function improvements(problems) {
 export const esMovil = (tel) => /^[67]/.test((tel ?? '').replace(/\D/g, '').replace(/^34/, ''));
 
 // Estructura común para el panel y para el texto de la terminal.
-export function ficha(lead, analysis) {
+function fichaBase(lead, analysis) {
   if (!analysis) return { estado: 'sin-revisar' };
   if (analysis.blocked) return { estado: 'bloqueada' };
   const sinWeb = analysis.problems.includes('sinweb');
@@ -128,6 +128,37 @@ export function ficha(lead, analysis) {
 
   const guion = pasos.flatMap(p => [p.titulo.toUpperCase(), ...p.frases]);
   return { ...base, revision, pasos, preguntas, apuros, antes, guion };
+}
+
+// Seguimiento del email enviado: toca a los 3 días laborables (lunes a viernes, sin festivos) desde el envío.
+const dia = (iso) => Date.UTC(+iso.slice(0, 4), +iso.slice(5, 7) - 1, +iso.slice(8, 10)) / 86_400_000;
+const laborable = (d) => { const s = new Date(d * 86_400_000).getUTCDay(); return s !== 0 && s !== 6; };
+export function diasLaborablesDesde(iso, ahora) {
+  const fin = dia(new Date(ahora).toISOString());
+  let n = 0;
+  for (let d = dia(new Date(iso).toISOString()) + 1; d <= fin; d++) if (laborable(d)) n++;
+  return n;
+}
+export function fechaSeguimiento(iso) {
+  let d = dia(new Date(iso).toISOString()), n = 0;
+  while (n < 3) { d++; if (laborable(d)) n++; }
+  return new Date(d * 86_400_000).toISOString().slice(0, 10);
+}
+
+// Con el email enviado y sin respuesta apuntada, la ficha lleva el guion de seguimiento.
+export function ficha(lead, analysis, seguimiento = null, demo = null) {
+  const base = fichaBase(lead, analysis);
+  if (!seguimiento || seguimiento.resultado) return base;
+  const nombre = demo?.nombre ?? lead.name;
+  return { ...base, seguimiento: {
+    enviado: seguimiento.enviado, desde: seguimiento.desde, toca: Boolean(seguimiento.toca),
+    guion: [
+      `Hola, soy [tu nombre], de MentaDev. El ${seguimiento.enviado.slice(8, 10)}/${seguimiento.enviado.slice(5, 7)} os mandamos por email la web de ejemplo de ${nombre}. ¿Pudisteis echarle un vistazo?`,
+      '(Si no lo han visto) ¿Os lo reenvío? A veces se cuela en Promociones o en spam.',
+      '(Si les gusta) ¡Genial! ¿Os viene bien que hablemos 10 minutos para ver vuestras fotos y textos?',
+      '(Si no les interesa) Sin problema, gracias por mirarlo. (Márcala como «No le interesa».)',
+    ],
+  } };
 }
 
 export function report(lead, analysis) {

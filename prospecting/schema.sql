@@ -66,3 +66,10 @@ CREATE TABLE IF NOT EXISTS demos (
   whatsapp INTEGER NOT NULL CHECK(whatsapp IN (0,1)),
   fecha TEXT NOT NULL
 );
+-- Versión 6: email de la propuesta enviado y su seguimiento (se borra con la clínica o al excluirla).
+CREATE TABLE IF NOT EXISTS seguimientos (
+  lead_id INTEGER PRIMARY KEY REFERENCES leads(id) ON DELETE CASCADE,
+  enviado TEXT NOT NULL,
+  resultado TEXT CHECK(resultado IS NULL OR resultado IN ('contestado','quiere','no_interesa')),
+  resultado_fecha TEXT
+);

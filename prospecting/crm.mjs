@@ -4,7 +4,8 @@ import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { PROBLEMS } from './analyzer.mjs';
-import { esMovil } from './report.mjs';
+import { esMovil, diasLaborablesDesde, fechaSeguimiento } from './report.mjs';
+export { diasLaborablesDesde };
 import { validar, crearEnlace } from '../demo/enlace.js';
 import { CONTENIDO } from '../demo/contenido.js';
 
@@ -38,7 +39,7 @@ function signals(value) {
   return JSON.stringify(value);
 }
 // Versión del esquema (PRAGMA user_version). Si cambia schema.sql, subirla y añadir el paso en migrate().
-const SCHEMA_VERSION = 5;
+const SCHEMA_VERSION = 6;
 // Huella de una ficha excluida: permite reconocerla al reimportarla sin guardar su nombre ni su municipio.
 const fingerprint = identity => 'sha256:' + createHash('sha256').update(identity).digest('hex');
 function normalized(value) {
@@ -53,7 +54,7 @@ export class CRM {
   }
   // Crea la base o la pone al día sin perder datos. Versión 1 (primera fase): sin plazo por fuente,
   // con la web obligatoria y sin revisiones; se detecta porque ya tiene tablas y user_version = 0.
-  // Versión 3: teléfono de la clínica (columna phone). Versión 4: web comprobada a mano y consentimientos. Versión 5: demos.
+  // Versión 3: teléfono de la clínica (columna phone). Versión 4: web comprobada a mano y consentimientos. Versión 5: demos. Versión 6: seguimientos.
   migrate() {
     const { user_version: version } = this.db.prepare('PRAGMA user_version').get();
     if (version > SCHEMA_VERSION) throw new Error('La base es de una versión más nueva del CRM');
@@ -174,6 +175,7 @@ export class CRM {
         hide.run(fingerprint(lead.identity), id);
         forget.run(id);
         this.db.prepare('DELETE FROM demos WHERE lead_id=?').run(id);
+        this.db.prepare('DELETE FROM seguimientos WHERE lead_id=?').run(id);
         anonymized++;
       }
       const leads = this.db.prepare("DELETE FROM leads WHERE status <> 'suppressed' AND id NOT IN (SELECT lead_id FROM observations)").run().changes;
@@ -184,6 +186,7 @@ export class CRM {
   // Vistas del panel, de mejor a peor candidata: por llamar (new), interesadas (qualified),
   // descartadas (rejected), no llamar (suppressed) y todas.
   vista(nombre) {
+    if (nombre === 'seguimiento') return this.seguimientosPendientes();
     const filtro = { porllamar: "l.status='new'", interesadas: "l.status='qualified'", descartadas: "l.status='rejected'", nollamar: "l.status='suppressed'", todas: '1=1' }[nombre];
     if (!filtro) throw new Error('Vista no válida');
     return this.db.prepare(`SELECT l.id, l.name, l.municipality, l.sector, l.website, l.phone, l.status, a.score, a.blocked, a.analyzed_at FROM leads l
@@ -196,7 +199,44 @@ export class CRM {
   }
   cuentas() {
     const n = Object.fromEntries(this.db.prepare('SELECT status, count(*) AS n FROM leads GROUP BY status').all().map((r) => [r.status, r.n]));
-    return { porllamar: n.new ?? 0, interesadas: n.qualified ?? 0, descartadas: n.rejected ?? 0, nollamar: n.suppressed ?? 0, pendientes: this.pendientes().length };
+    return { porllamar: n.new ?? 0, interesadas: n.qualified ?? 0, descartadas: n.rejected ?? 0, nollamar: n.suppressed ?? 0, seguimiento: this.seguimientosPendientes().length, pendientes: this.pendientes().length };
+  }
+  // Email de la propuesta enviado (a mano, desde Gmail): exige el sí previo. Volver a pulsarlo actualiza la fecha.
+  marcarEnviado(id) {
+    const lead = this.lead(id);
+    if (!lead || lead.status === 'suppressed') throw new Error('La ficha no existe o está excluida');
+    if (!this.consentimiento(id)) throw new Error('Sin el sí por teléfono no hay email que enviar');
+    this.db.prepare('INSERT INTO seguimientos(lead_id,enviado) VALUES(?,?) ON CONFLICT(lead_id) DO UPDATE SET enviado=excluded.enviado, resultado=NULL, resultado_fecha=NULL').run(id, date(this.clock()));
+  }
+  registrarResultado(id, resultado) {
+    if (!['contestado', 'quiere', 'no_interesa'].includes(resultado)) throw new Error('Resultado no válido');
+    const lead = this.lead(id);
+    if (!lead || lead.status === 'suppressed') throw new Error('La ficha no existe o está excluida');
+    if (!this.db.prepare('SELECT 1 FROM seguimientos WHERE lead_id=?').get(id)) throw new Error('Primero marca el email como enviado');
+    const ahora = date(this.clock());
+    this.db.exec('BEGIN IMMEDIATE');
+    try {
+      this.db.prepare('UPDATE seguimientos SET resultado=?, resultado_fecha=? WHERE lead_id=?').run(resultado, ahora, id);
+      if (resultado === 'no_interesa') {
+        this.db.prepare("UPDATE leads SET status='rejected' WHERE id=?").run(id);
+        this.db.prepare('INSERT INTO activities(lead_id,actor,status,created_at) VALUES(?,?,?,?)').run(id, 'panel', 'rejected', ahora);
+      }
+      this.db.exec('COMMIT');
+    } catch (error) { this.db.exec('ROLLBACK'); throw error; }
+  }
+  // Fila del seguimiento con 'desde' (primer día para llamar: 3 días laborables después) y 'toca'.
+  seguimiento(id) {
+    const fila = this.db.prepare('SELECT * FROM seguimientos WHERE lead_id=?').get(id);
+    if (!fila) return null;
+    return { ...fila, desde: fechaSeguimiento(fila.enviado), toca: diasLaborablesDesde(fila.enviado, this.clock()) >= 3 };
+  }
+  // Enviadas sin respuesta apuntada cuyo plazo ya ha llegado; la enviada hace más tiempo, primero.
+  seguimientosPendientes() {
+    const ahora = this.clock();
+    return this.db.prepare(`SELECT l.id, l.name, l.municipality, l.sector, l.website, l.phone, l.status, a.score, a.blocked, a.analyzed_at, s.enviado FROM seguimientos s JOIN leads l ON l.id=s.lead_id
+      LEFT JOIN analyses a ON a.id = (SELECT id FROM analyses WHERE lead_id=l.id ORDER BY analyzed_at DESC, id DESC LIMIT 1)
+      WHERE s.resultado IS NULL AND l.status NOT IN ('suppressed','rejected') ORDER BY s.enviado, l.id`).all()
+      .filter((r) => diasLaborablesDesde(r.enviado, ahora) >= 3).map((r) => ({ ...r, blocked: r.blocked === 1 }));
   }
   // Web comprobada a mano: la dirección buena (http/https) o null si de verdad no tiene.
   setWebsite(id, web) {
@@ -265,6 +305,7 @@ export class CRM {
       if (status === 'suppressed') {
         this.db.prepare('DELETE FROM consentimientos WHERE lead_id=?').run(id);
         this.db.prepare('DELETE FROM demos WHERE lead_id=?').run(id);
+        this.db.prepare('DELETE FROM seguimientos WHERE lead_id=?').run(id);
       }
       this.db.prepare('INSERT INTO activities(lead_id,actor,status,created_at) VALUES(?,?,?,?)').run(id,actor,status,date(this.clock()));
       this.db.exec('COMMIT');

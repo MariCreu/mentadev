@@ -92,7 +92,7 @@ test('migración desde la versión 4', (t) => {
   viejo.importBatch('manual', [{ name: 'Antigua', municipality: 'Benidorm', province: '03', sector: 'health_clinic', website: null, phone: '966 00 00 01', sourceRecordId: 'm', observedAt: ahora }]);
   viejo.close();
   const crm = new CRM(ruta, () => ahora);
-  assert.equal(crm.db.prepare('PRAGMA user_version').get().user_version, 5);
+  assert.equal(crm.db.prepare('PRAGMA user_version').get().user_version, 6);
   assert.equal(crm.db.prepare("SELECT COUNT(*) n FROM sqlite_master WHERE name='demos'").get().n, 1);
   assert.equal(crm.list().length, 1);
   crm.close();

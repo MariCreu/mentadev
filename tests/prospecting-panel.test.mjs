@@ -47,7 +47,7 @@ test('lista por vistas, de mejor a peor candidata, con teléfono y puntuación',
   assert.equal(clinicas[0].phone, '966 00 00 01');
   assert.equal(clinicas[0].score, 10);
   assert.equal(clinicas[2].score, null);
-  assert.deepEqual(cuentas, { porllamar: 3, interesadas: 0, descartadas: 0, nollamar: 0, pendientes: 1 });
+  assert.deepEqual(cuentas, { porllamar: 3, interesadas: 0, descartadas: 0, nollamar: 0, seguimiento: 0, pendientes: 1 });
 });
 
 test('la ficha trae teléfono, problemas, 3 mejoras y guion', async (t) => {
@@ -72,7 +72,7 @@ test('marcar estados: exige la cabecera del panel y confirmar el "no llamar"', a
   assert.equal(crm.lead(ids.sinWeb).status, 'suppressed');
   assert.equal((await enviar(`${url}/api/clinicas/${ids.sinWeb}/estado`, { estado: 'new' })).status, 400);
   const { cuentas } = await (await fetch(url + '/api/clinicas?vista=todas')).json();
-  assert.deepEqual(cuentas, { porllamar: 1, interesadas: 1, descartadas: 0, nollamar: 1, pendientes: 1 });
+  assert.deepEqual(cuentas, { porllamar: 1, interesadas: 1, descartadas: 0, nollamar: 1, seguimiento: 0, pendientes: 1 });
 });
 
 test('buscar sin clave de Google da un error claro; con la búsqueda vacía, también', async (t) => {
@@ -188,4 +188,29 @@ test('el detalle incluye el email que publica su web, para confirmarlo en la lla
   assert.equal(f.emailWeb, 'info@lenta.example');
   const otra = await (await fetch(`${url}/api/clinicas/${ids.sinWeb}`)).json();
   assert.equal('emailWeb' in otra.ficha, false);
+});
+
+test('seguimiento: enviado y resultado piden x-panel y el sí previo', async (t) => {
+  const { url, crm, ids } = await preparar(t);
+  const ruta = `${url}/api/clinicas/${ids.sinWeb}`;
+  assert.equal((await enviar(ruta + '/enviado', {}, {})).status, 403);
+  assert.equal((await enviar(ruta + '/resultado', { resultado: 'quiere' }, {})).status, 403);
+  const sin = await enviar(ruta + '/enviado', {});
+  assert.equal(sin.status, 400);
+  assert.match((await sin.json()).error, /sí por teléfono/);
+  assert.equal((await enviar(`${url}/api/clinicas/9999/enviado`, {})).status, 404);
+  crm.registrarSi(ids.sinWeb, { email: 'info@sonrisa.es', quien: 'Marta' });
+  assert.equal((await enviar(ruta + '/resultado', { resultado: 'quiere' })).status, 400);
+  const ok = await enviar(ruta + '/enviado', {});
+  assert.equal(ok.status, 200);
+  const d = await ok.json();
+  assert.equal(d.seguimiento.enviado, ahora);
+  assert.equal(d.ficha.seguimiento.toca, false);
+  assert.equal((await enviar(ruta + '/resultado', { resultado: 'x' })).status, 400);
+  const fin = await (await enviar(ruta + '/resultado', { resultado: 'no_interesa' })).json();
+  assert.equal(fin.seguimiento.resultado, 'no_interesa');
+  assert.equal(fin.clinica.status, 'rejected');
+  const lista = await (await fetch(url + '/api/clinicas?vista=seguimiento')).json();
+  assert.deepEqual(lista.clinicas, []);
+  assert.equal(lista.cuentas.seguimiento, 0);
 });

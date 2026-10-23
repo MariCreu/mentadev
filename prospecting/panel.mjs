@@ -38,9 +38,10 @@ export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
     const analisis = crm.latestAnalysis(id);
     const consentimiento = crm.consentimiento(id) ?? null;
     const demo = crm.demo(id) ?? null;
+    const seguimiento = crm.seguimiento(id);
     const demoPorDefecto = { ...crm.demoPorDefecto(id) };
     demoPorDefecto.tratamientos = [...demoPorDefecto.tratamientos];
-    return { clinica, ficha: ficha(clinica, analisis), consentimiento, email: borradorEmail(clinica, analisis, consentimiento, demo), demo, demoPorDefecto, catalogo: CATALOGO };
+    return { clinica, ficha: ficha(clinica, analisis, seguimiento, demo), consentimiento, seguimiento, email: borradorEmail(clinica, analisis, consentimiento, demo), demo, demoPorDefecto, catalogo: CATALOGO };
   };
   let trabajo = { activo: false, tipo: null, hecho: 0, total: 0, mensaje: '', error: null };
   const lanzar = (tipo, tarea) => {
@@ -116,6 +117,13 @@ export function crearPanel({ crm, clave = null, fetchImpl, pausa = 2000 }) {
           const id = Number(si[1]);
           if (!crm.lead(id)) return responder(404, { error: 'Esa clínica no existe' });
           try { crm.registrarSi(id, { email: datos.email, quien: datos.quien, atencion: datos.atencion }); } catch (error) { return responder(400, { error: error.message }); }
+          return responder(200, detalleDe(id));
+        }
+        const accion = ruta.match(/^\/api\/clinicas\/(\d+)\/(enviado|resultado)$/);
+        if (accion) {
+          const id = Number(accion[1]);
+          if (!crm.lead(id)) return responder(404, { error: 'Esa clínica no existe' });
+          try { if (accion[2] === 'enviado') crm.marcarEnviado(id); else crm.registrarResultado(id, datos.resultado); } catch (error) { return responder(400, { error: error.message }); }
           return responder(200, detalleDe(id));
         }
         const demo = ruta.match(/^\/api\/clinicas\/(\d+)\/demo$/);
