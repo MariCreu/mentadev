@@ -137,7 +137,8 @@ html:not(.js) .md-head-progress{display:none}
 .hv-hora{min-height:2.6em;min-width:3.9em;padding:0 .55em;border-radius:.7em;border:1.5px solid var(--linea-2);background:var(--hoja);color:var(--tinta);font:600 .9em/1 var(--f-txt);font-variant-numeric:tabular-nums;cursor:pointer;transition:background .2s,border-color .2s,color .2s}
 .hv-hora:hover:not(:disabled){border-color:var(--acento)}
 .hv-hora[aria-pressed="true"]{background:var(--acento);border-color:var(--acento);color:#fff}
-.hv-hora:disabled{cursor:default;background:var(--papel);border-color:var(--linea);color:var(--tinta-3);text-decoration:line-through}
+.hv-hora:disabled,.hv-go:disabled{cursor:default}
+.hv-hora.is-ocupada{background:var(--papel);border-color:var(--linea);color:var(--tinta-3);text-decoration:line-through}
 .hv-go{min-height:2.8em;padding:0 1.2em;border:0;border-radius:999px;background:var(--acento);color:#fff;font:600 .95em/1 var(--f-txt);cursor:pointer;box-shadow:0 .25em 0 color-mix(in srgb,var(--acento) 55%,#1F2937)}
 .hv-go:active{transform:translateY(.15em);box-shadow:0 .1em 0 color-mix(in srgb,var(--acento) 55%,#1F2937)}
 .hv-go.is-aviso{animation:hv-aviso .4s}
@@ -582,7 +583,10 @@ footer{border-top:1px solid var(--linea);padding:44px 0 96px}
 .md-steps-count{text-transform:none;letter-spacing:0;font-size:14px}
 
 /* Móvil y agenda del hero: ocultos solo hasta que hero-build.js los coloca (respaldo a 3 s en el <head>) */
-@media (prefers-reduced-motion:no-preference){html.js #demo:not(.is-built) :is(.hv-phone,.hv-agenda){opacity:0}}
+@media (prefers-reduced-motion:no-preference){html.js #demo:not(.is-built) :is(.hv-phone,.hv-agenda){opacity:0}
+  /* El ordenador se ve desde el principio: hasta que el JS lo pinta, sin la reserva hecha (la hará la reserva de muestra) */
+  html.js #demo:not(.is-built) .hv-ok{visibility:hidden}
+  html.js #demo:not(.is-built) .hv-hora.is-ocupada{background:var(--hoja);border-color:var(--linea-2);color:var(--tinta);text-decoration:none}}
 
 /* Cursor acompañante de las demos (solo ratón; el del sistema sigue visible) */
 .cursor-demo{position:fixed;left:0;top:0;z-index:60;pointer-events:none;display:flex;align-items:center;gap:8px;opacity:0;transition:opacity .2s}

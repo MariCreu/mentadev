@@ -38,6 +38,7 @@ function pintarHoras() {
     const h = b.dataset.hora;
     const ocupada = reservadas.has(h);
     b.disabled = ocupada;
+    b.classList.toggle('is-ocupada', ocupada);
     b.setAttribute('aria-pressed', String(h === elegida));
     if (ocupada) b.setAttribute('aria-label', `${h}, reservada`); else b.removeAttribute('aria-label');
   });
@@ -81,6 +82,7 @@ function pintarHero(s, { hecha = false } = {}) {
   $$('.hv-horas').forEach((g) => {
     g.innerHTML = s.reserva.horas.map((h) => `<button type="button" class="hv-hora" aria-pressed="false" data-hora="${h}">${h}</button>`).join('');
   });
+  $$('.hv-go').forEach((b) => { b.disabled = false; }); // sin JS van desactivados
   pintarHoras();
   pintarAgenda();
   ponerAviso(hecha ? `${s.reserva.hecha} a las ${s.reserva.horas[0]}` : '');
@@ -215,10 +217,11 @@ function entrada() {
   iniciado = true;
   grupo?.marcar(sector.id);
   if (!escena) return;
-  const mover = conMovimiento();
+  // Si el respaldo del <head> ya enseñó la maqueta completa (JS tardío), no se deshace la reserva a la vista.
+  const mover = conMovimiento() && !escena.classList.contains('is-built');
   pintarHero(sector, { hecha: !mover });
   escena.classList.add('is-built');
-  if (!mover) return;
+  if (!mover) { autoHecha = true; return; }
   const { gsap } = gsapListo();
   // El H1 es visible desde el inicio; se dibuja el subrayado y aparecen los tiradores de selección.
   if (mark) {
