@@ -4,12 +4,13 @@
 // Precio en céntimos; 0 = "Gratis".
 // `reserva`: la web de ejemplo del hero (horas que ofrece, cómo se llama la entrada nueva en la agenda,
 // el aviso al reservar y, si no vale `web.boton`, el texto del botón de reserva).
+// `web.horario`: el horario que enseña la web de ejemplo de la escena de servicios.
 export const SECTOR_POR_DEFECTO = 'clinica';
 
 export const SECTORES = [
   {
     id: 'clinica', etiqueta: 'Clínica', articulo: 'una clínica', acento: '#22688A',
-    web: { nombre: 'Tu clínica', titular: 'Tu salud, en buenas manos.', boton: 'Pedir cita' },
+    web: { nombre: 'Tu clínica', titular: 'Tu salud, en buenas manos.', boton: 'Pedir cita', horario: 'Lunes a viernes, de 9:00 a 20:00' },
     productos: [{ nombre: 'Valoración inicial', precio: 3000 }, { nombre: 'Sesión de fisioterapia', precio: 4000 }, { nombre: 'Bono de 5 sesiones', precio: 18000 }],
     reserva: { elige: 'Elige hora', horas: ['11:00', '16:00', '18:30'], nueva: 'Nueva cita', hecha: 'Cita reservada' },
     panel: { titulo: 'Citas de hoy', unidad: 'huecos', libres: 3, citas: [
@@ -24,7 +25,7 @@ export const SECTORES = [
   },
   {
     id: 'restaurante', etiqueta: 'Restaurante', articulo: 'un restaurante', acento: '#27725F',
-    web: { nombre: 'Tu restaurante', titular: 'Cocina de casa, mesa reservada.', boton: 'Reservar mesa' },
+    web: { nombre: 'Tu restaurante', titular: 'Cocina de casa, mesa reservada.', boton: 'Reservar mesa', horario: 'Martes a domingo, de 13:00 a 23:30' },
     productos: [{ nombre: 'Menú del día', precio: 1450 }, { nombre: 'Parrillada para dos', precio: 3200 }, { nombre: 'Tarta casera', precio: 450 }],
     reserva: { elige: 'Elige hora', horas: ['14:30', '15:00', '21:30'], nueva: 'Nueva reserva', hecha: 'Mesa reservada' },
     panel: { titulo: 'Reservas de hoy', unidad: 'mesas', libres: 3, citas: [
@@ -39,7 +40,7 @@ export const SECTORES = [
   },
   {
     id: 'estetica', etiqueta: 'Peluquería y estética', articulo: 'una peluquería o centro de estética', acento: '#9A3B6B',
-    web: { nombre: 'Tu salón', titular: 'Tu mejor versión, con cita en un minuto.', boton: 'Reservar cita' },
+    web: { nombre: 'Tu salón', titular: 'Tu mejor versión, con cita en un minuto.', boton: 'Reservar cita', horario: 'Martes a sábado, de 10:00 a 20:00' },
     productos: [{ nombre: 'Corte y peinado', precio: 2200 }, { nombre: 'Color', precio: 4500 }, { nombre: 'Manicura', precio: 1800 }],
     reserva: { elige: 'Elige hora', horas: ['12:30', '17:00', '19:00'], nueva: 'Nueva cita', hecha: 'Cita reservada' },
     panel: { titulo: 'Citas de hoy', unidad: 'huecos', libres: 4, citas: [
@@ -54,7 +55,7 @@ export const SECTORES = [
   },
   {
     id: 'tienda', etiqueta: 'Tienda', articulo: 'una tienda', acento: '#6F5BBF',
-    web: { nombre: 'Tu tienda', titular: 'Lo que te gusta, a un clic.', boton: 'Ver productos' },
+    web: { nombre: 'Tu tienda', titular: 'Lo que te gusta, a un clic.', boton: 'Ver productos', horario: 'Lunes a sábado, de 10:00 a 21:00' },
     productos: [{ nombre: 'Taza de cerámica', precio: 950 }, { nombre: 'Camiseta', precio: 1990 }, { nombre: 'Pack regalo', precio: 2900 }],
     reserva: { elige: 'Recógelo hoy', horas: ['12:00', '17:00', '19:00'], nueva: 'Recogida en tienda', hecha: 'Recogida reservada', boton: 'Reservar recogida' },
     panel: { titulo: 'Pedidos de hoy', unidad: 'envíos', libres: 5, citas: [
@@ -69,7 +70,7 @@ export const SECTORES = [
   },
   {
     id: 'academia', etiqueta: 'Academia', articulo: 'una academia', acento: '#3F49A6',
-    web: { nombre: 'Tu academia', titular: 'Aprende con quien sabe enseñar.', boton: 'Apuntarme' },
+    web: { nombre: 'Tu academia', titular: 'Aprende con quien sabe enseñar.', boton: 'Apuntarme', horario: 'Lunes a jueves, de 16:00 a 21:00' },
     productos: [{ nombre: 'Clase de prueba', precio: 0 }, { nombre: 'Matrícula', precio: 3000 }, { nombre: 'Mensualidad', precio: 7500 }],
     reserva: { elige: 'Clase de prueba', horas: ['16:30', '18:30', '20:00'], nueva: 'Clase de prueba', hecha: 'Plaza reservada' },
     panel: { titulo: 'Clases de hoy', unidad: 'plazas', libres: 6, citas: [
@@ -84,7 +85,7 @@ export const SECTORES = [
   },
   {
     id: 'otro', etiqueta: 'Otro', articulo: 'un negocio', acento: '#1F2937',
-    web: { nombre: 'Tu negocio', titular: 'Tu negocio, por fin en internet.', boton: 'Contactar' },
+    web: { nombre: 'Tu negocio', titular: 'Tu negocio, por fin en internet.', boton: 'Contactar', horario: 'Lunes a viernes, de 9:00 a 18:00' },
     productos: [{ nombre: 'Servicio básico', precio: 5000 }, { nombre: 'Servicio completo', precio: 12000 }, { nombre: 'Bono mensual', precio: 9000 }],
     reserva: { elige: 'Elige hora', horas: ['10:00', '12:30', '18:30'], nueva: 'Nueva cita', hecha: 'Cita reservada', boton: 'Pedir cita' },
     panel: { titulo: 'Agenda de hoy', unidad: 'huecos', libres: 3, citas: [

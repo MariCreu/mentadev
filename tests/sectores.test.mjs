@@ -12,7 +12,7 @@ test('hay 6 sectores con ids fijos y en orden', () => {
 test('cada sector tiene todos sus datos completos', () => {
   for (const s of SECTORES) {
     assert.ok(s.etiqueta && s.articulo && /^#[0-9A-F]{6}$/i.test(s.acento), s.id);
-    assert.ok(s.web.nombre && s.web.titular && s.web.boton, s.id);
+    assert.ok(s.web.nombre && s.web.titular && s.web.boton && s.web.horario, s.id);
     assert.equal(s.productos.length, 3, s.id);
     for (const p of s.productos) assert.ok(p.nombre && Number.isInteger(p.precio) && p.precio >= 0, s.id);
     assert.equal(s.panel.citas.length, 4, s.id);

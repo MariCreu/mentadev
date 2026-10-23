@@ -20,7 +20,8 @@ test('sin JS, la home enseña el sector por defecto (Clínica) y Restaurante va 
   assert.doesNotMatch(sinSelectores, /restaurante/i, 'quedan textos de restaurante fuera de los selectores');
   // Hero: web de ejemplo (ordenador y móvil) y agenda, pintadas con Clínica y con la reserva ya hecha.
   assert.match(html, /<div class="hv" id="demo"[^>]*data-sector="clinica"/);
-  assert.match(html, /<div class="demo-site demo-site-sm" data-sector="clinica"/);
+  assert.match(html, /<div class="sw" data-sector="clinica"/);
+  assert.doesNotMatch(html, /demo-block|serv-measure|>6 secciones<|>editable</, 'queda el esquema antiguo de la web en servicios');
   assert.match(html, /class="hv-url">Web de ejemplo</);
   assert.match(html, /<li class="is-nueva"><time>11:00<\/time><span>Nueva cita/);
   assert.doesNotMatch(html, /titular · 40 px|botón de reserva<|se ve bien en el móvil/, 'quedan las anotaciones técnicas del hero');

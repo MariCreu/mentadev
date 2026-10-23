@@ -1,8 +1,8 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { createSectorState } from '../js/sector-state.js';
+import { createSectorState, debeRestaurar } from '../js/sector-state.js';
 
-const memoria = () => { const m = new Map(); return { getItem: (k) => m.get(k) ?? null, setItem: (k, v) => m.set(k, String(v)) }; };
+const memoria = () => { const m = new Map(); return { getItem: (k) => m.get(k) ?? null, setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k) }; };
 const rota = { getItem() { throw new Error('bloqueado'); }, setItem() { throw new Error('bloqueado'); } };
 
 test('empieza en el inicial y emite al cambiar', () => {
@@ -47,4 +47,37 @@ test('el origen "auto" (autorrecorrido) no cuenta como elección del usuario', (
   const st = createSectorState({ storage: memoria(), target: new EventTarget(), inicial: 'restaurante' });
   st.set('clinica', 'auto');
   assert.equal(st.elegido(), false);
+});
+
+const ORIGEN = 'https://mentadev.com';
+test('al recargar no se recupera el sector guardado', () => {
+  assert.equal(debeRestaurar({ tipo: 'reload', referrer: ORIGEN + '/cuanto-cuesta-una-web', origen: ORIGEN }), false);
+});
+
+test('al entrar desde fuera o sin referrer, la home empieza en el sector por defecto', () => {
+  assert.equal(debeRestaurar({ tipo: 'navigate', referrer: '', origen: ORIGEN }), false);
+  assert.equal(debeRestaurar({ tipo: 'navigate', referrer: 'https://www.google.com/', origen: ORIGEN }), false);
+  assert.equal(debeRestaurar({ tipo: 'navigate', referrer: 'no es una url', origen: ORIGEN }), false);
+  assert.equal(debeRestaurar(), false);
+});
+
+test('se recupera al volver desde otra página de la web, con enlace o con «Atrás»', () => {
+  assert.equal(debeRestaurar({ tipo: 'navigate', referrer: ORIGEN + '/privacidad', origen: ORIGEN }), true);
+  assert.equal(debeRestaurar({ tipo: 'back_forward', referrer: '', origen: ORIGEN }), true);
+});
+
+test('sin restaurar empieza en el inicial y olvida lo guardado', () => {
+  const storage = memoria();
+  createSectorState({ storage, target: new EventTarget() }).set('restaurante');
+  const st = createSectorState({ storage, target: new EventTarget(), restaurar: false });
+  assert.equal(st.get(), 'clinica');
+  assert.equal(st.elegido(), false);
+  assert.equal(storage.getItem('md-sector'), null);
+  // Tras recargar, lo elegido de nuevo vuelve a recordarse.
+  st.set('academia');
+  assert.equal(createSectorState({ storage, target: new EventTarget() }).get(), 'academia');
+});
+
+test('sin restaurar y con sessionStorage bloqueado no falla', () => {
+  assert.equal(createSectorState({ storage: rota, target: new EventTarget(), restaurar: false }).get(), 'clinica');
 });

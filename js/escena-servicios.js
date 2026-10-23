@@ -26,7 +26,7 @@ const pintarCarrito = () => {
 
 function pintar(s) {
   sector = s;
-  const web = seccion.querySelector('.mock-web .demo-site');
+  const web = seccion.querySelector('.mock-web .sw');
   if (web) pintarSitio(web, s);
   seccion.querySelectorAll('.mock-shop [data-f="nombre"]').forEach((el) => { el.textContent = s.web.nombre; });
   seccion.querySelector('.mock-shop').style.setProperty('--acento', s.acento);
@@ -94,7 +94,7 @@ function activar(modo, animar) {
   if (anterior && anterior !== nuevo) gsap.fromTo(anterior, { autoAlpha: 1 }, { autoAlpha: 0, duration: 0.25, clearProps: 'all' });
   const copia = nuevo.querySelector('.serv-copy');
   gsap.fromTo(copia.children, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out', clearProps: 'transform,opacity' });
-  if (modo === 'web') gsap.fromTo(nuevo.querySelectorAll('.demo-block, .serv-measure'), { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.07, ease: 'back.out(1.6)', clearProps: 'transform,opacity' });
+  if (modo === 'web') gsap.fromTo(nuevo.querySelectorAll('.sw-sec'), { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.07, ease: 'back.out(1.6)', clearProps: 'transform,opacity' });
   if (modo === 'tienda') gsap.fromTo(nuevo.querySelectorAll('.shop-grid li'), { y: 36, rotation: (i) => [-5, 3, -2][i], opacity: 0 }, { y: 0, rotation: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'back.out(1.5)', clearProps: 'transform,opacity' });
   if (modo === 'app') {
     gsap.fromTo(nuevo.querySelector('.mock-app'), { scaleY: 0.85, opacity: 0, transformOrigin: '50% 0%' }, { scaleY: 1, opacity: 1, duration: 0.45, ease: 'power3.out', clearProps: 'transform,opacity' });
@@ -145,7 +145,7 @@ function escenaFijada(g, ctx) {
 
 function entradasMovil(g) {
   const { gsap } = g;
-  const ts = pasos.map((p) => gsap.from(p.querySelectorAll('.demo-block, .shop-grid li, .app-list li, .app-slot'), {
+  const ts = pasos.map((p) => gsap.from(p.querySelectorAll('.sw-sec, .shop-grid li, .app-list li, .app-slot'), {
     y: 24, opacity: 0, duration: 0.5, stagger: 0.06, ease: 'back.out(1.4)', clearProps: 'transform,opacity',
     scrollTrigger: { trigger: p.querySelector('.serv-visual'), start: 'top 85%', once: true },
   }));

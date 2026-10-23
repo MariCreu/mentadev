@@ -11,14 +11,20 @@ const picker = document.querySelector('.hero-picker');
 const live = document.querySelector('.demo-live');
 const mark = document.querySelector('.hero-mark');
 
-// Pinta textos y color de un sector en una web de ejemplo (sin animación).
-// La usa la escena de servicios para su maqueta.
+// Pinta textos, servicios y color de un sector en una web de ejemplo (sin animación).
+// La usa la escena de servicios para su web de ejemplo (portada, servicios, horario y buscador).
+export const dominioDe = (nombre) => `${nombre.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().replace(/[^a-z0-9]/g, '')}.es`;
 export function pintarSitio(contenedor, sector) {
   contenedor.dataset.sector = sector.id;
   contenedor.style.setProperty('--acento', sector.acento);
-  for (const campo of ['nombre', 'titular', 'boton']) {
+  for (const campo of ['nombre', 'titular', 'boton', 'horario']) {
     contenedor.querySelectorAll(`[data-f="${campo}"]`).forEach((el) => { el.textContent = sector.web[campo]; });
   }
+  contenedor.querySelectorAll('[data-f="dominio"]').forEach((el) => { el.textContent = dominioDe(sector.web.nombre); });
+  contenedor.querySelectorAll('.sw-serv li').forEach((li, i) => {
+    const p = sector.productos[i];
+    li.innerHTML = `<span>${p.nombre}</span><b>${formatearPrecio(p.precio)}</b>`;
+  });
   if (contenedor.getAttribute('role') === 'img') contenedor.setAttribute('aria-label', `Web de ejemplo para ${sector.articulo}`);
 }
 
