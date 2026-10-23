@@ -57,6 +57,8 @@ demo, el borrador del email lleva el enlace en su propia línea y el aviso de qu
 demo, el email no cambia y el panel recuerda prepararla. En la llamada, si sale, pregunta qué
 tratamientos hacen para marcarlos.
 
+Seguimiento: tras enviar el email a mano desde Gmail, el botón «Email enviado» guarda la fecha (tabla `seguimientos`, se borra al excluir la clínica). A los 3 días laborables (lunes a viernes, sin festivos) sin respuesta, la clínica sale en la pestaña «Seguimiento» con un guion corto; el resultado (ha contestado, quiere la web, no le interesa) cierra el aviso, y «No le interesa» la pasa a descartadas.
+
 ## Probar y usar
 
 Desde la raíz del repositorio:
