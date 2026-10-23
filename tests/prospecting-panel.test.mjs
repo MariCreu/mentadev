@@ -180,3 +180,12 @@ test('guardar la demo sin ningún tratamiento da 400', async (t) => {
   assert.equal(r.status, 400);
   assert.match((await r.json()).error, /Marca al menos un tratamiento/);
 });
+
+test('el detalle incluye el email que publica su web, para confirmarlo en la llamada', async (t) => {
+  const { url, crm, ids } = await preparar(t);
+  crm.saveAnalysis(ids.conWeb, { url: 'http://lenta.example/', signals: { reachable: true, https: false, emailWeb: 'info@lenta.example' } }, { score: 4, problems: ['inseguro', 'cita'] });
+  const { ficha: f } = await (await fetch(`${url}/api/clinicas/${ids.conWeb}`)).json();
+  assert.equal(f.emailWeb, 'info@lenta.example');
+  const otra = await (await fetch(`${url}/api/clinicas/${ids.sinWeb}`)).json();
+  assert.equal('emailWeb' in otra.ficha, false);
+});

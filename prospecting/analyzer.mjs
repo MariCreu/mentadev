@@ -1,5 +1,6 @@
 // Revisa solo la portada de la web de una clínica. Guarda señales técnicas (sí/no, tiempos,
-// año del pie): nunca emails, teléfonos, nombres de personas ni texto copiado de la página.
+// año del pie): ni teléfonos, nombres de personas ni texto copiado de la página. Única excepción: un
+// email de contacto que la propia clínica publica en su portada (`emailWeb`), solo para confirmarlo en la llamada.
 export const USER_AGENT = 'MentaDevRevision/1.0 (+https://mentadev.com)';
 const MAX_BYTES = 2_000_000;
 const TIMEOUT_MS = 15_000;
@@ -31,10 +32,46 @@ function metaContent(html, name) {
   return tag ? attr(tag, 'content') : '';
 }
 
+const EMAIL = /[a-z0-9][a-z0-9._%+-]*@[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}/gi;
+const EMAIL_BASURA = /\.(png|jpe?g|gif|webp|svg|avif|css|js|woff2?)$|@\d+x\b|@(example|domain|email|yourdomain|tudominio|dominio)\.|sentry|wixpress|u003e|no-?reply/i;
+
+function decodeEntities(text) {
+  return text
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+    .replace(/&(commat|amp|period);/gi, (_, n) => ({ commat: '@', amp: '&', period: '.' })[n.toLowerCase()]);
+}
+
+const dominioRegistrable = (host) => {
+  const parts = host.toLowerCase().replace(/^www\./, '').split('.');
+  const n = parts.length >= 3 && parts.at(-1).length === 2 && ['com', 'org', 'net', 'edu', 'gob', 'nom'].includes(parts.at(-2)) ? 3 : 2;
+  return parts.slice(-n).join('.');
+};
+
+// Emails que la portada publica: enlaces mailto y texto visible. Elige uno solo: el del dominio de la
+// propia web, si no el primer mailto, si no el primero del texto. Sin peticiones extra.
+export function extractEmailWeb(html, host) {
+  const valido = (raw) => {
+    const email = raw.trim().toLowerCase().replace(/^[^a-z0-9]+|[.,;:)\]]+$/g, '');
+    return email.length <= 60 && /^[a-z0-9][a-z0-9._%+-]*@[a-z0-9-]+(?:\.[a-z0-9-]+)*\.[a-z]{2,}$/.test(email) && !EMAIL_BASURA.test(email) ? email : null;
+  };
+  const mailtos = [...html.matchAll(/href\s*=\s*["']\s*mailto:([^"']*)["']/gi)].flatMap((m) => {
+    let value = decodeEntities(m[1]);
+    try { value = decodeURIComponent(value); } catch { /* se deja tal cual */ }
+    return value.split('?')[0].split(',').map(valido).filter(Boolean);
+  });
+  const visible = decodeEntities(html.replace(/<(script|style|noscript)[\s\S]*?<\/\1>/gi, ' ').replace(/<!--[\s\S]*?-->/g, ' ').replace(/<[^>]*>/g, ' '))
+    .replace(/\s*(?:\[\s*at\s*\]|\(\s*at\s*\)|\(\s*arroba\s*\)|\[\s*arroba\s*\])\s*/gi, '@');
+  const texto = (visible.match(EMAIL) ?? []).map(valido).filter(Boolean);
+  const propio = host ? dominioRegistrable(host) : null;
+  return [...mailtos, ...texto].find((e) => propio && dominioRegistrable(e.split('@')[1]) === propio) ?? mailtos[0] ?? texto[0] ?? null;
+}
+
 export function analyzeHtml(html, { url, ms = null, pageSpeed = null }) {
   const final = new URL(url);
   const years = [...html.matchAll(/(?:©|&copy;|&#169;|copyright)\D{0,40}?((?:19|20)\d{2})(?:\s*[-–]\s*((?:19|20)\d{2}))?/gi)]
     .map(m => Number(m[2] ?? m[1]));
+  const emailWeb = extractEmailWeb(html, final.hostname);
   return {
     reachable: true,
     https: final.protocol === 'https:',
@@ -50,6 +87,7 @@ export function analyzeHtml(html, { url, ms = null, pageSpeed = null }) {
     ms,
     kb: Math.round(Buffer.byteLength(html) / 1024),
     pageSpeed,
+    ...(emailWeb ? { emailWeb } : {}),
   };
 }
 

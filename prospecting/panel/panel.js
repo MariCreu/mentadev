@@ -159,6 +159,8 @@ function pintar({ clinica, ficha, consentimiento, email, demo, demoPorDefecto, c
   $('#f-sin-tel').hidden = Boolean(clinica.phone);
   if (clinica.phone) { tel.textContent = clinica.phone; tel.href = enlaceTel(clinica.phone); }
   $('#f-movil').hidden = !esMovil(clinica.phone);
+  $('#f-email-web').hidden = !ficha.emailWeb;
+  $('#f-email-web').textContent = ficha.emailWeb ? `Email en su web: ${ficha.emailWeb} (confírmalo en la llamada)` : '';
 
   const web = $('#f-web');
   web.hidden = !clinica.website;
@@ -377,6 +379,7 @@ $('#form-web').addEventListener('submit', (e) => { e.preventDefault(); guardarWe
 $('#han-dicho-si').addEventListener('click', () => {
   $('#si-nombre').textContent = fichaActual?.clinica.name ?? '';
   $('#form-si').reset();
+  $('#si-email').value = fichaActual?.ficha?.emailWeb ?? '';
   $('#dialogo-si').showModal();
 });
 $('#si-cancelar').addEventListener('click', () => $('#dialogo-si').close());

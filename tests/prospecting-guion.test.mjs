@@ -90,3 +90,18 @@ test('con la web de ejemplo: la oferta sin web la menciona y se avisa de pregunt
   assert.match(c.pasos[1].frases.join(' '), /una idea de cómo podría verse una web nueva/);
   for (const f of [s, c]) assert.ok(f.antes.includes('Si sale en la conversación, pregunta qué tratamientos hacen: los marcarás en su web de ejemplo.'));
 });
+
+test('si su web publica un email, el guion y la ficha lo proponen para confirmarlo', () => {
+  const con = { ...revisada, signals: { emailWeb: 'info@cordent.es' } };
+  const f = ficha(conWeb, con);
+  assert.equal(f.emailWeb, 'info@cordent.es');
+  assert.ok(f.antes.includes('En su web aparece el email info@cordent.es: confírmalo en la llamada.'));
+  const si = f.pasos.find((p) => p.titulo === 'Si dicen que sí').frases;
+  assert.ok(si.includes('¡Genial! ¿Os lo mandamos a info@cordent.es? ¿Y a la atención de quién?'));
+  assert.ok(si.some((l) => /letra a letra/.test(l)));
+  assert.match(report(conWeb, con), /Email en su web: info@cordent\.es/);
+  const sin = ficha(conWeb, revisada);
+  assert.equal('emailWeb' in sin, false);
+  assert.ok(sin.pasos.find((p) => p.titulo === 'Si dicen que sí').frases.includes('¡Genial! ¿A qué email os lo mandamos? ¿Y a la atención de quién?'));
+  assert.doesNotMatch(report(conWeb, revisada), /Email en su web/);
+});

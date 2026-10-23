@@ -39,7 +39,7 @@ volver a llamar (con confirmación; no se deshace).
 ### Del sí al email
 
 El guion está pensado para recepción: se ofrece la revisión gratis (o una web de ejemplo con su nombre y la propuesta,
-si no tienen web) y se pide el email. Con «Han dicho que sí» se apunta el email, quién lo ha dado y cuándo
+si no tienen web) y se pide el email (si su web publica uno, la ficha lo muestra, lo propone en el guion y precarga el campo de «Han dicho que sí»: hay que confirmarlo en la llamada; sin el sí por teléfono no se envía nada). Con «Han dicho que sí» se apunta el email, quién lo ha dado y cuándo
 (tabla `consentimientos`, LSSI art. 21: comunicación solicitada). La ficha prepara el borrador
 (`borradorEmail` en `report.mjs`) para abrirlo en el correo o copiarlo; se revisa y se envía a
 mano. Si luego piden no llamar más, se borra su email. «No tiene web» / «He encontrado su web»
@@ -120,8 +120,10 @@ y 2 s de pausa entre webs. No sigue enlaces ni abre otras páginas. Solo guarda
 señales técnicas en la tabla `analyses`: conexión segura, adaptación al móvil,
 título y descripción, cita online, formulario o WhatsApp (solo si existen),
 textos legales, año del pie, gestor de contenidos, tiempo de respuesta y peso.
-De la web nunca se guardan emails, teléfonos, nombres ni texto de la página; `crm.mjs` rechaza
-cualquier otra señal.
+De la web nunca se guardan teléfonos, nombres ni texto de la página. Única excepción: un email de contacto
+que la clínica publica en su portada (`emailWeb`: `mailto:` o texto visible; prefiere el de su dominio),
+que se guarda con la revisión, se borra con ella y solo sirve para confirmarlo por teléfono (ver «Del sí
+al email»). `crm.mjs` rechaza cualquier otra señal.
 
 Cada problema suma puntos (tabla `PROBLEMS` de `analyzer.mjs`): cuanto peor está la
 web, más alta la puntuación (máximo 10). `report.mjs` genera las 3 mejoras de más
@@ -195,7 +197,7 @@ el paso en `migrate()` de `crm.mjs`.
 ## Protección de datos y contacto en España
 
 Política deliberadamente restrictiva: esta fase no almacena destinos de contacto
-ni consentimientos y no puede enviar email, WhatsApp, SMS o llamadas. No conectar
+ni consentimientos (salvo el email que la propia clínica publica en su web, solo para confirmarlo en la llamada) y no puede enviar email, WhatsApp, SMS o llamadas. No conectar
 el binding `EMAIL` del formulario al CRM. Un email publicado, una ficha pública,
 interés legítimo para tratar datos o marcar `qualified` no autorizan por sí solos
 una comunicación electrónica comercial.

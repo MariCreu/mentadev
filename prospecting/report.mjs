@@ -23,6 +23,7 @@ export function ficha(lead, analysis) {
   const base = {
     estado: 'revisada', score: analysis.score, revisada: analysis.analyzed_at?.slice(0, 10) ?? null, sinWeb,
     problemas: analysis.problems.map(key => PROBLEMS[key].reason), mejoras, detalle,
+    ...(analysis.signals?.emailWeb ? { emailWeb: analysis.signals.emailWeb } : {}),
   };
   if (!mejoras.length) return { ...base, pasos: [], guion: [], preguntas: [], apuros: [], antes: [], revision: '' };
 
@@ -55,7 +56,7 @@ export function ficha(lead, analysis) {
     {
       titulo: 'Si dicen que sí',
       frases: [
-        `¡Genial! ¿A qué email os lo mandamos? ¿Y a la atención de quién?`,
+        base.emailWeb ? `¡Genial! ¿Os lo mandamos a ${base.emailWeb}? ¿Y a la atención de quién?` : `¡Genial! ¿A qué email os lo mandamos? ¿Y a la atención de quién?`,
         '(Repite el email letra a letra para no equivocarte.)',
         `Perfecto: os llegará de MentaDev${sinWeb ? '' : ' en 48 h laborables'}. ¿Me dices tu nombre, para saber con quién he hablado?`,
         'Muchas gracias, que vaya muy bien el día.',
@@ -118,6 +119,7 @@ export function ficha(lead, analysis) {
         ? 'Ya has comprobado que no tiene web: ofréceles una web entera, no una revisión.'
         : `Busca «${lead.name} ${lead.municipality}» en Google. Si encuentras una web suya, pulsa «He encontrado su web» y el guion se adapta.`)
       : `Abre su web un minuto en el móvil (${lead.website}): así hablas de lo que has visto con tus propios ojos.`,
+    base.emailWeb ? `En su web aparece el email ${base.emailWeb}: confírmalo en la llamada.` : null,
     esMovil(lead.phone) ? 'Su teléfono es un móvil: puede ser de una persona (autónomo). Antes de llamar, consulta la Lista Robinson.' : null,
     'Si sale en la conversación, pregunta qué tratamientos hacen: los marcarás en su web de ejemplo.',
     'No tienes que vender nada por teléfono: el objetivo de la llamada es solo conseguir su email para mandarles lo que les ofreces.',
@@ -135,6 +137,7 @@ export function report(lead, analysis) {
   const lines = [
     `${lead.name} (${lead.municipality}) · ${lead.website ?? 'sin web'}`,
     `Teléfono: ${lead.phone ?? 'no figura en Google: búscalo en su ficha de Google Maps'}`,
+    ...(f.emailWeb ? [`Email en su web: ${f.emailWeb} (confírmalo en la llamada)`] : []),
     `Puntuación como cliente potencial: ${f.score}/10 · revisada el ${f.revisada}`,
     `Problemas: ${f.problemas.join(', ') || 'ninguno claro'}`,
     '',

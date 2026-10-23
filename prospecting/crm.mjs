@@ -27,7 +27,7 @@ function url(value, protocols = ['https:']) {
 const SIGNALS = {
   website: 'boolean', reachable: 'boolean', https: 'boolean', viewport: 'boolean', title: 'boolean', description: 'boolean',
   booking: 'boolean', form: 'boolean', whatsapp: 'boolean', legal: 'boolean',
-  copyrightYear: 'number', generator: 'string', ms: 'number', kb: 'number', pageSpeed: 'number',
+  copyrightYear: 'number', generator: 'string', ms: 'number', kb: 'number', pageSpeed: 'number', emailWeb: 'string',
 };
 function signals(value) {
   if (!value || typeof value !== 'object') throw new Error('Revisión sin señales');
