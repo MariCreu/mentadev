@@ -158,7 +158,7 @@ const fechaCorta = (iso) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(
 const dominio = (web) => web.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 
 // Email para la clínica que ha dicho que sí por teléfono. Se revisa y se envía a mano desde el correo.
-const AVISO_EJEMPLO = 'Las fotos, el horario y la dirección son de ejemplo y los textos, orientativos: es una idea para que veáis cómo quedaría. La adaptaríamos a vuestra clínica con vuestras fotos, tratamientos y datos.';
+const AVISO_EJEMPLO = 'Es solo un mini adelanto, hecho para que os hagáis una idea: las fotos, el horario y la dirección son de muestra. Vuestra web irá mucho más allá, con vuestras fotos, vuestro equipo, vuestros tratamientos bien explicados y todo lo que os haga falta.';
 
 export function borradorEmail(lead, analysis, consentimiento, demo = null) {
   if (!consentimiento || !analysis || analysis.blocked) return null;
@@ -174,23 +174,20 @@ export function borradorEmail(lead, analysis, consentimiento, demo = null) {
   if (sinWeb) {
     return {
       para: consentimiento.email,
-      asunto: demo ? `${demo.nombre}: así podría ser vuestra web (ejemplo gratis)` : `${lead.name}: propuesta de web (gratis y sin compromiso)`,
+      asunto: demo ? `${demo.nombre}: así os verían vuestros próximos pacientes` : `${lead.name}: vuestra web, lista en 7 días`,
       cuerpo: [
         saludo, '',
         ...(demo
-          ? [`Como hablamos por teléfono, os hemos preparado una web de ejemplo para ${demo.nombre}. Abridla en el móvil, que es donde la verán vuestros pacientes:`, '', demo.enlace, '', AVISO_EJEMPLO, '']
-          : [`Como hablamos por teléfono, os mandamos la propuesta para la web de ${lead.name}.`, '']),
-        'Hoy casi todo empieza en internet. Antes de llamar a una clínica, mucha gente la busca en Google para ver qué hace, cómo trabaja y si le transmite confianza. Si no encuentra una web vuestra, solo ve una ficha con un teléfono y unas reseñas, y decide con muy poca información… o acaba eligiendo otra clínica que sí se la da.', '',
-        'Una web propia es vuestra carta de presentación las 24 horas: cuenta quiénes sois, qué tratamientos hacéis y cómo cuidáis a cada paciente, con vuestro nombre y vuestro estilo, no con el de un directorio. Es dejar huella en internet y dar a los futuros pacientes la confianza que necesitan para dar el paso.', '',
-        'Lo que tendría vuestra web:',
-        '- Inicio: quiénes sois, qué tratamientos hacéis y cómo contactar con vosotros.',
-        '- Tratamientos: una sección por cada servicio, explicado de forma sencilla.',
-        '- Equipo y clínica: fotos y presentación, para dar confianza antes de la primera visita.',
-        '- Contacto y cómo llegar: teléfono, WhatsApp, mapa y horario.',
-        '- Textos legales: aviso legal, privacidad y cookies.', '',
-        `Si más adelante os resulta útil, podemos añadir la reserva de citas desde la web, con confirmación de la clínica o como mejor os encaje, o cualquier otra funcionalidad que os haga el día a día más fácil. Pero esta puesta a punto en el mundo web tiene un precio sin sorpresas: ${PRECIO_WEB}, cerrado antes de empezar y en 2 plazos sin intereses. Incluye hasta 6 secciones, adaptación al móvil, preparación para Google, alojamiento del primer año y 2 meses de soporte. El dominio va a vuestro nombre.`,
-        `Plazo: lista en ${PLAZO_WEB} desde que tenemos vuestros textos y fotos (si no los tenéis, os ayudamos). Si no la publicamos en ese plazo, os devolvemos el primer plazo.`, '',
-        'Si os encaja o queréis más información, respondednos a este email. Sin compromiso: si no es el momento, no pasa nada.',
+          ? [`Como os contamos por teléfono, aquí tenéis un adelanto de lo que podría ser la web de ${demo.nombre}. Abridla en el móvil: es ahí donde os buscan vuestros pacientes.`, '', demo.enlace, '', AVISO_EJEMPLO, '']
+          : [`Como os contamos por teléfono, os mandamos la propuesta para la web de ${lead.name}.`, '']),
+        'Antes de pedir cita, mucha gente busca la clínica en Google. Lo que encuentra en ese momento decide si llama… o si sigue buscando. Hoy, quien os busca solo ve una ficha con un teléfono. Con una web propia, ese primer vistazo juega a vuestro favor: transmitís confianza antes incluso de que suene el teléfono.', '',
+        'Lo que os llevaríais:',
+        '- Una web con vuestro nombre, que se ve perfecta en el móvil y en el ordenador.',
+        '- Quiénes sois, vuestro equipo y vuestros tratamientos, explicados con palabras sencillas.',
+        '- Preparada para que os encuentren en Google, con el mapa, el horario y el teléfono a un toque.',
+        '- Y cuando os apetezca, más: reserva de citas con confirmación de la clínica o lo que os haga el día a día más fácil.', '',
+        `Todo por ${PRECIO_WEB}, con precio cerrado y en 2 plazos sin intereses. Lista en ${PLAZO_WEB} desde que tengamos vuestros textos y fotos (os ayudamos con ellos), con el alojamiento del primer año y 2 meses de soporte incluidos. Si no está publicada en ese plazo, os devolvemos el primer plazo. El dominio, a vuestro nombre.`, '',
+        '¿Os la imagináis ya con vuestras fotos? Respondednos a este email y nos ponemos con ella. Y si no es el momento, sin problema.',
         ...pie,
       ].join('\n'),
     };
