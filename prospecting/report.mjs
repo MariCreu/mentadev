@@ -6,6 +6,8 @@ import { PROBLEMS } from './analyzer.mjs';
 const DE_SECTOR = { health_clinic: 'de la clínica', aesthetic_clinic: 'del centro de estética' };
 const PRECIO_WEB = '249 € + IVA';
 const PLAZO_WEB = '7 días laborables';
+// El mismo número que WHATSAPP_NUMBER de site.js. Si cambia allí, cambiarlo aquí.
+const WHATSAPP_MENTADEV = '604 52 52 65';
 
 export function improvements(problems) {
   return problems.slice(0, 3).map(key => PROBLEMS[key].fix);
@@ -221,7 +223,7 @@ export function borradorEmail(lead, analysis, consentimiento, demo = null) {
         '- Preparada para que os encuentren en Google, con el mapa, el horario y el teléfono a un toque.',
         '- Y cuando os apetezca, más: reserva de citas con confirmación de la clínica o lo que os haga el día a día más fácil.', '',
         `Todo por ${PRECIO_WEB}, con precio cerrado y en 2 plazos sin intereses. Lista en ${PLAZO_WEB} desde que tengamos vuestros textos y fotos (os ayudamos con ellos), con el alojamiento del primer año y 2 meses de soporte incluidos. Si no está publicada en ese plazo, os devolvemos el primer plazo. El dominio, a vuestro nombre.`, '',
-        '¿Os la imagináis ya con vuestras fotos? Respondednos a este email y nos ponemos con ella. Y si no es el momento, sin problema.',
+        `¿Os la imagináis ya con vuestras fotos? Respondednos a este email o escribidnos por WhatsApp al ${WHATSAPP_MENTADEV} y nos ponemos con ella. Y si no es el momento, sin problema.`,
         ...pie,
       ].join('\n'),
     };
