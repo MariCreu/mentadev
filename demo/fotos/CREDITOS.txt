@@ -9,8 +9,8 @@ contacto.webp | Miguel Hernández | https://unsplash.com/photos/MxTFmj8jWUQ | Un
 dental-ambiente.webp | Ozkan Guner | https://unsplash.com/photos/Ecky4VA_iss | Unsplash License
 dental-clinica.webp | Kari Bjorn Photography | https://unsplash.com/photos/Fdku_oMrDvk | Unsplash License
 dental-detalle.webp | Ozkan Guner | https://unsplash.com/photos/kEbwxfC33qY | Unsplash License
-dental-portada-movil.webp | Ozkan Guner | https://unsplash.com/photos/p7eQ6uf2KSE | Unsplash License
-dental-portada.webp | Ozkan Guner | https://unsplash.com/photos/p7eQ6uf2KSE | Unsplash License
+dental-portada-movil.webp | Benyamin Bohlouli | https://unsplash.com/photos/e7MJLM5VGjY | Unsplash License
+dental-portada.webp | Benyamin Bohlouli | https://unsplash.com/photos/e7MJLM5VGjY | Unsplash License
 estetica-ambiente.webp | Look Studio | https://unsplash.com/photos/HtXyytr9304 | Unsplash License
 estetica-clinica.webp | Marios Gkortsilas | https://unsplash.com/photos/-i6kaig732w | Unsplash License
 estetica-detalle.webp | Christin Hume | https://unsplash.com/photos/0MoF-Fe0w0A | Unsplash License

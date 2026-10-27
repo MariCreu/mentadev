@@ -172,7 +172,7 @@ export const CONTENIDO = {
       },
     },
     fotos: {
-      portada: portada('dental-portada', 'Sillón dental bajo la luz de la lámpara en un gabinete actual', 'Dental chair under the surgery light in a modern treatment room'),
+      portada: portada('dental-portada', 'Gabinete dental luminoso y moderno con sillón blanco y turquesa junto a un ventanal', 'Bright, modern dental surgery with a white and teal chair beside a large window'),
       clinica: foto('dental-clinica', 'Gabinete dental blanco y luminoso con suelo de madera', 'Bright white dental surgery with a wooden floor'),
       ambiente: foto('dental-ambiente', 'Instrumental dental colgado junto al sillón, en penumbra', 'Dental handpieces hanging beside the chair in soft light'),
       detalle: foto('dental-detalle', 'Férulas transparentes sobre una mesa con sombras de hojas', 'Clear aligners on a table with leaf shadows'),

@@ -35,7 +35,7 @@
   --paso-fondo:#FFFFFF;
   --paso-borde:rgba(29,106,89,.35);
   --sombra:0 1.5rem 3rem -1.75rem rgba(19,32,30,.35);
-  --cab-fondo:rgba(243,246,244,.86);
+  --cab-fondo:#F3F6F4;
   --cab-tinta:#13201E;
   --cab-tinta-2:#3E4D4A;
   --cab-borde:rgba(19,32,30,.1);
@@ -66,8 +66,8 @@ section[tabindex="-1"]:focus{outline:none}
 .franja .ico{margin-top:.05rem;color:var(--menta)}
 
 /* ---------- Cabecera: transparente sobre la foto; con cristal al bajar ---------- */
-.cab{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:1rem;height:var(--cab);margin-bottom:calc(-1 * var(--cab));padding:0 var(--lado);color:var(--blanco);transition:background-color .35s,border-color .35s,backdrop-filter .35s;border-bottom:1px solid transparent}
-.cab.solida{color:var(--cab-tinta);background:var(--cab-fondo);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border-bottom-color:var(--cab-borde)}
+.cab{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:1rem;height:var(--cab);margin-bottom:calc(-1 * var(--cab));padding:0 var(--lado);color:var(--blanco);transition:background-color .35s,border-color .35s,color .35s,box-shadow .35s;border-bottom:1px solid transparent}
+.cab.solida{color:var(--cab-tinta);background:var(--cab-fondo);box-shadow:0 1px 14px rgba(19,32,30,.07);border-bottom-color:var(--cab-borde)}
 .cab.solida .idioma{border-color:var(--cab-borde);background:transparent}
 .cab.solida .idioma button{color:var(--cab-tinta-2)}
 .cab.solida .idioma button[aria-pressed="true"]{background:var(--cab-pulsado);color:var(--cab-pulsado-tinta)}
@@ -277,6 +277,7 @@ section[tabindex="-1"]:focus{outline:none}
 }
 
 /* ---------- Movimiento: entrada de la portada, Ken Burns y apariciones al bajar ---------- */
+@media (prefers-reduced-motion:reduce){.cab{transition:none}}
 @media (prefers-reduced-motion:no-preference){
   html{scroll-behavior:smooth}
   .portada-foto img{animation:ken-burns 26s ease-in-out infinite alternate}

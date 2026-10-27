@@ -271,11 +271,16 @@ function montarCabecera() {
   if ('ResizeObserver' in window) {
     new ResizeObserver(() => document.documentElement.style.setProperty('--franja-h', franja.offsetHeight + 'px')).observe(franja);
   }
-  let pasada = false;
+  // Sin JS la cabecera queda clara y sólida (clase «solida» en el HTML); con JS pasa a transparente solo sobre la portada oscura.
+  let pasada = !('IntersectionObserver' in window);
   const pintar = () => {
     cab.classList.toggle('solida', pasada && !menu.open);
     cab.classList.toggle('menu-abierto', menu.open);
   };
+  cab.style.transition = 'none';
+  pintar();
+  void cab.offsetWidth;
+  cab.style.transition = '';
   if ('IntersectionObserver' in window) {
     const alto = () => cab.offsetHeight;
     new IntersectionObserver(([e]) => { pasada = !e.isIntersecting; pintar(); }, { rootMargin: `-${alto() + 40}px 0px 0px 0px` })
