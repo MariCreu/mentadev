@@ -125,3 +125,7 @@ doctor Soler (#29, Benidorm, sin web).
   `demo/` y elección de las fotos (que encajen con cada tipo, con licencia que permita uso
   comercial, y se apunte su origen en un archivo de créditos).
 - Cómo se muestra en el panel (botón, campos editables, copiar enlace, previsualizar).
+
+## Nota 2026-10-27: rediseño cinemático
+
+La demo pasa a una dirección cinemática (portada oscura a pantalla completa, titulares en serif, botones de cristal). Se eligió la página clara: queda un solo tema, sin `?tema=`. El idioma inicial es siempre español (ya no se detecta `navigator.language`); el inglés solo se activa con el botón «EN» y se recuerda en `sessionStorage` durante la sesión. Esto sustituye lo dicho antes sobre el idioma inicial según el navegador.

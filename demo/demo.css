@@ -1,7 +1,6 @@
 /* Demo de web de clínica (mentadev.com/demo/). Estilo propio de clínica, no el de MentaDev.
    Dirección «cinemática»: portada con la foto a pantalla completa, titulares en serif y botones de cristal.
-   Dos temas para el resto de la página, elegidos con ?tema=claro|oscuro (data-tema en <html>):
-   todo lo que cambia entre ellos son las variables del bloque «Temas»; la portada es oscura en los dos. */
+   Portada oscura con la foto y resto de la página en claro (variables en :root). */
 
 @font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url("/assets/fonts/instrument-serif-latin-400-normal.woff2") format("woff2")}
 @font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url("/assets/fonts/instrument-serif-latin-400-italic.woff2") format("woff2")}
@@ -10,7 +9,7 @@
 @font-face{font-family:"Poppins";font-style:normal;font-weight:500;font-display:swap;src:url("/assets/fonts/poppins-latin-500-normal.woff2") format("woff2")}
 
 :root{
-  /* Fijos: la portada, los botones y el cristal son iguales en los dos temas. */
+  /* Portada, botones y cristal (oscuros). */
   --noche:#0C1719;
   --menta:#8FDCC9;            /* acento sobre oscuro: kicker, cursiva del titular, «Llamar» */
   --menta-tinta:#06221B;      /* texto sobre --menta */
@@ -25,29 +24,7 @@
   --cab:4.25rem;
   --franja-h:0px;
   --curva:cubic-bezier(.2,.7,.15,1);
-}
-
-/* ---------- Temas (solo variables: quitar uno es borrar su bloque) ---------- */
-:root,[data-tema="oscuro"]{
-  --fondo:#0F1C1E;
-  --fondo-2:#152628;
-  --tarjeta:rgba(255,255,255,.045);
-  --tinta:#EEF4F2;
-  --tinta-2:#A6BAB5;
-  --linea:rgba(238,244,242,.13);
-  --acento-texto:var(--menta);
-  --paso-fondo:transparent;
-  --paso-borde:rgba(143,220,201,.45);
-  --sombra:0 1.5rem 3rem -1.5rem rgba(0,0,0,.6);
-  --cab-fondo:rgba(10,20,22,.72);
-  --cab-tinta:var(--blanco);
-  --cab-tinta-2:rgba(243,247,246,.82);
-  --cab-borde:rgba(255,255,255,.08);
-  --cab-pulsado:var(--blanco);
-  --cab-pulsado-tinta:var(--noche);
-  color-scheme:dark;
-}
-[data-tema="claro"]{
+  /* Página clara */
   --fondo:#F3F6F4;
   --fondo-2:#E6EEEA;
   --tarjeta:#FFFFFF;
@@ -69,8 +46,7 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--noche)}
-body{margin:0;background:var(--fondo);color:var(--tinta);font:300 1rem/1.7 var(--texto);overflow-x:clip;-webkit-font-smoothing:antialiased}
-[data-tema="claro"] body{font-weight:400}
+body{margin:0;background:var(--fondo);color:var(--tinta);font:400 1rem/1.7 var(--texto);overflow-x:clip;-webkit-font-smoothing:antialiased}
 img{display:block;max-width:100%}
 h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;text-wrap:balance;letter-spacing:-.005em}
 em{font-style:italic}
@@ -81,7 +57,7 @@ button{font:inherit;color:inherit}
 .sprite{position:absolute;width:0;height:0;overflow:hidden}
 .ico{width:1.15em;height:1.15em;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 :focus-visible{outline:2px solid var(--menta);outline-offset:3px;border-radius:6px}
-[data-tema="claro"] main :focus-visible{outline-color:var(--acento-texto)}
+main :focus-visible{outline-color:var(--acento-texto)}
 section[id]{scroll-margin-top:var(--cab)}
 section[tabindex="-1"]:focus{outline:none}
 

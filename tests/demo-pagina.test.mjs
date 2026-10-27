@@ -85,15 +85,21 @@ test('el título de la pestaña sale de COMUNES y sigue el idioma', () => {
   assert.doesNotMatch(js, /Web de ejemplo`/);
 });
 
-test('tema: oscuro por defecto; claro u oscuro con ?tema= y solo cambia variables de CSS', () => {
-  assert.match(leer('demo/index.html'), /<html lang="es" data-tema="oscuro">/);
+test('tema: solo el claro, sin ?tema= ni bloques por tema', () => {
+  assert.doesNotMatch(leer('demo/index.html'), /data-tema/);
   const js = leer('demo/demo.js');
-  assert.match(js, /const TEMAS = \['oscuro', 'claro'\]/);
-  assert.match(js, /searchParams|URLSearchParams/);
+  assert.doesNotMatch(js, /dataset\.tema|TEMAS|searchParams|URLSearchParams|location\.search/);
   const css = leer('demo/demo.css');
-  // Cada bloque de tema solo declara variables (--algo: …), para poder quitar uno sin tocar el resto.
-  for (const tema of ['oscuro', 'claro']) {
-    const bloque = css.match(new RegExp(`\\[data-tema="${tema}"\\]\\{([^}]*)\\}`))[1];
-    for (const decl of bloque.split(';').map((d) => d.trim()).filter(Boolean)) assert.match(decl, /^(--[a-z0-9-]+|color-scheme):/, `${tema}: ${decl}`);
-  }
+  assert.doesNotMatch(css, /data-tema/);
+  assert.match(css, /:root\{[^}]*--fondo:#F3F6F4;[^}]*--tinta:#13201E;[^}]*color-scheme:light/);
+});
+
+test('idioma: siempre español salvo elección explícita guardada; sin detectar el del navegador', () => {
+  const js = leer('demo/demo.js');
+  assert.doesNotMatch(js, /navigator\.language/);
+  const m = js.match(/const idiomaInicial = \(\) => \{[\s\S]*?\n\};/)[0];
+  assert.match(m, /sessionStorage\.getItem\(CLAVE_IDIOMA\)/);
+  assert.match(m, /catch/);
+  assert.match(m, /return "es";/);
+  assert.doesNotMatch(m, /return 'en'|return "en"/);
 });

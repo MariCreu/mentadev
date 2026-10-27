@@ -6,10 +6,6 @@ import { IDIOMAS, COMUNES, CONTENIDO } from './contenido.js';
 
 const CLAVE_IDIOMA = 'demo-idioma';
 const MUNICIPIO_POR_DEFECTO = 'Alicante';
-// Tema del resto de la página (la portada es oscura en los dos). Solo para comparar las dos variantes:
-// ?tema=claro|oscuro. Al elegir uno, se quita esto y el bloque del otro en demo.css.
-const TEMAS = ['oscuro', 'claro'];
-const TEMA_POR_DEFECTO = 'oscuro';
 
 const datos = leerEnlace(location.hash);
 const tipo = datos ? datos.tipo : 'generica';
@@ -36,19 +32,16 @@ const el = (etiqueta, props = {}, ...hijos) => {
   return n;
 };
 
-// ---------- Tema ----------
-const temaPedido = new URLSearchParams(location.search).get('tema');
-document.documentElement.dataset.tema = TEMAS.includes(temaPedido) ? temaPedido : TEMA_POR_DEFECTO;
 document.documentElement.classList.add('js');
 
 // ---------- Idioma ----------
+// Siempre empieza en español; el inglés solo si el visitante lo ha elegido (y se recuerda en la sesión).
 const idiomaInicial = () => {
   try {
     const g = sessionStorage.getItem(CLAVE_IDIOMA);
     if (IDIOMAS.includes(g)) return g;
-  } catch { /* sin almacenamiento: seguimos con el del navegador */ }
-  const nav = String(navigator.language || '').toLowerCase().slice(0, 2);
-  return IDIOMAS.includes(nav) ? nav : 'en';
+  } catch { /* sin almacenamiento: español */ }
+  return "es";
 };
 let idioma = idiomaInicial();
 const T = () => COMUNES[idioma];
