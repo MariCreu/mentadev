@@ -121,7 +121,7 @@ test('migración desde la versión 5 conserva los datos', (t) => {
   crm.db.exec('DROP TABLE seguimientos; PRAGMA user_version = 5');
   crm.close();
   const nuevo = new CRM(ruta, () => VIERNES);
-  assert.equal(nuevo.db.prepare('PRAGMA user_version').get().user_version, 6);
+  assert.equal(nuevo.db.prepare('PRAGMA user_version').get().user_version, 7);
   assert.equal(nuevo.list().length, 2);
   assert.equal(nuevo.consentimiento(a).email, 'info@x.es');
   nuevo.marcarEnviado(a);

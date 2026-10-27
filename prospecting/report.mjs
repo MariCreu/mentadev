@@ -98,7 +98,7 @@ function fichaBase(lead, analysis) {
     { pregunta: 'Ya tenemos a alguien que nos lleva la web', respuesta: `Perfecto, entonces ${loQueMandamos} os viene aún mejor: se la podéis pasar a esa persona para que haga los cambios. No pretendemos quitarle el trabajo a nadie.` },
     { pregunta: 'No me interesa', respuesta: `Lo entiendo. Solo es un email con ${sinWeb ? 'una web de ejemplo y una propuesta' : '3 cosas concretas'}: lo leéis cuando podáis y, si no os sirve, lo borráis. ¿Os lo mandamos? (Si insisten: «Sin problema, gracias por tu tiempo».)` },
     { pregunta: '¿Esto es una venta?', respuesta: `Para ser claros: ofrecemos ${loQueMandamos} gratis para que nos conozcáis. Si luego queréis que lo hagamos nosotros, os damos un precio cerrado; si no, lo que os mandamos es vuestro igualmente.` },
-    { pregunta: 'Ahora no puedo, llámame más tarde', respuesta: '¿A qué hora os viene mejor? (Apunta el día y la hora, y llama a esa hora exacta.) O, si lo preferís, os lo mandamos por email y lo veis con calma.' },
+    { pregunta: 'Ahora no puedo, llámame más tarde', respuesta: '¿A qué hora os viene mejor? (Apunta el día y la hora, y llama a esa hora exacta.) (Apúntalo en el panel con «Volver a llamar».) O, si lo preferís, os lo mandamos por email y lo veis con calma.' },
     { pregunta: 'Mándame información por email', respuesta: `¡Claro! ¿A qué email? Os mandamos ${loQueMandamos} de vuestra clínica, que es más útil que un folleto.` },
     { pregunta: 'Estamos hartos de que nos llamen empresas', respuesta: `Lo entiendo, os llaman mucho. Por eso no queremos venderos nada por teléfono: solo mandaros ${loQueMandamos} por email. ¿Os viene bien?` },
     { pregunta: 'Los pacientes nos vienen por recomendación, no necesitamos web', respuesta: 'Tiene sentido: la recomendación es lo que más pesa. Pero quien os recomienda suele buscaros en Google antes de llamar, y lo que ve en ese momento cuenta. Lo que os mandamos os dice si esa primera impresión os ayuda.' },
@@ -141,6 +141,10 @@ export function diasLaborablesDesde(iso, ahora) {
   for (let d = dia(new Date(iso).toISOString()) + 1; d <= fin; d++) if (laborable(d)) n++;
   return n;
 }
+// Fecha de hoy (YYYY-MM-DD) en Madrid, con el reloj inyectado.
+export function hoyMadrid(ahora) {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(ahora));
+}
 export function fechaSeguimiento(iso) {
   let d = dia(new Date(iso).toISOString()), n = 0;
   while (n < 3) { d++; if (laborable(d)) n++; }
@@ -148,8 +152,16 @@ export function fechaSeguimiento(iso) {
 }
 
 // Con el email enviado y sin respuesta apuntada, la ficha lleva el guion de seguimiento.
-export function ficha(lead, analysis, seguimiento = null, demo = null) {
-  const base = fichaBase(lead, analysis);
+export function ficha(lead, analysis, seguimiento = null, demo = null, rellamada = null) {
+  let base = fichaBase(lead, analysis);
+  if (rellamada) {
+    base = { ...base, rellamada: { cuando: rellamada.cuando } };
+    // Si ya toca devolver la llamada, la presentación lo dice.
+    if (rellamada.toca && base.pasos?.length) {
+      const pasos = base.pasos.map((p, i) => (i === 0 ? { ...p, frases: ['Hola, buenos días. Soy [tu nombre], de MentaDev. Me dijisteis que os llamara hoy a esta hora. ¿Os pillo bien ahora?', ...p.frases.slice(1)] } : p));
+      base = { ...base, pasos, guion: pasos.flatMap(p => [p.titulo.toUpperCase(), ...p.frases]) };
+    }
+  }
   if (!seguimiento || seguimiento.resultado) return base;
   const nombre = demo?.nombre ?? lead.name;
   return { ...base, seguimiento: {

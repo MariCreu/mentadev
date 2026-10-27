@@ -1,6 +1,7 @@
 // Panel local de prospección. Todo el contenido de las clínicas se pinta con textContent (nunca innerHTML).
 const $ = (s) => document.querySelector(s);
 const TITULOS = {
+  hoy: ['Llamadas de hoy', 'Las que te pidieron que las llamaras hoy (o antes y quedaron sin hacer), por hora.'],
   porllamar: ['Clínicas por llamar', 'De mejor a peor candidata, según lo que le falta a su web.'],
   interesadas: ['Interesadas', 'Las que han mostrado interés. Prepara su propuesta.'],
   seguimiento: ['Seguimiento', 'Emails enviados hace 3 días laborables o más y sin respuesta. Llámales.'],
@@ -74,6 +75,7 @@ function fila(c) {
   const meta = el('span', 'fila-meta');
   meta.append(el('span', '', `${c.municipality} · ${SECTOR[c.sector] ?? ''}`));
   if (!c.website) meta.append(el('span', 'chip chip-fuerte', 'Sin web'));
+  if (vista === 'hoy' && c.cuando) meta.append(el('span', 'chip chip-ok', `${c.cuando.slice(0, 10) === hoyLocal() ? '' : `${fechaCorta(c.cuando.slice(0, 10)).slice(0, 5)} `}${c.cuando.slice(11, 16)}`));
   if (vista === 'todas' && c.status !== 'new') meta.append(el('span', `chip ${c.status === 'qualified' ? 'chip-ok' : c.status === 'suppressed' ? 'chip-mal' : ''}`, ESTADOS[c.status]));
   centro.append(meta);
   b.append(nota, centro, el('span', 'fila-tel', c.phone ?? 'sin teléfono'));
@@ -142,10 +144,13 @@ async function abrir(id) {
   pintar(await api(`/api/clinicas/${id}`));
 }
 
+const dosCifras = (n) => String(n).padStart(2, '0');
+const isoLocal = (d) => `${d.getFullYear()}-${dosCifras(d.getMonth() + 1)}-${dosCifras(d.getDate())}`;
+const hoyLocal = () => isoLocal(new Date());
 const fechaCorta = (iso) => (iso ? `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}` : '');
 
-function pintar({ clinica, ficha, consentimiento, seguimiento, email, demo, demoPorDefecto, catalogo }) {
-  fichaActual = { clinica, ficha, consentimiento, email, demo, catalogo };
+function pintar({ clinica, ficha, consentimiento, seguimiento, rellamada, email, demo, demoPorDefecto, catalogo }) {
+  fichaActual = { clinica, ficha, consentimiento, rellamada, email, demo, catalogo };
   $('#ficha-vacia').hidden = true;
   $('#ficha-detalle').hidden = false;
 
@@ -210,6 +215,7 @@ function pintar({ clinica, ficha, consentimiento, seguimiento, email, demo, demo
   document.querySelectorAll('.acciones [data-estado]').forEach((b) => { b.hidden = clinica.status === 'suppressed' || b.dataset.estado === clinica.status; });
   $('#no-llamar').hidden = clinica.status === 'suppressed';
   $('#han-dicho-si').hidden = clinica.status === 'suppressed' || Boolean(consentimiento);
+  pintarRellamada(clinica, rellamada);
   pintarDemo(clinica, demo ?? demoPorDefecto, demo, catalogo);
   // Email para enviar a quien ha dicho que sí.
   $('#f-correo').hidden = !email;
@@ -397,6 +403,50 @@ $('#form-si').addEventListener('submit', async (e) => {
   } catch (error) { aviso(error.message, true); }
 });
 $('#e-copiar').addEventListener('click', () => fichaActual?.email && copiar(`Para: ${fichaActual.email.para}\nAsunto: ${fichaActual.email.asunto}\n\n${fichaActual.email.cuerpo}`, 'Email'));
+
+// ---------- Volver a llamar ----------
+function textoRellamada(cuando) {
+  const [y, m, d] = cuando.slice(0, 10).split('-').map(Number);
+  const dia = new Date(y, m - 1, d).toLocaleDateString('es-ES', { weekday: 'long' });
+  return `Volver a llamar: ${dia} ${dosCifras(d)}/${dosCifras(m)} a las ${cuando.slice(11, 16)}`;
+}
+function abrirFormRellamada(abierto, cuando) {
+  $('#form-rell').hidden = !abierto;
+  $('#volver-llamar').setAttribute('aria-expanded', String(abierto));
+  if (!abierto) return;
+  const manana = new Date(); manana.setDate(manana.getDate() + 1);
+  $('#r-dia').value = cuando ? cuando.slice(0, 10) : isoLocal(manana);
+  $('#r-dia').min = hoyLocal();
+  $('#r-hora').value = cuando ? cuando.slice(11, 16) : '10:00';
+  $('#r-dia').focus();
+}
+function pintarRellamada(clinica, rellamada) {
+  const activa = clinica.status !== 'suppressed';
+  $('#f-rell').hidden = !activa;
+  $('#volver-llamar').hidden = !activa;
+  abrirFormRellamada(false);
+  $('#r-texto').hidden = !rellamada;
+  $('#r-acciones').hidden = !rellamada;
+  $('#r-texto').textContent = rellamada ? textoRellamada(rellamada.cuando) : '';
+}
+async function guardarRellamada(ruta, cuerpo, mensaje) {
+  if (!fichaActual) return;
+  const id = fichaActual.clinica.id;
+  try {
+    const datos = await api(`/api/clinicas/${id}/${ruta}`, cuerpo);
+    aviso(mensaje(datos));
+    await cargar();
+    if (seleccion === id) pintar(datos);
+  } catch (error) { aviso(error.message, true); }
+}
+$('#volver-llamar').addEventListener('click', () => abrirFormRellamada($('#form-rell').hidden, fichaActual?.rellamada?.cuando));
+$('#r-cambiar').addEventListener('click', () => abrirFormRellamada(true, fichaActual?.rellamada?.cuando));
+$('#r-cancelar').addEventListener('click', () => { abrirFormRellamada(false); $('#volver-llamar').focus(); });
+$('#form-rell').addEventListener('submit', (e) => {
+  e.preventDefault();
+  guardarRellamada('rellamada', { cuando: `${$('#r-dia').value}T${$('#r-hora').value}` }, (d) => `Apuntado. ${textoRellamada(d.rellamada.cuando)}`);
+});
+$('#r-quitar').addEventListener('click', () => guardarRellamada('rellamada/quitar', {}, () => 'Llamada pendiente quitada'));
 
 // ---------- Seguimiento del email enviado ----------
 function pintarSeguimiento(seguimiento, ficha) {

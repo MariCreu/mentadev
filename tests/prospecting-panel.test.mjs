@@ -47,7 +47,7 @@ test('lista por vistas, de mejor a peor candidata, con teléfono y puntuación',
   assert.equal(clinicas[0].phone, '966 00 00 01');
   assert.equal(clinicas[0].score, 10);
   assert.equal(clinicas[2].score, null);
-  assert.deepEqual(cuentas, { porllamar: 3, interesadas: 0, descartadas: 0, nollamar: 0, seguimiento: 0, pendientes: 1 });
+  assert.deepEqual(cuentas, { hoy: 0, porllamar: 3, interesadas: 0, descartadas: 0, nollamar: 0, seguimiento: 0, pendientes: 1 });
 });
 
 test('la ficha trae teléfono, problemas, 3 mejoras y guion', async (t) => {
@@ -72,7 +72,7 @@ test('marcar estados: exige la cabecera del panel y confirmar el "no llamar"', a
   assert.equal(crm.lead(ids.sinWeb).status, 'suppressed');
   assert.equal((await enviar(`${url}/api/clinicas/${ids.sinWeb}/estado`, { estado: 'new' })).status, 400);
   const { cuentas } = await (await fetch(url + '/api/clinicas?vista=todas')).json();
-  assert.deepEqual(cuentas, { porllamar: 1, interesadas: 1, descartadas: 0, nollamar: 1, seguimiento: 0, pendientes: 1 });
+  assert.deepEqual(cuentas, { hoy: 0, porllamar: 1, interesadas: 1, descartadas: 0, nollamar: 1, seguimiento: 0, pendientes: 1 });
 });
 
 test('buscar sin clave de Google da un error claro; con la búsqueda vacía, también', async (t) => {
@@ -213,4 +213,33 @@ test('seguimiento: enviado y resultado piden x-panel y el sí previo', async (t)
   const lista = await (await fetch(url + '/api/clinicas?vista=seguimiento')).json();
   assert.deepEqual(lista.clinicas, []);
   assert.equal(lista.cuentas.seguimiento, 0);
+});
+
+test('rellamada: pide x-panel, valida la fecha y sigue el flujo programar, hoy, quitar', async (t) => {
+  const { url, crm, ids } = await preparar(t);
+  const ruta = `${url}/api/clinicas/${ids.sinWeb}/rellamada`;
+  assert.equal((await enviar(ruta, { cuando: '2026-10-23T10:00' }, {})).status, 403);
+  assert.equal((await enviar(ruta + '/quitar', {}, {})).status, 403);
+  assert.equal((await enviar(ruta, { cuando: 'mañana' })).status, 400);
+  assert.equal((await enviar(ruta, {})).status, 400);
+  assert.equal((await enviar(`${url}/api/clinicas/9999/rellamada`, { cuando: '2026-10-23T10:00' })).status, 404);
+  const futura = await (await enviar(ruta, { cuando: '2026-10-23T10:00' })).json();
+  assert.equal(futura.rellamada.cuando, '2026-10-23T10:00');
+  assert.equal(futura.ficha.rellamada.cuando, '2026-10-23T10:00');
+  let porllamar = await (await fetch(url + '/api/clinicas?vista=porllamar')).json();
+  assert.equal(porllamar.clinicas.some((c) => c.id === ids.sinWeb), false);
+  assert.equal(porllamar.cuentas.porllamar, 2);
+  assert.equal((await (await fetch(url + '/api/clinicas?vista=hoy')).json()).clinicas.length, 0);
+  const hoy = await (await enviar(ruta, { cuando: '2026-10-22T11:30' })).json();
+  assert.equal(hoy.rellamada.toca, true);
+  assert.match(hoy.ficha.pasos[0].frases[0], /hoy a esta hora/);
+  const vistaHoy = await (await fetch(url + '/api/clinicas?vista=hoy')).json();
+  assert.deepEqual(vistaHoy.clinicas.map((c) => [c.id, c.cuando]), [[ids.sinWeb, '2026-10-22T11:30']]);
+  assert.equal(vistaHoy.cuentas.hoy, 1);
+  const quitada = await (await enviar(ruta + '/quitar', {})).json();
+  assert.equal(quitada.rellamada, null);
+  porllamar = await (await fetch(url + '/api/clinicas?vista=porllamar')).json();
+  assert.equal(porllamar.cuentas.porllamar, 3);
+  crm.setStatus(ids.sinWeb, 'suppressed', 'test');
+  assert.equal((await enviar(ruta, { cuando: '2026-10-23T10:00' })).status, 400);
 });

@@ -229,5 +229,10 @@ dialog p{color:var(--tinta-2)}
   .buscador,.campo{width:100%}
 }
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none !important;transition:none !important}}
+.rellamada{margin-bottom:16px}
+.rellamada .consentido{margin:0 0 10px}
+.rellamada-form{display:flex;flex-wrap:wrap;align-items:flex-end;gap:10px}
+.rellamada-form input{height:38px;border:1.5px solid var(--linea-2);border-radius:12px;padding:0 12px;background:var(--hoja)}
+.rellamada-form input:focus{outline:none;border-color:var(--lav-d);box-shadow:0 0 0 4px var(--lav-s)}
 .seguimiento{margin-top:14px;padding-top:14px;border-top:1px solid var(--linea-2)}
 .seguimiento .consentido{margin:0 0 10px}

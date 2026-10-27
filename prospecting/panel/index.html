@@ -50,6 +50,7 @@
 
   <nav class="vistas" aria-label="Filtrar clínicas">
     <div class="pestanas" role="tablist">
+      <button role="tab" data-vista="hoy" aria-selected="false">Llamadas de hoy <b data-cuenta="hoy">0</b></button>
       <button role="tab" data-vista="porllamar" aria-selected="true">Por llamar <b data-cuenta="porllamar">0</b></button>
       <button role="tab" data-vista="interesadas" aria-selected="false">Interesadas <b data-cuenta="interesadas">0</b></button>
       <button role="tab" data-vista="seguimiento" aria-selected="false">Seguimiento <b data-cuenta="seguimiento">0</b></button>
@@ -213,8 +214,23 @@
           </div>
         </div>
 
+        <div class="rellamada" id="f-rell" hidden>
+          <p class="consentido" id="r-texto" role="status" hidden></p>
+          <div class="correo-acciones" id="r-acciones" hidden>
+            <button class="btn-2 btn-sm" type="button" id="r-cambiar">Cambiar</button>
+            <button class="btn-2 btn-sm" type="button" id="r-quitar">Quitar</button>
+          </div>
+          <form class="rellamada-form" id="form-rell" hidden>
+            <label class="campo"><span>Día</span><input id="r-dia" type="date" required></label>
+            <label class="campo"><span>Hora</span><input id="r-hora" type="time" required></label>
+            <button class="btn btn-sm" type="submit">Guardar</button>
+            <button class="btn-2 btn-sm" type="button" id="r-cancelar">Cancelar</button>
+          </form>
+        </div>
+
         <footer class="acciones">
           <button class="btn" type="button" id="han-dicho-si">Han dicho que sí</button>
+          <button class="btn-2" type="button" id="volver-llamar" aria-expanded="false" aria-controls="form-rell">Volver a llamar</button>
           <button class="btn-2" type="button" data-estado="rejected">Descartar</button>
           <button class="btn-2" type="button" data-estado="new">Volver a por llamar</button>
           <button class="peligro" type="button" id="no-llamar">No volver a llamar</button>

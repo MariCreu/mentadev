@@ -4,7 +4,7 @@ import { DatabaseSync } from 'node:sqlite';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { PROBLEMS } from './analyzer.mjs';
-import { esMovil, diasLaborablesDesde, fechaSeguimiento } from './report.mjs';
+import { esMovil, diasLaborablesDesde, fechaSeguimiento, hoyMadrid } from './report.mjs';
 export { diasLaborablesDesde };
 import { validar, crearEnlace } from '../demo/enlace.js';
 import { CONTENIDO } from '../demo/contenido.js';
@@ -39,7 +39,7 @@ function signals(value) {
   return JSON.stringify(value);
 }
 // Versión del esquema (PRAGMA user_version). Si cambia schema.sql, subirla y añadir el paso en migrate().
-const SCHEMA_VERSION = 6;
+const SCHEMA_VERSION = 7;
 // Huella de una ficha excluida: permite reconocerla al reimportarla sin guardar su nombre ni su municipio.
 const fingerprint = identity => 'sha256:' + createHash('sha256').update(identity).digest('hex');
 function normalized(value) {
@@ -54,7 +54,7 @@ export class CRM {
   }
   // Crea la base o la pone al día sin perder datos. Versión 1 (primera fase): sin plazo por fuente,
   // con la web obligatoria y sin revisiones; se detecta porque ya tiene tablas y user_version = 0.
-  // Versión 3: teléfono de la clínica (columna phone). Versión 4: web comprobada a mano y consentimientos. Versión 5: demos. Versión 6: seguimientos.
+  // Versión 3: teléfono de la clínica (columna phone). Versión 4: web comprobada a mano y consentimientos. Versión 5: demos. Versión 6: seguimientos. Versión 7: rellamadas.
   migrate() {
     const { user_version: version } = this.db.prepare('PRAGMA user_version').get();
     if (version > SCHEMA_VERSION) throw new Error('La base es de una versión más nueva del CRM');
@@ -176,6 +176,7 @@ export class CRM {
         forget.run(id);
         this.db.prepare('DELETE FROM demos WHERE lead_id=?').run(id);
         this.db.prepare('DELETE FROM seguimientos WHERE lead_id=?').run(id);
+        this.db.prepare('DELETE FROM rellamadas WHERE lead_id=?').run(id);
         anonymized++;
       }
       const leads = this.db.prepare("DELETE FROM leads WHERE status <> 'suppressed' AND id NOT IN (SELECT lead_id FROM observations)").run().changes;
@@ -187,7 +188,8 @@ export class CRM {
   // descartadas (rejected), no llamar (suppressed) y todas.
   vista(nombre) {
     if (nombre === 'seguimiento') return this.seguimientosPendientes();
-    const filtro = { porllamar: "l.status='new'", interesadas: "l.status='qualified'", descartadas: "l.status='rejected'", nollamar: "l.status='suppressed'", todas: '1=1' }[nombre];
+    if (nombre === 'hoy') return this.llamadasDeHoy();
+    const filtro = { porllamar: "l.status='new' AND NOT EXISTS (SELECT 1 FROM rellamadas r WHERE r.lead_id=l.id AND substr(r.cuando,1,10) > '" + hoyMadrid(this.clock()) + "')", interesadas: "l.status='qualified'", descartadas: "l.status='rejected'", nollamar: "l.status='suppressed'", todas: '1=1' }[nombre];
     if (!filtro) throw new Error('Vista no válida');
     return this.db.prepare(`SELECT l.id, l.name, l.municipality, l.sector, l.website, l.phone, l.status, a.score, a.blocked, a.analyzed_at FROM leads l
       LEFT JOIN analyses a ON a.id = (SELECT id FROM analyses WHERE lead_id=l.id ORDER BY analyzed_at DESC, id DESC LIMIT 1)
@@ -199,7 +201,7 @@ export class CRM {
   }
   cuentas() {
     const n = Object.fromEntries(this.db.prepare('SELECT status, count(*) AS n FROM leads GROUP BY status').all().map((r) => [r.status, r.n]));
-    return { porllamar: n.new ?? 0, interesadas: n.qualified ?? 0, descartadas: n.rejected ?? 0, nollamar: n.suppressed ?? 0, seguimiento: this.seguimientosPendientes().length, pendientes: this.pendientes().length };
+    return { hoy: this.llamadasDeHoy().length, porllamar: this.vista('porllamar').length, interesadas: n.qualified ?? 0, descartadas: n.rejected ?? 0, nollamar: n.suppressed ?? 0, seguimiento: this.seguimientosPendientes().length, pendientes: this.pendientes().length };
   }
   // Email de la propuesta enviado (a mano, desde Gmail): exige el sí previo. Volver a pulsarlo actualiza la fecha.
   marcarEnviado(id) {
@@ -219,6 +221,7 @@ export class CRM {
       this.db.prepare('UPDATE seguimientos SET resultado=?, resultado_fecha=? WHERE lead_id=?').run(resultado, ahora, id);
       if (resultado === 'no_interesa') {
         this.db.prepare("UPDATE leads SET status='rejected' WHERE id=?").run(id);
+        this.db.prepare('DELETE FROM rellamadas WHERE lead_id=?').run(id);
         this.db.prepare('INSERT INTO activities(lead_id,actor,status,created_at) VALUES(?,?,?,?)').run(id, 'panel', 'rejected', ahora);
       }
       this.db.exec('COMMIT');
@@ -237,6 +240,27 @@ export class CRM {
       LEFT JOIN analyses a ON a.id = (SELECT id FROM analyses WHERE lead_id=l.id ORDER BY analyzed_at DESC, id DESC LIMIT 1)
       WHERE s.resultado IS NULL AND l.status NOT IN ('suppressed','rejected') ORDER BY s.enviado, l.id`).all()
       .filter((r) => diasLaborablesDesde(r.enviado, ahora) >= 3).map((r) => ({ ...r, blocked: r.blocked === 1 }));
+  }
+  // Llamada a otra hora (fecha y hora locales de Madrid, 'YYYY-MM-DDTHH:MM'). Sustituye a la anterior.
+  programarRellamada(id, cuando) {
+    const lead = this.lead(id);
+    if (!lead || lead.status === 'suppressed') throw new Error('La ficha no existe o está excluida');
+    const m = typeof cuando === 'string' && cuando.match(/^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/);
+    const f = m && new Date(Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]));
+    if (!m || f.getUTCFullYear() !== +m[1] || f.getUTCMonth() !== +m[2] - 1 || f.getUTCDate() !== +m[3] || +m[4] > 23 || +m[5] > 59) throw new Error('Fecha y hora no válidas');
+    this.db.prepare('INSERT INTO rellamadas(lead_id,cuando,creada) VALUES(?,?,?) ON CONFLICT(lead_id) DO UPDATE SET cuando=excluded.cuando, creada=excluded.creada').run(id, cuando, date(this.clock()));
+  }
+  quitarRellamada(id) { this.db.prepare('DELETE FROM rellamadas WHERE lead_id=?').run(id); }
+  // La fila con 'toca' (ya es hoy o está vencida) o null.
+  rellamada(id) {
+    const fila = this.db.prepare('SELECT cuando, creada FROM rellamadas WHERE lead_id=?').get(id);
+    return fila ? { ...fila, toca: fila.cuando.slice(0, 10) <= hoyMadrid(this.clock()) } : null;
+  }
+  // Llamadas con fecha de hoy o vencidas, por hora.
+  llamadasDeHoy() {
+    return this.db.prepare(`SELECT l.id, l.name, l.municipality, l.sector, l.website, l.phone, l.status, a.score, a.blocked, a.analyzed_at, r.cuando FROM rellamadas r JOIN leads l ON l.id=r.lead_id
+      LEFT JOIN analyses a ON a.id = (SELECT id FROM analyses WHERE lead_id=l.id ORDER BY analyzed_at DESC, id DESC LIMIT 1)
+      WHERE l.status <> 'suppressed' AND substr(r.cuando,1,10) <= ? ORDER BY r.cuando, l.id`).all(hoyMadrid(this.clock())).map((r) => ({ ...r, blocked: r.blocked === 1 }));
   }
   // Web comprobada a mano: la dirección buena (http/https) o null si de verdad no tiene.
   setWebsite(id, web) {
@@ -260,6 +284,7 @@ export class CRM {
     try {
       this.db.prepare('INSERT INTO consentimientos(lead_id,email,quien,atencion,canal,que,fecha) VALUES(?,?,?,?,?,?,?)').run(id, correo, persona, destinatario, 'llamada', 'Recibir por email la revisión gratis de su web o una propuesta con una web de ejemplo', ahora);
       this.db.prepare("UPDATE leads SET status='qualified' WHERE id=?").run(id);
+      this.db.prepare('DELETE FROM rellamadas WHERE lead_id=?').run(id);
       this.db.prepare('INSERT INTO activities(lead_id,actor,status,created_at) VALUES(?,?,?,?)').run(id, 'panel', 'qualified', ahora);
       this.db.exec('COMMIT');
     } catch (error) { this.db.exec('ROLLBACK'); throw error; }
@@ -301,6 +326,7 @@ export class CRM {
       const lead = this.db.prepare('SELECT status FROM leads WHERE id=?').get(id);
       if (!lead || lead.status === 'suppressed') throw new Error('La ficha no existe o está excluida');
       this.db.prepare('UPDATE leads SET status=? WHERE id=?').run(status,id);
+      this.db.prepare('DELETE FROM rellamadas WHERE lead_id=?').run(id); // ya se ha llamado
       // Si piden no llamar más, tampoco se guarda el email que nos dieron.
       if (status === 'suppressed') {
         this.db.prepare('DELETE FROM consentimientos WHERE lead_id=?').run(id);

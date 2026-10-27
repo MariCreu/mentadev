@@ -73,3 +73,9 @@ CREATE TABLE IF NOT EXISTS seguimientos (
   resultado TEXT CHECK(resultado IS NULL OR resultado IN ('contestado','quiere','no_interesa')),
   resultado_fecha TEXT
 );
+-- Versión 7: llamada pendiente a otra hora (fecha y hora locales de Madrid; se borra con la clínica, al excluirla o al llamar).
+CREATE TABLE IF NOT EXISTS rellamadas (
+  lead_id INTEGER PRIMARY KEY REFERENCES leads(id) ON DELETE CASCADE,
+  cuando TEXT NOT NULL,
+  creada TEXT NOT NULL
+);

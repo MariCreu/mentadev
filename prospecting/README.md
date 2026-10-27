@@ -59,6 +59,8 @@ tratamientos hacen para marcarlos.
 
 Seguimiento: tras enviar el email a mano desde Gmail, el botón «Email enviado» guarda la fecha (tabla `seguimientos`, se borra al excluir la clínica). A los 3 días laborables (lunes a viernes, sin festivos) sin respuesta, la clínica sale en la pestaña «Seguimiento» con un guion corto; el resultado (ha contestado, quiere la web, no le interesa) cierra el aviso, y «No le interesa» la pasa a descartadas.
 
+Volver a llamar: si la clínica pide que la llamen a otra hora, el botón «Volver a llamar» apunta día y hora (tabla `rellamadas`, hora de Madrid). Hasta ese día la clínica sale de «Por llamar»; ese día (o después, si se pasó) aparece en la primera pestaña, «Llamadas de hoy», con la hora, y el guion empieza con «Me dijisteis que os llamara hoy a esta hora». Se borra al cambiar la ficha de estado (ya se ha llamado), al apuntar el sí, al excluirla y al anonimizarla; también con «Quitar».
+
 ## Probar y usar
 
 Desde la raíz del repositorio:
