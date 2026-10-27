@@ -1,21 +1,33 @@
 Fotos de ejemplo de la demo de clínica (mentadev.com/demo/)
 Todas de Unsplash, bajo la Licencia de Unsplash (https://unsplash.com/license):
-uso comercial permitido, sin necesidad de permiso ni atribución.
-Descargadas en WebP desde images.unsplash.com (unas 1000-1600 px de ancho, calidad 45-70).
+uso comercial permitido, sin necesidad de permiso ni atribución. Ninguna es de Unsplash+.
+Descargadas en WebP desde images.unsplash.com con el recorte hecho allí: portadas a 2000×1250
+(escritorio) y 1000×1780 (móvil, «-movil»); el resto a 1500×1000; contacto a 1100×1400.
 
 archivo | autor | URL | licencia
 contacto.webp | Miguel Hernández | https://unsplash.com/photos/MxTFmj8jWUQ | Unsplash License
-dental-portada.webp | Benyamin Bohlouli | https://unsplash.com/photos/e7MJLM5VGjY | Unsplash License
-dental-clinica.webp | Katarzyna Zygnerska | https://unsplash.com/photos/44jaETSVX2I | Unsplash License
-dental-ambiente.webp | Quang Tri NGUYEN | https://unsplash.com/photos/VckdJzo7ig0 | Unsplash License
-fisio-portada.webp | Sincerely Media | https://unsplash.com/photos/inoZpsBQRqk | Unsplash License
-fisio-clinica.webp | Caroline Badran | https://unsplash.com/photos/m56-PAdMhM0 | Unsplash License
-fisio-ambiente.webp | Sincerely Media | https://unsplash.com/photos/wGFibXDQlBI | Unsplash License
-medica-portada.webp | Daniel Sone (National Cancer Institute) | https://unsplash.com/photos/NFvdKIhxYlU | Unsplash License
-medica-clinica.webp | Immo Wegmann | https://unsplash.com/photos/njrDE70M2VI | Unsplash License
-manos-consulta.webp | Vitaly Gariev | https://unsplash.com/photos/E0xu1n9yiPk | Unsplash License
-estetica-portada.webp | autor no identificado (Unsplash) | https://images.unsplash.com/photo-1540555700478-4be289fbecef | Unsplash License
-estetica-clinica.webp | Mayur Roxan | https://unsplash.com/photos/CvO17EzwmSE | Unsplash License
-estetica-ambiente.webp | Anna Keibalo | https://unsplash.com/photos/BJ7i-96glwM | Unsplash License
-generica-portada.webp | Benyamin Bohlouli | https://unsplash.com/photos/B_sK_xgzwVA | Unsplash License
-generica-clinica.webp | Brian Wangenheim | https://unsplash.com/photos/K7Qh7RFtUuo | Unsplash License
+dental-ambiente.webp | Ozkan Guner | https://unsplash.com/photos/Ecky4VA_iss | Unsplash License
+dental-clinica.webp | Kari Bjorn Photography | https://unsplash.com/photos/Fdku_oMrDvk | Unsplash License
+dental-detalle.webp | Ozkan Guner | https://unsplash.com/photos/kEbwxfC33qY | Unsplash License
+dental-portada-movil.webp | Ozkan Guner | https://unsplash.com/photos/p7eQ6uf2KSE | Unsplash License
+dental-portada.webp | Ozkan Guner | https://unsplash.com/photos/p7eQ6uf2KSE | Unsplash License
+estetica-ambiente.webp | Look Studio | https://unsplash.com/photos/HtXyytr9304 | Unsplash License
+estetica-clinica.webp | Marios Gkortsilas | https://unsplash.com/photos/-i6kaig732w | Unsplash License
+estetica-detalle.webp | Christin Hume | https://unsplash.com/photos/0MoF-Fe0w0A | Unsplash License
+estetica-portada-movil.webp | Sherzod Gulomov | https://unsplash.com/photos/npE_I2GzpHY | Unsplash License
+estetica-portada.webp | Sherzod Gulomov | https://unsplash.com/photos/npE_I2GzpHY | Unsplash License
+fisio-ambiente.webp | Sincerely Media | https://unsplash.com/photos/LYn0koTX-oo | Unsplash License
+fisio-clinica.webp | Nightingale Home nurse | https://unsplash.com/photos/4e017fuMeXE | Unsplash License
+fisio-detalle.webp | Ahmet Kurt | https://unsplash.com/photos/2sXYx7sd-kg | Unsplash License
+fisio-portada-movil.webp | eran design | https://unsplash.com/photos/oaJaBFVMUQ4 | Unsplash License
+fisio-portada.webp | eran design | https://unsplash.com/photos/oaJaBFVMUQ4 | Unsplash License
+generica-ambiente.webp | ika ika | https://unsplash.com/photos/Z08MudCULdo | Unsplash License
+generica-clinica.webp | Lisa Anna | https://unsplash.com/photos/oLtNPzG0_uU | Unsplash License
+generica-detalle.webp | JIRAN FAMILY | https://unsplash.com/photos/SpLbbq5yAR4 | Unsplash License
+generica-portada-movil.webp | Toa Heftiba | https://unsplash.com/photos/FV3GConVSss | Unsplash License
+generica-portada.webp | Toa Heftiba | https://unsplash.com/photos/FV3GConVSss | Unsplash License
+medica-ambiente.webp | Vitaly Gariev | https://unsplash.com/photos/FQQoUPVb_1c | Unsplash License
+medica-clinica.webp | Markus Frieauff | https://unsplash.com/photos/IJ0KiXl4uys | Unsplash License
+medica-detalle.webp | Oluwaseyi Johnson | https://unsplash.com/photos/YeghywXPHdM | Unsplash License
+medica-portada-movil.webp | Irshad Pathan | https://unsplash.com/photos/bdeLBIPYUrE | Unsplash License
+medica-portada.webp | Irshad Pathan | https://unsplash.com/photos/bdeLBIPYUrE | Unsplash License

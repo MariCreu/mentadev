@@ -1,100 +1,129 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" data-tema="oscuro">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
 <title>Vuestra clínica · Web de ejemplo</title>
 <meta name="description" content="Web de ejemplo de una clínica, preparada por MentaDev. Fotos, horario, dirección y textos son orientativos.">
-<meta name="theme-color" content="#27725F">
+<meta name="theme-color" content="#0C1719">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/instrument-serif-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/assets/fonts/instrument-serif-latin-400-italic.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/poppins-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/demo/demo.css">
 <script type="module" src="/demo/demo.js"></script>
 </head>
 <body>
 <svg class="sprite" aria-hidden="true" focusable="false">
-  <symbol id="i-arco" viewBox="0 0 24 24"><path d="M5 21V10a7 7 0 0 1 14 0v11"/><path d="M9 21v-8a3 3 0 0 1 6 0v8"/><path d="M3 21h18"/></symbol>
   <symbol id="i-tel" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></symbol>
   <symbol id="i-wa" viewBox="0 0 24 24"><path d="M3.5 20.5l1.3-4.2A8.5 8.5 0 1 1 8 19.4z"/><path d="M9 8.6c0 3.3 3 6.4 6.4 6.4l1.1-1.6-2-1-1 .9a4.6 4.6 0 0 1-2.8-2.8l.9-1-1-2z"/></symbol>
   <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.6v.4"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11.5a7 7 0 0 1 14 0C19 14.9 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
   <symbol id="i-reloj" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></symbol>
+  <symbol id="i-cerrar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
 </svg>
 
 <p class="franja"><svg class="ico" aria-hidden="true"><use href="#i-info"/></svg><span data-t="franja">Web de ejemplo preparada por MentaDev para Vuestra clínica. Fotos, horario, dirección y textos son orientativos.</span></p>
 
 <header class="cab">
-  <div class="cab-in">
-    <a class="marca" href="#inicio"><svg class="marca-arco" aria-hidden="true"><use href="#i-arco"/></svg><span data-nombre>Vuestra clínica</span></a>
-    <nav class="cab-nav" aria-label="Menú" data-t-aria="menu">
-      <a href="#tratamientos" data-t="menuTratamientos">Tratamientos</a>
-      <a href="#clinica" data-t="menuClinica">La clínica</a>
-      <a href="#primera-visita" data-t="menuPrimeraVisita">Primera visita</a>
-      <a href="#contacto" data-t="menuContacto">Contacto</a>
-    </nav>
-    <div class="idioma" role="group" aria-label="Idioma" data-t-aria="idioma">
-      <button type="button" lang="es" data-idioma="es" aria-pressed="true">ES</button>
-      <button type="button" lang="en" data-idioma="en" aria-pressed="false">EN</button>
-    </div>
-    <a class="btn btn-cita cab-cita" data-llamar hidden><svg class="ico" aria-hidden="true"><use href="#i-tel"/></svg><span data-t="llamar">Llamar</span></a>
+  <a class="marca" href="#inicio"><span data-nombre>Vuestra clínica</span></a>
+  <nav class="cab-nav" aria-label="Menú" data-t-aria="menu">
+    <a href="#tratamientos" data-t="menuTratamientos">Tratamientos</a>
+    <a href="#clinica" data-t="menuClinica">La clínica</a>
+    <a href="#primera-visita" data-t="menuPrimeraVisita">Primera visita</a>
+    <a href="#contacto" data-t="menuContacto">Contacto</a>
+  </nav>
+  <div class="idioma cab-idioma" role="group" aria-label="Idioma" data-t-aria="idioma">
+    <button type="button" lang="es" data-idioma="es" aria-pressed="true">ES</button>
+    <button type="button" lang="en" data-idioma="en" aria-pressed="false">EN</button>
   </div>
+  <a class="btn btn-menta cab-llamar" data-llamar hidden><svg class="ico" aria-hidden="true"><use href="#i-tel"/></svg><span data-t="llamar">Llamar</span></a>
+  <details class="menu">
+    <summary aria-label="Menú" data-t-aria="menu"><svg class="ico ico-abrir" aria-hidden="true"><use href="#i-menu"/></svg><svg class="ico ico-cerrar" aria-hidden="true"><use href="#i-cerrar"/></svg></summary>
+    <div class="menu-panel">
+      <nav aria-label="Menú" data-t-aria="menu">
+        <a href="#tratamientos" data-t="menuTratamientos">Tratamientos</a>
+        <a href="#clinica" data-t="menuClinica">La clínica</a>
+        <a href="#primera-visita" data-t="menuPrimeraVisita">Primera visita</a>
+        <a href="#contacto" data-t="menuContacto">Contacto</a>
+      </nav>
+      <div class="idioma" role="group" aria-label="Idioma" data-t-aria="idioma">
+        <button type="button" lang="es" data-idioma="es" aria-pressed="true">ES</button>
+        <button type="button" lang="en" data-idioma="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </details>
 </header>
 
 <main>
-  <section class="portada" id="inicio">
+  <section class="portada" id="inicio" aria-labelledby="portada-t">
+    <figure class="portada-foto">
+      <picture>
+        <source media="(max-width: 759px)" srcset="/demo/fotos/generica-portada-movil.webp" data-foto-movil="portada">
+        <img data-foto="portada" src="/demo/fotos/generica-portada.webp" alt="Zona de espera luminosa con butacas claras y una lámpara de pie" width="2000" height="1250" fetchpriority="high">
+      </picture>
+      <figcaption class="etiqueta etiqueta-portada" data-t="fotoEjemplo">Foto de ejemplo</figcaption>
+    </figure>
+    <p class="estado chip" data-estado hidden><span class="estado-punto" aria-hidden="true"></span><span data-estado-corto></span></p>
     <div class="portada-texto">
-      <h1 data-c="titular">Cuidamos de ti, sin prisas</h1>
-      <p class="entradilla" data-c="entradilla">Clínica en Alicante. Te atendemos con cercanía y te explicamos cada paso con palabras claras.</p>
-      <p class="estado" data-estado hidden><span class="estado-punto" aria-hidden="true"></span><span data-estado-texto></span></p>
+      <p class="kicker" data-c="kicker">Clínica · Alicante</p>
+      <h1 id="portada-t" data-titular>Cuidamos de ti, <em>sin prisas</em>.</h1>
+      <p class="entradilla" data-c="entradilla">Te atendemos con cercanía y te explicamos cada paso con palabras claras.</p>
       <div class="acciones">
-        <a class="btn btn-cita" data-llamar hidden><svg class="ico" aria-hidden="true"><use href="#i-tel"/></svg><span data-t="llamar">Llamar</span></a>
-        <a class="btn btn-linea" href="#contacto"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span data-t="menuContacto">Contacto</span></a>
-        <a class="btn btn-linea" data-whatsapp hidden rel="noopener" target="_blank"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span data-t="whatsapp">WhatsApp</span></a>
+        <a class="btn btn-menta" data-llamar hidden><svg class="ico" aria-hidden="true"><use href="#i-tel"/></svg><span data-t="llamar">Llamar</span></a>
+        <a class="btn btn-cristal" data-whatsapp hidden rel="noopener" target="_blank"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span data-t="whatsapp">WhatsApp</span></a>
+        <a class="btn btn-cristal" href="#contacto" data-contacto><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span data-t="menuContacto">Contacto</span></a>
       </div>
     </div>
-    <div class="portada-foto">
-      <span class="arco-eco" aria-hidden="true"></span>
-      <figure class="foto arco">
-        <img data-foto="portada" src="/demo/fotos/generica-portada.webp" alt="Sala de espera luminosa con sofás turquesa" width="1600" height="1038" fetchpriority="high">
-        <figcaption class="etiqueta" data-t="fotoEjemplo">Foto de ejemplo</figcaption>
-      </figure>
-    </div>
+    <aside class="tarjeta-estado" data-tarjeta hidden>
+      <p class="tarjeta-titulo"><span class="estado-punto" aria-hidden="true"></span><span data-tarjeta-titulo></span></p>
+      <p class="tarjeta-hora" data-tarjeta-hora></p>
+      <p class="tarjeta-texto" data-tarjeta-texto></p>
+    </aside>
   </section>
 
   <section class="trat" id="tratamientos" aria-labelledby="trat-t">
-    <div class="trat-cab">
+    <div class="trat-cab" data-revelar>
       <h2 id="trat-t" data-t="tratamientosTitulo">Tratamientos</h2>
       <p class="seccion-entradilla" data-t="tratamientosEntradilla">Te explicamos cada tratamiento con calma antes de empezar, para que decidas con toda la información.</p>
-      <figure class="foto arco trat-foto">
-        <img data-foto="ambiente" src="/demo/fotos/manos-consulta.webp" alt="Manos sobre la mesa de la consulta durante una visita" width="1600" height="900" loading="lazy">
+    </div>
+    <div class="trat-escena" data-revelar>
+      <figure class="trat-foto foto">
+        <img data-foto="ambiente" src="/demo/fotos/generica-ambiente.webp" alt="Dos manos que se sujetan con suavidad" width="1500" height="1000" loading="lazy">
         <figcaption class="etiqueta" data-t="fotoEjemplo">Foto de ejemplo</figcaption>
       </figure>
+      <ul class="trat-lista" data-tratamientos>
+        <li><h3>Consulta de valoración</h3><p>Una primera consulta para conocerte y ver qué necesitas.</p></li>
+        <li><h3>Revisiones</h3><p>Revisiones periódicas para seguir cómo evolucionas.</p></li>
+        <li><h3>Tratamiento personalizado</h3><p>Un plan pensado para ti, que revisamos contigo.</p></li>
+        <li><h3>Seguimiento</h3><p>Te acompañamos durante todo el tratamiento.</p></li>
+      </ul>
     </div>
-    <ul class="trat-lista" data-tratamientos>
-      <li><h3>Consulta de valoración</h3><p>Una primera consulta para conocerte y ver qué necesitas.</p></li>
-      <li><h3>Revisiones</h3><p>Revisiones periódicas para seguir cómo evolucionas.</p></li>
-      <li><h3>Tratamiento personalizado</h3><p>Un plan pensado para ti, que revisamos contigo.</p></li>
-      <li><h3>Seguimiento</h3><p>Te acompañamos durante todo el tratamiento.</p></li>
-    </ul>
   </section>
 
   <section class="sobre" id="clinica" aria-labelledby="sobre-t">
-    <figure class="foto sobre-foto">
-      <img data-foto="clinica" src="/demo/fotos/generica-clinica.webp" alt="Instrumental de exploración en la pared de la consulta" width="1600" height="1067" loading="lazy">
+    <figure class="foto sobre-foto" data-revelar>
+      <img data-foto="clinica" src="/demo/fotos/generica-clinica.webp" alt="Recepción con mostrador de madera, lámparas de cristal y una butaca" width="1500" height="1000" loading="lazy">
       <figcaption class="etiqueta" data-t="fotoEjemplo">Foto de ejemplo</figcaption>
     </figure>
-    <div class="sobre-texto">
+    <div class="sobre-texto" data-revelar>
       <h2 id="sobre-t" data-t="clinicaTitulo">Sobre la clínica</h2>
       <p data-c="sobre">Somos un equipo pequeño y cercano. Dedicamos a cada paciente el tiempo que necesita, le explicamos lo que hacemos y por qué, y decidimos juntos cada paso del tratamiento.</p>
     </div>
+    <figure class="foto sobre-detalle" data-revelar>
+      <img data-foto="detalle" src="/demo/fotos/generica-detalle.webp" alt="Sala amplia con un sofá blanco y luz de tarde entrando por los ventanales" width="1500" height="1000" loading="lazy">
+      <figcaption class="etiqueta" data-t="fotoEjemplo">Foto de ejemplo</figcaption>
+    </figure>
   </section>
 
   <section class="visita" id="primera-visita" aria-labelledby="visita-t">
-    <h2 id="visita-t" data-t="primeraVisitaTitulo">Tu primera visita</h2>
-    <p class="seccion-entradilla" data-t="primeraVisitaEntradilla">Así es la primera vez que vienes a vernos.</p>
-    <ol class="pasos" data-primera-visita>
+    <div class="visita-cab" data-revelar>
+      <h2 id="visita-t" data-t="primeraVisitaTitulo">Tu primera visita</h2>
+      <p class="seccion-entradilla" data-t="primeraVisitaEntradilla">Así es la primera vez que vienes a vernos.</p>
+    </div>
+    <ol class="pasos" data-primera-visita data-revelar>
       <li><span class="paso-n" aria-hidden="true">1</span><p>Pides cita por teléfono.</p></li>
       <li><span class="paso-n" aria-hidden="true">2</span><p>Nos cuentas qué te pasa y qué esperas de la consulta.</p></li>
       <li><span class="paso-n" aria-hidden="true">3</span><p>Te valoramos y te explicamos lo que vemos.</p></li>
@@ -103,9 +132,14 @@
   </section>
 
   <section class="contacto" id="contacto" aria-labelledby="contacto-t">
-    <div class="contacto-datos">
+    <div class="contacto-datos" data-revelar>
       <h2 id="contacto-t" data-t="contactoTitulo">Contacto y horario</h2>
+      <p class="estado estado-linea" data-estado hidden><span class="estado-punto" aria-hidden="true"></span><span data-estado-texto></span></p>
       <dl class="datos">
+        <div class="dato" data-telefono-bloque hidden>
+          <dt><svg class="ico" aria-hidden="true"><use href="#i-tel"/></svg><span data-t="telefonoTitulo">Teléfono</span></dt>
+          <dd><a class="tel-grande" data-llamar data-telefono></a></dd>
+        </div>
         <div class="dato">
           <dt><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span data-t="direccionTitulo">Dirección</span><span class="ejemplo" data-t="ejemplo">Ejemplo</span></dt>
           <dd data-t="direccion">Calle Ejemplo, 1 · Alicante</dd>
@@ -126,15 +160,11 @@
             </table>
           </dd>
         </div>
-        <div class="dato" data-telefono-bloque hidden>
-          <dt><svg class="ico" aria-hidden="true"><use href="#i-tel"/></svg><span data-t="telefonoTitulo">Teléfono</span></dt>
-          <dd><a class="tel-grande" data-llamar data-telefono></a></dd>
-        </div>
       </dl>
     </div>
-    <div class="contacto-foto">
-      <figure class="foto arco">
-        <img data-foto="contacto" src="/demo/fotos/contacto.webp" alt="Ventana en arco con palmeras y el mar al fondo" width="1400" height="2100" loading="lazy">
+    <div class="contacto-foto" data-revelar>
+      <figure class="foto">
+        <img data-foto="contacto" src="/demo/fotos/contacto.webp" alt="Ventana en arco con palmeras y el mar al fondo" width="1100" height="1400" loading="lazy">
         <figcaption class="etiqueta" data-t="fotoEjemplo">Foto de ejemplo</figcaption>
       </figure>
       <div class="llegar">
@@ -146,13 +176,14 @@
 </main>
 
 <footer class="pie">
-  <p><span data-nombre>Vuestra clínica</span></p>
+  <p class="pie-nombre"><span data-nombre>Vuestra clínica</span></p>
   <p><a href="https://mentadev.com/" data-t="pie">Web de ejemplo hecha por MentaDev</a></p>
 </footer>
 
 <div class="barra-movil">
-  <a class="btn btn-cita barra-llamar" data-llamar hidden><svg class="ico" aria-hidden="true"><use href="#i-tel"/></svg><span data-t="llamar">Llamar</span></a>
-  <a class="btn btn-linea" href="#contacto"><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span data-t="menuContacto">Contacto</span></a>
+  <a class="btn btn-menta" data-llamar hidden><svg class="ico" aria-hidden="true"><use href="#i-tel"/></svg><span data-t="llamar">Llamar</span></a>
+  <a class="btn btn-cristal" data-whatsapp hidden rel="noopener" target="_blank"><svg class="ico" aria-hidden="true"><use href="#i-wa"/></svg><span data-t="whatsapp">WhatsApp</span></a>
+  <a class="btn btn-cristal" href="#contacto" data-contacto><svg class="ico" aria-hidden="true"><use href="#i-pin"/></svg><span data-t="menuContacto">Contacto</span></a>
 </div>
 
 </body>

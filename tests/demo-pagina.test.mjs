@@ -84,3 +84,16 @@ test('el título de la pestaña sale de COMUNES y sigue el idioma', () => {
   assert.match(js, /document\.title = rellenar\(t\.titulo, h\)/);
   assert.doesNotMatch(js, /Web de ejemplo`/);
 });
+
+test('tema: oscuro por defecto; claro u oscuro con ?tema= y solo cambia variables de CSS', () => {
+  assert.match(leer('demo/index.html'), /<html lang="es" data-tema="oscuro">/);
+  const js = leer('demo/demo.js');
+  assert.match(js, /const TEMAS = \['oscuro', 'claro'\]/);
+  assert.match(js, /searchParams|URLSearchParams/);
+  const css = leer('demo/demo.css');
+  // Cada bloque de tema solo declara variables (--algo: …), para poder quitar uno sin tocar el resto.
+  for (const tema of ['oscuro', 'claro']) {
+    const bloque = css.match(new RegExp(`\\[data-tema="${tema}"\\]\\{([^}]*)\\}`))[1];
+    for (const decl of bloque.split(';').map((d) => d.trim()).filter(Boolean)) assert.match(decl, /^(--[a-z0-9-]+|color-scheme):/, `${tema}: ${decl}`);
+  }
+});

@@ -21,7 +21,7 @@ const DEMO = new URL('../demo/', import.meta.url);
 const TIPOS_ARCHIVO = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.webp': 'image/webp', '.woff2': 'font/woff2' };
 // Vista previa local de la demo: solo estos archivos de demo/ y las fuentes que usa (nada más de esas carpetas ni de fuera).
 const DEMO_ARCHIVOS = /^\/demo\/(?:(?:enlace|horario|contenido|demo)\.js|demo\.css|fotos\/[a-z0-9-]+\.webp)$/;
-const FUENTES_DEMO = new Set(['poppins-latin-400-normal.woff2', 'poppins-latin-500-normal.woff2', 'poppins-latin-600-normal.woff2', 'bricolage-grotesque-latin-wght-normal.woff2']);
+const FUENTES_DEMO = new Set(['poppins-latin-300-normal.woff2', 'poppins-latin-400-normal.woff2', 'poppins-latin-500-normal.woff2', 'instrument-serif-latin-400-normal.woff2', 'instrument-serif-latin-400-italic.woff2']);
 const PERMITIDAS = new Set(['poppins-latin-400-normal.woff2', 'poppins-latin-500-normal.woff2', 'poppins-latin-600-normal.woff2', 'bricolage-grotesque-latin-wght-normal.woff2']);
 // Catálogo de la demo para el formulario: tipos, títulos de tratamientos (en español) y los que se marcan por defecto.
 const CATALOGO = {

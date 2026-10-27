@@ -18,7 +18,9 @@ test('cada tipo existe y tiene es y en con las mismas claves', () => {
     assert.deepEqual(claves(c.textos.es), claves(c.textos.en), tipo);
     for (const idioma of IDIOMAS) {
       const t = c.textos[idioma];
-      for (const k of ['titular', 'entradilla', 'sobre']) assert.ok(lleno(t[k]), `${tipo} ${idioma} ${k}`);
+      for (const k of ['kicker', 'titular', 'entradilla', 'sobre']) assert.ok(lleno(t[k]), `${tipo} ${idioma} ${k}`);
+      // El titular lleva una (y solo una) parte en cursiva, marcada entre asteriscos.
+      assert.match(t.titular, /^[^*]+\*[^*]+\*[^*]*$/, `${tipo} ${idioma} titular`);
       assert.ok(Array.isArray(t.primeraVisita) && t.primeraVisita.length >= 3 && t.primeraVisita.every(lleno), `${tipo} ${idioma} primeraVisita`);
     }
     assert.equal(c.textos.es.primeraVisita.length, c.textos.en.primeraVisita.length, tipo);
@@ -87,16 +89,28 @@ test('acento legible con texto blanco', () => {
   }
 });
 
-test('cada foto existe en disco, pesa ≤ 250 KB, es WebP y tiene alt en es y en', () => {
+// Límites: la portada de escritorio, que ocupa toda la pantalla, hasta 300 KB; su recorte para el móvil
+// y el resto de fotos, hasta 200 KB.
+const esWebp = (ruta) => {
+  const cab = readFileSync(ruta).subarray(0, 12);
+  return cab.toString('latin1', 0, 4) === 'RIFF' && cab.toString('latin1', 8, 12) === 'WEBP';
+};
+
+test('cada foto existe en disco, es WebP, no pesa demasiado y tiene alt en es y en', () => {
   for (const tipo of TIPOS) {
     const f = CONTENIDO[tipo].fotos;
-    assert.deepEqual(claves(f), ['ambiente', 'clinica', 'contacto', 'portada'], tipo);
+    assert.deepEqual(claves(f), ['ambiente', 'clinica', 'contacto', 'detalle', 'portada'], tipo);
     for (const [k, foto] of Object.entries(f)) {
       assert.match(foto.src, /^\/demo\/fotos\/[a-z0-9-]+\.webp$/, `${tipo} ${k}`);
       const ruta = raiz + foto.src.slice(1);
-      assert.ok(statSync(ruta).size <= 250 * 1024, `${foto.src} pesa demasiado`);
-      const cab = readFileSync(ruta).subarray(0, 12);
-      assert.ok(cab.toString('latin1', 0, 4) === 'RIFF' && cab.toString('latin1', 8, 12) === 'WEBP', `${foto.src} no es WebP`);
+      assert.ok(statSync(ruta).size <= (k === 'portada' ? 300 : 200) * 1024, `${foto.src} pesa demasiado`);
+      assert.ok(esWebp(ruta), `${foto.src} no es WebP`);
+      if (k === 'portada') {
+        assert.match(foto.movil, /^\/demo\/fotos\/[a-z0-9-]+-movil\.webp$/, `${tipo} portada móvil`);
+        const movil = raiz + foto.movil.slice(1);
+        assert.ok(statSync(movil).size <= 200 * 1024, `${foto.movil} pesa demasiado`);
+        assert.ok(esWebp(movil), `${foto.movil} no es WebP`);
+      } else assert.equal(foto.movil, undefined, `${tipo} ${k}`);
       assert.ok(lleno(foto.alt.es) && lleno(foto.alt.en), `${tipo} ${k} alt`);
     }
   }

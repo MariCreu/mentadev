@@ -1,199 +1,326 @@
 /* Demo de web de clínica (mentadev.com/demo/). Estilo propio de clínica, no el de MentaDev.
-   Motivo visual: el arco mediterráneo (fachadas encaladas de la Marina Baixa). El color de acento
-   lo pone demo.js según el tipo de clínica (--acento); el resto se deriva de él. */
+   Dirección «cinemática»: portada con la foto a pantalla completa, titulares en serif y botones de cristal.
+   Dos temas para el resto de la página, elegidos con ?tema=claro|oscuro (data-tema en <html>):
+   todo lo que cambia entre ellos son las variables del bloque «Temas»; la portada es oscura en los dos. */
 
-@font-face{font-family:"Bricolage Grotesque";font-style:normal;font-weight:200 800;font-display:swap;src:url("/assets/fonts/bricolage-grotesque-latin-wght-normal.woff2") format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url("/assets/fonts/instrument-serif-latin-400-normal.woff2") format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url("/assets/fonts/instrument-serif-latin-400-italic.woff2") format("woff2")}
+@font-face{font-family:"Poppins";font-style:normal;font-weight:300;font-display:swap;src:url("/assets/fonts/poppins-latin-300-normal.woff2") format("woff2")}
 @font-face{font-family:"Poppins";font-style:normal;font-weight:400;font-display:swap;src:url("/assets/fonts/poppins-latin-400-normal.woff2") format("woff2")}
 @font-face{font-family:"Poppins";font-style:normal;font-weight:500;font-display:swap;src:url("/assets/fonts/poppins-latin-500-normal.woff2") format("woff2")}
-@font-face{font-family:"Poppins";font-style:normal;font-weight:600;font-display:swap;src:url("/assets/fonts/poppins-latin-600-normal.woff2") format("woff2")}
 
 :root{
-  --acento:#27725F;
-  --cal:#F3F6F6;            /* blanco de cal, frío */
-  --hoja:#FFFFFF;
-  --tinta:#15212C;
-  --tinta-2:#46525E;
-  --linea:rgba(21,33,44,.13);
-  --acento-hondo:color-mix(in oklab, var(--acento) 58%, #08131D);
-  --velo:color-mix(in oklab, var(--acento) 8%, #FFFFFF);
-  --velo-2:color-mix(in oklab, var(--acento) 16%, #FFFFFF);
-  --abierto:#1E7F4A;
-  --cerrado:#A8452F;
-  --titular:"Bricolage Grotesque", "Arial Narrow", Arial, sans-serif;
+  /* Fijos: la portada, los botones y el cristal son iguales en los dos temas. */
+  --noche:#0C1719;
+  --menta:#8FDCC9;            /* acento sobre oscuro: kicker, cursiva del titular, «Llamar» */
+  --menta-tinta:#06221B;      /* texto sobre --menta */
+  --blanco:#F3F7F6;
+  --vivo:#5BE39A;             /* punto «abierto» */
+  --cerrado:#F0A58F;
+  --cristal:rgba(255,255,255,.12);
+  --cristal-borde:rgba(255,255,255,.22);
+  --serif:"Instrument Serif", Georgia, "Times New Roman", serif;
   --texto:"Poppins", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --lado:max(1.25rem, calc((100% - 74rem) / 2));
-  --cab:4rem;
+  --lado:max(1.25rem, calc((100% - 76rem) / 2));
+  --cab:4.25rem;
+  --franja-h:0px;
+  --curva:cubic-bezier(.2,.7,.15,1);
+}
+
+/* ---------- Temas (solo variables: quitar uno es borrar su bloque) ---------- */
+:root,[data-tema="oscuro"]{
+  --fondo:#0F1C1E;
+  --fondo-2:#152628;
+  --tarjeta:rgba(255,255,255,.045);
+  --tinta:#EEF4F2;
+  --tinta-2:#A6BAB5;
+  --linea:rgba(238,244,242,.13);
+  --acento-texto:var(--menta);
+  --paso-fondo:transparent;
+  --paso-borde:rgba(143,220,201,.45);
+  --sombra:0 1.5rem 3rem -1.5rem rgba(0,0,0,.6);
+  --cab-fondo:rgba(10,20,22,.72);
+  --cab-tinta:var(--blanco);
+  --cab-tinta-2:rgba(243,247,246,.82);
+  --cab-borde:rgba(255,255,255,.08);
+  --cab-pulsado:var(--blanco);
+  --cab-pulsado-tinta:var(--noche);
+  color-scheme:dark;
+}
+[data-tema="claro"]{
+  --fondo:#F3F6F4;
+  --fondo-2:#E6EEEA;
+  --tarjeta:#FFFFFF;
+  --tinta:#13201E;
+  --tinta-2:#4A5A57;
+  --linea:rgba(19,32,30,.13);
+  --acento-texto:#1D6A59;
+  --paso-fondo:#FFFFFF;
+  --paso-borde:rgba(29,106,89,.35);
+  --sombra:0 1.5rem 3rem -1.75rem rgba(19,32,30,.35);
+  --cab-fondo:rgba(243,246,244,.86);
+  --cab-tinta:#13201E;
+  --cab-tinta-2:#3E4D4A;
+  --cab-borde:rgba(19,32,30,.1);
+  --cab-pulsado:#13201E;
+  --cab-pulsado-tinta:#F3F6F4;
+  color-scheme:light;
 }
 
 *,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
-body{margin:0;background:var(--cal);color:var(--tinta);font:400 1rem/1.65 var(--texto);overflow-x:clip}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--noche)}
+body{margin:0;background:var(--fondo);color:var(--tinta);font:300 1rem/1.7 var(--texto);overflow-x:clip;-webkit-font-smoothing:antialiased}
+[data-tema="claro"] body{font-weight:400}
 img{display:block;max-width:100%}
-h1,h2,h3{font-family:var(--titular);font-weight:600;letter-spacing:-.022em;margin:0;text-wrap:balance}
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;text-wrap:balance;letter-spacing:-.005em}
+em{font-style:italic}
 p{margin:0}
 a{color:inherit}
-button,input{font:inherit;color:inherit}
+button{font:inherit;color:inherit}
 [hidden]{display:none !important}
 .sprite{position:absolute;width:0;height:0;overflow:hidden}
-.ico{width:1.2em;height:1.2em;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-:focus-visible{outline:3px solid var(--acento);outline-offset:3px;border-radius:6px}
-section[id]{scroll-margin-top:calc(var(--cab) + .5rem)}
-/* Las secciones reciben el foco al usar los anclajes (para lectores de pantalla); no necesitan anillo. */
+.ico{width:1.15em;height:1.15em;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+:focus-visible{outline:2px solid var(--menta);outline-offset:3px;border-radius:6px}
+[data-tema="claro"] main :focus-visible{outline-color:var(--acento-texto)}
+section[id]{scroll-margin-top:var(--cab)}
 section[tabindex="-1"]:focus{outline:none}
 
-/* ---------- Franja de aviso ---------- */
-.franja{display:flex;gap:.5rem;align-items:flex-start;justify-content:center;padding:.6rem var(--lado);background:var(--velo-2);color:var(--tinta);font-size:.8125rem;line-height:1.5}
-.franja .ico{margin-top:.1rem;color:var(--acento)}
+/* ---------- Franja de aviso: discreta, sobre la parte de arriba de la portada ---------- */
+.franja{position:relative;z-index:31;display:flex;gap:.5rem;align-items:flex-start;justify-content:center;margin:0;padding:.5rem var(--lado);background:#081113;color:rgba(243,247,246,.82);font-size:.75rem;line-height:1.45;border-bottom:1px solid rgba(255,255,255,.08)}
+.franja .ico{margin-top:.05rem;color:var(--menta)}
 
-/* ---------- Cabecera ---------- */
-.cab{position:sticky;top:0;z-index:20;background:color-mix(in srgb, var(--cal) 90%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
-.cab-in{display:flex;align-items:center;gap:.75rem;min-height:var(--cab);padding:.5rem var(--lado)}
-.marca{display:flex;align-items:center;gap:.55rem;min-width:0;margin-right:auto;text-decoration:none;font:600 1.0625rem/1.15 var(--titular);letter-spacing:-.015em}
+/* ---------- Cabecera: transparente sobre la foto; con cristal al bajar ---------- */
+.cab{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:1rem;height:var(--cab);margin-bottom:calc(-1 * var(--cab));padding:0 var(--lado);color:var(--blanco);transition:background-color .35s,border-color .35s,backdrop-filter .35s;border-bottom:1px solid transparent}
+.cab.solida{color:var(--cab-tinta);background:var(--cab-fondo);backdrop-filter:blur(16px) saturate(140%);-webkit-backdrop-filter:blur(16px) saturate(140%);border-bottom-color:var(--cab-borde)}
+.cab.solida .idioma{border-color:var(--cab-borde);background:transparent}
+.cab.solida .idioma button{color:var(--cab-tinta-2)}
+.cab.solida .idioma button[aria-pressed="true"]{background:var(--cab-pulsado);color:var(--cab-pulsado-tinta)}
+.cab.solida .cab-nav a{color:var(--cab-tinta-2)}
+.cab.solida .cab-nav a:hover{color:var(--cab-tinta)}
+.cab.solida .menu summary{background:transparent;border-color:var(--cab-borde)}
+.cab.menu-abierto{background:rgba(8,17,19,.94);border-bottom-color:rgba(255,255,255,.08)}
+.marca{min-width:0;margin-right:auto;text-decoration:none;font:400 1.45rem/1.05 var(--serif);letter-spacing:0}
 .marca span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.marca-arco{width:1.9rem;height:1.9rem;flex:none;fill:none;stroke:var(--acento);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
-.cab-nav{display:none}
-.idioma{display:flex;flex:none;padding:3px;border:1px solid var(--linea);border-radius:999px;background:var(--hoja)}
-.idioma button{min-width:2.75rem;min-height:2.5rem;padding:0 .6rem;border:0;border-radius:999px;background:none;font-size:.8125rem;font-weight:600;letter-spacing:.04em;cursor:pointer;color:var(--tinta-2)}
-.idioma button[aria-pressed="true"]{background:var(--tinta);color:#fff}
+.cab-nav,.cab-idioma,.cab-llamar{display:none !important}
 
-.cab .cab-cita{display:none}
+.idioma{display:flex;flex:none;gap:2px;padding:3px;border:1px solid var(--cristal-borde);border-radius:999px;background:rgba(255,255,255,.06)}
+.idioma button{min-width:2.75rem;min-height:2.5rem;padding:0 .7rem;border:0;border-radius:999px;background:none;font-size:.78rem;font-weight:500;letter-spacing:.06em;cursor:pointer;color:rgba(243,247,246,.8)}
+.idioma button[aria-pressed="true"]{background:var(--blanco);color:var(--noche)}
+
+/* Menú del móvil: <details>, funciona sin JS. */
+.menu{flex:none}
+.menu summary{display:grid;place-items:center;width:2.9rem;height:2.9rem;border-radius:50%;background:var(--cristal);border:1px solid var(--cristal-borde);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);cursor:pointer;list-style:none}
+.menu summary::-webkit-details-marker{display:none}
+.menu summary .ico{width:1.3rem;height:1.3rem}
+.menu .ico-cerrar,.menu[open] .ico-abrir{display:none}
+.menu[open] .ico-cerrar{display:block}
+.menu-panel{position:fixed;left:0;right:0;top:var(--cab);bottom:0;display:flex;flex-direction:column;gap:2rem;padding:2rem var(--lado) calc(2rem + env(safe-area-inset-bottom));background:rgba(8,17,19,.94);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);overflow-y:auto}
+.menu-panel nav{display:grid}
+.menu-panel nav a{padding:.55rem 0;border-bottom:1px solid rgba(255,255,255,.1);font:400 2.1rem/1.2 var(--serif);text-decoration:none}
+.menu-panel .idioma{align-self:flex-start}
 
 /* ---------- Botones ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:3rem;padding:0 1.35rem;border-radius:999px;border:1.5px solid transparent;font-weight:500;font-size:.9688rem;line-height:1.2;text-decoration:none;cursor:pointer;transition:background-color .2s,color .2s,border-color .2s}
-.btn-cita{background:var(--acento);color:#fff}
-.btn-cita:hover{background:var(--acento-hondo)}
-.btn-linea{border-color:color-mix(in oklab, var(--acento) 55%, transparent);color:var(--acento);background:var(--hoja)}
-.btn-linea:hover{border-color:var(--acento);background:var(--velo)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;min-height:3.1rem;padding:0 1.45rem;border-radius:999px;border:1px solid transparent;font:500 .95rem/1.2 var(--texto);letter-spacing:.01em;text-decoration:none;cursor:pointer;transition:background-color .25s,border-color .25s,transform .25s}
+.btn-menta{background:var(--menta);color:var(--menta-tinta)}
+.btn-menta:hover{background:#A9E7D8}
+.btn-cristal{background:var(--cristal);border-color:var(--cristal-borde);color:var(--blanco);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.btn-cristal:hover{background:rgba(255,255,255,.2)}
 
-/* ---------- Fotos y arcos ---------- */
-.foto{position:relative;margin:0;overflow:hidden;background:var(--velo-2)}
+/* ---------- Fotos ---------- */
+.foto{position:relative;margin:0;overflow:hidden;background:var(--fondo-2)}
 .foto img{width:100%;height:100%;object-fit:cover}
-/* Arco de medio punto: radio horizontal 50 % y vertical = ancho/2 respecto al alto (--arv). */
-.arco{aspect-ratio:var(--ar);border-radius:50% 50% .9rem .9rem / var(--arv) var(--arv) .9rem .9rem;--ar:4/5;--arv:40%}
-.etiqueta{position:absolute;left:.75rem;bottom:.75rem;padding:.2rem .6rem;border-radius:999px;background:rgba(255,255,255,.92);color:var(--tinta);font-size:.75rem;font-weight:500;line-height:1.5}
+.etiqueta{position:absolute;left:.75rem;bottom:.75rem;z-index:2;padding:.18rem .6rem;border-radius:999px;background:rgba(8,17,19,.62);color:#fff;font-size:.72rem;font-weight:400;line-height:1.5;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
 
 /* ---------- Portada ---------- */
-.portada{display:grid;gap:2.25rem;padding:2.5rem var(--lado) 3.5rem}
-.portada h1{font-size:clamp(2.6rem, 7.4vw + .6rem, 5.6rem);line-height:.98;letter-spacing:-.035em;font-weight:620;max-width:12ch}
-.entradilla{margin-top:1.25rem;font-size:1.0625rem;color:var(--tinta-2);max-width:38ch}
-.estado{display:inline-flex;align-items:center;gap:.6rem;margin-top:1.75rem;padding:.55rem 1rem .55rem .85rem;border-radius:999px;background:var(--hoja);border:1px solid var(--linea);font-size:.9375rem;font-weight:500;line-height:1.35}
-.estado-punto{position:relative;width:.6rem;height:.6rem;flex:none;border-radius:50%;background:var(--cerrado)}
-.estado.abierto .estado-punto{background:var(--abierto)}
-.estado.abierto .estado-punto::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--abierto);opacity:0}
-.acciones{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:1.25rem}
-.estado:not([hidden]) + .acciones{margin-top:1rem}
-.portada-texto{align-self:center}
-.portada-foto{position:relative;padding:1rem 1rem 0 0}
-.portada-foto .arco{--ar:4/4.4;--arv:45.5%}
-.arco-eco{position:absolute;inset:0 0 1rem 1rem;border:1.5px solid color-mix(in oklab, var(--acento) 45%, transparent);border-radius:50% 50% 1rem 1rem / 45.5% 45.5% 1rem 1rem;pointer-events:none}
+.portada{position:relative;isolation:isolate;display:flex;flex-direction:column;justify-content:flex-end;min-height:calc(100svh - var(--franja-h));padding:calc(var(--cab) + 4.5rem) var(--lado) calc(6.6rem + env(safe-area-inset-bottom));background:var(--noche);color:var(--blanco);overflow:hidden}
+.portada-foto{position:absolute;inset:0;margin:0}
+.portada-foto picture{position:absolute;inset:0;z-index:-2;overflow:hidden}
+.portada-foto picture,.portada-foto img{display:block;width:100%;height:100%}
+.portada-foto img{object-fit:cover;transform-origin:50% 60%}
+/* Degradado que garantiza el contraste del texto blanco sobre cualquier foto. */
+.portada::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:
+  linear-gradient(180deg, rgba(6,14,16,.62) 0%, rgba(6,14,16,.12) 20%, rgba(6,14,16,.08) 34%, rgba(6,14,16,.72) 58%, rgba(6,14,16,.93) 76%, #070F11 100%)}
+.etiqueta-portada{left:var(--lado);top:calc(var(--cab) + 1rem);bottom:auto;background:rgba(8,17,19,.45)}
 
-/* ---------- Tratamientos ---------- */
-.trat{display:grid;gap:2rem;padding:4rem var(--lado)}
-.trat h2,.sobre h2,.visita h2,.contacto h2{font-size:clamp(2rem, 3.6vw + 1rem, 3.25rem);line-height:1.04}
-.seccion-entradilla{margin-top:.9rem;color:var(--tinta-2);max-width:40ch}
-.trat-foto{display:none;margin-top:2.5rem}
-.trat-lista{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--linea)}
-.trat-lista li{display:grid;gap:.35rem;padding:1.35rem 0 1.35rem 1.6rem;border-top:1px solid var(--linea);position:relative}
-.trat-lista li::before{content:"";position:absolute;left:0;top:1.72rem;width:.7rem;height:.85rem;border:1.5px solid var(--acento);border-bottom:0;border-radius:.35rem .35rem 0 0 / .35rem .35rem 0 0}
-.trat-lista h3{font-size:1.3rem;line-height:1.2}
-.trat-lista p{color:var(--tinta-2)}
+.chip{position:absolute;right:var(--lado);top:calc(var(--cab) + .75rem);display:inline-flex;align-items:center;gap:.55rem;max-width:calc(100% - 2 * var(--lado) - 8rem);padding:.42rem .9rem .42rem .75rem;border-radius:999px;background:var(--cristal);border:1px solid var(--cristal-borde);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);font-size:.8rem;font-weight:400;line-height:1.3}
+.estado-punto{position:relative;width:.5rem;height:.5rem;flex:none;border-radius:50%;background:var(--cerrado)}
+.abierto .estado-punto{background:var(--vivo);box-shadow:0 0 0 0 rgba(91,227,154,.6)}
+
+.portada-texto{max-width:40rem}
+.kicker{margin-bottom:1rem;color:var(--menta);font-size:.72rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase}
+.portada h1{font-size:clamp(3rem, 13.6vw, 4.1rem);line-height:.95;letter-spacing:-.012em}
+.portada h1 em{color:var(--menta);white-space:nowrap}
+.entradilla{margin-top:1.1rem;max-width:34ch;color:rgba(243,247,246,.84);font-size:1rem;line-height:1.6}
+.portada .acciones{display:none;flex-wrap:wrap;gap:.7rem;margin-top:2rem}
+.tarjeta-estado{display:none}
+
+/* ---------- Cabeceras de sección ---------- */
+.trat h2,.sobre h2,.visita h2,.contacto h2{font-size:clamp(2.6rem, 8vw + .5rem, 4.6rem);line-height:.98}
+.seccion-entradilla{margin-top:1rem;color:var(--tinta-2);max-width:42ch}
+
+/* ---------- Tratamientos: lista que cambia la foto ---------- */
+.trat{padding:5rem var(--lado) 4.5rem}
+.trat-escena{display:grid;gap:1.5rem;margin-top:2.5rem}
+.trat-foto{aspect-ratio:4/5;border-radius:1.5rem}
+.trat-foto img{position:absolute;inset:0}
+.trat-foto img + img{opacity:0}
+/* Sin JS: lista completa con su descripción. */
+.trat-lista{list-style:none;margin:0;padding:0;border-top:1px solid var(--linea)}
+.trat-lista li{padding:1.25rem 0;border-bottom:1px solid var(--linea)}
+.trat-lista h3{font-size:1.75rem;line-height:1.1}
+.trat-lista p{margin-top:.35rem;color:var(--tinta-2)}
+
+/* Con JS: pestañas. En el móvil, fila de chips que se desliza; la foto y su texto debajo. */
+.trat-tabs{display:flex;gap:.5rem;margin:0 calc(-1 * var(--lado));padding:.25rem var(--lado) .5rem;overflow-x:auto;scroll-snap-type:x proximity;scroll-padding-inline:var(--lado);scrollbar-width:none}
+.trat-tabs::-webkit-scrollbar{display:none}
+.trat-tab{flex:none;scroll-snap-align:start;min-height:2.75rem;padding:0 1.1rem;border-radius:999px;border:1px solid var(--linea);background:var(--tarjeta);color:var(--tinta-2);font:400 .9rem/1.2 var(--texto);cursor:pointer;transition:background-color .3s,color .3s,border-color .3s;white-space:nowrap}
+.trat-tab[aria-selected="true"]{background:var(--tinta);border-color:var(--tinta);color:var(--fondo)}
+.trat-panel{position:relative}
+.trat-panel .trat-foto{aspect-ratio:4/5}
+.trat-texto{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:4rem 1.35rem 1.35rem;background:linear-gradient(180deg, transparent, rgba(6,14,16,.86) 45%);color:var(--blanco);border-radius:0 0 1.5rem 1.5rem}
+.trat-texto h3{font-size:2.1rem;line-height:1.02}
+.trat-texto p{margin-top:.5rem;color:rgba(243,247,246,.86);max-width:36ch}
+.trat-panel .etiqueta{top:.9rem;bottom:auto;left:.9rem}
+.trat-n{display:block;margin-bottom:.4rem;color:var(--menta);font-size:.78rem;font-weight:400;letter-spacing:.04em;font-variant-numeric:tabular-nums}
 
 /* ---------- Sobre la clínica ---------- */
-.sobre{display:grid;gap:2rem;padding:4rem var(--lado);background:var(--velo)}
-.sobre-foto{aspect-ratio:4/3;border-radius:1.25rem 7rem 1.25rem 1.25rem}
-.sobre-texto{align-self:center}
-.sobre-texto p{margin-top:1.25rem;font-size:1.125rem;line-height:1.7;max-width:36em}
+.sobre{display:grid;gap:2rem;padding:4.5rem var(--lado);background:var(--fondo-2)}
+.sobre-foto{aspect-ratio:4/5;border-radius:1.5rem}
+.sobre-texto p{margin-top:1.4rem;font:400 1.6rem/1.32 var(--serif);color:var(--tinta);max-width:30ch}
+.sobre-detalle{aspect-ratio:16/10;border-radius:1.5rem}
 
-/* ---------- Primera visita ---------- */
-.visita{padding:4rem var(--lado)}
-.pasos{list-style:none;margin:2.25rem 0 0;padding:0;display:grid;gap:0;counter-reset:paso}
-.pasos li{position:relative;display:grid;grid-template-columns:3rem 1fr;gap:1.1rem;padding-bottom:1.75rem}
-.pasos li:not(:last-child)::before{content:"";position:absolute;left:1.5rem;top:3.6rem;bottom:.3rem;width:1.5px;background:color-mix(in oklab, var(--acento) 35%, transparent)}
-.paso-n{display:flex;align-items:flex-end;justify-content:center;width:3rem;height:3.4rem;padding-bottom:.45rem;border-radius:50% 50% .5rem .5rem / 44% 44% .5rem .5rem;background:var(--acento);color:#fff;font:600 1.3rem/1 var(--titular)}
-.pasos p{align-self:center;font-size:1.0625rem;max-width:34ch}
+/* ---------- Primera visita (es una secuencia: van numerados) ---------- */
+.visita{padding:5rem var(--lado)}
+.pasos{list-style:none;margin:2.75rem 0 0;padding:0;display:grid;gap:0}
+.pasos li{position:relative;display:grid;grid-template-columns:3.25rem 1fr;gap:1.1rem;padding-bottom:2rem}
+.pasos li:not(:last-child)::before{content:"";position:absolute;left:1.6rem;top:3.5rem;bottom:.5rem;width:1px;background:var(--linea)}
+.paso-n{display:grid;place-items:center;width:3.25rem;height:3.25rem;border-radius:50%;border:1px solid var(--paso-borde);background:var(--paso-fondo);color:var(--acento-texto);font:400 1.6rem/1 var(--serif)}
+.pasos p{align-self:center;font-size:1.0313rem;max-width:34ch}
 
 /* ---------- Contacto ---------- */
-.contacto{display:grid;gap:2.5rem;padding:4rem var(--lado)}
-.datos{margin:2rem 0 0}
-.dato + .dato{margin-top:1.75rem}
-.dato dt{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;font-weight:600}
-.dato dt .ico{color:var(--acento)}
-.dato dd{margin:.5rem 0 0 1.7rem}
-.ejemplo{display:inline-block;padding:.05rem .55rem;border-radius:999px;background:var(--velo-2);color:var(--tinta);font-size:.75rem;font-weight:500;line-height:1.6}
-.horario{border-collapse:collapse;width:100%;max-width:24rem}
-.horario th,.horario td{padding:.5rem 0;border-bottom:1px solid var(--linea);vertical-align:top;font-weight:400}
+.contacto{display:grid;gap:3rem;padding:5rem var(--lado) 5.5rem;background:var(--fondo-2)}
+.estado-linea{display:inline-flex;align-items:center;gap:.6rem;margin-top:1.25rem;font-size:.95rem;color:var(--tinta)}
+.datos{margin:2.25rem 0 0}
+.dato{padding:1.2rem 0;border-top:1px solid var(--linea)}
+.dato dt{display:flex;align-items:center;flex-wrap:wrap;gap:.5rem;color:var(--tinta-2);font-size:.85rem;font-weight:400;letter-spacing:.02em}
+.dato dt .ico{color:var(--acento-texto)}
+.dato dd{margin:.55rem 0 0;font-size:1.0625rem}
+.ejemplo{display:inline-block;padding:.02rem .55rem;border-radius:999px;border:1px solid var(--linea);color:var(--tinta-2);font-size:.72rem;line-height:1.6}
+.horario{border-collapse:collapse;width:100%;max-width:26rem}
+.horario th,.horario td{padding:.45rem 0;border-bottom:1px solid var(--linea);vertical-align:top;font-weight:inherit;font-size:.95rem}
+.horario tr:last-child th,.horario tr:last-child td{border-bottom:0}
 .horario th{text-align:left;color:var(--tinta-2);padding-right:1rem}
 .horario td{text-align:right;font-variant-numeric:tabular-nums}
 .horario td span{display:inline-block;white-space:nowrap}
 .horario td span + span{margin-left:.9rem}
-.horario tr.hoy th,.horario tr.hoy td{color:var(--tinta);font-weight:600}
-.horario tr.hoy th::after{content:"";display:inline-block;width:.4rem;height:.4rem;margin-left:.45rem;border-radius:50%;background:var(--acento);vertical-align:middle}
-.tel-grande{font:600 1.6rem/1.2 var(--titular);color:var(--acento);text-decoration:none;letter-spacing:-.01em}
-.tel-grande:hover{text-decoration:underline}
-.contacto-foto{position:relative;max-width:30rem;width:100%;justify-self:center}
-.contacto-foto .arco{--ar:4/5;--arv:40%}
-.contacto-foto .etiqueta{bottom:5.25rem}
-.llegar{position:relative;margin:-4.25rem 1rem 0;padding:1rem 1.2rem;border-radius:1rem;background:var(--hoja);box-shadow:0 1rem 2.5rem -1.25rem rgba(21,33,44,.35)}
-.llegar h3{font-size:1.15rem}
-.llegar p{color:var(--tinta-2);margin-top:.15rem}
+.horario tr.hoy th,.horario tr.hoy td{color:var(--tinta);font-weight:500}
+.horario tr.hoy th::after{content:"";display:inline-block;width:.38rem;height:.38rem;margin-left:.45rem;border-radius:50%;background:var(--acento-texto);vertical-align:middle}
+.tel-grande{font:400 2.4rem/1.1 var(--serif);color:var(--acento-texto);text-decoration:none}
+.tel-grande:hover{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.15em}
+.contacto-foto{position:relative}
+.contacto-foto .foto{aspect-ratio:4/5;border-radius:1.5rem}
+.contacto-foto .etiqueta{top:.9rem;bottom:auto}
+.llegar{position:absolute;left:1rem;right:1rem;bottom:1rem;padding:1.1rem 1.25rem;border-radius:1.1rem;background:rgba(10,20,22,.55);border:1px solid var(--cristal-borde);color:var(--blanco);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.llegar h3{font-size:1.6rem;line-height:1.1}
+.llegar p{margin-top:.2rem;color:rgba(243,247,246,.86)}
 
 /* ---------- Pie ---------- */
-.pie{display:flex;flex-wrap:wrap;gap:.5rem 2rem;justify-content:space-between;padding:2rem var(--lado) 2.25rem;background:var(--tinta);color:rgba(255,255,255,.88);font-size:.9375rem}
-.pie p:first-child{font:600 1.1rem/1.3 var(--titular);color:#fff}
-.pie a{color:#fff;text-underline-offset:.2em}
-.pie :focus-visible{outline-color:#fff}
+.pie{display:flex;flex-wrap:wrap;gap:.75rem 2rem;align-items:baseline;justify-content:space-between;padding:2.5rem var(--lado) calc(7rem + env(safe-area-inset-bottom));background:var(--noche);color:rgba(243,247,246,.78);font-size:.875rem}
+.pie-nombre{font:400 1.7rem/1.2 var(--serif);color:var(--blanco)}
+.pie a{color:var(--blanco);text-underline-offset:.2em}
 
-/* ---------- Barra fija del móvil ---------- */
-.barra-movil{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:.5rem;padding:.6rem 1rem calc(.6rem + env(safe-area-inset-bottom));background:color-mix(in srgb, var(--hoja) 94%, transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--linea)}
-.barra-movil .btn{flex:1 1 auto;min-width:0;padding:0 .85rem;font-size:.9063rem}
-.barra-movil .barra-llamar{flex:0 1 auto}
-/* Con JS, la barra solo aparece cuando los botones de la portada y el contacto no están a la vista. */
-.barra-movil.oculta{transform:translateY(110%);visibility:hidden}
-@media (prefers-reduced-motion:no-preference){.barra-movil{transition:transform .3s ease,visibility .3s}}
-body{padding-bottom:4.5rem}
+/* ---------- Barra fija del móvil: cristal ---------- */
+.barra-movil{position:fixed;left:.75rem;right:.75rem;bottom:calc(.75rem + env(safe-area-inset-bottom));z-index:25;display:flex;gap:.5rem;padding:.45rem;border-radius:1.6rem;background:rgba(14,26,28,.55);border:1px solid var(--cristal-borde);backdrop-filter:blur(18px) saturate(150%);-webkit-backdrop-filter:blur(18px) saturate(150%);box-shadow:0 1rem 2.5rem -1rem rgba(0,0,0,.55)}
+.barra-movil .btn{flex:1 1 0;min-width:0;padding:0 .8rem}
+.barra-movil .btn-cristal{background:rgba(255,255,255,.1)}
 
 @media (min-width:760px){
-  body{padding-bottom:0}
+  .portada{padding-bottom:5rem}
+  .portada .acciones{display:flex}
   .barra-movil{display:none}
-  .cab .cab-cita:not([hidden]){display:inline-flex;min-height:2.75rem;padding:0 1.1rem;font-size:.9375rem}
-  .marca{font-size:1.2rem}
-  .trat-lista li{grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:2rem;align-items:baseline}
-  .pasos{grid-template-columns:repeat(4,minmax(0,1fr));gap:1.5rem}
-  .pasos li{grid-template-columns:none;align-content:start;gap:1rem;padding-bottom:0}
-  .pasos li:not(:last-child)::before{left:3.6rem;right:-1.5rem;top:1.9rem;bottom:auto;width:auto;height:1.5px}
+  .pie{padding-bottom:2.5rem}
+  .portada h1{font-size:clamp(3.6rem, 7vw, 6.6rem)}
+  .entradilla{font-size:1.125rem}
+  .trat-texto h3{font-size:2.6rem}
+  .pasos{grid-template-columns:repeat(4,minmax(0,1fr));gap:1.75rem}
+  .pasos li{grid-template-columns:none;align-content:start;gap:1.25rem;padding-bottom:0}
+  .pasos li:not(:last-child)::before{left:4rem;right:-1rem;top:1.62rem;bottom:auto;width:auto;height:1px}
   .pasos p{align-self:start}
 }
 
 @media (min-width:1024px){
-  .cab-nav{display:flex;gap:1.6rem;margin-right:.5rem}
-  .cab-nav a{text-decoration:none;font-size:.9375rem;color:var(--tinta-2)}
-  .cab-nav a:hover{color:var(--tinta);text-decoration:underline;text-underline-offset:.35em}
-  .portada{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);gap:4.5rem;align-items:center;padding-top:3.5rem;padding-bottom:5rem;min-height:calc(100svh - var(--cab) - 2.5rem)}
-  .portada-foto{padding:1.5rem 1.5rem 0 0;justify-self:end;width:min(100%, calc((100svh - 15rem) * .8 + 1.5rem))}
-  .portada-foto .arco{--ar:4/5;--arv:40%}
-  .arco-eco{border-radius:50% 50% 1rem 1rem / 40% 40% 1rem 1rem;inset:0 0 1.5rem 1.5rem}
-  .trat{grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:5rem;padding-block:6rem;align-items:start}
-  .trat-cab{position:sticky;top:calc(var(--cab) + 2rem)}
-  .trat-lista li{padding-block:1.9rem}
-  .trat-lista li::before{top:2.35rem}
-  .trat-lista h3{font-size:1.55rem}
-  .trat-foto{display:block;--ar:4/4;--arv:50%;max-width:24rem}
-  .sobre{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:5rem;padding-block:6rem}
-  .sobre-foto{aspect-ratio:5/4;border-radius:1.5rem 12rem 1.5rem 1.5rem}
-  .visita{padding-block:6rem}
-  .contacto{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5rem;padding-block:6rem;align-items:center}
+  :root{--cab:5rem}
+  .franja{font-size:.78rem}
+  .cab{gap:1.75rem}
+  .cab-nav{display:flex !important;gap:1.9rem}
+  .cab-nav a{text-decoration:none;font-size:.9rem;font-weight:400;color:rgba(243,247,246,.82)}
+  .cab-nav a:hover{color:#fff;text-decoration:underline;text-underline-offset:.4em;text-decoration-thickness:1px}
+  .cab-idioma{display:flex !important}
+  .cab-llamar:not([hidden]){display:inline-flex !important;min-height:2.75rem;padding:0 1.2rem;font-size:.9rem}
+  .menu{display:none}
+  .marca{font-size:1.75rem}
+  .portada{justify-content:center;padding:calc(var(--cab) + 3rem) var(--lado) 6rem}
+  .portada::before{background:
+    linear-gradient(90deg, rgba(6,14,16,.9) 0%, rgba(6,14,16,.74) 30%, rgba(6,14,16,.3) 58%, rgba(6,14,16,.08) 80%),
+    linear-gradient(180deg, rgba(6,14,16,.55) 0%, transparent 22%, transparent 70%, rgba(6,14,16,.55) 100%)}
+  .portada-texto{max-width:44rem}
+  .kicker{font-size:.78rem;margin-bottom:1.4rem}
+  .entradilla{max-width:38ch;margin-top:1.5rem}
+  .chip{display:none !important}
+  .etiqueta-portada{top:auto;bottom:2rem}
+  .tarjeta-estado:not([hidden]){display:block;position:absolute;right:var(--lado);bottom:3rem;width:19rem;padding:1.4rem 1.5rem 1.5rem;border-radius:1.4rem;background:rgba(12,23,25,.5);border:1px solid var(--cristal-borde);backdrop-filter:blur(20px) saturate(150%);-webkit-backdrop-filter:blur(20px) saturate(150%);box-shadow:0 1.5rem 3rem -1.5rem rgba(0,0,0,.5)}
+  .tarjeta-titulo{display:flex;align-items:center;gap:.6rem;font-size:.85rem;font-weight:500;letter-spacing:.02em}
+  .tarjeta-hora{margin-top:.6rem;font:400 2.2rem/1 var(--serif)}
+  .tarjeta-texto{margin-top:.75rem;color:rgba(243,247,246,.8);font-size:.875rem;line-height:1.5}
+
+  .trat{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:2rem 5rem;padding-block:7.5rem}
+  .trat-cab{grid-column:1 / -1;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:5rem;align-items:end}
+  .trat-cab .seccion-entradilla{margin:0;justify-self:start}
+  .trat-escena{grid-column:1 / -1;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:5rem;align-items:start;margin-top:3rem}
+  .trat-escena > .trat-foto{order:2;aspect-ratio:4/3}
+  /* Escritorio con JS: lista vertical a la izquierda y foto grande a la derecha. */
+  .trat-tabs{flex-direction:column;gap:0;margin:0;padding:0;overflow:visible;border-top:1px solid var(--linea)}
+  .trat-tab{display:flex;align-items:baseline;gap:0;width:100%;min-height:0;padding:1.05rem 0;border:0;border-bottom:1px solid var(--linea);border-radius:0;background:none;color:var(--tinta-2);font:400 1.85rem/1.15 var(--serif);text-align:left;white-space:normal;transition:color .3s,padding-left .45s var(--curva)}
+  .trat-tab::before{content:"";flex:none;width:0;height:1px;margin-right:0;align-self:center;background:var(--acento-texto);transition:width .45s var(--curva),margin-right .45s var(--curva)}
+  .trat-tab:hover{color:var(--tinta)}
+  .trat-tab[aria-selected="true"]{background:none;border-color:var(--linea);color:var(--tinta)}
+  .trat-tab[aria-selected="true"]::before{width:2rem;margin-right:1rem}
+  .trat-panel .trat-foto{aspect-ratio:5/4;border-radius:1.75rem}
+  .trat-texto{padding:6rem 2.25rem 2.1rem;border-radius:0 0 1.75rem 1.75rem}
+
+  .sobre{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);grid-template-areas:"foto texto" "foto detalle";gap:3rem 6rem;padding-block:7.5rem;align-items:start}
+  .sobre-foto{grid-area:foto;aspect-ratio:4/5}
+  .sobre-texto{grid-area:texto;padding-top:2rem}
+  .sobre-texto p{font-size:2.15rem;line-height:1.25}
+  .sobre-detalle{grid-area:detalle;aspect-ratio:16/9;width:78%;justify-self:end}
+  .visita{padding-block:7.5rem}
+  .pasos{margin-top:4rem}
+  .pasos p{font-size:1.0625rem}
+  .contacto{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:6rem;padding-block:7.5rem;align-items:center}
+  .contacto-foto .foto{aspect-ratio:4/4.6}
 }
 
-/* ---------- Movimiento: una sola entrada orquestada en la portada ---------- */
+/* ---------- Movimiento: entrada de la portada, Ken Burns y apariciones al bajar ---------- */
 @media (prefers-reduced-motion:no-preference){
   html{scroll-behavior:smooth}
-  .portada-foto .foto{animation:arco-entra 1.2s cubic-bezier(.2,.7,.15,1) both}
-  .arco-eco{animation:eco-entra 1.5s cubic-bezier(.2,.7,.15,1) .15s both}
-  .estado,.acciones{animation:sube .7s cubic-bezier(.2,.7,.2,1) .35s both}
-  .acciones{animation-delay:.45s}
-  .estado.abierto .estado-punto::after{animation:latido 2.4s ease-out infinite}
+  .portada-foto img{animation:ken-burns 26s ease-in-out infinite alternate}
+  .kicker,.portada h1,.entradilla,.portada .acciones,.chip,.tarjeta-estado{animation:sube 1.1s var(--curva) both}
+  .kicker{animation-delay:.15s}
+  .portada h1{animation-delay:.28s}
+  .entradilla{animation-delay:.45s}
+  .portada .acciones{animation-delay:.6s}
+  .chip,.tarjeta-estado{animation-delay:.75s}
+  .barra-movil{animation:sube-barra .9s var(--curva) .8s both}
+  .abierto .estado-punto{animation:latido 2.2s ease-out infinite}
+  .trat-foto img{transition:opacity .7s ease,transform 1.2s var(--curva)}
+  .trat-texto > *{transition:opacity .45s ease,transform .6s var(--curva)}
+  .trat-texto.cambiando > *{opacity:0;transform:translateY(.6rem)}
+  /* Solo con JS (html.js) se ocultan para aparecer: sin JS se ve todo. */
+  .js [data-revelar]{transition:opacity 1s ease,transform 1.1s var(--curva)}
+  .js [data-revelar]:not(.visto){opacity:0;transform:translateY(2rem)}
+  .js .foto[data-revelar]:not(.visto){transform:translateY(2rem) scale(.97)}
 }
-@keyframes arco-entra{from{opacity:0;transform:translateY(1.5rem) scale(1.04)}to{opacity:1;transform:none}}
-@keyframes eco-entra{from{opacity:0;transform:translate(1rem,-1rem)}to{opacity:1;transform:none}}
-@keyframes sube{from{opacity:0;transform:translateY(.6rem)}to{opacity:1;transform:none}}
-@keyframes latido{0%{opacity:.55;transform:scale(1)}100%{opacity:0;transform:scale(2.8)}}
+@keyframes ken-burns{from{transform:scale(1.02)}to{transform:scale(1.14) translate(-1.2%,-1%)}}
+@keyframes sube{from{opacity:0;transform:translateY(1.4rem)}to{opacity:1;transform:none}}
+@keyframes sube-barra{from{opacity:0;transform:translateY(120%)}to{opacity:1;transform:none}}
+@keyframes latido{0%{box-shadow:0 0 0 0 rgba(91,227,154,.55)}70%{box-shadow:0 0 0 .5rem rgba(91,227,154,0)}100%{box-shadow:0 0 0 0 rgba(91,227,154,0)}}

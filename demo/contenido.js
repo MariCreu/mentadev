@@ -8,6 +8,8 @@ export const IDIOMAS = ['es', 'en'];
 //   {h}         hora en formato 20:00         {cuando}    «hoy», «mañana» o diasFrase[n]
 //   {canales}   cómo pedir cita (por teléfono, y por WhatsApp si lo hay): COMUNES.canalesConWhatsapp o canalesSinWhatsapp, según haya WhatsApp
 //               (los textos nunca nombran WhatsApp: solo aparece si la clínica lo tiene)
+// titular: la parte entre *asteriscos* sale en cursiva y en el color de acento (la página la pinta con
+//          nodos de texto y un <em>, nunca como HTML).
 export const COMUNES = {
   es: {
     idioma: 'Idioma',
@@ -28,6 +30,14 @@ export const COMUNES = {
     whatsappMensaje: 'Hola, quería pedir cita.',
     abiertoAhora: 'Abierto ahora · cierra a las {h}',
     cerradoAhora: 'Cerrado · abre {cuando} a las {h}',
+    abiertoCorto: 'Abierto ahora',
+    cerradoCorto: 'Cerrado ahora',
+    hastaLas: 'Hasta las {h}',
+    abreCuando: 'Abre {cuando} a las {h}',
+    tarjetaConWhatsapp: 'Llámanos o escríbenos por WhatsApp.',
+    tarjetaSinWhatsapp: 'Llámanos y te atendemos.',
+    tarjetaSinTelefono: 'Mira cómo llegar y nuestro horario.',
+    tratamientosAyuda: 'Elige un tratamiento',
     hoy: 'hoy',
     manana: 'mañana',
     dias: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
@@ -65,6 +75,14 @@ export const COMUNES = {
     whatsappMensaje: "Hello, I'd like to make an appointment.",
     abiertoAhora: 'Open now · closes at {h}',
     cerradoAhora: 'Closed · opens {cuando} at {h}',
+    abiertoCorto: 'Open now',
+    cerradoCorto: 'Closed now',
+    hastaLas: 'Until {h}',
+    abreCuando: 'Opens {cuando} at {h}',
+    tarjetaConWhatsapp: 'Call us or send us a WhatsApp message.',
+    tarjetaSinWhatsapp: "Give us a call and we'll help you.",
+    tarjetaSinTelefono: 'See how to find us and our opening hours.',
+    tratamientosAyuda: 'Choose a treatment',
     hoy: 'today',
     manana: 'tomorrow',
     dias: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
@@ -91,8 +109,9 @@ const tramos = (...r) => r.map((x) => x.split('-').map(m));
 const semana = (lunesAViernes, sabado = []) => [[], lunesAViernes, lunesAViernes, lunesAViernes, lunesAViernes, lunesAViernes, sabado];
 
 const foto = (archivo, es, en) => ({ src: `/demo/fotos/${archivo}.webp`, alt: { es, en } });
+// Portada: una foto apaisada para escritorio y su recorte en vertical para el móvil (mismo alt).
+const portada = (archivo, es, en) => ({ ...foto(archivo, es, en), movil: `/demo/fotos/${archivo}-movil.webp` });
 const contacto = foto('contacto', 'Ventana en arco con palmeras y el mar al fondo', 'Arched window with palm trees and the sea behind');
-const manosConsulta = foto('manos-consulta', 'Manos sobre la mesa de la consulta durante una visita', 'Hands across the consultation desk during an appointment');
 
 const tr = (tEs, dEs, tEn, dEn) => ({ es: { t: tEs, d: dEs }, en: { t: tEn, d: dEn } });
 
@@ -128,8 +147,9 @@ export const CONTENIDO = {
     defecto: [0, 1, 3, 4, 6],
     textos: {
       es: {
-        titular: 'Tu sonrisa, en buenas manos',
-        entradilla: 'Odontología para toda la familia en {municipio}. Te explicamos cada paso y buscamos contigo el tratamiento que mejor te encaja.',
+        kicker: 'Clínica dental · {municipio}',
+        titular: 'Tu sonrisa, *en buenas* manos.',
+        entradilla: 'Odontología para toda la familia. Te explicamos cada paso y elegimos contigo el tratamiento.',
         sobre: 'Somos una clínica dental cercana, con equipos actuales. Nos gusta explicar las cosas con calma y sin tecnicismos, y que salgas de la consulta sabiendo qué te hemos hecho y por qué.',
         primeraVisita: [
           'Nos cuentas qué te preocupa y repasamos tu historial.',
@@ -139,8 +159,9 @@ export const CONTENIDO = {
         ],
       },
       en: {
-        titular: 'Your smile, in good hands',
-        entradilla: 'Family dentistry in {municipio}. We explain every step and work out with you the treatment that suits you best.',
+        kicker: 'Dental clinic · {municipio}',
+        titular: 'Your smile, *in good* hands.',
+        entradilla: 'Family dentistry. We explain every step and choose the treatment together with you.',
         sobre: "We're a friendly dental clinic with up-to-date equipment. We like to explain things calmly and in plain words, so you leave knowing exactly what we've done and why.",
         primeraVisita: [
           'You tell us what is worrying you and we go over your history.',
@@ -151,9 +172,10 @@ export const CONTENIDO = {
       },
     },
     fotos: {
-      portada: foto('dental-portada', 'Gabinete dental luminoso con sillón y lavabo', 'Bright dental surgery with chair and basin'),
-      clinica: foto('dental-clinica', 'Sillón dental blanco junto a una ventana', 'White dental chair next to a window'),
-      ambiente: foto('dental-ambiente', 'Mano con guante señalando una imagen dental en una tableta', 'Gloved hand pointing at a dental scan on a tablet'),
+      portada: portada('dental-portada', 'Sillón dental bajo la luz de la lámpara en un gabinete actual', 'Dental chair under the surgery light in a modern treatment room'),
+      clinica: foto('dental-clinica', 'Gabinete dental blanco y luminoso con suelo de madera', 'Bright white dental surgery with a wooden floor'),
+      ambiente: foto('dental-ambiente', 'Instrumental dental colgado junto al sillón, en penumbra', 'Dental handpieces hanging beside the chair in soft light'),
+      detalle: foto('dental-detalle', 'Férulas transparentes sobre una mesa con sombras de hojas', 'Clear aligners on a table with leaf shadows'),
       contacto,
     },
   },
@@ -187,8 +209,9 @@ export const CONTENIDO = {
     defecto: [0, 1, 2, 3, 7],
     textos: {
       es: {
-        titular: 'Vuelve a moverte con confianza',
-        entradilla: 'Fisioterapia en {municipio}, con sesiones individuales y un plan pensado para ti, para tu día a día o para tu deporte.',
+        kicker: 'Fisioterapia · {municipio}',
+        titular: 'Vuelve a moverte *con confianza*.',
+        entradilla: 'Sesiones individuales y un plan pensado para ti, para tu día a día o para tu deporte.',
         sobre: 'Cada sesión es individual y la dedicamos entera a ti. Escuchamos, valoramos y te explicamos qué está pasando, para que entiendas tu tratamiento y sepas qué puedes hacer tú entre sesión y sesión.',
         primeraVisita: [
           'Nos cuentas qué te pasa, desde cuándo y qué te lo empeora.',
@@ -198,8 +221,9 @@ export const CONTENIDO = {
         ],
       },
       en: {
-        titular: 'Move with confidence again',
-        entradilla: 'Physiotherapy in {municipio}, with one-to-one sessions and a plan built around you, your daily life or your sport.',
+        kicker: 'Physiotherapy · {municipio}',
+        titular: 'Move again *with confidence*.',
+        entradilla: 'One-to-one sessions and a plan built around you, your daily life or your sport.',
         sobre: "Every session is one-to-one and fully focused on you. We listen, assess and explain what's going on, so you understand your treatment and know what you can do yourself between sessions.",
         primeraVisita: [
           "You tell us what's wrong, how long it's been going on and what makes it worse.",
@@ -210,9 +234,10 @@ export const CONTENIDO = {
       },
     },
     fotos: {
-      portada: foto('fisio-portada', 'Fisioterapeuta guiando un ejercicio con mancuernas', 'Physiotherapist guiding an exercise with small dumbbells'),
-      clinica: foto('fisio-clinica', 'Pared de madera con pelotas, aros y material de ejercicio', 'Wooden wall with exercise balls, rings and equipment'),
-      ambiente: foto('fisio-ambiente', 'Fisioterapeuta tratando el hombro de una paciente', "Physiotherapist treating a patient's shoulder"),
+      portada: portada('fisio-portada', 'Sala de ejercicio amplia con esterillas, luz cálida y ventanales al jardín', 'Spacious exercise room with mats, warm light and windows onto greenery'),
+      clinica: foto('fisio-clinica', 'Sala de tratamiento con camilla junto a un ventanal', 'Treatment room with a couch beside a large window'),
+      ambiente: foto('fisio-ambiente', 'Fisioterapeuta guiando un ejercicio de muñeca con una barra flexible', 'Physiotherapist guiding a wrist exercise with a flexible bar'),
+      detalle: foto('fisio-detalle', 'Máquinas de pilates de madera en una sala blanca', 'Wooden pilates reformers in a white room'),
       contacto,
     },
   },
@@ -246,8 +271,9 @@ export const CONTENIDO = {
     defecto: [0, 1, 2, 3, 5],
     textos: {
       es: {
-        titular: 'Tu salud, con tiempo para escucharte',
-        entradilla: 'Consulta médica en {municipio}. Te atendemos sin prisas y te explicamos todo con palabras claras.',
+        kicker: 'Consulta médica · {municipio}',
+        titular: 'Tu salud, *con tiempo* para escucharte.',
+        entradilla: 'Te atendemos sin prisas y te explicamos todo con palabras claras.',
         sobre: 'Somos una consulta pequeña, y eso nos permite conocer a nuestros pacientes y dedicar a cada uno el tiempo que necesita. Te escuchamos, te explicamos lo que vemos y decidimos contigo los siguientes pasos.',
         primeraVisita: [
           'Pides cita {canales}.',
@@ -257,8 +283,9 @@ export const CONTENIDO = {
         ],
       },
       en: {
-        titular: 'Your health, with time to listen',
-        entradilla: 'Medical practice in {municipio}. We see you without rushing and explain everything in plain words.',
+        kicker: 'Medical practice · {municipio}',
+        titular: 'Your health, *with time* to listen.',
+        entradilla: 'We see you without rushing and explain everything in plain words.',
         sobre: "We're a small practice, which means we get to know our patients and give each of them the time they need. We listen, explain what we find and agree the next steps together.",
         primeraVisita: [
           'Book {canales}.',
@@ -269,9 +296,10 @@ export const CONTENIDO = {
       },
     },
     fotos: {
-      portada: foto('medica-portada', 'Fonendoscopio junto al ordenador de la consulta', 'Stethoscope next to the laptop in the consulting room'),
-      clinica: foto('medica-clinica', 'Fonendoscopio y tensiómetro sobre una sábana blanca', 'Stethoscope and blood pressure monitor on a white sheet'),
-      ambiente: manosConsulta,
+      portada: portada('medica-portada', 'Consulta actual en tonos verde claro, con mesa, sillas y camilla', 'Modern consulting room in soft green, with desk, chairs and couch'),
+      clinica: foto('medica-clinica', 'Fonendoscopio sobre una superficie blanca', 'Stethoscope on a white surface'),
+      ambiente: foto('medica-ambiente', 'Manos escribiendo en el teclado con un fonendoscopio al lado', 'Hands typing on a keyboard next to a stethoscope'),
+      detalle: foto('medica-detalle', 'Fonendoscopio colgado en una ventana a contraluz', 'Stethoscope hanging in a window against the light'),
       contacto,
     },
   },
@@ -305,8 +333,9 @@ export const CONTENIDO = {
     defecto: [0, 1, 3, 4, 9],
     textos: {
       es: {
-        titular: 'Cuidamos tu piel, a tu ritmo',
-        entradilla: 'Estética en {municipio}: tratamientos faciales y corporales con un trato cercano y un plan pensado para ti.',
+        kicker: 'Centro de estética · {municipio}',
+        titular: 'Tu piel, cuidada *a tu ritmo*.',
+        entradilla: 'Tratamientos faciales y corporales con un trato cercano y un plan pensado para ti.',
         sobre: 'Antes de cualquier tratamiento, nos sentamos contigo para conocer tu piel y lo que buscas. Te contamos con sinceridad qué podemos hacer y qué no, y preparamos un plan a tu medida.',
         primeraVisita: [
           'Nos cuentas qué te gustaría mejorar y cómo cuidas tu piel.',
@@ -316,8 +345,9 @@ export const CONTENIDO = {
         ],
       },
       en: {
-        titular: 'Caring for your skin, at your pace',
-        entradilla: 'Aesthetic treatments in {municipio}: face and body care with a personal touch and a plan made for you.',
+        kicker: 'Aesthetics clinic · {municipio}',
+        titular: 'Your skin, cared for *at your pace*.',
+        entradilla: 'Face and body treatments with a personal touch and a plan made for you.',
         sobre: "Before any treatment, we sit down with you to get to know your skin and what you're looking for. We're honest about what we can and can't do, and put together a plan that suits you.",
         primeraVisita: [
           "Tell us what you'd like to improve and how you look after your skin.",
@@ -328,9 +358,10 @@ export const CONTENIDO = {
       },
     },
     fotos: {
-      portada: foto('estetica-portada', 'Toalla enrollada, vela y tulipanes rosas sobre una mesa blanca', 'Rolled towel, candle and pink tulips on a white table'),
-      clinica: foto('estetica-clinica', 'Cabina luminosa con camilla y lavabo', 'Bright treatment room with a couch and basin'),
-      ambiente: foto('estetica-ambiente', 'Masaje facial relajante en cabina', 'Relaxing facial massage in a treatment room'),
+      portada: portada('estetica-portada', 'Cabina de tratamiento en tonos cálidos con camilla, planta y butacas', 'Warm-toned treatment room with a couch, a plant and armchairs'),
+      clinica: foto('estetica-clinica', 'Cabina de madera con luz cálida, lavabo y camilla', 'Wooden treatment room with warm light, a basin and a couch'),
+      ambiente: foto('estetica-ambiente', 'Tratamiento facial con aparatología en cabina', 'Facial treatment with a device in a treatment room'),
+      detalle: foto('estetica-detalle', 'Gotas de aceite cayendo en la palma de una mano', 'Drops of oil falling into the palm of a hand'),
       contacto,
     },
   },
@@ -364,8 +395,9 @@ export const CONTENIDO = {
     defecto: [0, 1, 3, 4],
     textos: {
       es: {
-        titular: 'Cuidamos de ti, sin prisas',
-        entradilla: 'Clínica en {municipio}. Te atendemos con cercanía y te explicamos cada paso con palabras claras.',
+        kicker: 'Clínica · {municipio}',
+        titular: 'Cuidamos de ti, *sin prisas*.',
+        entradilla: 'Te atendemos con cercanía y te explicamos cada paso con palabras claras.',
         sobre: 'Somos un equipo pequeño y cercano. Dedicamos a cada paciente el tiempo que necesita, le explicamos lo que hacemos y por qué, y decidimos juntos cada paso del tratamiento.',
         primeraVisita: [
           'Pides cita {canales}.',
@@ -375,8 +407,9 @@ export const CONTENIDO = {
         ],
       },
       en: {
-        titular: 'Looking after you, without the rush',
-        entradilla: 'Clinic in {municipio}. A personal service, with every step explained in plain words.',
+        kicker: 'Clinic · {municipio}',
+        titular: 'Looking after you, *without the rush*.',
+        entradilla: 'A personal service, with every step explained in plain words.',
         sobre: "We're a small, friendly team. We give each patient the time they need, explain what we're doing and why, and agree every step of the treatment together.",
         primeraVisita: [
           'Book {canales}.',
@@ -387,9 +420,10 @@ export const CONTENIDO = {
       },
     },
     fotos: {
-      portada: foto('generica-portada', 'Sala de espera luminosa con sofás turquesa', 'Bright waiting room with turquoise sofas'),
-      clinica: foto('generica-clinica', 'Instrumental de exploración en la pared de la consulta', 'Examination instruments on the consulting room wall'),
-      ambiente: manosConsulta,
+      portada: portada('generica-portada', 'Zona de espera luminosa con butacas claras y una lámpara de pie', 'Bright waiting area with pale armchairs and a floor lamp'),
+      clinica: foto('generica-clinica', 'Recepción con mostrador de madera, lámparas de cristal y una butaca', 'Reception with a wooden counter, glass pendant lamps and an armchair'),
+      ambiente: foto('generica-ambiente', 'Dos manos que se sujetan con suavidad', 'Two hands gently holding each other'),
+      detalle: foto('generica-detalle', 'Sala amplia con un sofá blanco y luz de tarde entrando por los ventanales', 'Spacious room with a white sofa and afternoon light through the windows'),
       contacto,
     },
   },
